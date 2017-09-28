@@ -1,7 +1,7 @@
 package com.github.nabezokodaikon
 
 import com.typesafe.scalalogging.LazyLogging
-import akka.actor.{ Actor, ActorSystem, Props, Terminated }
+import akka.actor.{ Actor, ActorSystem, Props }
 import akka.pattern.gracefulStop
 import scala.concurrent.{ Await, Future }
 import scala.concurrent.duration._
@@ -39,6 +39,6 @@ object ActorExample extends App with LazyLogging {
     println("success")
   } catch {
     case e: akka.pattern.AskTimeoutException =>
-      println("time out")
+      println(s"timeout: $e.message")
   }
 }
