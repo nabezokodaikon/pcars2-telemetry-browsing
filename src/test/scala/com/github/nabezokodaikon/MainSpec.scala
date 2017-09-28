@@ -1,3 +1,4 @@
+/*
 package com.github.nabezokodaikon
 
 import org.scalatest.FunSuite
@@ -7,3 +8,4 @@ class MainSpec extends FunSuite {
     assert(Main.helloWorld("nabezokodaikokn") == "Hello nabezokodaikokn!")
   }
 }
+*/
