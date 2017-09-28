@@ -1,0 +1,29 @@
+<configuration>
+
+    <!-- コンソール出力設定 -->
+     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+         <encoder>
+             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+         </encoder>
+     </appender>
+
+    <!-- ファイル出力設定 -->
+     <appender name="APP_FILE" class="ch.qos.logback.core.FileAppender">
+         <file>./logs/app.log</file>
+         <append>true</append>
+         <encoder>
+             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+         </encoder>
+     </appender>
+
+     <!-- root ロガー -->
+     <root level="debug">
+         <appender-ref ref="STDOUT" />
+     </root>
+
+     <!-- root を継承し、コンソールとファイルに出力する。 -->
+     <logger name="com.github.nabezokodaikon" level="debug">
+         <appender-ref ref="APP_FILE" />
+     </logger>
+
+</configuration>
