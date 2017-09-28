@@ -27,7 +27,9 @@ lazy val root = (project.in(file(".")))
 
         // Logger
         "ch.qos.logback" % "logback-classic" % "1.2.3",
-        "com.typesafe.scala-logging" %% "scala-logging" % "3.7.2"
+        "com.typesafe.scala-logging" %% "scala-logging" % "3.7.2",
+
+        "com.typesafe.akka" %% "akka-actor" % "2.5.4"
       )
     }
   )
