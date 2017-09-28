@@ -29,8 +29,10 @@ lazy val root = (project.in(file(".")))
         "ch.qos.logback" % "logback-classic" % "1.2.3",
         "com.typesafe.scala-logging" %% "scala-logging" % "3.7.2",
 
-        "com.typesafe.akka" %% "akka-actor" % "2.5.4",
-        "com.typesafe.akka" %% "akka-testkit" % "2.5.4" % Test,
+        // "com.typesafe.akka" %% "akka-actor" % "2.5.4",
+        // "com.typesafe.akka" %% "akka-testkit" % "2.5.4" % Test,
+        "com.typesafe.akka" %% "akka-actor" % "2.4.19",
+        "com.typesafe.akka" %% "akka-testkit" % "2.4.19" % Test,
         "com.typesafe.akka" %% "akka-http" % "10.0.10",
         "com.typesafe.akka" %% "akka-http-testkit" % "10.0.10" % Test
       )
