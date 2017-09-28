@@ -1,3 +1,4 @@
+/*
 package com.github.nabezokodaikon
 
 import akka.actor.{ Actor, ActorRef, ActorSystem, Props }
@@ -57,3 +58,4 @@ object UdpApp extends App with LazyLogging {
       println(s"timeout: $e.message")
   }
 }
+*/
