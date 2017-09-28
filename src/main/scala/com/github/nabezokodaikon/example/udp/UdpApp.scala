@@ -42,11 +42,11 @@ object UdpApp extends App with LazyLogging {
 
   logger.info(helloWorld("UDP"))
 
-  readLine("Press the Enter key to exit.\n")
-
   val system = ActorSystem("mySystem")
   val props = Props(classOf[Listener])
   val myActor = system.actorOf(props, "myActor")
+
+  readLine("Press the Enter key to exit.\n")
 
   try {
     val stopped: Future[Boolean] = gracefulStop(myActor, 5 seconds, system.terminate)
