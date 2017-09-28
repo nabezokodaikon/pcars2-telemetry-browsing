@@ -1,3 +1,4 @@
+/*
 package com.github.nabezokodaikon
 
 import com.typesafe.scalalogging.LazyLogging
@@ -42,3 +43,4 @@ object ActorExample extends App with LazyLogging {
       println(s"timeout: $e.message")
   }
 }
+*/
