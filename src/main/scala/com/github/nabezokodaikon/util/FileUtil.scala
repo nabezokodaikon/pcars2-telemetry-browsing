@@ -22,7 +22,7 @@ object FileUtil extends LazyLogging {
       case Right(text) => text
       case Left(e) =>
         logger.error(e.getMessage)
-        "Page not found."
+        "No such file or directory."
     }
   }
 
