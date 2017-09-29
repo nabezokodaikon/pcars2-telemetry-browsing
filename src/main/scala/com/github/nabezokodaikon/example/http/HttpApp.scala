@@ -22,6 +22,14 @@ object WebServer extends HttpApp {
         complete(HttpEntity(contentType, text))
       }
     } ~
+      path("api") {
+        post {
+          entity(as[String]) { req =>
+            println(s"Receive post. req: ${req}")
+            complete("This is a POST request.")
+          }
+        }
+      } ~
       path(Segments) { x: List[String] =>
         get {
           val segments = x.mkString("/")
