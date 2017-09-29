@@ -14,21 +14,23 @@ object WebServer extends HttpApp {
   }
 
   override def routes: Route = {
-    get {
-      pathSingleSlash {
+    pathSingleSlash {
+      get {
         val file = s"${contentDirectory}/index.html"
         val contentType = FileUtil.getContentType(file)
         val text = FileUtil.read(file)
         complete(HttpEntity(contentType, text))
-      } ~
-        path(Segments) { x: List[String] =>
+      }
+    } ~
+      path(Segments) { x: List[String] =>
+        get {
           val segments = x.mkString("/")
           val file = s"${contentDirectory}/${segments}"
           val contentType = FileUtil.getContentType(file)
           val text = FileUtil.read(file)
           complete(HttpEntity(contentType, text))
         }
-    }
+      }
   }
 }
 
