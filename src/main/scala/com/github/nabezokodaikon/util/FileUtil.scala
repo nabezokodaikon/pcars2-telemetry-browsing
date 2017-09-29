@@ -1,6 +1,7 @@
 package com.github.nabezokodaikon.util
 
 import com.github.nabezokodaikon.util.Loan.using
+import java.io.File
 import scala.io.Source
 
 object FileUtil {
@@ -11,5 +12,9 @@ object FileUtil {
     using(Source.fromFile(name, enc)) { buf =>
       buf.mkString
     }
+  }
+
+  def getCurrentDirectory(): String = {
+    new File(".").getAbsoluteFile().getParent()
   }
 }
