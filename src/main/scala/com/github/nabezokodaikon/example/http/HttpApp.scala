@@ -8,10 +8,13 @@ import akka.http.scaladsl.server.{ HttpApp, Route }
 object WebServer extends HttpApp {
 
   override def routes: Route = {
-    path("hello") {
-      get {
+    get {
+      pathSingleSlash {
         complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, "<h1>Hello Akka Http</h1>"))
-      }
+      } ~
+        path(Segments) { x: List[String] =>
+          complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, x.mkString("/")))
+        }
     }
   }
 }
