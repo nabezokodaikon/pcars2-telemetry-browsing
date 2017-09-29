@@ -18,7 +18,7 @@ object WebServer extends HttpApp {
       get {
         val file = s"${contentDirectory}/index.html"
         val contentType = FileUtil.getContentType(file)
-        val text = FileUtil.read(file)
+        val text = FileUtil.readText(file)
         complete(HttpEntity(contentType, text))
       }
     } ~
@@ -26,7 +26,7 @@ object WebServer extends HttpApp {
         post {
           entity(as[String]) { req =>
             println(s"Receive post. req: ${req}")
-            complete("This is a POST request.")
+            complete("This is a POST response.")
           }
         }
       } ~
@@ -35,7 +35,7 @@ object WebServer extends HttpApp {
           val segments = x.mkString("/")
           val file = s"${contentDirectory}/${segments}"
           val contentType = FileUtil.getContentType(file)
-          val text = FileUtil.read(file)
+          val text = FileUtil.readText(file)
           complete(HttpEntity(contentType, text))
         }
       }

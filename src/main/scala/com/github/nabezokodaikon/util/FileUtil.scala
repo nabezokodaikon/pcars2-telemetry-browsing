@@ -13,10 +13,10 @@ object FileUtil extends LazyLogging {
 
   val enc = "UTF-8"
 
-  def read(name: String): String = {
+  def readText(name: String): String = {
     catching(classOf[FileNotFoundException]).either {
-      using(Source.fromFile(name, enc)) { buf =>
-        buf.mkString
+      using(Source.fromFile(name, enc)) { src =>
+        src.mkString
       }
     } match {
       case Right(text) => text
