@@ -1,21 +1,28 @@
-console.log("This is a Load event.")
-
 function sendData() {
-  const xhr = new XMLHttpRequest();
-  const formData = new FormData();
+  try {
+    const xhr = new XMLHttpRequest();
+    const formData = new FormData();
 
-  formData.append("name", "taro");
+    formData.append("name", "taro");
 
-  xhr.addEventListener("load", e => {
-    console.log(e.target.response);
-  });
+    xhr.addEventListener("load", function(e) {
+      console.log(e.target.response);
+      alert(e.target.response);
+    });
 
-  xhr.addEventListener("error", e => {
+    xhr.addEventListener("error", function(e) {
+      console.log(e);
+      alert(e);
+    });
+
+    xhr.open("POST", "api");
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send(formData);
+  } catch(e) {
     console.log(e);
-  });
-
-  xhr.open("POST", "api");
-  xhr.send(formData);
+    alert(e);
+  }
 }
 
+console.log("This is a Load event.");
 sendData();
