@@ -17,4 +17,8 @@ object FileUtil {
   def getCurrentDirectory(): String = {
     new File(".").getAbsoluteFile().getParent()
   }
+
+  def getExtension(file: String): String = {
+    file.split('.').last
+  }
 }
