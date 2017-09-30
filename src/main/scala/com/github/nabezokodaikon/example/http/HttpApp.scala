@@ -1,3 +1,4 @@
+/*
 package com.github.nabezokodaikon.example.http
 
 import akka.actor.ActorSystem
@@ -88,3 +89,4 @@ object HttpExample extends App with LazyLogging {
   WebServer.startServer("192.168.1.18", 9000, system)
   system.terminate
 }
+*/
