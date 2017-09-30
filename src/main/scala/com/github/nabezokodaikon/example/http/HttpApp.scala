@@ -24,9 +24,11 @@ object WebServer extends HttpApp {
     } ~
       path("api") {
         post {
-          entity(as[String]) { req =>
-            println(s"Receive post. req: ${req}")
-            complete("This is a POST response.")
+          extractClientIP { ip =>
+            println("Client's ip is " + ip.toOption.map(_.getHostAddress).getOrElse("unknown"))
+            entity(as[String]) { req =>
+              complete("This is a POST response.")
+            }
           }
         }
       } ~

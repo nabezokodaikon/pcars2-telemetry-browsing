@@ -7,7 +7,7 @@ function sendData() {
 
     xhr.addEventListener("load", function(e) {
       console.log(e.target.response);
-      alert(e.target.response);
+      // alert(e.target.response);
     });
 
     xhr.addEventListener("error", function(e) {
