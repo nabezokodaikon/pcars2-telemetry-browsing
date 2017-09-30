@@ -1,4 +1,4 @@
-package com.github.nabezokodaikon
+package com.github.nabezokodaikon.example.http
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport

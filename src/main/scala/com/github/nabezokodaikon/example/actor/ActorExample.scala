@@ -1,5 +1,5 @@
 /*
-package com.github.nabezokodaikon
+package com.github.nabezokodaikon.example.actor
 
 import com.typesafe.scalalogging.LazyLogging
 import akka.actor.{ Actor, ActorSystem, Props }
