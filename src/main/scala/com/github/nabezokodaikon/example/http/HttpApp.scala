@@ -26,6 +26,7 @@ object WebServer extends HttpApp with JsonSupport {
   }
 
   override def routes: Route = {
+    import akka.http.scaladsl.marshalling.sse.EventStreamMarshalling._
     pathSingleSlash {
       get {
         val file = s"${contentDirectory}/index.html"
@@ -42,6 +43,24 @@ object WebServer extends HttpApp with JsonSupport {
               User("Taro", 36),
               Group("Response"))
             complete(info)
+          }
+        }
+      } ~
+      path("tick") {
+        import akka.http.scaladsl.model.sse.ServerSentEvent
+        import akka.http.scaladsl.unmarshalling.Unmarshal
+        import akka.NotUsed
+        import akka.stream.scaladsl.Source
+        import java.time.LocalTime
+        import java.time.format.DateTimeFormatter.ISO_LOCAL_TIME
+        import scala.concurrent.duration._
+        get {
+          complete {
+            Source
+              .tick(2.seconds, 2.seconds, NotUsed)
+              .map(_ => LocalTime.now())
+              .map(time => ServerSentEvent(ISO_LOCAL_TIME.format(time)))
+              .keepAlive(1.second, () => ServerSentEvent.heartbeat)
           }
         }
       } ~
