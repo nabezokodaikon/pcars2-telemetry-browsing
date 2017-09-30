@@ -1,12 +1,24 @@
 package com.github.nabezokodaikon
 
-import com.github.nabezokodaikon.util.FileUtil
-import com.typesafe.scalalogging.LazyLogging
 import akka.actor.ActorSystem
+import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.model.{ ContentTypes, HttpEntity }
 import akka.http.scaladsl.server.{ HttpApp, Route }
+import com.github.nabezokodaikon.util.FileUtil
+import com.typesafe.scalalogging.LazyLogging
+import spray.json.DefaultJsonProtocol
 
-object WebServer extends HttpApp {
+final case class User(userName: String, userAge: Int)
+final case class Group(groupName: String)
+final case class Info(user: User, group: Group)
+
+trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol {
+  implicit val userFormat = jsonFormat2(User)
+  implicit val groupFormat = jsonFormat1(Group)
+  implicit val infoFormat = jsonFormat2(Info)
+}
+
+object WebServer extends HttpApp with JsonSupport {
 
   val contentDirectory = {
     val current = FileUtil.getCurrentDirectory
@@ -26,9 +38,10 @@ object WebServer extends HttpApp {
         post {
           extractClientIP { ip =>
             println("Client's ip is " + ip.toOption.map(_.getHostAddress).getOrElse("unknown"))
-            entity(as[String]) { req =>
-              complete("This is a POST response.")
-            }
+            val info = Info(
+              User("Taro", 36),
+              Group("Response"))
+            complete(info)
           }
         }
       } ~

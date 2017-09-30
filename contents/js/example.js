@@ -1,10 +1,7 @@
 function sendData() {
   try {
     const xhr = new XMLHttpRequest();
-    const formData = new FormData();
-
-    formData.append("name", "taro");
-
+    
     xhr.addEventListener("load", function(e) {
       console.log(e.target.response);
       // alert(e.target.response);
@@ -16,8 +13,7 @@ function sendData() {
     });
 
     xhr.open("POST", "api");
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.send(formData);
+    xhr.send();
   } catch(e) {
     console.log(e);
     alert(e);
