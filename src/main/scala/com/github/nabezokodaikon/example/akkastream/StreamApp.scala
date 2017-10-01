@@ -1,3 +1,4 @@
+/*
 package com.github.nabezokodaikon.example.akkastream
 
 import com.typesafe.scalalogging.LazyLogging
@@ -50,3 +51,4 @@ object StreamApp extends App with LazyLogging {
   // val s = Source.empty
   // s.run
 }
+*/
