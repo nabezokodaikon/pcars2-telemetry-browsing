@@ -6,8 +6,9 @@ import com.typesafe.scalalogging.LazyLogging
 class UdpListener extends Actor with LazyLogging {
 
   def receive = {
-    case text: String =>
-      println(text)
+    case name: String =>
+      println(name)
+      s"Hello ${name}!"
     case ActorDone =>
       println("Done.")
       context.stop(self)
