@@ -1,19 +1,35 @@
 package com.github.nabezokodaikon
 
-import akka.actor.{ Actor, Terminated }
+import akka.actor.{ Actor, ActorRef, Terminated }
+import akka.pattern.{ AskTimeoutException, gracefulStop }
 import com.typesafe.scalalogging.LazyLogging
+import scala.concurrent.Await
+import scala.concurrent.duration._
+
+object UdpListener {
+  case class AddClient(client: ActorRef)
+  case class RemoveClient(client: ActorRef)
+}
 
 class UdpListener extends Actor with LazyLogging {
+  import UdpListener._
 
-  def receive = processing(Seq[String]())
+  def receive = processing(List[ActorRef]())
 
-  private def processing(clients: Seq[String]): Receive = {
-    case name: String =>
-      // println(name)
-      val next = clients :+ s"Hello ${name}!"
-      val msg = next.mkString
-      sender ! msg
-      context.become(processing(next))
+  private def processing(clientList: List[ActorRef]): Receive = {
+    case AddClient(client) =>
+      context.become(processing(clientList :+ client))
+    case RemoveClient(client) => {
+      try {
+        val stopped = gracefulStop(client, 5.seconds, ActorDone)
+        Await.result(stopped, 6.seconds)
+      } catch {
+        case e: AskTimeoutException =>
+          logger.error(e.getMessage)
+      } finally {
+        context.become(processing(clientList.filter(_ != client).toList))
+      }
+    }
     case ActorDone =>
       println("Done.")
       context.stop(self)
@@ -22,6 +38,6 @@ class UdpListener extends Actor with LazyLogging {
   }
 
   override def postStop = {
-    println("postStop")
+    println("UdpListener stop.")
   }
 }
