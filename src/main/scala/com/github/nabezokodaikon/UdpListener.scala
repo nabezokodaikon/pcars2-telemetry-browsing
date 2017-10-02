@@ -8,7 +8,7 @@ class UdpListener extends Actor with LazyLogging {
   def receive = {
     case name: String =>
       println(name)
-      s"Hello ${name}!"
+      sender ! s"Hello ${name}!"
     case ActorDone =>
       println("Done.")
       context.stop(self)

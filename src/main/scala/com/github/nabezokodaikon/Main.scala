@@ -8,7 +8,9 @@ import akka.util.Timeout
 import com.typesafe.scalalogging.LazyLogging
 import scala.concurrent.duration._
 import scala.concurrent.Await
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.io.StdIn
+import scala.util.{ Failure, Success }
 
 object ActorDone
 
@@ -19,15 +21,12 @@ object Main extends App with LazyLogging {
   val udpProps = Props(classOf[UdpListener])
   val udpListener = system.actorOf(udpProps, "udpListener")
 
-  implicit val timeout = Timeout(5.seconds)
-  val p = udpListener ? "Taro"
-  println(p.getClass)
-  // f.onComplete {
-  // case Success(result) =>
-  // println(result)
-  // case Failure(failure) =>
-  // println(failure)
-  // }
+  // implicit val timeout = Timeout(5.seconds)
+  val f = (udpListener ? "Taro")(5.seconds).mapTo[String]
+  f.onComplete {
+    case Success(a) => println(a)
+    case Failure(a) => println(a)
+  }
 
   val httpRoute = HttpServer.route
   Http().bindAndHandle(httpRoute, "192.168.1.18", 9000)
