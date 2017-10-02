@@ -29,8 +29,9 @@ class Server(manager: ActorRef) extends LazyLogging {
     println(sink.getClass())
 
     val source: Source[TextMessage, NotUsed] =
-      Source.actorRef[UdpListener.OutgoingValue](3, OverflowStrategy.fail)
+      Source.actorRef[UdpListener.OutgoingValue](10, OverflowStrategy.fail)
         .mapMaterializedValue { outActor =>
+          println(outActor.toString)
           clientActor ! Client.Connected(outActor)
           NotUsed
         }
@@ -51,7 +52,7 @@ class Server(manager: ActorRef) extends LazyLogging {
       }
     } ~
       path("api") {
-        post {
+        get {
           handleWebSocketMessages(createUser())
         }
       } ~

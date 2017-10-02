@@ -32,6 +32,12 @@ object Main extends App with LazyLogging {
   val httpRoute = server.route
   Http().bindAndHandle(httpRoute, "192.168.1.18", 9000)
   println("Started server at 192.168.1.18:9000, press enter to stop server")
+
+  while (true) {
+    Thread.sleep(3000)
+    udpListener ! java.util.Calendar.getInstance().getTime().toString
+  }
+
   StdIn.readLine()
 
   try {

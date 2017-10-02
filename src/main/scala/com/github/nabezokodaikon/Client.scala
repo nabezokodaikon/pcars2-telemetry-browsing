@@ -36,6 +36,15 @@ class ClientManager extends Actor with LazyLogging {
       clientList.foreach(_ ! value)
     case ActorDone =>
       println("ClientManager Done.")
+      clientList.foreach { client =>
+        try {
+          val stopped = gracefulStop(client, 5.seconds, ActorDone)
+          Await.result(stopped, 6.seconds)
+        } catch {
+          case e: AskTimeoutException =>
+            logger.error(e.getMessage)
+        }
+      }
       context.stop(self)
     case _ =>
       logger.warn("Received unknown message.")
@@ -62,7 +71,7 @@ class Client(manager: ActorRef) extends Actor with LazyLogging {
   }
 
   private def processing(outgoing: ActorRef): Receive = {
-    case UdpListener.OutgoingValue(value) =>
+    case value: UdpListener.OutgoingValue =>
       val f = (outgoing ? value)(5.seconds).mapTo[String]
       f.onComplete {
         case Success(_) => Unit
