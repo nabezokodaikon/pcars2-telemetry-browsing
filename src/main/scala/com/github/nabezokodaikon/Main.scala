@@ -22,29 +22,28 @@ object UsingActor {
 object Main extends App with LazyLogging {
   import UsingActor._
 
-  val udpProps = Props(classOf[UdpListener])
+  val clientManagerProps = Props(classOf[ClientManager])
+  val clientManager = system.actorOf(clientManagerProps, "clientManager")
+
+  val udpProps = Props(classOf[UdpListener], clientManager)
   val udpListener = system.actorOf(udpProps, "udpListener")
 
-  // implicit val timeout = Timeout(5.seconds)
-  // val a = (udpListener ? "Taro")(5.seconds).mapTo[String]
-  // a.onComplete {
-  // case Success(m) => println(m)
-  // case Failure(_) => println
-  // }
-
-  // val b = (udpListener ? "Jiro")(5.seconds).mapTo[String]
-  // b.onComplete {
-  // case Success(m) => println(m)
-  // case Failure(_) => println
-  // }
-
-  val httpRoute = HttpServer.route
+  val server = new Server(clientManager)
+  val httpRoute = server.route
   Http().bindAndHandle(httpRoute, "192.168.1.18", 9000)
   println("Started server at 192.168.1.18:9000, press enter to stop server")
   StdIn.readLine()
 
   try {
     val stopped = gracefulStop(udpListener, 5.seconds, ActorDone)
+    Await.result(stopped, 6.seconds)
+  } catch {
+    case e: AskTimeoutException =>
+      logger.error(e.getMessage)
+  }
+
+  try {
+    val stopped = gracefulStop(clientManager, 5.seconds, ActorDone)
     Await.result(stopped, 6.seconds)
   } catch {
     case e: AskTimeoutException =>

@@ -16,7 +16,7 @@ object ClientManager {
 class ClientManager extends Actor with LazyLogging {
   import ClientManager._
 
-  def receive = processing(List[ActorRef]())
+  def receive() = processing(List[ActorRef]())
 
   private def processing(clientList: List[ActorRef]): Receive = {
     case AddClient(client) =>
@@ -32,9 +32,8 @@ class ClientManager extends Actor with LazyLogging {
         context.become(processing(clientList.filter(_ != client).toList))
       }
     }
-    case UdpListener.OutgoingValue(value) =>
-      val msg = UdpListener.OutgoingValue(value)
-      clientList.foreach(_ ! msg)
+    case value: UdpListener.OutgoingValue =>
+      clientList.foreach(_ ! value)
     case ActorDone =>
       println("ClientManager Done.")
       context.stop(self)
@@ -42,8 +41,8 @@ class ClientManager extends Actor with LazyLogging {
       logger.warn("Received unknown message.")
   }
 
-  override def postStop = {
-    println("UdpListener stop.")
+  override def postStop() = {
+    println("ClientManager stop.")
   }
 }
 
@@ -54,7 +53,7 @@ object Client {
 class Client(manager: ActorRef) extends Actor with LazyLogging {
   import Client._
 
-  def receive = {
+  def receive() = {
     case Connected(outgoing) =>
       manager ! ClientManager.AddClient(self)
       context.become(processing(outgoing))
@@ -76,5 +75,9 @@ class Client(manager: ActorRef) extends Actor with LazyLogging {
       context.stop(self)
     case _ =>
       logger.warn("Received unknown message.")
+  }
+
+  override def postStop() = {
+    println("Client stop.")
   }
 }
