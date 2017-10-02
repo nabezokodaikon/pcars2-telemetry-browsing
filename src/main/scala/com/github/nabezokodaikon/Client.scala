@@ -76,7 +76,7 @@ class Client(manager: ActorRef) extends Actor with LazyLogging {
       f.onComplete {
         case Success(_) => Unit
         case Failure(e) =>
-          logger.info(e.getMessage)
+          logger.error(e.getMessage)
           manager ! ClientManager.RemoveClient(self)
       }
     case ActorDone =>
