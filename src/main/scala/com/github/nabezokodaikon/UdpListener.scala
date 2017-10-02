@@ -5,15 +5,19 @@ import com.typesafe.scalalogging.LazyLogging
 
 class UdpListener extends Actor with LazyLogging {
 
-  def receive = {
+  def receive = processing(Seq[String]())
+
+  private def processing(clients: Seq[String]): Receive = {
     case name: String =>
-      println(name)
-      sender ! s"Hello ${name}!"
+      // println(name)
+      val next = clients :+ s"Hello ${name}!"
+      val msg = next.mkString
+      sender ! msg
+      context.become(processing(next))
     case ActorDone =>
       println("Done.")
       context.stop(self)
     case _ =>
-      println
       logger.warn("Received unknown message.")
   }
 

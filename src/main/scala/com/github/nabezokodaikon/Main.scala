@@ -22,10 +22,16 @@ object Main extends App with LazyLogging {
   val udpListener = system.actorOf(udpProps, "udpListener")
 
   // implicit val timeout = Timeout(5.seconds)
-  val f = (udpListener ? "Taro")(5.seconds).mapTo[String]
-  f.onComplete {
-    case Success(a) => println(a)
-    case Failure(a) => println(a)
+  val a = (udpListener ? "Taro")(5.seconds).mapTo[String]
+  a.onComplete {
+    case Success(m) => println(m)
+    case Failure(_) => println
+  }
+
+  val b = (udpListener ? "Jiro")(5.seconds).mapTo[String]
+  b.onComplete {
+    case Success(m) => println(m)
+    case Failure(_) => println
   }
 
   val httpRoute = HttpServer.route

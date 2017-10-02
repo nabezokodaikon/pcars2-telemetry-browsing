@@ -7,5 +7,5 @@ object HttpClient {
   case class Send()
 }
 
-class HttpClient {
-}
+// class HttpClient extends Actor with LazyLogging {
+// }
