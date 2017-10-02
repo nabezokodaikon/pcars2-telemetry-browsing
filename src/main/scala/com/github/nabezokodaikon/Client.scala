@@ -7,24 +7,18 @@ import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{ Failure, Success }
 
-object HttpClient {
+object Client {
   case class AddClient(client: ActorRef)
   case class RemoveClient(client: ActorRef)
   case class Connected(outgoing: ActorRef)
   case class OutgoingValue(value: String)
 }
 
-// class HttpClientManager(udpListener: UdpListener) {
-// import UsingActor._
+class HttpClientManager {
+}
 
-// def createClient(): ActorRef = {
-// val props = Props(classOf[HttpClient], udpListener)
-// system.actorOf(props)
-// }
-// }
-
-class HttpClient(udpListener: ActorRef) extends Actor with LazyLogging {
-  import HttpClient._
+class Client(udpListener: ActorRef) extends Actor with LazyLogging {
+  import Client._
 
   def receive = {
     case Connected(outgoing) =>
