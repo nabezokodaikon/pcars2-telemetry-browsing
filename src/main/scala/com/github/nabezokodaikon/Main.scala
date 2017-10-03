@@ -1,3 +1,4 @@
+/*
 package com.github.nabezokodaikon
 
 import akka.actor.{ ActorSystem, Props }
@@ -58,3 +59,4 @@ object Main extends App with LazyLogging {
 
   system.terminate()
 }
+*/
