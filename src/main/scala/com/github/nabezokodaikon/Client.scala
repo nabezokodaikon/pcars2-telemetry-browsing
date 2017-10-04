@@ -63,16 +63,15 @@ class Client(manager: ActorRef) extends Actor with LazyLogging {
   import Client._
 
   def receive() = {
-    case Connected(outgoing) =>
-      manager ! ClientManager.AddClient(self)
+    case Connected(outgoing: ActorRef) =>
       context.become(processing(outgoing))
-    case _ =>
-      logger.warn("Received unknown message.")
   }
 
   private def processing(outgoing: ActorRef): Receive = {
+    case Connected(outgoing: ActorRef) =>
+      context.become(processing(outgoing))
     case value: UdpListener.OutgoingValue =>
-      val f = (outgoing ? value)(5.seconds).mapTo[String]
+      val f = (outgoing ? value)(5.seconds).mapTo[UdpListener.OutgoingValue]
       f.onComplete {
         case Success(_) => Unit
         case Failure(e) =>

@@ -22,24 +22,28 @@ class Server(manager: ActorRef) extends LazyLogging {
   private def createUser() = {
     import UsingActor._
 
-    val props = Props(classOf[Client], manager)
-    val clientActor = system.actorOf(props)
+    // val props = Props(classOf[Client], manager)
+    // val clientActor = system.actorOf(props)
 
     val sink = Sink.ignore
-    println(sink.getClass())
 
-    val source: Source[TextMessage, NotUsed] =
-      Source.actorRef[UdpListener.OutgoingValue](10, OverflowStrategy.fail)
-        .mapMaterializedValue { outActor =>
-          println(outActor.toString)
-          clientActor ! Client.Connected(outActor)
-          NotUsed
-        }
-        .map { outValue: UdpListener.OutgoingValue =>
-          TextMessage(outValue.value)
-        }
+    // val source: Source[TextMessage, NotUsed] =
+    // Source.actorRef[UdpListener.OutgoingValue](10, OverflowStrategy.fail)
+    // .mapMaterializedValue { outActor =>
+    // println(outActor.toString)
+    // clientActor ! Client.Connected(outActor)
+    // NotUsed
+    // }
+    // .map { outValue: UdpListener.OutgoingValue =>
+    // TextMessage(outValue.value)
+    // }
+    val source = Source.fromGraph(new ClientStage(manager))
+      .map((value: UdpListener.OutgoingValue) => TextMessage(value.value))
 
     Flow.fromSinkAndSource(sink, source)
+    //
+    // val flow = Flow.fromGraph(new ClientStage(manager))
+    // flow
   }
 
   val route: Route =

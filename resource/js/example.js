@@ -40,6 +40,7 @@ function connect() {
   const ws = new WebSocket("ws://192.168.1.18:9000/api");
   ws.onopen = function(e) {
     console.log("Websocket was opened.");
+    // ws.send("Request!");
   };
 
   ws.onmessage = function(e) {
