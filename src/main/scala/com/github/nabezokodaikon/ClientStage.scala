@@ -18,33 +18,26 @@ class ClientStage(clientManager: ActorRef)
     new GraphStageLogic(shape) {
       import UsingActor._
 
-      val props = Props(classOf[Client], clientManager)
-      val client = system.actorOf(props)
-
       setHandler(out, new OutHandler {
-        override def onPull(): Unit = {
-          println("Call onPull.")
-        }
+        override def onPull(): Unit = ()
       })
 
       override def preStart(): Unit = {
         println("Call preStart.")
-
-        val outgoing = getStageActor(messageHandler).ref
-        println(stageActor.ref.toString)
-        client ! Client.Connected(stageActor.ref)
+        val client = getStageActor(messageHandler).ref
         clientManager ! ClientManager.AddClient(client)
       }
 
       override def postStop(): Unit = {
         println("Call postStop.")
+        val client = stageActor.ref
         clientManager ! ClientManager.RemoveClient(client)
       }
 
       private def messageHandler(receive: (ActorRef, Any)): Unit =
         receive match {
           case (_, value: UdpListener.OutgoingValue) =>
-            println("Receive value.")
+            // println("Receive value.")
             if (isAvailable(out)) {
               push(out, value)
             }
