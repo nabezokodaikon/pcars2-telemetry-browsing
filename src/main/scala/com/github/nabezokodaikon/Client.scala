@@ -68,8 +68,6 @@ class Client(manager: ActorRef) extends Actor with LazyLogging {
   }
 
   private def processing(outgoing: ActorRef): Receive = {
-    case Connected(outgoing: ActorRef) =>
-      context.become(processing(outgoing))
     case value: UdpListener.OutgoingValue =>
       val f = (outgoing ? value)(5.seconds).mapTo[UdpListener.OutgoingValue]
       f.onComplete {
