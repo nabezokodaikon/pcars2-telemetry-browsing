@@ -1,12 +1,10 @@
 package com.github.nabezokodaikon
 
-import akka.actor.{ Actor, ActorRef, Props }
-import akka.pattern.{ AskTimeoutException, ask, gracefulStop }
+import akka.actor.{ Actor, ActorRef }
+import akka.pattern.{ AskTimeoutException, gracefulStop }
 import com.typesafe.scalalogging.LazyLogging
 import scala.concurrent.Await
 import scala.concurrent.duration._
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.{ Failure, Success }
 
 object ClientManager {
   case class AddClient(client: ActorRef)
@@ -69,13 +67,7 @@ class Client(manager: ActorRef) extends Actor with LazyLogging {
 
   private def processing(outgoing: ActorRef): Receive = {
     case value: UdpListener.OutgoingValue =>
-      val f = (outgoing ? value)(5.seconds).mapTo[UdpListener.OutgoingValue]
-      f.onComplete {
-        case Success(_) => Unit
-        case Failure(e) =>
-          logger.error(e.getMessage)
-          manager ! ClientManager.RemoveClient(self)
-      }
+      outgoing ! value
     case ActorDone =>
       println("Client Done.")
       context.stop(self)

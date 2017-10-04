@@ -34,7 +34,7 @@ object Main extends App with LazyLogging {
   println("Started server at 192.168.1.18:9000, press enter to stop server")
 
   while (true) {
-    Thread.sleep(3000)
+    Thread.sleep(1000)
     udpListener ! java.util.Calendar.getInstance().getTime().toString
   }
 

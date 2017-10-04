@@ -7,8 +7,8 @@ import akka.stream.stage.{ GraphStage, GraphStageLogic, OutHandler }
 import com.typesafe.scalalogging.LazyLogging
 
 class ClientStage(clientManager: ActorRef)
-    extends GraphStage[SourceShape[UdpListener.OutgoingValue]]
-  with LazyLogging {
+  extends GraphStage[SourceShape[UdpListener.OutgoingValue]]
+  with LazyLogging {
 
   val out: Outlet[UdpListener.OutgoingValue] = Outlet("ClientStage-Out")
 
@@ -32,21 +32,20 @@ class ClientStage(clientManager: ActorRef)
 
         val outgoing = getStageActor(messageHandler).ref
         println(stageActor.ref.toString)
-        client ! Client.Connected(outgoing)
+        client ! Client.Connected(stageActor.ref)
         clientManager ! ClientManager.AddClient(client)
       }
 
       override def postStop(): Unit = {
-        println("Outgoing stop.")
+        println("Call postStop.")
+        clientManager ! ClientManager.RemoveClient(client)
       }
 
       private def messageHandler(receive: (ActorRef, Any)): Unit =
         receive match {
-          case (a, data: UdpListener.OutgoingValue) =>
-            println("Receive data.")
-            println(a.toString)
-            println(data.toString)
-            push(out, data)
+          case (_, value: UdpListener.OutgoingValue) =>
+            println("Receive value.")
+            push(out, value)
           case _ =>
             logger.warn("Received unknown message.")
         }
