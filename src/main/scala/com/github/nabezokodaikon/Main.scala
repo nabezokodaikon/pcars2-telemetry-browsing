@@ -4,13 +4,10 @@ import akka.actor.{ ActorSystem, Props }
 import akka.http.scaladsl.Http
 import akka.pattern.{ AskTimeoutException, ask, gracefulStop }
 import akka.stream.ActorMaterializer
-import akka.util.Timeout
 import com.typesafe.scalalogging.LazyLogging
 import scala.concurrent.Await
 import scala.concurrent.duration._
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.io.StdIn
-import scala.util.{ Failure, Success }
 
 object ActorDone
 
@@ -32,12 +29,6 @@ object Main extends App with LazyLogging {
   val httpRoute = server.route
   Http().bindAndHandle(httpRoute, "192.168.1.18", 9000)
   println("Started server at 192.168.1.18:9000, press enter to stop server")
-
-  while (true) {
-    Thread.sleep(1000)
-    udpListener ! java.util.Calendar.getInstance().getTime().toString
-  }
-
   StdIn.readLine()
 
   try {
