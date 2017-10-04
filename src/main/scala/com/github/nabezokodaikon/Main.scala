@@ -1,7 +1,6 @@
 package com.github.nabezokodaikon
 
 import akka.actor.{ ActorSystem, Props }
-import akka.http.scaladsl.Http
 import akka.pattern.{ AskTimeoutException, ask, gracefulStop }
 import akka.stream.ActorMaterializer
 import com.typesafe.scalalogging.LazyLogging
@@ -26,10 +25,7 @@ object Main extends App with LazyLogging {
   val udpListener = system.actorOf(udpProps, "udpListener")
 
   val server = new Server(clientManager)
-  val httpRoute = server.route
-  Http().bindAndHandle(httpRoute, "192.168.1.18", 9000)
-  println("Started server at 192.168.1.18:9000, press enter to stop server")
-  StdIn.readLine()
+  server.startServer("192.168.1.18", 9000, system)
 
   try {
     val stopped = gracefulStop(udpListener, 5.seconds, ActorDone)
