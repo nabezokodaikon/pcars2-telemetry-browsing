@@ -12,14 +12,14 @@ import com.github.nabezokodaikon.util.FileUtil
 import com.typesafe.scalalogging.LazyLogging
 import spray.json.DefaultJsonProtocol
 
-// final case class User(userName: String, userAge: Int)
-// final case class Group(groupName: String)
-// final case class Info(user: User, group: Group)
-// trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol {
-  // implicit val userFormat = jsonFormat2(User)
-  // implicit val groupFormat = jsonFormat1(Group)
-  // implicit val infoFormat = jsonFormat2(Info)
-// }
+final case class User(userName: String, userAge: Int)
+final case class Group(groupName: String)
+final case class Info(user: User, group: Group)
+trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol {
+  implicit val userFormat = jsonFormat2(User)
+  implicit val groupFormat = jsonFormat1(Group)
+  implicit val infoFormat = jsonFormat2(Info)
+}
 
 class Server(manager: ActorRef) extends HttpApp with JsonSupport with LazyLogging {
 
