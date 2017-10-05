@@ -9,9 +9,14 @@ object ParserApp extends App with LazyLogging {
 
   val dir = FileUtil.getCurrentDirectory()
   val name = s"${dir}/testdata/20171005120800046.bin"
-  var data = FileUtil.readBinary(name).toList
-  println(data.toString)
+  var mVersionData = FileUtil.readBinary(name).toList
+  println(mVersionData.toString)
 
-  val (value, unValueData) = BinaryUtil.readUInt(data)
-  println(value.toString)
+  val (mVersion, mBuildVersionNumberData) = BinaryUtil.readInt(mVersionData)
+  // println(mVersion.toString)
+  // println(String.valueOf(mVersion).toCharArray())
+
+  val (mBuildVersionNumber, mGameStateData) = BinaryUtil.readInt(mBuildVersionNumberData)
+  // println(mBuildVersionNumber.toString)
+  // println(String.valueOf(mBuildVersionNumber).toCharArray())
 }
