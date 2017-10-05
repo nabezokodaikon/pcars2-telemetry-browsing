@@ -6,9 +6,9 @@ import com.github.nabezokodaikon.util.Loan.using
 import com.typesafe.scalalogging.LazyLogging
 import java.io.File
 import java.io.FileNotFoundException
-import java.io.{ FileOutputStream, IOException }
+import java.io.{ BufferedInputStream, FileInputStream, FileOutputStream, IOException }
 import scala.io.Source
-import scala.util.control.Exception.{ catching }
+import scala.util.control.Exception.catching
 
 object FileUtil extends LazyLogging {
 
@@ -24,6 +24,19 @@ object FileUtil extends LazyLogging {
       case Left(e) =>
         logger.error(e.getMessage)
         "No such file or directory."
+    }
+  }
+
+  def readBinary(name: String): Array[Byte] = {
+    catching(classOf[IOException]).either {
+      using(new BufferedInputStream(new FileInputStream(name))) { in =>
+        Stream.continually(in.read).takeWhile(!_.equals(-1)).map(_.toByte).toArray
+      }
+    } match {
+      case Right(bin) => bin
+      case Left(e) =>
+        logger.error(e.getMessage)
+        Array[Byte]()
     }
   }
 
