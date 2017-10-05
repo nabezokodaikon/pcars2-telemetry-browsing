@@ -25,6 +25,7 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
   def ready(socket: ActorRef): Receive = {
     case Udp.Received(data, remote) =>
       clientManager ! OutgoingValue(s"$data.toString")
+    // output(data.toArray)
     case Udp.Unbind =>
       logger.debug("unbind")
       socket ! Udp.Unbind
@@ -36,5 +37,17 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
       context.stop(self)
     case _ =>
       logger.warn("Received unknown message.")
+  }
+
+  def output(data: Array[Byte]) = {
+    import com.github.nabezokodaikon.util.FileUtil
+    import java.util.Calendar
+    import java.text.SimpleDateFormat
+    val c = Calendar.getInstance()
+    val sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS")
+    val time = sdf.format(c.getTime())
+    val dir = FileUtil.getCurrentDirectory()
+    val name = s"${dir}/testdata/${time}.bin"
+    FileUtil.writeBinary(name, data)
   }
 }
