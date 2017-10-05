@@ -6,6 +6,7 @@ import com.github.nabezokodaikon.util.Loan.using
 import com.typesafe.scalalogging.LazyLogging
 import java.io.File
 import java.io.FileNotFoundException
+import java.io.{ FileOutputStream, IOException }
 import scala.io.Source
 import scala.util.control.Exception.{ catching }
 
@@ -23,6 +24,18 @@ object FileUtil extends LazyLogging {
       case Left(e) =>
         logger.error(e.getMessage)
         "No such file or directory."
+    }
+  }
+
+  def writeBinary(name: String, bin: Array[Byte]): Unit = {
+    catching(classOf[IOException]).either {
+      using(new FileOutputStream(name)) { out =>
+        out.write(bin, 0, bin.length)
+      }
+    } match {
+      case Right(_) => ()
+      case Left(e) =>
+        logger.error(e.getMessage)
     }
   }
 
