@@ -39,7 +39,9 @@ lazy val root = (project.in(file(".")))
 
         "com.typesafe.akka" %% "akka-http" % "10.0.10",
         "com.typesafe.akka" %% "akka-http-testkit" % "10.0.10" % Test,
-        "com.typesafe.akka" %% "akka-http-spray-json" % "10.0.10"
+        "com.typesafe.akka" %% "akka-http-spray-json" % "10.0.10",
+
+        "default" % "scala-unsigned_2.11" % "0.1"
       )
     }
   )

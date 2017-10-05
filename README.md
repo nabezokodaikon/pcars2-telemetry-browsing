@@ -10,5 +10,5 @@
 
 ## Dependence
 ### Scala-Unsigned
-* Copyright 2016 Carsten Saager
-  * [Scala-Unsigned](https://github.com/csar/scala-unsigned)
+* Copyright (c) 2011-2013, Nate Nystrom
+* [scala-unsigned](https://github.com/ivtoskov/scala-unsigned)
