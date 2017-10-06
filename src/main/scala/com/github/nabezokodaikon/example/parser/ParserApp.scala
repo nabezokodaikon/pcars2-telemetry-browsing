@@ -1,7 +1,8 @@
 package com.github.nabezokodaikon.example
 
+import com.github.nabezokodaikon.pcars1.BinaryUtil._
 import com.github.nabezokodaikon.pcars1.Encoding
-import com.github.nabezokodaikon.pcars1.{ BinaryUtil, SharedMemoryConstants }
+import com.github.nabezokodaikon.pcars1.SharedMemoryConstants._
 import com.github.nabezokodaikon.util.FileUtil
 import com.typesafe.scalalogging.LazyLogging
 
@@ -13,58 +14,58 @@ object ParserApp extends App with LazyLogging {
   // println(mVersionData.toString)
 
   // Version Number
-  val (mVersion, mBuildVersionNumberData) = BinaryUtil.readInt(mVersionData) match {
+  val (mVersion, mBuildVersionNumberData) = readInt(mVersionData) match {
     case Some((v, d)) => (v, d)
     case None => (0, Nil)
   }
   println(mVersion.toString)
 
-  val (mBuildVersionNumber, mGameStateData) = BinaryUtil.readInt(mBuildVersionNumberData) match {
+  val (mBuildVersionNumber, mGameStateData) = readInt(mBuildVersionNumberData) match {
     case Some((v, d)) => (v, d)
     case None => (0, Nil)
   }
   println(mBuildVersionNumber.toString)
 
   // Game States
-  val (mGameState, mSessionStateData) = BinaryUtil.readInt(mGameStateData) match {
+  val (mGameState, mSessionStateData) = readInt(mGameStateData) match {
     case Some((v, d)) => (v, d)
     case None => (0, Nil)
   }
   println(mGameState.toString)
 
-  val (mSessionState, mRaceStateData) = BinaryUtil.readInt(mSessionStateData) match {
+  val (mSessionState, mRaceStateData) = readInt(mSessionStateData) match {
     case Some((v, d)) => (v, d)
     case None => (0, Nil)
   }
   println(mSessionState.toString)
 
-  val (mRaceState, mViewedParticipantIndexData) = BinaryUtil.readInt(mRaceStateData) match {
+  val (mRaceState, mViewedParticipantIndexData) = readInt(mRaceStateData) match {
     case Some((v, d)) => (v, d)
     case None => (0, Nil)
   }
   println(mRaceState.toString)
 
   // Participant Info
-  val (mViewedParticipantIndex, mNumParticipantsData) = BinaryUtil.readInt(mViewedParticipantIndexData) match {
+  val (mViewedParticipantIndex, mNumParticipantsData) = readInt(mViewedParticipantIndexData) match {
     case Some((v, d)) => (v, d)
     case None => (0, Nil)
   }
   println(mViewedParticipantIndex.toString)
 
-  val (mNumParticipants, mIsActiveData) = BinaryUtil.readInt(mNumParticipantsData) match {
+  val (mNumParticipants, mIsActiveData) = readInt(mNumParticipantsData) match {
     case Some((v, d)) => (v, d)
     case None => (0, Nil)
   }
   println(mNumParticipants.toString)
 
   // ParticipantInfo
-  val (mIsActive, mNameData) = BinaryUtil.readBoolean(mIsActiveData) match {
+  val (mIsActive, mNameData) = readBoolean(mIsActiveData) match {
     case Some((v, d)) => (v, d)
     case None => (false, Nil)
   }
   println(mIsActive.toString)
 
-  val mName = Encoding.decodeString(mNameData.take(SharedMemoryConstants.STRING_LENGTH_MAX).toArray)
-  val mWorldPositionData = mNameData.drop(SharedMemoryConstants.STRING_LENGTH_MAX * 2)
+  val mName = Encoding.decodeString(mNameData.take(STRING_LENGTH_MAX).toArray)
+  val mWorldPositionData = mNameData.drop(STRING_LENGTH_MAX * 2)
   println(mName.map(_.toString))
 }
