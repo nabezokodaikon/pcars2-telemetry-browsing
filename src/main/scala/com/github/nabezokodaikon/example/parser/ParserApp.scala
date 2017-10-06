@@ -1,8 +1,7 @@
 package com.github.nabezokodaikon.example
 
-import ch.ethz.acl.passera.unsigned._
 import com.github.nabezokodaikon.pcars1.Encoding
-import com.github.nabezokodaikon.util.{ BinaryUtil, SharedMemoryConstants }
+import com.github.nabezokodaikon.pcars1.{ BinaryUtil, SharedMemoryConstants }
 import com.github.nabezokodaikon.util.FileUtil
 import com.typesafe.scalalogging.LazyLogging
 
