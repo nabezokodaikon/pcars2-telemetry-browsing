@@ -1,6 +1,7 @@
 package com.github.nabezokodaikon.example
 
 import ch.ethz.acl.passera.unsigned._
+import com.github.nabezokodaikon.pcars1.Encoding
 import com.github.nabezokodaikon.util.{ BinaryUtil, SharedMemoryConstants }
 import com.github.nabezokodaikon.util.FileUtil
 import com.typesafe.scalalogging.LazyLogging
@@ -64,6 +65,7 @@ object ParserApp extends App with LazyLogging {
   }
   println(mIsActive.toString)
 
-  val (mName, mWorldPositionData) = BinaryUtil.readCharArray(mNameData, SharedMemoryConstants.STRING_LENGTH_MAX)
-  println(mName)
+  val mName = Encoding.decodeString(mNameData.take(SharedMemoryConstants.STRING_LENGTH_MAX).toArray)
+  val mWorldPositionData = mNameData.drop(SharedMemoryConstants.STRING_LENGTH_MAX * 2)
+  println(mName.map(_.toString))
 }

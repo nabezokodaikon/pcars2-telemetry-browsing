@@ -1,6 +1,5 @@
 package com.github.nabezokodaikon.util
 
-import ch.ethz.acl.passera.unsigned._
 import com.typesafe.scalalogging.LazyLogging
 import java.nio.ByteBuffer
 
@@ -9,23 +8,6 @@ object SharedMemoryConstants {
 }
 
 object BinaryUtil extends LazyLogging {
-
-  // public boolean readBoolean() throws IOException {
-
-  // int bool = in.read();
-  // if (bool == -1) throw new EOFException();
-  // return (bool != 0);
-
-  // }
-
-  // public char readChar() throws IOException {
-
-  // int byte1 = in.read();
-  // int byte2 = in.read();
-  // if (byte2 == -1) throw new EOFException();
-  // return (char) (((byte2 << 24) >>> 16) + ((byte1 << 24) >>> 24));
-
-  // }
 
   def readChar(data: List[Byte]): Option[(Char, List[Byte])] = {
     data match {
@@ -39,7 +21,7 @@ object BinaryUtil extends LazyLogging {
     }
   }
 
-  def readCharArray(data: List[Byte], stringLength: Int): (List[Char], List[Byte]) = {
+  def readCharArray(data: List[Byte], stringLength: Int): (Array[Char], List[Byte]) = {
 
     def go(currentChars: List[Char], currentData: List[Byte], currentCount: Int): List[Char] = {
       readChar(currentData) match {
@@ -55,7 +37,7 @@ object BinaryUtil extends LazyLogging {
       }
     }
 
-    (go(List[Char](), data, stringLength), data.drop(stringLength * 2))
+    (go(List[Char](), data, stringLength).toArray, data.drop(stringLength * 2))
   }
 
   def readBoolean(data: List[Byte]): Option[(Boolean, List[Byte])] = {
@@ -80,5 +62,15 @@ object BinaryUtil extends LazyLogging {
           + ((byte2 << 24) >>> 16)
           + ((byte1 << 24) >>> 24), tail))
       case _ => None
+    }
+
+  // public final float readFloat() throws IOException {
+  // return Float.intBitsToFloat(this.readInt());
+  // }
+
+  def readFloat(data: List[Byte]): Option[(Float, List[Byte])] =
+    readInt(data) match {
+      case Some((v, d)) => Some((java.lang.Float.intBitsToFloat(v), d))
+      case None => None
     }
 }
