@@ -4,8 +4,38 @@ import com.typesafe.scalalogging.LazyLogging
 import java.nio.ByteBuffer
 
 object SharedMemoryConstants {
+  val STORED_PARTICIPANTS_MAX = 64
   val STRING_LENGTH_MAX: Int = 64
+
+  val VEX_X = 0
+  val VEX_Y = 1
+  val VEX_Z = 2
+
+  val PARTICIPANT_INFO_EMPTY = ParticipantInfo(
+    mIsActive = false,
+    mName = Array.fill(64)(" ").mkString,
+    mWorldPosition_VEX_X = 0f,
+    mWorldPosition_VEX_Y = 0f,
+    mWorldPosition_VEX_Z = 0f,
+    mCurrentLapDistance = 0f,
+    mRacePosition = 0,
+    mLapsCompleted = 0,
+    mCurrentLap = 0,
+    mCurrentSector = 0)
 }
+
+case class ParticipantInfo(
+  mIsActive: Boolean,
+  mName: String, // [ string ]
+  mWorldPosition_VEX_X: Float, // [ UNITS = World Space  X  Y  Z ]
+  mWorldPosition_VEX_Y: Float, // [ UNITS = World Space  X  Y  Z ]
+  mWorldPosition_VEX_Z: Float, // [ UNITS = World Space  X  Y  Z ]
+  mCurrentLapDistance: Float, // [ UNITS = Metres ]   [ RANGE = 0.0f->... ]    [ UNSET = 0.0f ]
+  mRacePosition: Int, // [ RANGE = 1->... ]   [ UNSET = 0 ]
+  mLapsCompleted: Int, // [ RANGE = 0->... ]   [ UNSET = 0 ]
+  mCurrentLap: Int, // [ RANGE = 0->... ]   [ UNSET = 0 ]
+  mCurrentSector: Int // [ enum (Type#4) Current Sector ]
+)
 
 object BinaryUtil extends LazyLogging {
 

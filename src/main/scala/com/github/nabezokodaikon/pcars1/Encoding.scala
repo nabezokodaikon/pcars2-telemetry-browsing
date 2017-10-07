@@ -4,7 +4,7 @@ object Encoding {
 
   def decodeString(byteArray: Array[Byte]): String = {
 
-    val result: StringBuffer = new StringBuffer()
+    val result: StringBuilder = new StringBuilder()
     var currentCodePage = codePageLatinToUnicode
 
     var i = 0
@@ -63,7 +63,7 @@ object Encoding {
       }
       i = i + 1
     }
-    return result.toString().trim();
+    return result.toString().map(_.toString).toString
   }
 
   private val codePageLatinToUnicode = Array.fill(256)(0.toChar)
