@@ -4,40 +4,57 @@ import com.typesafe.scalalogging.LazyLogging
 import java.nio.ByteBuffer
 
 object SharedMemoryConstants {
-  val STORED_PARTICIPANTS_MAX = 64
+
+  val FRAME_TYPEAND_SEQUENCE: Int = 2
+
+  val PCARS_DATA: Byte = 4
+  val SEPARATION: Int = 0
+
+  val MONITOR_STATES_TOTAL_STATES: Int = 9
+
+  val STORED_PARTICIPANTS_MAX: Int = 64
   val STRING_LENGTH_MAX: Int = 64
 
-  val VEX_X = 0
-  val VEX_Y = 1
-  val VEX_Z = 2
+  // val VEX_X: Int = 0
+  // val VEX_Y: Int = 1
+  // val VEX_Z: Int = 2
 
   val PARTICIPANT_INFO_EMPTY = ParticipantInfo(
-    mIsActive = false,
-    mName = Array.fill(64)(" ").mkString,
-    mWorldPosition_VEX_X = 0f,
-    mWorldPosition_VEX_Y = 0f,
-    mWorldPosition_VEX_Z = 0f,
-    mCurrentLapDistance = 0f,
-    mRacePosition = 0,
-    mLapsCompleted = 0,
-    mCurrentLap = 0,
-    mCurrentSector = 0)
+    worldPosition = Array.fill(3)(0),
+    currentLapDistance = 0,
+    racePosition = 0,
+    lapsCompleted = 0,
+    currentLap = 0,
+    sector = 0,
+    lastSectorTime = 0f)
 }
 
 case class ParticipantInfo(
-  mIsActive: Boolean,
-  mName: String, // [ string ]
-  mWorldPosition_VEX_X: Float, // [ UNITS = World Space  X  Y  Z ]
-  mWorldPosition_VEX_Y: Float, // [ UNITS = World Space  X  Y  Z ]
-  mWorldPosition_VEX_Z: Float, // [ UNITS = World Space  X  Y  Z ]
-  mCurrentLapDistance: Float, // [ UNITS = Metres ]   [ RANGE = 0.0f->... ]    [ UNSET = 0.0f ]
-  mRacePosition: Int, // [ RANGE = 1->... ]   [ UNSET = 0 ]
-  mLapsCompleted: Int, // [ RANGE = 0->... ]   [ UNSET = 0 ]
-  mCurrentLap: Int, // [ RANGE = 0->... ]   [ UNSET = 0 ]
-  mCurrentSector: Int // [ enum (Type#4) Current Sector ]
-)
+  worldPosition: Array[Short],
+  currentLapDistance: Short,
+  racePosition: Int,
+  lapsCompleted: Int,
+  currentLap: Int,
+  sector: Int,
+  lastSectorTime: Float)
 
 object BinaryUtil extends LazyLogging {
+
+  def readByte(data: List[Byte]): Option[(Byte, List[Byte])] = {
+    data match {
+      case byte1 :: tail =>
+        Some((byte1, tail))
+      case _ => None
+    }
+  }
+
+  def readUByte(data: List[Byte]): Option[(Int, List[Byte])] = {
+    data match {
+      case byte1 :: tail =>
+        Some(((byte1 << 24) >>> 24, tail))
+      case _ => None
+    }
+  }
 
   def readChar(data: List[Byte]): Option[(Char, List[Byte])] = {
     data match {
@@ -51,7 +68,7 @@ object BinaryUtil extends LazyLogging {
     }
   }
 
-  def readCharArray(data: List[Byte], stringLength: Int): (Array[Char], List[Byte]) = {
+  def readCharArray(data: List[Byte], stringLength: Int): (String, List[Byte]) = {
 
     def go(currentChars: List[Char], currentData: List[Byte], currentCount: Int): List[Char] = {
       readChar(currentData) match {
@@ -67,7 +84,23 @@ object BinaryUtil extends LazyLogging {
       }
     }
 
-    (go(List[Char](), data, stringLength).toArray, data.drop(stringLength * 2))
+    (new String(go(List[Char](), data, stringLength).toArray), data.drop(stringLength * 2))
+  }
+
+  def readCharArray2(data: List[Byte], stringLength: Int): (String, List[Byte]) = {
+
+    val chars = Array.fill(stringLength)(0.toChar)
+    var currentData = data
+    for (i <- 0 to stringLength - 1) {
+      readChar(currentData) match {
+        case Some((v, d)) =>
+          chars(i) = v
+          currentData = d
+        case None => ()
+      }
+    }
+
+    (new String(chars), currentData)
   }
 
   def readBoolean(data: List[Byte]): Option[(Boolean, List[Byte])] = {
@@ -81,6 +114,16 @@ object BinaryUtil extends LazyLogging {
     }
   }
 
+  def readShort(data: List[Byte]): Option[(Short, List[Byte])] =
+    data match {
+      case byte1 :: byte2 :: tail =>
+        if (byte2 == -1) {
+          None
+        }
+        Some(((((byte2 << 24) >>> 16) + (byte1 << 24) >>> 24).toShort, tail))
+      case _ => None
+    }
+
   def readInt(data: List[Byte]): Option[(Int, List[Byte])] =
     data match {
       case byte1 :: byte2 :: byte3 :: byte4 :: tail =>
@@ -93,10 +136,6 @@ object BinaryUtil extends LazyLogging {
           + ((byte1 << 24) >>> 24), tail))
       case _ => None
     }
-
-  // public final float readFloat() throws IOException {
-  // return Float.intBitsToFloat(this.readInt());
-  // }
 
   def readFloat(data: List[Byte]): Option[(Float, List[Byte])] =
     readInt(data) match {
