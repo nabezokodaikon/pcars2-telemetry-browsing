@@ -6,7 +6,7 @@ import com.github.nabezokodaikon.util.Loan.using
 import com.typesafe.scalalogging.LazyLogging
 import java.io.File
 import java.io.FileNotFoundException
-import java.io.{ BufferedInputStream, FileInputStream, FileOutputStream, IOException }
+import java.io.{ BufferedInputStream, FileInputStream, FileOutputStream, IOException, OutputStreamWriter }
 import scala.io.Source
 import scala.util.control.Exception.catching
 
@@ -24,6 +24,18 @@ object FileUtil extends LazyLogging {
       case Left(e) =>
         logger.error(e.getMessage)
         "No such file or directory."
+    }
+  }
+
+  def writeText(name: String, text: String): Unit = {
+    catching(classOf[IOException]).either {
+      using(new OutputStreamWriter(new FileOutputStream(name, false), enc)) { out =>
+        out.write(text)
+      }
+    } match {
+      case Right(_) => ()
+      case Left(e) =>
+        logger.error(e.getMessage)
     }
   }
 
