@@ -16,7 +16,7 @@ object SharedMemoryConstants {
 
 case class ParticipantInfo(
   worldPosition: Array[Short],
-  currentLapDistance: Short,
+  currentLapDistance: Int,
   racePosition: Int,
   lapsCompleted: Int,
   currentLap: Int,
@@ -73,13 +73,13 @@ object BinaryUtil {
     }
 
   def readShortArray(data: List[Byte], count: Int): Option[(Array[Short], List[Byte])] = {
-    val shortCount = count * 2
-    if (data.length < shortCount) {
+    val size = count * 2
+    if (data.length < size) {
       None
     } else {
       Some(
-        data.take(shortCount).grouped(2).toList.map(l => _readShort(l(0), l(1))).toArray,
-        data.drop(shortCount))
+        data.take(size).grouped(2).map(l => _readShort(l(0), l(1))).toArray,
+        data.drop(size))
     }
   }
 
@@ -97,13 +97,13 @@ object BinaryUtil {
     }
 
   def readUShortArray(data: List[Byte], count: Int): Option[(Array[Int], List[Byte])] = {
-    val uShortCount = count * 2
-    if (data.length < uShortCount) {
+    val size = count * 2
+    if (data.length < size) {
       None
     } else {
       Some(
-        data.take(uShortCount).grouped(2).toList.map(l => _readUShort(l(0), l(1))).toArray,
-        data.drop(uShortCount))
+        data.take(size).grouped(2).map(l => _readUShort(l(0), l(1))).toArray,
+        data.drop(size))
     }
   }
 
@@ -122,13 +122,71 @@ object BinaryUtil {
     }
 
   def readFloatArray(data: List[Byte], count: Int): Option[(Array[Float], List[Byte])] = {
-    val uFloatCount = count * 4
-    if (data.length < uFloatCount) {
+    val size = count * 4
+    if (data.length < size) {
       None
     } else {
       Some(
-        data.take(uFloatCount).grouped(4).toList.map(l => _readFloat(l(0), l(1), l(2), l(3))).toArray,
-        data.drop(uFloatCount))
+        data.take(size).grouped(4).map(l => _readFloat(l(0), l(1), l(2), l(3))).toArray,
+        data.drop(size))
+    }
+  }
+
+  private def _readParticipantInfo(data: List[Byte]): ParticipantInfo = {
+
+    val (worldPosition, currentLapDistanceData) = readShortArray(data, 3) match {
+      case Some((v, d)) => (v, d)
+      case None => (Array.fill(3)(0: Short), List[Byte]())
+    }
+
+    val (currentLapDistance, racePositionData) = readUShort(currentLapDistanceData) match {
+      case Some((v, d)) => (v, d)
+      case None => (0, Nil)
+    }
+
+    val (racePosition, lapsCompletedData) = readUByte(racePositionData) match {
+      case Some((v, d)) => (v, d)
+      case None => (0, Nil)
+    }
+
+    val (lapsCompleted, currentLapData) = readUByte(lapsCompletedData) match {
+      case Some((v, d)) => (v, d)
+      case None => (0, Nil)
+    }
+
+    val (currentLap, sectorData) = readUByte(currentLapData) match {
+      case Some((v, d)) => (v, d)
+      case None => (0, Nil)
+    }
+
+    val (sector, lastSectorTimeData) = readUByte(sectorData) match {
+      case Some((v, d)) => (v, d)
+      case None => (0, Nil)
+    }
+
+    val (lastSectorTime, nextData) = readFloat(lastSectorTimeData) match {
+      case Some((v, d)) => (v, d)
+      case None => (0f, Nil)
+    }
+
+    ParticipantInfo(
+      worldPosition = worldPosition,
+      currentLapDistance = currentLapDistance,
+      racePosition = racePosition,
+      lapsCompleted = lapsCompleted,
+      currentLap = currentLap,
+      sector = sector,
+      lastSectorTime = lastSectorTime)
+  }
+
+  def readParticipantInfoArray(data: List[Byte], count: Int): Option[(Array[ParticipantInfo], List[Byte])] = {
+    val size = count * 16
+    if (data.length < size) {
+      None
+    } else {
+      Some(
+        data.take(size).grouped(16).map(_readParticipantInfo).toArray,
+        data.drop(size))
     }
   }
 }
