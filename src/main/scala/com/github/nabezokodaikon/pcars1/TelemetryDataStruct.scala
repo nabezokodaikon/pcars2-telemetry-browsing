@@ -1,5 +1,10 @@
 package com.github.nabezokodaikon.pcars1
 
+case class FrameInfo(
+  frameTypeAndSequence: Int,
+  frameType: Int,
+  sequence: Int)
+
 // 64 Byte
 case class NameString(
   nameByteArray: Array[Int] // 64

@@ -4,6 +4,16 @@ import com.github.nabezokodaikon.pcars1.BinaryUtil._
 
 object TelemetryDataStructFactory {
 
+  def createFrameInfo(data: List[Byte]): FrameInfo = {
+    val frameTypeAndSequence = data(2);
+    val frameType = frameTypeAndSequence & 3
+    val sequence = frameTypeAndSequence >> 2
+    FrameInfo(
+      frameTypeAndSequence,
+      frameType,
+      sequence)
+  }
+
   def createTelemetryData(data: List[Byte]): TelemetryData = {
     val (buildVersionNumber, packetTypeData) = readUShort(data) match {
       case Some((v, d)) => (v, d)
