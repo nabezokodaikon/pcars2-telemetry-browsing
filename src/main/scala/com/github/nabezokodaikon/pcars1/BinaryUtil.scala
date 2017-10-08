@@ -1,23 +1,8 @@
 package com.github.nabezokodaikon.pcars1
 
-import com.typesafe.scalalogging.LazyLogging
-import java.nio.ByteBuffer
-
 object SharedMemoryConstants {
 
   val FRAME_TYPEAND_SEQUENCE: Int = 2
-
-  val PCARS_DATA: Byte = 4
-  val SEPARATION: Int = 0
-
-  val MONITOR_STATES_TOTAL_STATES: Int = 9
-
-  val STORED_PARTICIPANTS_MAX: Int = 64
-  val STRING_LENGTH_MAX: Int = 64
-
-  // val VEX_X: Int = 0
-  // val VEX_Y: Int = 1
-  // val VEX_Z: Int = 2
 
   val PARTICIPANT_INFO_EMPTY = ParticipantInfo(
     worldPosition = Array.fill(3)(0),
@@ -38,108 +23,112 @@ case class ParticipantInfo(
   sector: Int,
   lastSectorTime: Float)
 
-object BinaryUtil extends LazyLogging {
+object BinaryUtil {
 
   def readByte(data: List[Byte]): Option[(Byte, List[Byte])] = {
     data match {
       case byte1 :: tail =>
-        Some((byte1, tail))
+        Some(byte1, tail)
       case _ => None
     }
+  }
+
+  def readByteArray(data: List[Byte], count: Int): Option[(Array[Byte], List[Byte])] = {
+    if (data.length < count) {
+      None
+    } else {
+      Some(data.take(count).toArray, data.drop(count))
+    }
+  }
+
+  private def _readUByte(byte1: Byte): Int = {
+    (byte1 << 24) >>> 24
   }
 
   def readUByte(data: List[Byte]): Option[(Int, List[Byte])] = {
     data match {
       case byte1 :: tail =>
-        Some(((byte1 << 24) >>> 24, tail))
+        Some(_readUByte(byte1), tail)
       case _ => None
     }
   }
 
-  def readChar(data: List[Byte]): Option[(Char, List[Byte])] = {
-    data match {
-      case byte1 :: byte2 :: tail =>
-        if (byte2 == -1) {
-          None
-        } else {
-          Some(((((byte2 << 24) >>> 16) + ((byte1 << 24) >>> 24)).toChar, tail))
-        }
-      case _ => None
+  def readUByteArray(data: List[Byte], count: Int): Option[(Array[Int], List[Byte])] = {
+    if (data.length < count) {
+      None
+    } else {
+      Some(data.take(count).map(_readUByte).toArray, data.drop(count))
     }
   }
 
-  def readCharArray(data: List[Byte], stringLength: Int): (String, List[Byte]) = {
-
-    def go(currentChars: List[Char], currentData: List[Byte], currentCount: Int): List[Char] = {
-      readChar(currentData) match {
-        case Some((nextChar, nextData)) =>
-          if (currentCount < 1) {
-            currentChars
-          } else {
-            val nextChars = currentChars :+ nextChar
-            val nextCount = currentCount - 1
-            go(nextChars, nextData, nextCount)
-          }
-        case None => currentChars
-      }
-    }
-
-    (new String(go(List[Char](), data, stringLength).toArray), data.drop(stringLength * 2))
-  }
-
-  def readCharArray2(data: List[Byte], stringLength: Int): (String, List[Byte]) = {
-
-    val chars = Array.fill(stringLength)(0.toChar)
-    var currentData = data
-    for (i <- 0 to stringLength - 1) {
-      readChar(currentData) match {
-        case Some((v, d)) =>
-          chars(i) = v
-          currentData = d
-        case None => ()
-      }
-    }
-
-    (new String(chars), currentData)
-  }
-
-  def readBoolean(data: List[Byte]): Option[(Boolean, List[Byte])] = {
-    data match {
-      case byte :: tail =>
-        if (byte == -1) {
-          None
-        }
-        Some((byte != 0, tail))
-      case _ => None
-    }
+  private def _readShort(byte1: Byte, byte2: Byte): Short = {
+    (((byte1 & 0xFF) << 8) | (byte2 & 0xFF)).toShort
   }
 
   def readShort(data: List[Byte]): Option[(Short, List[Byte])] =
     data match {
       case byte1 :: byte2 :: tail =>
-        if (byte2 == -1) {
-          None
-        }
-        Some(((((byte2 << 24) >>> 16) + (byte1 << 24) >>> 24).toShort, tail))
+        Some(_readShort(byte1, byte2), tail)
       case _ => None
     }
 
-  def readInt(data: List[Byte]): Option[(Int, List[Byte])] =
+  def readShortArray(data: List[Byte], count: Int): Option[(Array[Short], List[Byte])] = {
+    val shortCount = count * 2
+    if (data.length < shortCount) {
+      None
+    } else {
+      Some(
+        data.take(shortCount).grouped(2).toList.map(l => _readShort(l(0), l(1))).toArray,
+        data.drop(shortCount))
+    }
+  }
+
+  def _readUShort(byte1: Byte, byte2: Byte): Int = {
+    val h = 0x000000FF & byte1
+    val l = 0x000000FF & byte2
+    h << 8 | l
+  }
+
+  def readUShort(data: List[Byte]): Option[(Int, List[Byte])] =
     data match {
-      case byte1 :: byte2 :: byte3 :: byte4 :: tail =>
-        if (byte4 == -1) {
-          None
-        }
-        Some(((byte4 << 24)
-          + ((byte3 << 24) >>> 8)
-          + ((byte2 << 24) >>> 16)
-          + ((byte1 << 24) >>> 24), tail))
+      case byte1 :: byte2 :: tail =>
+        Some(_readUShort(byte1, byte2), tail)
       case _ => None
     }
+
+  def readUShortArray(data: List[Byte], count: Int): Option[(Array[Int], List[Byte])] = {
+    val uShortCount = count * 2
+    if (data.length < uShortCount) {
+      None
+    } else {
+      Some(
+        data.take(uShortCount).grouped(2).toList.map(l => _readUShort(l(0), l(1))).toArray,
+        data.drop(uShortCount))
+    }
+  }
+
+  def _readFloat(byte1: Byte, byte2: Byte, byte3: Byte, byte4: Byte): Float = {
+    ((byte1 & 0xFF)
+      | ((byte2 & 0xFF) << 8)
+      | ((byte2 & 0xFF) << 16)
+      | ((byte3 & 0xFF) << 24)).toFloat
+  }
 
   def readFloat(data: List[Byte]): Option[(Float, List[Byte])] =
-    readInt(data) match {
-      case Some((v, d)) => Some((java.lang.Float.intBitsToFloat(v), d))
-      case None => None
+    data match {
+      case byte1 :: byte2 :: byte3 :: byte4 :: tail =>
+        Some(_readFloat(byte1, byte2, byte3, byte4), tail)
+      case _ => None
     }
+
+  def readFloatArray(data: List[Byte], count: Int): Option[(Array[Float], List[Byte])] = {
+    val uFloatCount = count * 4
+    if (data.length < uFloatCount) {
+      None
+    } else {
+      Some(
+        data.take(uFloatCount).grouped(4).toList.map(l => _readFloat(l(0), l(1), l(2), l(3))).toArray,
+        data.drop(uFloatCount))
+    }
+  }
 }
