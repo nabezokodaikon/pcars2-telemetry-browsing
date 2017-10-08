@@ -4,24 +4,7 @@ object SharedMemoryConstants {
 
   val FRAME_TYPEAND_SEQUENCE: Int = 2
 
-  val PARTICIPANT_INFO_EMPTY = ParticipantInfo(
-    worldPosition = Array.fill(3)(0),
-    currentLapDistance = 0,
-    racePosition = 0,
-    lapsCompleted = 0,
-    currentLap = 0,
-    sector = 0,
-    lastSectorTime = 0f)
 }
-
-case class ParticipantInfo(
-  worldPosition: Array[Short],
-  currentLapDistance: Int,
-  racePosition: Int,
-  lapsCompleted: Int,
-  currentLap: Int,
-  sector: Int,
-  lastSectorTime: Float)
 
 object BinaryUtil {
 
@@ -128,64 +111,6 @@ object BinaryUtil {
     } else {
       Some(
         data.take(size).grouped(4).map(l => _readFloat(l(0), l(1), l(2), l(3))).toArray,
-        data.drop(size))
-    }
-  }
-
-  private def _readParticipantInfo(data: List[Byte]): ParticipantInfo = {
-
-    val (worldPosition, currentLapDistanceData) = readShortArray(data, 3) match {
-      case Some((v, d)) => (v, d)
-      case None => (Array.fill(3)(0: Short), List[Byte]())
-    }
-
-    val (currentLapDistance, racePositionData) = readUShort(currentLapDistanceData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
-
-    val (racePosition, lapsCompletedData) = readUByte(racePositionData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
-
-    val (lapsCompleted, currentLapData) = readUByte(lapsCompletedData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
-
-    val (currentLap, sectorData) = readUByte(currentLapData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
-
-    val (sector, lastSectorTimeData) = readUByte(sectorData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
-
-    val (lastSectorTime, nextData) = readFloat(lastSectorTimeData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    ParticipantInfo(
-      worldPosition = worldPosition,
-      currentLapDistance = currentLapDistance,
-      racePosition = racePosition,
-      lapsCompleted = lapsCompleted,
-      currentLap = currentLap,
-      sector = sector,
-      lastSectorTime = lastSectorTime)
-  }
-
-  def readParticipantInfoArray(data: List[Byte], count: Int): Option[(Array[ParticipantInfo], List[Byte])] = {
-    val size = count * 16
-    if (data.length < size) {
-      None
-    } else {
-      Some(
-        data.take(size).grouped(16).map(_readParticipantInfo).toArray,
         data.drop(size))
     }
   }
