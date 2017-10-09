@@ -1,11 +1,5 @@
 package com.github.nabezokodaikon.pcars1
 
-object SharedMemoryConstants {
-
-  val FRAME_TYPEAND_SEQUENCE: Int = 2
-
-}
-
 object BinaryUtil {
 
   def readByte(data: List[Byte]): Option[(Byte, List[Byte])] = {
@@ -66,7 +60,7 @@ object BinaryUtil {
     }
   }
 
-  def _readUShort(byte1: Byte, byte2: Byte): Int = {
+  private def _readUShort(byte1: Byte, byte2: Byte): Int = {
     val h = 0x000000FF & byte1
     val l = 0x000000FF & byte2
     h << 8 | l
@@ -90,7 +84,7 @@ object BinaryUtil {
     }
   }
 
-  def _readFloat(byte1: Byte, byte2: Byte, byte3: Byte, byte4: Byte): Float = {
+  private def _readFloat(byte1: Byte, byte2: Byte, byte3: Byte, byte4: Byte): Float = {
     ((byte1 & 0xFF)
       | ((byte2 & 0xFF) << 8)
       | ((byte2 & 0xFF) << 16)
