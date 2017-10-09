@@ -107,7 +107,7 @@ case class TelemetryData(
   speed: Float,
   rpm: Int,
   maxRpm: Int,
-  gearNumGears: Int,
+  gearNumGears: Int, // Neutral = 0, Revers = 15
   boostAmount: Int,
   enforcedPitStopLap: Byte,
   crashState: Int,
