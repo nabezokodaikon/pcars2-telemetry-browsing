@@ -14,6 +14,141 @@ object TelemetryDataStructFactory {
       sequence)
   }
 
+  val NAME_STRING_EMPTY = NameString(
+    nameByteArray = Array.fill(64)(0: Int))
+
+  private def createNameString(data: List[Byte]): NameString = {
+    val (nameString, _) = readUByteArray(data, 64) match {
+      case Some((v, d)) => (v, d)
+      case None => (Array.fill(64)(0: Int), List[Byte]())
+    }
+    NameString(nameString)
+  }
+
+  def createNameStringArray(data: List[Byte], count: Int): Option[(Array[NameString], List[Byte])] = {
+    val size = count * 64
+    if (data.length < size) {
+      None
+    } else {
+      Some(
+        data.take(size).grouped(64).map(createNameString).toArray,
+        data.drop(size))
+    }
+  }
+
+  def createParticipantInfoStrings(data: List[Byte]): ParticipantInfoStrings = {
+    val (buildVersionNumber, packetTypeData) = readUShort(data) match {
+      case Some((v, d)) => (v, d)
+      case None => (0, Nil)
+    }
+
+    val (packetType, carNameData) = readUByte(packetTypeData) match {
+      case Some((v, d)) => (v, d)
+      case None => (0, Nil)
+    }
+
+    val (carName, carClassNameData) = readUByteArray(carNameData, 64) match {
+      case Some((v, d)) => (v, d)
+      case None => (Array.fill(64)(0: Int), Nil)
+    }
+
+    val (carClassName, trackLocationData) = readUByteArray(carClassNameData, 64) match {
+      case Some((v, d)) => (v, d)
+      case None => (Array.fill(64)(0: Int), Nil)
+    }
+
+    val (trackLocation, trackVariationData) = readUByteArray(trackLocationData, 64) match {
+      case Some((v, d)) => (v, d)
+      case None => (Array.fill(64)(0: Int), Nil)
+    }
+
+    val (trackVariation, nameStringData) = readUByteArray(trackVariationData, 64) match {
+      case Some((v, d)) => (v, d)
+      case None => (Array.fill(64)(0: Int), Nil)
+    }
+
+    val nameString = createNameStringArray(nameStringData, 17) match {
+      case Some((v, d)) => v
+      case None => Array[NameString]()
+    }
+
+    ParticipantInfoStrings(
+      buildVersionNumber = buildVersionNumber,
+      packetType = packetType,
+      carName = carName,
+      carClassName = carClassName,
+      trackLocation = trackLocation,
+      trackVariation = trackVariation,
+      nameString = nameString)
+  }
+
+  val PARTICIPANT_INFO_EMPTY = ParticipantInfo(
+    worldPosition = Array.fill(3)(0),
+    currentLapDistance = 0,
+    racePosition = 0,
+    lapsCompleted = 0,
+    currentLap = 0,
+    sector = 0,
+    lastSectorTime = 0f)
+
+  private def createParticipantInfo(data: List[Byte]): ParticipantInfo = {
+
+    val (worldPosition, currentLapDistanceData) = readShortArray(data, 3) match {
+      case Some((v, d)) => (v, d)
+      case None => (Array.fill(3)(0: Short), List[Byte]())
+    }
+
+    val (currentLapDistance, racePositionData) = readUShort(currentLapDistanceData) match {
+      case Some((v, d)) => (v, d)
+      case None => (0, Nil)
+    }
+
+    val (racePosition, lapsCompletedData) = readUByte(racePositionData) match {
+      case Some((v, d)) => (v, d)
+      case None => (0, Nil)
+    }
+
+    val (lapsCompleted, currentLapData) = readUByte(lapsCompletedData) match {
+      case Some((v, d)) => (v, d)
+      case None => (0, Nil)
+    }
+
+    val (currentLap, sectorData) = readUByte(currentLapData) match {
+      case Some((v, d)) => (v, d)
+      case None => (0, Nil)
+    }
+
+    val (sector, lastSectorTimeData) = readUByte(sectorData) match {
+      case Some((v, d)) => (v, d)
+      case None => (0, Nil)
+    }
+
+    val (lastSectorTime, nextData) = readFloat(lastSectorTimeData) match {
+      case Some((v, d)) => (v, d)
+      case None => (0f, Nil)
+    }
+
+    ParticipantInfo(
+      worldPosition = worldPosition,
+      currentLapDistance = currentLapDistance,
+      racePosition = racePosition,
+      lapsCompleted = lapsCompleted,
+      currentLap = currentLap,
+      sector = sector,
+      lastSectorTime = lastSectorTime)
+  }
+
+  private def createParticipantInfoArray(data: List[Byte], count: Int): Option[(Array[ParticipantInfo], List[Byte])] = {
+    val size = count * 16
+    if (data.length < size) {
+      None
+    } else {
+      Some(
+        data.take(size).grouped(16).map(createParticipantInfo).toArray,
+        data.drop(size))
+    }
+  }
+
   def createTelemetryData(data: List[Byte]): TelemetryData = {
     val (buildVersionNumber, packetTypeData) = readUShort(data) match {
       case Some((v, d)) => (v, d)
@@ -656,61 +791,4 @@ object TelemetryDataStructFactory {
       dPad)
   }
 
-  private def createParticipantInfo(data: List[Byte]): ParticipantInfo = {
-
-    val (worldPosition, currentLapDistanceData) = readShortArray(data, 3) match {
-      case Some((v, d)) => (v, d)
-      case None => (Array.fill(3)(0: Short), List[Byte]())
-    }
-
-    val (currentLapDistance, racePositionData) = readUShort(currentLapDistanceData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
-
-    val (racePosition, lapsCompletedData) = readUByte(racePositionData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
-
-    val (lapsCompleted, currentLapData) = readUByte(lapsCompletedData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
-
-    val (currentLap, sectorData) = readUByte(currentLapData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
-
-    val (sector, lastSectorTimeData) = readUByte(sectorData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
-
-    val (lastSectorTime, nextData) = readFloat(lastSectorTimeData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    ParticipantInfo(
-      worldPosition = worldPosition,
-      currentLapDistance = currentLapDistance,
-      racePosition = racePosition,
-      lapsCompleted = lapsCompleted,
-      currentLap = currentLap,
-      sector = sector,
-      lastSectorTime = lastSectorTime)
-  }
-
-  private def createParticipantInfoArray(data: List[Byte], count: Int): Option[(Array[ParticipantInfo], List[Byte])] = {
-    val size = count * 16
-    if (data.length < size) {
-      None
-    } else {
-      Some(
-        data.take(size).grouped(16).map(createParticipantInfo).toArray,
-        data.drop(size))
-    }
-  }
 }
