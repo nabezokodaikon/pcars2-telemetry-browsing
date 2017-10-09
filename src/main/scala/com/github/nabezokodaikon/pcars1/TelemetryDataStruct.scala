@@ -18,7 +18,7 @@ case class ParticipantInfoStrings(
   carClassName: Array[Int], // 64
   trackLocation: Array[Int], // 64
   trackVariation: Array[Int], // 64
-  name: Array[NameString] // 16
+  nameString: Array[NameString] // 16
 )
 
 // 1,028 Byte
