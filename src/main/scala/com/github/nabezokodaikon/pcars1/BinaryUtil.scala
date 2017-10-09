@@ -13,7 +13,7 @@ object BinaryUtil {
   def readByteToFloat(data: List[Byte]): Option[(Float, List[Byte])] = {
     data match {
       case byte1 :: tail =>
-        Some(byte1 * 0f, tail)
+        Some(byte1 * 1.0f, tail)
       case _ => None
     }
   }
@@ -33,7 +33,7 @@ object BinaryUtil {
   def readUByteToFloat(data: List[Byte]): Option[(Float, List[Byte])] = {
     data match {
       case byte1 :: tail =>
-        Some(_readUByte(byte1) * 0f, tail)
+        Some(_readUByte(byte1) * 1.0f, tail)
       case _ => None
     }
   }
