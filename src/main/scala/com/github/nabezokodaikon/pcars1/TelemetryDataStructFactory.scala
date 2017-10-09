@@ -401,7 +401,7 @@ object TelemetryDataStructFactory {
     }
 
     val (speed, rpmData) = readFloat(speedData) match {
-      case Some((v, d)) => (v, d)
+      case Some((v, d)) => (v * 3.6f, d) // Convert Metres per-second to Kilometers per-second.
       case None => (0f, Nil)
     }
 
@@ -416,7 +416,7 @@ object TelemetryDataStructFactory {
     }
 
     val (gearNumGears, boostAmountData) = readUByte(gearNumGearsData) match {
-      case Some((v, d)) => (v, d)
+      case Some((v, d)) => (v & 15, d)
       case None => (0, Nil)
     }
 
