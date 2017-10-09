@@ -133,24 +133,24 @@ case class TelemetryData(
   tyreY: Array[Float], // 4
   tyreRPS: Array[Float], // 4
   tyreSlipSpeed: Array[Float], // 4
-  tyreTemp: Array[Int], // 4
-  tyreGrip: Array[Int], // 4
+  tyreTemp: Array[Float], // 4
+  tyreGrip: Array[Float], // 4
   tyreHeightAboveGround: Array[Float], // 4
   tyreLateralStiffness: Array[Float], // 4
-  tyreWear: Array[Int], // 4
-  brakeDamage: Array[Int], // 4
-  suspensionDamage: Array[Int], // 4
-  brakeTempCelsius: Array[Short], // 4
-  tyreTreadTemp: Array[Int], // 4
-  tyreLayerTemp: Array[Int], // 4
-  tyreCarcassTemp: Array[Int], // 4
-  tyreRimTemp: Array[Int], // 4
-  tyreInternalAirTemp: Array[Int], // 4
+  tyreWear: Array[Float], // 4
+  brakeDamage: Array[Float], // 4
+  suspensionDamage: Array[Float], // 4
+  brakeTempCelsius: Array[Float], // 4
+  tyreTreadTemp: Array[Float], // 4
+  tyreLayerTemp: Array[Float], // 4
+  tyreCarcassTemp: Array[Float], // 4
+  tyreRimTemp: Array[Float], // 4
+  tyreInternalAirTemp: Array[Float], // 4
   wheelLocalPositionY: Array[Float], // 4
   rideHeight: Array[Float], // 4
   suspensionTravel: Array[Float], // 4
   suspensionVelocity: Array[Float], // 4
-  airPressure: Array[Int], // 4
+  airPressure: Array[Float], // 4
 
   // Extras
   engineSpeed: Float,
