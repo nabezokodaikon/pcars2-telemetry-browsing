@@ -10,6 +10,14 @@ object BinaryUtil {
     }
   }
 
+  def readByteToFloat(data: List[Byte]): Option[(Float, List[Byte])] = {
+    data match {
+      case byte1 :: tail =>
+        Some(byte1 * 0f, tail)
+      case _ => None
+    }
+  }
+
   def readByteArray(data: List[Byte], count: Int): Option[(Array[Byte], List[Byte])] = {
     if (data.length < count) {
       None
@@ -20,6 +28,14 @@ object BinaryUtil {
 
   private def _readUByte(byte1: Byte): Int = {
     byte1 & 0xFF
+  }
+
+  def readUByteToFloat(data: List[Byte]): Option[(Float, List[Byte])] = {
+    data match {
+      case byte1 :: tail =>
+        Some(_readUByte(byte1) * 0f, tail)
+      case _ => None
+    }
   }
 
   def readUByte(data: List[Byte]): Option[(Int, List[Byte])] = {

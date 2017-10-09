@@ -44,23 +44,26 @@ case class TelemetryData(
   packetType: Int,
 
   // Game states
-  gameSessionState: Int,
+  gameState: Int,
+  sessionState: Int,
+  raceStateFlags: Int,
 
   // Participant info
   viewedParticipantIndex: Byte,
   numParticipants: Byte,
 
   // Unfiltered input
-  unfilteredThrottle: Int,
-  unfilteredBrake: Int,
-  unfilteredSteering: Byte,
-  unfilteredClutch: Int,
-  raceStateFlags: Int,
+  unfilteredThrottle: Float,
+  unfilteredBrake: Float,
+  unfilteredSteering: Float,
+  unfilteredClutch: Float,
 
   // Event information
   lapsInEvent: Int,
+  trackLength: Float,
 
   // Timings
+  lapInvalidated: Boolean,
   bestLapTime: Float,
   lastLapTime: Float,
   currentTime: Float,
@@ -86,7 +89,8 @@ case class TelemetryData(
   joyPad2: Int,
 
   // Flags
-  highestFlag: Int,
+  highestFlagColor: Int,
+  highestFlagReason: Int,
 
   // Pit info
   pitModeSchedule: Int,
@@ -99,15 +103,16 @@ case class TelemetryData(
   fuelPressureKpa: Short,
   carFlags: Int,
   fuelCapacity: Int,
-  brake: Int,
-  throttle: Int,
-  clutch: Int,
-  steering: Byte,
+  brake: Float,
+  throttle: Float,
+  clutch: Float,
+  steering: Float,
   fuelLevel: Float,
   speed: Float,
   rpm: Int,
   maxRpm: Int,
-  gearNumGears: Int, // Neutral = 0, Revers = 15
+  gearGears: Int, // Neutral = 0, Revers = 15
+  gearNumGears: Int,
   boostAmount: Int,
   enforcedPitStopLap: Byte,
   crashState: Int,
@@ -119,6 +124,8 @@ case class TelemetryData(
   localAcceleration: Array[Float], // 3
   worldAcceleration: Array[Float], // 3
   extentsCentre: Array[Float], // 3
+  antiLockActive: Boolean,
+  boostActive: Boolean,
 
   // Wheels / Tyres
   tyreFlags: Array[Int], // 4
@@ -150,18 +157,17 @@ case class TelemetryData(
   engineTorque: Float,
 
   // Car damage
-  aeroDamage: Int,
-  engineDamage: Int,
+  aeroDamage: Float,
+  engineDamage: Float,
 
   // Weather
   ambientTemperature: Byte,
   trackTemperature: Byte,
-  rainDensity: Int,
-  windSpeed: Byte,
-  windDirectionX: Byte,
-  windDirectionY: Byte,
+  rainDensity: Float,
+  windSpeed: Int,
+  windDirectionX: Float,
+  windDirectionY: Float,
   participantInfo: Array[ParticipantInfo], // 56
-  trackLength: Float,
   wings: Array[Int], // 2
   dPad: Int) {
   val frameType = TelemetryDataConst.TELEMETRY_DATA_FRAME_TYPE

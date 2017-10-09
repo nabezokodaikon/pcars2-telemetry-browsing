@@ -180,24 +180,24 @@ object TelemetryDataStructFactory {
     }
 
     // Unfiltered input
-    val (unfilteredThrottle, unfilteredBrakeData) = readUByte(unfilteredThrottleData) match {
+    val (unfilteredThrottle, unfilteredBrakeData) = readUByteToFloat(unfilteredThrottleData) match {
       case Some((v, d)) => (v, d)
-      case None => (0, Nil)
+      case None => (0f, Nil)
     }
 
-    val (unfilteredBrake, unfilteredSteeringData) = readUByte(unfilteredBrakeData) match {
+    val (unfilteredBrake, unfilteredSteeringData) = readUByteToFloat(unfilteredBrakeData) match {
       case Some((v, d)) => (v, d)
-      case None => (0, Nil)
+      case None => (0f, Nil)
     }
 
-    val (unfilteredSteering, unfilteredClutchData) = readByte(unfilteredSteeringData) match {
+    val (unfilteredSteering, unfilteredClutchData) = readByteToFloat(unfilteredSteeringData) match {
       case Some((v, d)) => (v, d)
-      case None => (0: Byte, Nil)
+      case None => (0f, Nil)
     }
 
-    val (unfilteredClutch, raceStateFlagsData) = readUByte(unfilteredClutchData) match {
+    val (unfilteredClutch, raceStateFlagsData) = readUByteToFloat(unfilteredClutchData) match {
       case Some((v, d)) => (v, d)
-      case None => (0, Nil)
+      case None => (0f, Nil)
     }
 
     val (raceStateFlags, lapsInEventData) = readUByte(raceStateFlagsData) match {
@@ -375,33 +375,33 @@ object TelemetryDataStructFactory {
       case None => (0, Nil)
     }
 
-    val (brake, throttleData) = readUByte(brakeData) match {
+    val (brake, throttleData) = readUByteToFloat(brakeData) match {
       case Some((v, d)) => (v, d)
-      case None => (0, Nil)
+      case None => (0f, Nil)
     }
 
-    val (throttle, clutchData) = readUByte(throttleData) match {
+    val (throttle, clutchData) = readUByteToFloat(throttleData) match {
       case Some((v, d)) => (v, d)
-      case None => (0, Nil)
+      case None => (0f, Nil)
     }
 
-    val (clutch, steeringData) = readUByte(clutchData) match {
+    val (clutch, steeringData) = readUByteToFloat(clutchData) match {
       case Some((v, d)) => (v, d)
-      case None => (0, Nil)
+      case None => (0f, Nil)
     }
 
-    val (steering, fuelLevelData) = readByte(steeringData) match {
+    val (steering, fuelLevelData) = readByteToFloat(steeringData) match {
       case Some((v, d)) => (v, d)
-      case None => (0: Byte, Nil)
+      case None => (0f, Nil)
     }
 
-    val (fuelLevel, speedData) = readFloat(fuelLevelData) match {
+    val (fuelLevel, speedData) = readUByteToFloat(fuelLevelData) match {
       case Some((v, d)) => (v, d)
       case None => (0f, Nil)
     }
 
     val (speed, rpmData) = readFloat(speedData) match {
-      case Some((v, d)) => (v * 3.6f, d) // Convert Metres per-second to Kilometers per-second.
+      case Some((v, d)) => (v, d) // Convert Metres per-second to Kilometers per-second.
       case None => (0f, Nil)
     }
 
@@ -416,7 +416,7 @@ object TelemetryDataStructFactory {
     }
 
     val (gearNumGears, boostAmountData) = readUByte(gearNumGearsData) match {
-      case Some((v, d)) => (v & 15, d)
+      case Some((v, d)) => (v, d)
       case None => (0, Nil)
     }
 
@@ -603,14 +603,14 @@ object TelemetryDataStructFactory {
     }
 
     // Car damage
-    val (aeroDamage, engineDamageData) = readUByte(aeroDamageData) match {
+    val (aeroDamage, engineDamageData) = readUByteToFloat(aeroDamageData) match {
       case Some((v, d)) => (v, d)
-      case None => (0, Nil)
+      case None => (0f, Nil)
     }
 
-    val (engineDamage, ambientTemperatureData) = readUByte(engineDamageData) match {
+    val (engineDamage, ambientTemperatureData) = readUByteToFloat(engineDamageData) match {
       case Some((v, d)) => (v, d)
-      case None => (0, Nil)
+      case None => (0f, Nil)
     }
 
     // Weather
@@ -624,9 +624,9 @@ object TelemetryDataStructFactory {
       case None => (0: Byte, Nil)
     }
 
-    val (rainDensity, windSpeedData) = readUByte(rainDensityData) match {
+    val (rainDensity, windSpeedData) = readUByteToFloat(rainDensityData) match {
       case Some((v, d)) => (v, d)
-      case None => (0, Nil)
+      case None => (0f, Nil)
     }
 
     val (windSpeed, windDirectionXData) = readByte(windSpeedData) match {
@@ -669,23 +669,26 @@ object TelemetryDataStructFactory {
       packetType = packetType,
 
       // Game states
-      gameSessionState = gameSessionState,
+      gameState = gameSessionState & 7,
+      sessionState = gameSessionState >> 4,
+      raceStateFlags = raceStateFlags & 7,
 
       // Participant info
       viewedParticipantIndex = viewedParticipantIndex,
       numParticipants = numParticipants,
 
       // Unfiltered input
-      unfilteredThrottle = unfilteredThrottle,
-      unfilteredBrake = unfilteredBrake,
-      unfilteredSteering = unfilteredSteering,
-      unfilteredClutch = unfilteredClutch,
-      raceStateFlags = raceStateFlags,
+      unfilteredThrottle = unfilteredThrottle / 255f,
+      unfilteredBrake = unfilteredBrake / 255f,
+      unfilteredSteering = unfilteredSteering / 127f,
+      unfilteredClutch = unfilteredClutch / 255f,
 
       // Event information
       lapsInEvent = lapsInEvent,
+      trackLength = trackLength,
 
       // Timings
+      lapInvalidated = (raceStateFlags >> 3 & 1) == 1,
       bestLapTime = bestLapTime,
       lastLapTime = lastLapTime,
       currentTime = currentTime,
@@ -711,7 +714,8 @@ object TelemetryDataStructFactory {
       joyPad2 = joyPad2,
 
       // Flags
-      highestFlag = highestFlag,
+      highestFlagColor = highestFlag & 7,
+      highestFlagReason = highestFlag >> 3 & 3,
 
       // Pit info
       pitModeSchedule = pitModeSchedule,
@@ -724,15 +728,16 @@ object TelemetryDataStructFactory {
       fuelPressureKpa = fuelPressureKpa,
       carFlags = carFlags,
       fuelCapacity = fuelCapacity,
-      brake = brake,
-      throttle = throttle,
-      clutch = clutch,
-      steering = steering,
+      brake = brake / 255f,
+      throttle = throttle / 255f,
+      clutch = clutch / 255f,
+      steering = steering / 127f,
       fuelLevel = fuelLevel,
-      speed = speed,
+      speed = speed * 3.6f,
       rpm = rpm,
       maxRpm = maxRpm,
-      gearNumGears = gearNumGears,
+      gearGears = gearNumGears & 15,
+      gearNumGears = gearNumGears >> 4,
       boostAmount = boostAmount,
       enforcedPitStopLap = enforcedPitStopLap,
       crashState = crashState,
@@ -744,6 +749,8 @@ object TelemetryDataStructFactory {
       localAcceleration = localAcceleration,
       worldAcceleration = worldAcceleration,
       extentsCentre = extentsCentre,
+      antiLockActive = (raceStateFlags >> 4 & 1) == 1,
+      boostActive = (raceStateFlags >> 5 & 1) == 1,
 
       // Wheels / Tyres
       tyreFlags = tyreFlags,
@@ -775,18 +782,17 @@ object TelemetryDataStructFactory {
       engineTorque = engineTorque,
 
       // Car damage
-      aeroDamage = aeroDamage,
-      engineDamage = engineDamage,
+      aeroDamage = aeroDamage / 255f,
+      engineDamage = engineDamage / 255f,
 
       // Weather
       ambientTemperature = ambientTemperature,
       trackTemperature = trackTemperature,
-      rainDensity = rainDensity,
-      windSpeed = windSpeed,
-      windDirectionX = windDirectionX,
-      windDirectionY = windDirectionY,
+      rainDensity = rainDensity / 255f,
+      windSpeed = windSpeed * 2,
+      windDirectionX = windDirectionX / 127f,
+      windDirectionY = windDirectionY / 127f,
       participantInfo = participantInfo,
-      trackLength = trackLength,
       wings = wings,
       dPad = dPad)
   }
