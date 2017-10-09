@@ -19,7 +19,9 @@ case class ParticipantInfoStrings(
   trackLocation: Array[Int], // 64
   trackVariation: Array[Int], // 64
   nameString: Array[NameString] // 16
-)
+) {
+  val frameType = TelemetryDataConst.PARTICIPANT_INFO_STRINGS_FRAME_TYPE
+}
 
 // 1,028 Byte
 case class ParticipantInfoStringsAdditional(
@@ -27,7 +29,9 @@ case class ParticipantInfoStringsAdditional(
   packetType: Int,
   offset: Int,
   name: Array[NameString] // 16
-)
+) {
+  val frameType = TelemetryDataConst.PARTICIPANT_INFO_STRINGS_ADDITIONAL_FRAME_TYPE
+}
 
 // 16 Byte
 case class ParticipantInfo(
@@ -164,4 +168,6 @@ case class TelemetryData(
   participantInfo: Array[ParticipantInfo], // 56
   trackLength: Float,
   wings: Array[Int], // 2
-  dPad: Int)
+  dPad: Int) {
+  val frameType = TelemetryDataConst.TELEMETRY_DATA_FRAME_TYPE
+}
