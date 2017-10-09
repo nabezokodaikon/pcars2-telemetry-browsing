@@ -1,8 +1,13 @@
 package com.github.nabezokodaikon.pcars1
 
 import com.github.nabezokodaikon.pcars1.BinaryUtil._
+import scala.reflect.ClassTag
 
 object TelemetryDataStructFactory {
+
+  def emptyArray[T: ClassTag](count: Int, emptyValue: T): Array[T] = {
+    Array.fill[T](count)(emptyValue)
+  }
 
   def createFrameInfo(data: List[Byte]): FrameInfo = {
     val frameTypeAndSequence = data(2);
@@ -15,7 +20,7 @@ object TelemetryDataStructFactory {
   }
 
   val NAME_STRING_EMPTY = NameString(
-    nameByteArray = Array.fill(64)(0: Int))
+    nameByteArray = emptyArray(64, 0))
 
   private def createNameString(data: List[Byte]): NameString = {
     val (nameString, _) = readUByteArray(data, 64) match {
