@@ -114,4 +114,8 @@ object BinaryUtil {
         data.drop(size))
     }
   }
+
+  def toStirnFromArray(data: Array[Int]): String = {
+    data.map(_.toChar).mkString
+  }
 }
