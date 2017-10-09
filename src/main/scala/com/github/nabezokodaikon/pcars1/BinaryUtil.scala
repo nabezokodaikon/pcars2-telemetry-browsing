@@ -19,7 +19,7 @@ object BinaryUtil {
   }
 
   private def _readUByte(byte1: Byte): Int = {
-    (byte1 << 24) >>> 24
+    byte1 & 0xFF
   }
 
   def readUByte(data: List[Byte]): Option[(Int, List[Byte])] = {
@@ -61,9 +61,7 @@ object BinaryUtil {
   }
 
   private def _readUShort(byte1: Byte, byte2: Byte): Int = {
-    val h = 0x000000FF & byte1
-    val l = 0x000000FF & byte2
-    h << 8 | l
+    (byte2 & 0xFF) << 8 | (byte1 & 0xFF)
   }
 
   def readUShort(data: List[Byte]): Option[(Int, List[Byte])] =
@@ -85,10 +83,11 @@ object BinaryUtil {
   }
 
   private def _readFloat(byte1: Byte, byte2: Byte, byte3: Byte, byte4: Byte): Float = {
-    ((byte1 & 0xFF)
-      | ((byte2 & 0xFF) << 8)
-      | ((byte2 & 0xFF) << 16)
-      | ((byte3 & 0xFF) << 24)).toFloat
+    java.lang.Float.intBitsToFloat(
+      (byte4 << 24)
+        + ((byte3 << 24) >>> 8)
+        + ((byte2 << 24) >>> 16)
+        + ((byte1 << 24) >>> 24))
   }
 
   def readFloat(data: List[Byte]): Option[(Float, List[Byte])] =
