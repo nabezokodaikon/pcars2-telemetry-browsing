@@ -5,20 +5,15 @@ case class FrameInfo(
   frameType: Int,
   sequence: Int)
 
-// 64 Byte
-case class NameString(
-  nameByteArray: Array[Int] // 64
-)
-
 // 1,347 Byte
 case class ParticipantInfoStrings(
   buildVersionNumber: Int,
   packetType: Int,
-  carName: Array[Int], // 64
-  carClassName: Array[Int], // 64
-  trackLocation: Array[Int], // 64
-  trackVariation: Array[Int], // 64
-  nameString: Array[NameString] // 16
+  carName: String, // 64
+  carClassName: String, // 64
+  trackLocation: String, // 64
+  trackVariation: String, // 64
+  nameString: Array[String] // 16
 ) {
   val frameType = TelemetryDataConst.PARTICIPANT_INFO_STRINGS_FRAME_TYPE
 }
@@ -28,7 +23,7 @@ case class ParticipantInfoStringsAdditional(
   buildVersionNumber: Int,
   packetType: Int,
   offset: Int,
-  name: Array[NameString] // 16
+  name: Array[String] // 16
 ) {
   val frameType = TelemetryDataConst.PARTICIPANT_INFO_STRINGS_ADDITIONAL_FRAME_TYPE
 }

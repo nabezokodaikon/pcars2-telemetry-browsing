@@ -19,18 +19,15 @@ object TelemetryDataStructFactory {
       sequence)
   }
 
-  val NAME_STRING_EMPTY = NameString(
-    nameByteArray = emptyArray(64, 0))
-
-  private def createNameString(data: List[Byte]): NameString = {
+  private def createNameString(data: List[Byte]): String = {
     val (nameString, _) = readUByteArray(data, 64) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(64, 0), List[Byte]())
+      case Some((v, d)) => (toStringFromArray(v), d)
+      case None => ("", List[Byte]())
     }
-    NameString(nameString)
+    nameString
   }
 
-  def createNameStringArray(data: List[Byte], count: Int): Option[(Array[NameString], List[Byte])] = {
+  def createNameStringArray(data: List[Byte], count: Int): Option[(Array[String], List[Byte])] = {
     val size = count * 64
     if (data.length < size) {
       None
@@ -53,28 +50,28 @@ object TelemetryDataStructFactory {
     }
 
     val (carName, carClassNameData) = readUByteArray(carNameData, 64) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(64, 0), Nil)
+      case Some((v, d)) => (toStringFromArray(v), d)
+      case None => ("", Nil)
     }
 
     val (carClassName, trackLocationData) = readUByteArray(carClassNameData, 64) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(64, 0), Nil)
+      case Some((v, d)) => (toStringFromArray(v), d)
+      case None => ("", Nil)
     }
 
     val (trackLocation, trackVariationData) = readUByteArray(trackLocationData, 64) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(64, 0), Nil)
+      case Some((v, d)) => (toStringFromArray(v), d)
+      case None => ("", Nil)
     }
 
     val (trackVariation, nameStringData) = readUByteArray(trackVariationData, 64) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(64, 0), Nil)
+      case Some((v, d)) => (toStringFromArray(v), d)
+      case None => ("", Nil)
     }
 
     val nameString = createNameStringArray(nameStringData, 17) match {
       case Some((v, _)) => v
-      case None => emptyArray(17, NAME_STRING_EMPTY)
+      case None => emptyArray(17, "")
     }
 
     ParticipantInfoStrings(
