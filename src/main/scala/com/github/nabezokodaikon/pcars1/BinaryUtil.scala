@@ -116,6 +116,6 @@ object BinaryUtil {
   }
 
   def toStringFromArray(data: Array[Int]): String = {
-    data.map(_.toChar).mkString
+    data.map(_.toChar).mkString.trim
   }
 }
