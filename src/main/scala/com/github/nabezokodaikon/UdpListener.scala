@@ -25,8 +25,8 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
   def ready(socket: ActorRef): Receive = {
     case Udp.Received(data, remote) =>
       clientManager ! OutgoingValue(s"$data.toString")
-      output(data.toArray)
-    // confirm(data.toList)
+      // output(data.toArray)
+      confirm(data.toList)
     case Udp.Unbind =>
       logger.debug("unbind")
       socket ! Udp.Unbind
@@ -47,11 +47,13 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
     if (frameInfo.frameType == TELEMETRY_DATA_FRAME_TYPE) {
       val telemetryData = createTelemetryData(data)
       // println(telemetryData.brake)
-      // println(telemetryData.throttle)
+      // println(telemetryData.throttle.toString)
       // println(telemetryData.clutch)
       // println(telemetryData.steering)
       println(telemetryData.speed)
-      // println(telemetryData.gearNumGears)
+      // println(telemetryData.gear)
+      // println(telemetryData.numGears)
+      // println(telemetryData.rpm)
     }
   }
 
