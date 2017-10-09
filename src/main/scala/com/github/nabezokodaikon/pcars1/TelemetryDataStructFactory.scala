@@ -25,7 +25,7 @@ object TelemetryDataStructFactory {
   private def createNameString(data: List[Byte]): NameString = {
     val (nameString, _) = readUByteArray(data, 64) match {
       case Some((v, d)) => (v, d)
-      case None => (Array.fill(64)(0: Int), List[Byte]())
+      case None => (emptyArray(64, 0), List[Byte]())
     }
     NameString(nameString)
   }
@@ -54,27 +54,27 @@ object TelemetryDataStructFactory {
 
     val (carName, carClassNameData) = readUByteArray(carNameData, 64) match {
       case Some((v, d)) => (v, d)
-      case None => (Array.fill(64)(0: Int), Nil)
+      case None => (emptyArray(64, 0), Nil)
     }
 
     val (carClassName, trackLocationData) = readUByteArray(carClassNameData, 64) match {
       case Some((v, d)) => (v, d)
-      case None => (Array.fill(64)(0: Int), Nil)
+      case None => (emptyArray(64, 0), Nil)
     }
 
     val (trackLocation, trackVariationData) = readUByteArray(trackLocationData, 64) match {
       case Some((v, d)) => (v, d)
-      case None => (Array.fill(64)(0: Int), Nil)
+      case None => (emptyArray(64, 0), Nil)
     }
 
     val (trackVariation, nameStringData) = readUByteArray(trackVariationData, 64) match {
       case Some((v, d)) => (v, d)
-      case None => (Array.fill(64)(0: Int), Nil)
+      case None => (emptyArray(64, 0), Nil)
     }
 
     val nameString = createNameStringArray(nameStringData, 17) match {
-      case Some((v, d)) => v
-      case None => Array[NameString]()
+      case Some((v, _)) => v
+      case None => emptyArray(17, NAME_STRING_EMPTY)
     }
 
     ParticipantInfoStrings(
@@ -88,7 +88,7 @@ object TelemetryDataStructFactory {
   }
 
   val PARTICIPANT_INFO_EMPTY = ParticipantInfo(
-    worldPosition = Array.fill(3)(0),
+    worldPosition = emptyArray(3, 0),
     currentLapDistance = 0,
     racePosition = 0,
     lapsCompleted = 0,
@@ -100,7 +100,7 @@ object TelemetryDataStructFactory {
 
     val (worldPosition, currentLapDistanceData) = readShortArray(data, 3) match {
       case Some((v, d)) => (v, d)
-      case None => (Array.fill(3)(0: Short), List[Byte]())
+      case None => (emptyArray(3, 0: Short), List[Byte]())
     }
 
     val (currentLapDistance, racePositionData) = readUShort(currentLapDistanceData) match {
@@ -445,153 +445,153 @@ object TelemetryDataStructFactory {
 
     val (orientation, localVelocityData) = readFloatArray(orientationData, 3) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Float](), List[Byte]())
+      case None => (emptyArray(3, 0f), List[Byte]())
     }
 
     val (localVelocity, worldVelocityData) = readFloatArray(localVelocityData, 3) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Float](), List[Byte]())
+      case None => (emptyArray(3, 0f), List[Byte]())
     }
 
     val (worldVelocity, angularVelocityData) = readFloatArray(worldVelocityData, 3) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Float](), List[Byte]())
+      case None => (emptyArray(3, 0f), List[Byte]())
     }
 
     val (angularVelocity, localAccelerationData) = readFloatArray(angularVelocityData, 3) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Float](), List[Byte]())
+      case None => (emptyArray(3, 0f), List[Byte]())
     }
 
     val (localAcceleration, worldAccelerationData) = readFloatArray(localAccelerationData, 3) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Float](), List[Byte]())
+      case None => (emptyArray(3, 0f), List[Byte]())
     }
 
     val (worldAcceleration, extentsCentreData) = readFloatArray(worldAccelerationData, 3) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Float](), List[Byte]())
+      case None => (emptyArray(3, 0f), List[Byte]())
     }
 
     val (extentsCentre, tyreFlagsData) = readFloatArray(extentsCentreData, 3) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Float](), List[Byte]())
+      case None => (emptyArray(3, 0f), List[Byte]())
     }
 
     // Wheels / Tyres
     val (tyreFlags, terrainData) = readUByteArray(tyreFlagsData, 4) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Int](), List[Byte]())
+      case None => (emptyArray(4, 0), List[Byte]())
     }
 
     val (terrain, tyreYData) = readUByteArray(terrainData, 4) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Int](), List[Byte]())
+      case None => (emptyArray(4, 0), List[Byte]())
     }
 
     val (tyreY, tyreRPSData) = readFloatArray(tyreYData, 4) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Float](), List[Byte]())
+      case None => (emptyArray(4, 0f), List[Byte]())
     }
 
     val (tyreRPS, tyreSlipSpeedData) = readFloatArray(tyreRPSData, 4) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Float](), List[Byte]())
+      case None => (emptyArray(4, 0f), List[Byte]())
     }
 
     val (tyreSlipSpeed, tyreTempData) = readFloatArray(tyreSlipSpeedData, 4) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Float](), List[Byte]())
+      case None => (emptyArray(4, 0f), List[Byte]())
     }
 
     val (tyreTemp, tyreGripData) = readUByteArray(tyreTempData, 4) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Int](), List[Byte]())
+      case None => (emptyArray(4, 0), List[Byte]())
     }
 
     val (tyreGrip, tyreHeightAboveGroundData) = readUByteArray(tyreGripData, 4) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Int](), List[Byte]())
+      case None => (emptyArray(4, 0), List[Byte]())
     }
 
     val (tyreHeightAboveGround, tyreLateralStiffnessData) = readFloatArray(tyreHeightAboveGroundData, 4) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Float](), List[Byte]())
+      case None => (emptyArray(4, 0f), List[Byte]())
     }
 
     val (tyreLateralStiffness, tyreWearData) = readFloatArray(tyreLateralStiffnessData, 4) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Float](), List[Byte]())
+      case None => (emptyArray(4, 0f), List[Byte]())
     }
 
     val (tyreWear, brakeDamageData) = readUByteArray(tyreWearData, 4) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Int](), List[Byte]())
+      case None => (emptyArray(4, 0), List[Byte]())
     }
 
     val (brakeDamage, suspensionDamageData) = readUByteArray(brakeDamageData, 4) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Int](), List[Byte]())
+      case None => (emptyArray(4, 0), List[Byte]())
     }
 
     val (suspensionDamage, brakeTempCelsiusData) = readUByteArray(suspensionDamageData, 4) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Int](), List[Byte]())
+      case None => (emptyArray(4, 0), List[Byte]())
     }
 
     val (brakeTempCelsius, tyreTreadTempData) = readShortArray(brakeTempCelsiusData, 4) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Short](), List[Byte]())
+      case None => (emptyArray(4, 0: Short), List[Byte]())
     }
 
     val (tyreTreadTemp, tyreLayerTempData) = readUShortArray(tyreTreadTempData, 4) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Int](), List[Byte]())
+      case None => (emptyArray(4, 0), List[Byte]())
     }
 
     val (tyreLayerTemp, tyreCarcassTempData) = readUShortArray(tyreLayerTempData, 4) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Int](), List[Byte]())
+      case None => (emptyArray(4, 0), List[Byte]())
     }
 
     val (tyreCarcassTemp, tyreRimTempData) = readUShortArray(tyreCarcassTempData, 4) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Int](), List[Byte]())
+      case None => (emptyArray(4, 0), List[Byte]())
     }
 
     val (tyreRimTemp, tyreInternalAirTempData) = readUShortArray(tyreRimTempData, 4) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Int](), List[Byte]())
+      case None => (emptyArray(4, 0), List[Byte]())
     }
 
     val (tyreInternalAirTemp, wheelLocalPositionYData) = readUShortArray(tyreInternalAirTempData, 4) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Int](), List[Byte]())
+      case None => (emptyArray(4, 0), List[Byte]())
     }
 
     val (wheelLocalPositionY, rideHeightData) = readFloatArray(wheelLocalPositionYData, 4) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Float](), List[Byte]())
+      case None => (emptyArray(4, 0f), List[Byte]())
     }
 
     val (rideHeight, suspensionTravelData) = readFloatArray(rideHeightData, 4) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Float](), List[Byte]())
+      case None => (emptyArray(4, 0f), List[Byte]())
     }
 
     val (suspensionTravel, suspensionVelocityData) = readFloatArray(suspensionTravelData, 4) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Float](), List[Byte]())
+      case None => (emptyArray(4, 0f), List[Byte]())
     }
 
     val (suspensionVelocity, airPressureData) = readFloatArray(suspensionVelocityData, 4) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Float](), List[Byte]())
+      case None => (emptyArray(4, 0f), List[Byte]())
     }
 
     val (airPressure, engineSpeedData) = readUShortArray(airPressureData, 4) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Int](), List[Byte]())
+      case None => (emptyArray(4, 0), List[Byte]())
     }
 
     // Extras
@@ -649,7 +649,7 @@ object TelemetryDataStructFactory {
 
     val (participantInfo, trackLengthData) = createParticipantInfoArray(participantInfoData, 56) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[ParticipantInfo](), List[Byte]())
+      case None => (emptyArray(56, PARTICIPANT_INFO_EMPTY), List[Byte]())
     }
 
     val (trackLength, wingsData) = readFloat(trackLengthData) match {
@@ -659,10 +659,8 @@ object TelemetryDataStructFactory {
 
     val (wings, dPadData) = readUByteArray(wingsData, 2) match {
       case Some((v, d)) => (v, d)
-      case None => (Array[Int](), List[Byte]())
+      case None => (emptyArray(2, 0), List[Byte]())
     }
-
-    println(dPadData.size)
 
     val dPad = readUByte(dPadData) match {
       case Some((v, _)) => v
@@ -795,5 +793,4 @@ object TelemetryDataStructFactory {
       wings = wings,
       dPad = dPad)
   }
-
 }
