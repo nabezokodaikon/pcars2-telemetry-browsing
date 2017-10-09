@@ -395,13 +395,13 @@ object TelemetryDataStructFactory {
       case None => (0f, Nil)
     }
 
-    val (fuelLevel, speedData) = readUByteToFloat(fuelLevelData) match {
+    val (fuelLevel, speedData) = readFloat(fuelLevelData) match {
       case Some((v, d)) => (v, d)
       case None => (0f, Nil)
     }
 
     val (speed, rpmData) = readFloat(speedData) match {
-      case Some((v, d)) => (v, d) // Convert Metres per-second to Kilometers per-second.
+      case Some((v, d)) => (v, d)
       case None => (0f, Nil)
     }
 
@@ -736,8 +736,8 @@ object TelemetryDataStructFactory {
       speed = speed * 3.6f,
       rpm = rpm,
       maxRpm = maxRpm,
-      gearGears = gearNumGears & 15,
-      gearNumGears = gearNumGears >> 4,
+      gear = gearNumGears & 15,
+      numGears = gearNumGears >> 4,
       boostAmount = boostAmount,
       enforcedPitStopLap = enforcedPitStopLap,
       crashState = crashState,
