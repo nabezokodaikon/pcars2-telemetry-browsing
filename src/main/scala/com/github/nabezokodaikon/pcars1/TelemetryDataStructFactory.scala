@@ -710,6 +710,8 @@ object TelemetryDataStructFactory {
       worldFastestSector1Time = worldFastestSector1Time,
       worldFastestSector2Time = worldFastestSector2Time,
       worldFastestSector3Time = worldFastestSector3Time,
+
+      // Unused.
       joyPad1 = joyPad1,
       joyPad2 = joyPad2,
 
@@ -718,30 +720,33 @@ object TelemetryDataStructFactory {
       highestFlagReason = highestFlag >> 3 & 3,
 
       // Pit info
-      pitModeSchedule = pitModeSchedule,
+      pitMode = pitModeSchedule & 7,
+      pitSchedule = pitModeSchedule >> 3 & 3,
 
       // Car state
+      carFlags = carFlags,
       oilTempCelsius = oilTempCelsius,
       oilPressureKPa = oilPressureKPa,
       waterTempCelsius = waterTempCelsius,
       waterPressureKpa = waterPressureKpa,
       fuelPressureKpa = fuelPressureKpa,
-      carFlags = carFlags,
+      fuelLevel = fuelLevel,
       fuelCapacity = fuelCapacity,
+      speed = speed * 3.6f,
+      rpm = rpm,
+      maxRpm = maxRpm,
       brake = brake / 255f,
       throttle = throttle / 255f,
       clutch = clutch / 255f,
       steering = steering / 127f,
-      fuelLevel = fuelLevel,
-      speed = speed * 3.6f,
-      rpm = rpm,
-      maxRpm = maxRpm,
       gear = gearNumGears & 15,
       numGears = gearNumGears >> 4,
-      boostAmount = boostAmount,
-      enforcedPitStopLap = enforcedPitStopLap,
-      crashState = crashState,
       odometerKM = odometerKM,
+      antiLockActive = (raceStateFlags >> 4 & 1) == 1,
+      boostActive = (raceStateFlags >> 5 & 1) == 1,
+      boostAmount = boostAmount,
+
+      // Motion & Device Related
       orientation = orientation,
       localVelocity = localVelocity,
       worldVelocity = worldVelocity,
@@ -749,8 +754,6 @@ object TelemetryDataStructFactory {
       localAcceleration = localAcceleration,
       worldAcceleration = worldAcceleration,
       extentsCentre = extentsCentre,
-      antiLockActive = (raceStateFlags >> 4 & 1) == 1,
-      boostActive = (raceStateFlags >> 5 & 1) == 1,
 
       // Wheels / Tyres
       tyreFlags = tyreFlags,
@@ -778,10 +781,12 @@ object TelemetryDataStructFactory {
       airPressure = airPressure.map(_ / 1f),
 
       // Extras
-      engineSpeed = engineSpeed,
       engineTorque = engineTorque,
+      engineSpeed = engineSpeed,
+      enforcedPitStopLap = enforcedPitStopLap,
 
       // Car damage
+      crashState = crashState,
       aeroDamage = aeroDamage / 255f,
       engineDamage = engineDamage / 255f,
 
@@ -792,7 +797,10 @@ object TelemetryDataStructFactory {
       windSpeed = windSpeed * 2,
       windDirectionX = windDirectionX / 127f,
       windDirectionY = windDirectionY / 127f,
+
       participantInfo = participantInfo,
+
+      // Unused.
       wings = wings,
       dPad = dPad)
   }

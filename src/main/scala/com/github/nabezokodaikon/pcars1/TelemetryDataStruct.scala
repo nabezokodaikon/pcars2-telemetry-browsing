@@ -1,5 +1,16 @@
 package com.github.nabezokodaikon.pcars1
 
+import spray.json._
+import DefaultJsonProtocol._
+
+object TelemetryJsonProtocol extends DefaultJsonProtocol {
+  implicit val participantInfoStringsFormat = jsonFormat8(ParticipantInfoStrings)
+  // implicit val telemetryDataFormat = jsonFormat107(TelemetryData)
+  // implicit val telemetryDataFormat = jsonFormat22(TelemetryData)
+}
+
+import TelemetryJsonProtocol._
+
 case class FrameInfo(
   frameTypeAndSequence: Int,
   frameType: Int,
@@ -7,6 +18,7 @@ case class FrameInfo(
 
 // 1,347 Byte
 case class ParticipantInfoStrings(
+  frameType: Int = TelemetryDataConst.PARTICIPANT_INFO_STRINGS_FRAME_TYPE,
   buildVersionNumber: Int,
   packetType: Int,
   carName: String, // 64
@@ -15,7 +27,7 @@ case class ParticipantInfoStrings(
   trackVariation: String, // 64
   nameString: Array[String] // 16
 ) {
-  val frameType = TelemetryDataConst.PARTICIPANT_INFO_STRINGS_FRAME_TYPE
+  def toJsonString: String = this.toJson.toString
 }
 
 // 1,028 Byte
@@ -40,13 +52,14 @@ case class ParticipantInfo(
 
 // 1,367 Byte
 case class TelemetryData(
+  frameType: Int = TelemetryDataConst.TELEMETRY_DATA_FRAME_TYPE,
   buildVersionNumber: Int,
   packetType: Int,
 
   // Game states
-  gameState: Int,
-  sessionState: Int,
-  raceStateFlags: Int,
+  gameState: Long,
+  sessionState: Long,
+  raceStateFlags: Long,
 
   // Participant info
   viewedParticipantIndex: Byte,
@@ -93,7 +106,8 @@ case class TelemetryData(
   highestFlagReason: Int,
 
   // Pit info
-  pitModeSchedule: Int,
+  pitMode: Int,
+  pitSchedule: Int,
 
   // Car state
   oilTempCelsius: Short,
@@ -170,5 +184,5 @@ case class TelemetryData(
   participantInfo: Array[ParticipantInfo], // 56
   wings: Array[Int], // 2
   dPad: Int) {
-  val frameType = TelemetryDataConst.TELEMETRY_DATA_FRAME_TYPE
+  // def toJsonString: String = this.toJson.toString
 }
