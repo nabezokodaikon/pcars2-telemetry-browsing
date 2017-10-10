@@ -24,4 +24,13 @@ object Loan {
     }
   }
 
+  def runningTime(work: => Unit): Unit = {
+    val start = System.currentTimeMillis
+    try {
+      work
+    } finally {
+      val interval = System.currentTimeMillis - start
+      println(s"${interval} msec")
+    }
+  }
 }
