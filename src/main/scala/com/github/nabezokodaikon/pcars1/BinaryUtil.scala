@@ -127,4 +127,7 @@ object BinaryUtil {
   def toStringFromArray(data: Array[Int]): String = {
     data.map(_.toChar).mkString.trim
   }
+
+  def intToUInt(int: Int): Long =
+    int & 0x00000000ffffffffL
 }
