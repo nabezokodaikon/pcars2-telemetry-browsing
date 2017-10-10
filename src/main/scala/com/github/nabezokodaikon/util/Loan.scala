@@ -4,15 +4,15 @@ import scala.language.reflectiveCalls
 
 object Loan {
 
-  type TClosable = {
+  private type TClosable = {
     def close(): Unit
   }
 
-  type TDisposable = {
+  private type TDisposable = {
     def dispose(): Unit
   }
 
-  def d2c(implicit d: TDisposable): TClosable = {
+  private def d2c(implicit d: TDisposable): TClosable = {
     new { def close() = d.dispose() }
   }
 
