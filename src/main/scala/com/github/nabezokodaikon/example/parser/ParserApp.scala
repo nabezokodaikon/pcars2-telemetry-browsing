@@ -6,6 +6,7 @@ import com.github.nabezokodaikon.pcars1.BinaryUtil._
 import com.github.nabezokodaikon.pcars1.Encoding
 import com.github.nabezokodaikon.pcars1.ParticipantInfo
 import com.github.nabezokodaikon.pcars1.TelemetryDataStructFactory._
+import com.github.nabezokodaikon.util.Loan.runningTime
 import com.github.nabezokodaikon.util.FileUtil
 import com.typesafe.scalalogging.LazyLogging
 
@@ -24,15 +25,12 @@ object ParserApp extends App with LazyLogging {
   println(telemetryData.carStateData.gear)
   // println(telemetryData.toJsonString)
 
-  {
-    val start = System.currentTimeMillis
-    for (i <- 0 to 60) {
+  runningTime {
+    for (i <- 0 to 0) {
       val src = createTelemetryData(telemetryDataData)
       val json = src.toJsonString
       val msg = TextMessage(json)
     }
-    val interval = System.currentTimeMillis - start
-    println(s"${interval} msec")
   }
 
   // println("////////////////////////////////")
@@ -47,14 +45,11 @@ object ParserApp extends App with LazyLogging {
   println(participantInfoStrings.nameString(0))
   // println(participantInfoStrings.toJsonString)
 
-  {
-    val start = System.currentTimeMillis
-    for (i <- 0 to 60) {
+  runningTime {
+    for (i <- 0 to 0) {
       val src = createParticipantInfoStrings(participantInfoStringsData)
       val json = src.toJsonString
       val msg = TextMessage(json)
     }
-    val interval = System.currentTimeMillis - start
-    println(s"${interval} msec")
   }
 }
