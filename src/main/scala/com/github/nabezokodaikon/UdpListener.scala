@@ -46,14 +46,14 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
     val frameInfo = createFrameInfo(data)
     if (frameInfo.frameType == TELEMETRY_DATA_FRAME_TYPE) {
       val telemetryData = createTelemetryData(data)
-      // println(telemetryData.brake)
-      // println(telemetryData.throttle.toString)
-      // println(telemetryData.clutch)
-      // println(telemetryData.steering)
-      println(telemetryData.speed)
-      // println(telemetryData.gear)
-      // println(telemetryData.numGears)
-      // println(telemetryData.rpm)
+      // println(telemetryData.carStateData.brake)
+      // println(telemetryData.carStateData.throttle.toString)
+      // println(telemetryData.carStateData.clutch)
+      // println(telemetryData.carStateData.steering)
+      println(telemetryData.carStateData.speed)
+      // println(telemetryData.carStateData.gear)
+      // println(telemetryData.carStateData.numGears)
+      // println(telemetryData.carStateData.rpm)
     }
   }
 
