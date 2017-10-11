@@ -44,7 +44,7 @@ class Server(manager: ActorRef) extends HttpApp with LazyLogging {
         complete(HttpEntity(contentType, text))
       }
     } ~
-      path("api") {
+      path("pcars1") {
         get {
           handleWebSocketMessages(createUser())
         }

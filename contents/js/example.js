@@ -37,10 +37,9 @@ function serverEvent() {
 }
 
 function connect() {
-  const ws = new WebSocket("ws://192.168.1.18:9000/api");
+  const ws = new WebSocket("ws://192.168.1.18:9000/pcars1");
   ws.onopen = function(e) {
     console.log("Websocket was opened.");
-    // ws.send("Request!");
   };
 
   ws.onmessage = function(e) {
