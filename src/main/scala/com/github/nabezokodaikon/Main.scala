@@ -15,7 +15,7 @@ object UsingActor {
   implicit val materializer = ActorMaterializer()
 }
 
-object Main extends /* App with */ LazyLogging {
+object Main extends App with LazyLogging {
   import UsingActor._
 
   val clientManagerProps = Props(classOf[ClientManager])
@@ -25,7 +25,23 @@ object Main extends /* App with */ LazyLogging {
   val udpListener = system.actorOf(udpProps, "udpListener")
 
   val server = new Server(clientManager)
+
+  // Test code.
+  import com.github.nabezokodaikon.example.udp.UdpTestDataSender
+  val udpSenderProps = Props(classOf[UdpTestDataSender], clientManager)
+  val udpSender = system.actorOf(udpSenderProps, "udpSender")
+  udpSender ! UdpTestDataSender.Received
+
   server.startServer("192.168.1.18", 9000, system)
+
+  // Test code.
+  try {
+    val stopped = gracefulStop(udpSender, 5.seconds, ActorDone)
+    Await.result(stopped, 6.seconds)
+  } catch {
+    case e: AskTimeoutException =>
+      logger.error(e.getMessage)
+  }
 
   try {
     val stopped = gracefulStop(udpListener, 5.seconds, ActorDone)
