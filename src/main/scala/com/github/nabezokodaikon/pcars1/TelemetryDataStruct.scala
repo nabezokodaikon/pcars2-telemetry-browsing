@@ -19,11 +19,12 @@ object TelemetryJsonProtocol extends DefaultJsonProtocol {
   implicit val pitInfoDataFormat = jsonFormat2(PitInfoData)
   implicit val carStateDataFormat = jsonFormat22(CarStateData)
   implicit val carStateVecotrDataFormat = jsonFormat7(CarStateVecotrData)
-  implicit val TyresDataFormat = jsonFormat22(TyresData)
-  implicit val extraDataFormat = jsonFormat2(ExtraData)
+  implicit val tyreDataFormat = jsonFormat18(TyreData)
+  implicit val tyreUdpDataFormat = jsonFormat5(TyreUdpData)
+  implicit val otherUdpDataFormat = jsonFormat2(OtherUdpData)
   implicit val carDamageDataFormat = jsonFormat3(CarDamageData)
   implicit val weatherDataFormat = jsonFormat6(WeatherData)
-  implicit val telemetryDataFormat = jsonFormat21(TelemetryData)
+  implicit val telemetryDataFormat = jsonFormat17(TelemetryData)
 }
 
 import TelemetryJsonProtocol._
@@ -170,44 +171,51 @@ case class CarStateData(
 }
 
 case class CarStateVecotrData(
-  orientation: Float, // [ UNITS = Euler Angles ]
-  localVelocity: Float, // [ UNITS = Metres per-second ]
-  worldVelocity: Float, // [ UNITS = Metres per-second ]
-  angularVelocity: Float, // [ UNITS = Radians per-second ]
-  localAcceleration: Float, // [ UNITS = Metres per-second ]
-  worldAcceleration: Float, // [ UNITS = Metres per-second ]
-  extentsCentre: Float // [ UNITS = Local Space  X  Y  Z ]
+  orientation: Array[Float], // [ UNITS = Euler Angles ]
+  localVelocity: Array[Float], // [ UNITS = Metres per-second ]
+  worldVelocity: Array[Float], // [ UNITS = Metres per-second ]
+  angularVelocity: Array[Float], // [ UNITS = Radians per-second ]
+  localAcceleration: Array[Float], // [ UNITS = Metres per-second ]
+  worldAcceleration: Array[Float], // [ UNITS = Metres per-second ]
+  extentsCentre: Array[Float] // [ UNITS = Local Space  X  Y  Z ]
 ) {
   def toJsonString: String = this.toJson.toString
 }
 
-case class TyresData(
-  terrain: Int, // 4
-  tyreY: Float, // [ UNITS = Local Space  Y ]
-  tyreRPS: Float, // [ UNITS = Revolutions per second ]
-  tyreSlipSpeed: Float, // [ UNITS = Metres per-second ]
-  tyreTemp: Float, // [ UNITS = Celsius ]
-  tyreGrip: Float,
-  tyreHeightAboveGround: Float, // [ UNITS = Local Space  Y ]
-  tyreLateralStiffness: Float, // [ UNITS = Lateral stiffness coefficient used in tyre deformation ]
-  tyreWear: Float,
-  brakeDamage: Float,
-  suspensionDamage: Float,
-  brakeTempCelsius: Float, // [ UNITS = Celsius ]
-  tyreTreadTemp: Float, // [ UNITS = Kelvin ]
-  tyreLayerTemp: Float, // [ UNITS = Kelvin ]
-  tyreCarcassTemp: Float, // [ UNITS = Kelvin ]
-  tyreRimTemp: Float, // [ UNITS = Kelvin ]
-  tyreInternalAirTemp: Float, // [ UNITS = Kelvin ]
-  wheelLocalPositionY: Float,
-  rideHeight: Float,
-  suspensionTravel: Float,
-  suspensionVelocity: Float,
-  airPressure: Float) {
+case class TyreData(
+  tyreFlag: Array[Int],
+  terrain: Array[Int],
+  tyreY: Array[Float], // [ UNITS = Local Space  Y ]
+  tyreRPS: Array[Float], // [ UNITS = Revolutions per second ]
+  tyreSlipSpeed: Array[Float], // [ UNITS = Metres per-second ]
+  tyreTemp: Array[Float], // [ UNITS = Celsius ]
+  tyreGrip: Array[Float],
+  tyreHeightAboveGround: Array[Float], // [ UNITS = Local Space  Y ]
+  tyreLateralStiffness: Array[Float], // [ UNITS = Lateral stiffness coefficient used in tyre deformation ]
+  tyreWear: Array[Float],
+  brakeDamage: Array[Float],
+  suspensionDamage: Array[Float],
+  brakeTempCelsius: Array[Float], // [ UNITS = Celsius ]
+  tyreTreadTemp: Array[Float], // [ UNITS = Kelvin ]
+  tyreLayerTemp: Array[Float], // [ UNITS = Kelvin ]
+  tyreCarcassTemp: Array[Float], // [ UNITS = Kelvin ]
+  tyreRimTemp: Array[Float], // [ UNITS = Kelvin ]
+  tyreInternalAirTemp: Array[Float] // [ UNITS = Kelvin ]
+) {
   def toJsonString: String = this.toJson.toString
 }
 
-case class ExtraData(
+case class TyreUdpData(
+  wheelLocalPositionY: Array[Float],
+  rideHeight: Array[Float],
+  suspensionTravel: Array[Float],
+  suspensionVelocity: Array[Float],
+  airPressure: Array[Float] // [ UNITS = psi]
+) {
+  def toJsonString: String = this.toJson.toString
+}
+
+case class OtherUdpData(
   engineSpeed: Float,
   engineTorque: Float) {
   def toJsonString: String = this.toJson.toString
@@ -243,14 +251,10 @@ case class TelemetryData(
   flagData: FlagData,
   pitInfoData: PitInfoData,
   carStateData: CarStateData,
-  carStateVecotrDataX: CarStateVecotrData,
-  carStateVecotrDataY: CarStateVecotrData,
-  carStateVecotrDataZ: CarStateVecotrData,
-  tyresDataFrontLeft: TyresData,
-  tyresDataFrontRight: TyresData,
-  tyresDataRearLeft: TyresData,
-  tyresDataRearRight: TyresData,
-  extraData: ExtraData,
+  carStateVecotrData: CarStateVecotrData,
+  tyreData: TyreData,
+  tyreUdpData: TyreUdpData,
+  otherUdpData: OtherUdpData,
   carDamageData: CarDamageData,
   weatherData: WeatherData) {
   def toJsonString: String = this.toJson.toString
