@@ -44,7 +44,8 @@ function connect() {
   };
 
   ws.onmessage = function(e) {
-    console.log(e.data)
+    const json = JSON.parse(e.data)
+    console.log(json.frameType)
   }
 
 }
