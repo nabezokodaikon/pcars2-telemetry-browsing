@@ -10,7 +10,7 @@ import com.github.nabezokodaikon.util.Loan.runningTime
 import com.github.nabezokodaikon.util.FileUtil
 import com.typesafe.scalalogging.LazyLogging
 
-object ParserApp extends App with LazyLogging {
+object ParserApp extends /* App with */ LazyLogging {
 
   val dir = FileUtil.getCurrentDirectory()
 
