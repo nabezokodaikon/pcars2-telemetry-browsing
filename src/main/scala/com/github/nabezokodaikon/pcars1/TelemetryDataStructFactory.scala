@@ -19,59 +19,48 @@ object TelemetryDataStructFactory {
       sequence)
   }
 
-  private def createNameString(data: List[Byte]): String = {
-    val (nameString, _) = readUByteArray(data, 64) match {
-      case Some((v, d)) => (toStringFromArray(v), d)
-      case None => ("", List[Byte]())
+  private def createNameString(data: List[Byte], stringLength: Int): String = {
+    val (nameString, _) = readUByteArray(data, stringLength) match {
+      case (v, d) => (toStringFromArray(v), d)
+      case _ => ("", List[Byte]())
     }
     nameString
   }
 
-  def createNameStringArray(data: List[Byte], count: Int): Option[(Array[String], List[Byte])] = {
-    val size = count * 64
-    if (data.length < size) {
-      None
-    } else {
-      Some(
-        data.take(size).grouped(64).map(createNameString).toArray,
-        data.drop(size))
+  def createNameStringArray(data: List[Byte], stringCount: Int, stringLength: Int): (Array[String], List[Byte]) =
+    stringCount * stringLength match {
+      case len if len <= data.length =>
+        (data.take(len).grouped(stringLength).map(d => createNameString(d, stringLength)).toArray, data.drop(len))
+      case _ => (Array[String](), List[Byte]())
     }
-  }
 
   def createParticipantInfoStrings(data: List[Byte]): ParticipantInfoStrings = {
-    val (buildVersionNumber, packetTypeData) = readUShort(data) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
-
-    val (packetType, carNameData) = readUByte(packetTypeData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
+    val (buildVersionNumber, packetTypeData) = readUShort(data)
+    val (packetType, carNameData) = readUByte(packetTypeData)
 
     val (carName, carClassNameData) = readUByteArray(carNameData, 64) match {
-      case Some((v, d)) => (toStringFromArray(v), d)
-      case None => ("", Nil)
+      case (v, d) => (toStringFromArray(v), d)
+      case _ => ("", List[Byte]())
     }
 
     val (carClassName, trackLocationData) = readUByteArray(carClassNameData, 64) match {
-      case Some((v, d)) => (toStringFromArray(v), d)
-      case None => ("", Nil)
+      case (v, d) => (toStringFromArray(v), d)
+      case _ => ("", List[Byte]())
     }
 
     val (trackLocation, trackVariationData) = readUByteArray(trackLocationData, 64) match {
-      case Some((v, d)) => (toStringFromArray(v), d)
-      case None => ("", Nil)
+      case (v, d) => (toStringFromArray(v), d)
+      case _ => ("", List[Byte]())
     }
 
     val (trackVariation, nameStringData) = readUByteArray(trackVariationData, 64) match {
-      case Some((v, d)) => (toStringFromArray(v), d)
-      case None => ("", Nil)
+      case (v, d) => (toStringFromArray(v), d)
+      case _ => ("", List[Byte]())
     }
 
-    val nameString = createNameStringArray(nameStringData, 17) match {
-      case Some((v, _)) => v
-      case None => emptyArray(17, "")
+    val nameString = createNameStringArray(nameStringData, 17, 64) match {
+      case (v, d) => v
+      case _ => Array[String]()
     }
 
     ParticipantInfoStrings(
@@ -94,41 +83,13 @@ object TelemetryDataStructFactory {
     lastSectorTime = 0f)
 
   private def createParticipantInfo(data: List[Byte]): ParticipantInfo = {
-
-    val (worldPosition, currentLapDistanceData) = readShortArray(data, 3) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(3, 0: Short), List[Byte]())
-    }
-
-    val (currentLapDistance, racePositionData) = readUShort(currentLapDistanceData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
-
-    val (racePosition, lapsCompletedData) = readUByte(racePositionData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
-
-    val (lapsCompleted, currentLapData) = readUByte(lapsCompletedData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
-
-    val (currentLap, sectorData) = readUByte(currentLapData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
-
-    val (sector, lastSectorTimeData) = readUByte(sectorData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
-
-    val (lastSectorTime, nextData) = readFloat(lastSectorTimeData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
+    val (worldPosition, currentLapDistanceData) = readShortArray(data, 3)
+    val (currentLapDistance, racePositionData) = readUShort(currentLapDistanceData)
+    val (racePosition, lapsCompletedData) = readUByte(racePositionData)
+    val (lapsCompleted, currentLapData) = readUByte(lapsCompletedData)
+    val (currentLap, sectorData) = readUByte(currentLapData)
+    val (sector, lastSectorTimeData) = readUByte(sectorData)
+    val (lastSectorTime, nextData) = readFloat(lastSectorTimeData)
 
     ParticipantInfo(
       worldPosition = worldPosition,
@@ -140,529 +101,139 @@ object TelemetryDataStructFactory {
       lastSectorTime = lastSectorTime)
   }
 
-  private def createParticipantInfoArray(data: List[Byte], count: Int): Option[(Array[ParticipantInfo], List[Byte])] = {
-    val size = count * 16
-    if (data.length < size) {
-      None
-    } else {
-      Some(
-        data.take(size).grouped(16).map(createParticipantInfo).toArray,
-        data.drop(size))
+  private def createParticipantInfoArray(data: List[Byte], count: Int): (Array[ParticipantInfo], List[Byte]) =
+    count * 16 match {
+      case len if len <= data.length =>
+        (data.take(len).grouped(16).map(createParticipantInfo).toArray, data.drop(len))
+      case _ =>
+        (Array[ParticipantInfo](), List[Byte]())
     }
-  }
 
   def createTelemetryData(data: List[Byte]): TelemetryData = {
-    val (buildVersionNumber, packetTypeData) = readUShort(data) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
-
-    val (packetType, gameSessionStateData) = readUByte(packetTypeData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
+    val (buildVersionNumber, packetTypeData) = readUShort(data)
+    val (packetType, gameSessionStateData) = readUByte(packetTypeData)
 
     // Game states
-    val (gameSessionState, viewedParticipantIndexData) = readUByte(gameSessionStateData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
+    val (gameSessionState, viewedParticipantIndexData) = readUByte(gameSessionStateData)
 
     // Participant info
-    val (viewedParticipantIndex, numParticipantsData) = readByte(viewedParticipantIndexData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0: Byte, Nil)
-    }
-
-    val (numParticipants, unfilteredThrottleData) = readByte(numParticipantsData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0: Byte, Nil)
-    }
+    val (viewedParticipantIndex, numParticipantsData) = readByte(viewedParticipantIndexData)
+    val (numParticipants, unfilteredThrottleData) = readByte(numParticipantsData)
 
     // Unfiltered input
-    val (unfilteredThrottle, unfilteredBrakeData) = readUByteToFloat(unfilteredThrottleData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (unfilteredBrake, unfilteredSteeringData) = readUByteToFloat(unfilteredBrakeData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (unfilteredSteering, unfilteredClutchData) = readByteToFloat(unfilteredSteeringData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (unfilteredClutch, raceStateFlagsData) = readUByteToFloat(unfilteredClutchData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (raceStateFlags, lapsInEventData) = readUByte(raceStateFlagsData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
+    val (unfilteredThrottle, unfilteredBrakeData) = readUByte(unfilteredThrottleData)
+    val (unfilteredBrake, unfilteredSteeringData) = readUByte(unfilteredBrakeData)
+    val (unfilteredSteering, unfilteredClutchData) = readByte(unfilteredSteeringData)
+    val (unfilteredClutch, raceStateFlagsData) = readUByte(unfilteredClutchData)
+    val (raceStateFlags, lapsInEventData) = readUByte(raceStateFlagsData)
 
     // Event information
-    val (lapsInEvent, bestLapTimeData) = readUByte(lapsInEventData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
+    val (lapsInEvent, bestLapTimeData) = readUByte(lapsInEventData)
 
     // Timings
-    val (bestLapTime, lastLapTimeData) = readFloat(bestLapTimeData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (lastLapTime, currentTimeData) = readFloat(lastLapTimeData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (currentTime, splitTimeAheadData) = readFloat(currentTimeData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (splitTimeAhead, splitTimeBehindData) = readFloat(splitTimeAheadData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (splitTimeBehind, splitTimeData) = readFloat(splitTimeBehindData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (splitTime, eventTimeRemainingData) = readFloat(splitTimeData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (eventTimeRemaining, personalFastestLapTimeData) = readFloat(eventTimeRemainingData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (personalFastestLapTime, worldFastestLapTimeData) = readFloat(personalFastestLapTimeData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (worldFastestLapTime, currentSector1TimeData) = readFloat(worldFastestLapTimeData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (currentSector1Time, currentSector2TimeData) = readFloat(currentSector1TimeData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (currentSector2Time, currentSector3TimeData) = readFloat(currentSector2TimeData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (currentSector3Time, fastestSector1TimeData) = readFloat(currentSector3TimeData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (fastestSector1Time, fastestSector2TimeData) = readFloat(fastestSector1TimeData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (fastestSector2Time, fastestSector3TimeData) = readFloat(fastestSector2TimeData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (fastestSector3Time, personalFastestSector1TimeData) = readFloat(fastestSector3TimeData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (personalFastestSector1Time, personalFastestSector2TimeData) = readFloat(personalFastestSector1TimeData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (personalFastestSector2Time, personalFastestSector3TimeData) = readFloat(personalFastestSector2TimeData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (personalFastestSector3Time, worldFastestSector1TimeData) = readFloat(personalFastestSector3TimeData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (worldFastestSector1Time, worldFastestSector2TimeData) = readFloat(worldFastestSector1TimeData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (worldFastestSector2Time, worldFastestSector3TimeData) = readFloat(worldFastestSector2TimeData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (worldFastestSector3Time, joyPad1Data) = readFloat(worldFastestSector3TimeData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (joyPad1, joyPad2Data) = readUByte(joyPad1Data) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
-
-    val (joyPad2, highestFlagData) = readUByte(joyPad2Data) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
+    val (bestLapTime, lastLapTimeData) = readFloat(bestLapTimeData)
+    val (lastLapTime, currentTimeData) = readFloat(lastLapTimeData)
+    val (currentTime, splitTimeAheadData) = readFloat(currentTimeData)
+    val (splitTimeAhead, splitTimeBehindData) = readFloat(splitTimeAheadData)
+    val (splitTimeBehind, splitTimeData) = readFloat(splitTimeBehindData)
+    val (splitTime, eventTimeRemainingData) = readFloat(splitTimeData)
+    val (eventTimeRemaining, personalFastestLapTimeData) = readFloat(eventTimeRemainingData)
+    val (personalFastestLapTime, worldFastestLapTimeData) = readFloat(personalFastestLapTimeData)
+    val (worldFastestLapTime, currentSector1TimeData) = readFloat(worldFastestLapTimeData)
+    val (currentSector1Time, currentSector2TimeData) = readFloat(currentSector1TimeData)
+    val (currentSector2Time, currentSector3TimeData) = readFloat(currentSector2TimeData)
+    val (currentSector3Time, fastestSector1TimeData) = readFloat(currentSector3TimeData)
+    val (fastestSector1Time, fastestSector2TimeData) = readFloat(fastestSector1TimeData)
+    val (fastestSector2Time, fastestSector3TimeData) = readFloat(fastestSector2TimeData)
+    val (fastestSector3Time, personalFastestSector1TimeData) = readFloat(fastestSector3TimeData)
+    val (personalFastestSector1Time, personalFastestSector2TimeData) = readFloat(personalFastestSector1TimeData)
+    val (personalFastestSector2Time, personalFastestSector3TimeData) = readFloat(personalFastestSector2TimeData)
+    val (personalFastestSector3Time, worldFastestSector1TimeData) = readFloat(personalFastestSector3TimeData)
+    val (worldFastestSector1Time, worldFastestSector2TimeData) = readFloat(worldFastestSector1TimeData)
+    val (worldFastestSector2Time, worldFastestSector3TimeData) = readFloat(worldFastestSector2TimeData)
+    val (worldFastestSector3Time, joyPad1Data) = readFloat(worldFastestSector3TimeData)
+    val (joyPad1, joyPad2Data) = readUByte(joyPad1Data)
+    val (joyPad2, highestFlagData) = readUByte(joyPad2Data)
 
     // Flags
-    val (highestFlag, pitModeScheduleData) = readUByte(highestFlagData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
+    val (highestFlag, pitModeScheduleData) = readUByte(highestFlagData)
 
     // Pit info
-    val (pitModeSchedule, oilTempCelsiusData) = readUByte(pitModeScheduleData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
+    val (pitModeSchedule, oilTempCelsiusData) = readUByte(pitModeScheduleData)
 
     // Car state
-    val (oilTempCelsius, oilPressureKPaData) = readShort(oilTempCelsiusData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0: Short, Nil)
-    }
-
-    val (oilPressureKPa, waterTempCelsiusData) = readUShort(oilPressureKPaData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
-
-    val (waterTempCelsius, waterPressureKpaData) = readShort(waterTempCelsiusData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0: Short, Nil)
-    }
-
-    val (waterPressureKpa, fuelPressureKpaData) = readUShort(waterPressureKpaData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
-
-    val (fuelPressureKpa, carFlagsData) = readShort(fuelPressureKpaData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0: Short, Nil)
-    }
-
-    val (carFlags, fuelCapacityData) = readUByte(carFlagsData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
-
-    val (fuelCapacity, brakeData) = readUByte(fuelCapacityData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
-
-    val (brake, throttleData) = readUByteToFloat(brakeData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (throttle, clutchData) = readUByteToFloat(throttleData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (clutch, steeringData) = readUByteToFloat(clutchData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (steering, fuelLevelData) = readByteToFloat(steeringData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (fuelLevel, speedData) = readFloat(fuelLevelData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (speed, rpmData) = readFloat(speedData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (rpm, maxRpmData) = readUShort(rpmData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
-
-    val (maxRpm, gearNumGearsData) = readUShort(maxRpmData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
-
-    val (gearNumGears, boostAmountData) = readUByte(gearNumGearsData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
-
-    val (boostAmount, enforcedPitStopLapData) = readUByte(boostAmountData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
-
-    val (enforcedPitStopLap, crashStateData) = readByte(enforcedPitStopLapData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0: Byte, Nil)
-    }
-
-    val (crashState, odometerKMData) = readUByte(crashStateData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0, Nil)
-    }
-
-    val (odometerKM, orientationData) = readFloat(odometerKMData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (orientation, localVelocityData) = readFloatArray(orientationData, 3) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(3, 0f), List[Byte]())
-    }
-
-    val (localVelocity, worldVelocityData) = readFloatArray(localVelocityData, 3) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(3, 0f), List[Byte]())
-    }
-
-    val (worldVelocity, angularVelocityData) = readFloatArray(worldVelocityData, 3) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(3, 0f), List[Byte]())
-    }
-
-    val (angularVelocity, localAccelerationData) = readFloatArray(angularVelocityData, 3) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(3, 0f), List[Byte]())
-    }
-
-    val (localAcceleration, worldAccelerationData) = readFloatArray(localAccelerationData, 3) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(3, 0f), List[Byte]())
-    }
-
-    val (worldAcceleration, extentsCentreData) = readFloatArray(worldAccelerationData, 3) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(3, 0f), List[Byte]())
-    }
-
-    val (extentsCentre, tyreFlagData) = readFloatArray(extentsCentreData, 3) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(3, 0f), List[Byte]())
-    }
+    val (oilTempCelsius, oilPressureKPaData) = readShort(oilTempCelsiusData)
+    val (oilPressureKPa, waterTempCelsiusData) = readUShort(oilPressureKPaData)
+    val (waterTempCelsius, waterPressureKpaData) = readShort(waterTempCelsiusData)
+    val (waterPressureKpa, fuelPressureKpaData) = readUShort(waterPressureKpaData)
+    val (fuelPressureKpa, carFlagsData) = readShort(fuelPressureKpaData)
+    val (carFlags, fuelCapacityData) = readUByte(carFlagsData)
+    val (fuelCapacity, brakeData) = readUByte(fuelCapacityData)
+    val (brake, throttleData) = readUByte(brakeData)
+    val (throttle, clutchData) = readUByte(throttleData)
+    val (clutch, steeringData) = readUByte(clutchData)
+    val (steering, fuelLevelData) = readByte(steeringData)
+    val (fuelLevel, speedData) = readFloat(fuelLevelData)
+    val (speed, rpmData) = readFloat(speedData)
+    val (rpm, maxRpmData) = readUShort(rpmData)
+    val (maxRpm, gearNumGearsData) = readUShort(maxRpmData)
+    val (gearNumGears, boostAmountData) = readUByte(gearNumGearsData)
+    val (boostAmount, enforcedPitStopLapData) = readUByte(boostAmountData)
+    val (enforcedPitStopLap, crashStateData) = readByte(enforcedPitStopLapData)
+    val (crashState, odometerKMData) = readUByte(crashStateData)
+    val (odometerKM, orientationData) = readFloat(odometerKMData)
+    val (orientation, localVelocityData) = readFloatArray(orientationData, 3)
+    val (localVelocity, worldVelocityData) = readFloatArray(localVelocityData, 3)
+    val (worldVelocity, angularVelocityData) = readFloatArray(worldVelocityData, 3)
+    val (angularVelocity, localAccelerationData) = readFloatArray(angularVelocityData, 3)
+    val (localAcceleration, worldAccelerationData) = readFloatArray(localAccelerationData, 3)
+    val (worldAcceleration, extentsCentreData) = readFloatArray(worldAccelerationData, 3)
+    val (extentsCentre, tyreFlagData) = readFloatArray(extentsCentreData, 3)
 
     // Wheels / Tyres
-    val (tyreFlag, terrainData) = readUByteArray(tyreFlagData, 4) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(4, 0), List[Byte]())
-    }
-
-    val (terrain, tyreYData) = readUByteArray(terrainData, 4) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(4, 0), List[Byte]())
-    }
-
-    val (tyreY, tyreRPSData) = readFloatArray(tyreYData, 4) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(4, 0f), List[Byte]())
-    }
-
-    val (tyreRPS, tyreSlipSpeedData) = readFloatArray(tyreRPSData, 4) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(4, 0f), List[Byte]())
-    }
-
-    val (tyreSlipSpeed, tyreTempData) = readFloatArray(tyreSlipSpeedData, 4) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(4, 0f), List[Byte]())
-    }
-
-    val (tyreTemp, tyreGripData) = readUByteArray(tyreTempData, 4) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(4, 0), List[Byte]())
-    }
-
-    val (tyreGrip, tyreHeightAboveGroundData) = readUByteArray(tyreGripData, 4) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(4, 0), List[Byte]())
-    }
-
-    val (tyreHeightAboveGround, tyreLateralStiffnessData) = readFloatArray(tyreHeightAboveGroundData, 4) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(4, 0f), List[Byte]())
-    }
-
-    val (tyreLateralStiffness, tyreWearData) = readFloatArray(tyreLateralStiffnessData, 4) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(4, 0f), List[Byte]())
-    }
-
-    val (tyreWear, brakeDamageData) = readUByteArray(tyreWearData, 4) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(4, 0), List[Byte]())
-    }
-
-    val (brakeDamage, suspensionDamageData) = readUByteArray(brakeDamageData, 4) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(4, 0), List[Byte]())
-    }
-
-    val (suspensionDamage, brakeTempCelsiusData) = readUByteArray(suspensionDamageData, 4) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(4, 0), List[Byte]())
-    }
-
-    val (brakeTempCelsius, tyreTreadTempData) = readShortArray(brakeTempCelsiusData, 4) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(4, 0: Short), List[Byte]())
-    }
-
-    val (tyreTreadTemp, tyreLayerTempData) = readUShortArray(tyreTreadTempData, 4) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(4, 0), List[Byte]())
-    }
-
-    val (tyreLayerTemp, tyreCarcassTempData) = readUShortArray(tyreLayerTempData, 4) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(4, 0), List[Byte]())
-    }
-
-    val (tyreCarcassTemp, tyreRimTempData) = readUShortArray(tyreCarcassTempData, 4) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(4, 0), List[Byte]())
-    }
-
-    val (tyreRimTemp, tyreInternalAirTempData) = readUShortArray(tyreRimTempData, 4) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(4, 0), List[Byte]())
-    }
-
-    val (tyreInternalAirTemp, wheelLocalPositionYData) = readUShortArray(tyreInternalAirTempData, 4) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(4, 0), List[Byte]())
-    }
-
-    val (wheelLocalPositionY, rideHeightData) = readFloatArray(wheelLocalPositionYData, 4) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(4, 0f), List[Byte]())
-    }
-
-    val (rideHeight, suspensionTravelData) = readFloatArray(rideHeightData, 4) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(4, 0f), List[Byte]())
-    }
-
-    val (suspensionTravel, suspensionVelocityData) = readFloatArray(suspensionTravelData, 4) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(4, 0f), List[Byte]())
-    }
-
-    val (suspensionVelocity, airPressureData) = readFloatArray(suspensionVelocityData, 4) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(4, 0f), List[Byte]())
-    }
-
-    val (airPressure, engineSpeedData) = readUShortArray(airPressureData, 4) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(4, 0), List[Byte]())
-    }
+    val (tyreFlag, terrainData) = readUByteArray(tyreFlagData, 4)
+    val (terrain, tyreYData) = readUByteArray(terrainData, 4)
+    val (tyreY, tyreRPSData) = readFloatArray(tyreYData, 4)
+    val (tyreRPS, tyreSlipSpeedData) = readFloatArray(tyreRPSData, 4)
+    val (tyreSlipSpeed, tyreTempData) = readFloatArray(tyreSlipSpeedData, 4)
+    val (tyreTemp, tyreGripData) = readUByteArray(tyreTempData, 4)
+    val (tyreGrip, tyreHeightAboveGroundData) = readUByteArray(tyreGripData, 4)
+    val (tyreHeightAboveGround, tyreLateralStiffnessData) = readFloatArray(tyreHeightAboveGroundData, 4)
+    val (tyreLateralStiffness, tyreWearData) = readFloatArray(tyreLateralStiffnessData, 4)
+    val (tyreWear, brakeDamageData) = readUByteArray(tyreWearData, 4)
+    val (brakeDamage, suspensionDamageData) = readUByteArray(brakeDamageData, 4)
+    val (suspensionDamage, brakeTempCelsiusData) = readUByteArray(suspensionDamageData, 4)
+    val (brakeTempCelsius, tyreTreadTempData) = readShortArray(brakeTempCelsiusData, 4)
+    val (tyreTreadTemp, tyreLayerTempData) = readUShortArray(tyreTreadTempData, 4)
+    val (tyreLayerTemp, tyreCarcassTempData) = readUShortArray(tyreLayerTempData, 4)
+    val (tyreCarcassTemp, tyreRimTempData) = readUShortArray(tyreCarcassTempData, 4)
+    val (tyreRimTemp, tyreInternalAirTempData) = readUShortArray(tyreRimTempData, 4)
+    val (tyreInternalAirTemp, wheelLocalPositionYData) = readUShortArray(tyreInternalAirTempData, 4)
+    val (wheelLocalPositionY, rideHeightData) = readFloatArray(wheelLocalPositionYData, 4)
+    val (rideHeight, suspensionTravelData) = readFloatArray(rideHeightData, 4)
+    val (suspensionTravel, suspensionVelocityData) = readFloatArray(suspensionTravelData, 4)
+    val (suspensionVelocity, airPressureData) = readFloatArray(suspensionVelocityData, 4)
+    val (airPressure, engineSpeedData) = readUShortArray(airPressureData, 4)
 
     // Extras
-    val (engineSpeed, engineTorqueData) = readFloat(engineSpeedData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (engineTorque, aeroDamageData) = readFloat(engineTorqueData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
+    val (engineSpeed, engineTorqueData) = readFloat(engineSpeedData)
+    val (engineTorque, aeroDamageData) = readFloat(engineTorqueData)
 
     // Car damage
-    val (aeroDamage, engineDamageData) = readUByteToFloat(aeroDamageData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (engineDamage, ambientTemperatureData) = readUByteToFloat(engineDamageData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
+    val (aeroDamage, engineDamageData) = readUByte(aeroDamageData)
+    val (engineDamage, ambientTemperatureData) = readUByte(engineDamageData)
 
     // Weather
-    val (ambientTemperature, trackTemperatureData) = readByte(ambientTemperatureData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0: Byte, Nil)
-    }
-
-    val (trackTemperature, rainDensityData) = readByte(trackTemperatureData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0: Byte, Nil)
-    }
-
-    val (rainDensity, windSpeedData) = readUByteToFloat(rainDensityData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (windSpeed, windDirectionXData) = readByte(windSpeedData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0: Byte, Nil)
-    }
-
-    val (windDirectionX, windDirectionYData) = readByte(windDirectionXData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0: Byte, Nil)
-    }
-
-    val (windDirectionY, participantInfoData) = readByte(windDirectionYData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0: Byte, Nil)
-    }
-
-    val (participantInfo, trackLengthData) = createParticipantInfoArray(participantInfoData, 56) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(56, PARTICIPANT_INFO_EMPTY), List[Byte]())
-    }
-
-    val (trackLength, wingsData) = readFloat(trackLengthData) match {
-      case Some((v, d)) => (v, d)
-      case None => (0f, Nil)
-    }
-
-    val (wings, dPadData) = readUByteArray(wingsData, 2) match {
-      case Some((v, d)) => (v, d)
-      case None => (emptyArray(2, 0), List[Byte]())
-    }
-
-    val dPad = readUByte(dPadData) match {
-      case Some((v, _)) => v
-      case None => 0
-    }
+    val (ambientTemperature, trackTemperatureData) = readByte(ambientTemperatureData)
+    val (trackTemperature, rainDensityData) = readByte(trackTemperatureData)
+    val (rainDensity, windSpeedData) = readUByte(rainDensityData)
+    val (windSpeed, windDirectionXData) = readByte(windSpeedData)
+    val (windDirectionX, windDirectionYData) = readByte(windDirectionXData)
+    val (windDirectionY, participantInfoData) = readByte(windDirectionYData)
+    val (participantInfo, trackLengthData) = createParticipantInfoArray(participantInfoData, 56)
+    val (trackLength, wingsData) = readFloat(trackLengthData)
+    val (wings, dPadData) = readUByteArray(wingsData, 2)
+    val dPad = readUByte(dPadData)
 
     TelemetryData(
       gameStateData = GameStateData(
