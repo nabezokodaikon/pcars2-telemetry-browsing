@@ -14,7 +14,7 @@ object ParserApp extends App with LazyLogging {
 
   val dir = FileUtil.getCurrentDirectory()
 
-  val telemetryDataName = s"${dir}/testdata/0_20171009190539027.bin"
+  val telemetryDataName = s"${dir}/testdata/0_20171011161712739.bin"
   var telemetryDataData = FileUtil.readBinary(telemetryDataName).toList
   val telemetryData = createTelemetryData(telemetryDataData)
   println(telemetryData.carStateData.brake)
@@ -30,17 +30,16 @@ object ParserApp extends App with LazyLogging {
   // println(telemetryData.toJsonString)
 
   runningTime {
-    for (i <- 0 to 0) {
+    for (i <- 0 to 1000) {
       val src = createTelemetryData(telemetryDataData)
       val json = src.toJsonString
       val msg = TextMessage(json)
-      println(json)
     }
   }
 
   println("////////////////////////////////")
 
-  val participantInfoStringsName = s"${dir}/testdata/1_20171008215718126.bin"
+  val participantInfoStringsName = s"${dir}/testdata/1_20171011162536537.bin"
   var participantInfoStringsData = FileUtil.readBinary(participantInfoStringsName).toList
   val participantInfoStrings = createParticipantInfoStrings(participantInfoStringsData)
   println(participantInfoStrings.carName)
@@ -51,7 +50,7 @@ object ParserApp extends App with LazyLogging {
   // println(participantInfoStrings.toJsonString)
 
   runningTime {
-    for (i <- 0 to 0) {
+    for (i <- 0 to 1000) {
       val src = createParticipantInfoStrings(participantInfoStringsData)
       val json = src.toJsonString
       val msg = TextMessage(json)
