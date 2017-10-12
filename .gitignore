@@ -29,3 +29,6 @@ tags
 logs/
 
 testdata/
+
+# node.js
+node_modules/
