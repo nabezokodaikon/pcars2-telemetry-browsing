@@ -1,5 +1,6 @@
 import path from "path";
 import CleanWebpackPlugin from "clean-webpack-plugin";
+// import webpack from "webpack";
 
 module.exports = {
   entry: {
@@ -29,6 +30,13 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(["public/dist"])
+    new CleanWebpackPlugin(["public/dist"]) /*,
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin()
+    */
   ]
 }
