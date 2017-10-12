@@ -23,9 +23,9 @@ import com.typesafe.scalalogging.LazyLogging
 
 class Server(manager: ActorRef) extends HttpApp with LazyLogging {
 
-  private val resourceDirectory = {
+  private val contentsDirectory = {
     val current = FileUtil.getCurrentDirectory
-    s"${current}/contents"
+    s"${current}/contents/public"
   }
 
   private def createUser() = {
@@ -38,7 +38,7 @@ class Server(manager: ActorRef) extends HttpApp with LazyLogging {
   override def routes: Route =
     pathSingleSlash {
       get {
-        val file = s"${resourceDirectory}/index.html"
+        val file = s"${contentsDirectory}/index.html"
         val contentType = FileUtil.getContentType(file)
         val text = FileUtil.readText(file)
         complete(HttpEntity(contentType, text))
@@ -52,7 +52,7 @@ class Server(manager: ActorRef) extends HttpApp with LazyLogging {
       path(Segments) { x: List[String] =>
         get {
           val segments = x.mkString("/")
-          val file = s"${resourceDirectory}/${segments}"
+          val file = s"${contentsDirectory}/${segments}"
           val contentType = FileUtil.getContentType(file)
           val text = FileUtil.readText(file)
           complete(HttpEntity(contentType, text))
