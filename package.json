@@ -24,5 +24,8 @@
   "dependencies": {
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
+  },
+  "scripts": {
+    "build" "./node_modules/.bin/webpack --config webpack.config.babel.js"
   }
 }
