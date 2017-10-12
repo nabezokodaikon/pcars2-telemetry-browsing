@@ -32,3 +32,6 @@ testdata/
 
 # node.js
 node_modules/
+
+# webpack
+public/dist/

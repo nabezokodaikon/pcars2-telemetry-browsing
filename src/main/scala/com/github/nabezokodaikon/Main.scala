@@ -27,21 +27,21 @@ object Main extends App with LazyLogging {
   val server = new Server(clientManager)
 
   // Test code.
-  // import com.github.nabezokodaikon.example.udp.UdpTestDataSender
-  // val udpSenderProps = Props(classOf[UdpTestDataSender], clientManager)
-  // val udpSender = system.actorOf(udpSenderProps, "udpSender")
-  // udpSender ! UdpTestDataSender.Received
+  import com.github.nabezokodaikon.example.udp.UdpTestDataSender
+  val udpSenderProps = Props(classOf[UdpTestDataSender], clientManager)
+  val udpSender = system.actorOf(udpSenderProps, "udpSender")
+  udpSender ! UdpTestDataSender.Received
 
   server.startServer("192.168.1.18", 9000, system)
 
   // Test code.
-  // try {
-    // val stopped = gracefulStop(udpSender, 5.seconds, ActorDone)
-    // Await.result(stopped, 6.seconds)
-  // } catch {
-    // case e: AskTimeoutException =>
-      // logger.error(e.getMessage)
-  // }
+  try {
+    val stopped = gracefulStop(udpSender, 5.seconds, ActorDone)
+    Await.result(stopped, 6.seconds)
+  } catch {
+    case e: AskTimeoutException =>
+      logger.error(e.getMessage)
+  }
 
   // try {
   // val stopped = gracefulStop(udpListener, 5.seconds, ActorDone)

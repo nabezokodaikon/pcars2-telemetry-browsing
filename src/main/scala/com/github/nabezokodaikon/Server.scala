@@ -25,7 +25,7 @@ class Server(manager: ActorRef) extends HttpApp with LazyLogging {
 
   private val contentsDirectory = {
     val current = FileUtil.getCurrentDirectory
-    s"${current}/contents/public"
+    s"${current}/public"
   }
 
   private def createUser() = {
