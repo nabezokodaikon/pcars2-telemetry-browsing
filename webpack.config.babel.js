@@ -5,8 +5,9 @@ module.exports = {
   entry: {
     index: "./public/src/example.js",
     main: "./public/src/main.js",
-    react: "./public/src/react.js"
+    react: "./public/src/react.jsx"
   },
+  devtool: 'inline-source-map',
   output: {
     filename: "[name].bundle.js",
     path: path.resolve(__dirname, "public/dist")
