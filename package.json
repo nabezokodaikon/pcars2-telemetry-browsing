@@ -1,0 +1,19 @@
+{
+  "name": "pcars2-udp-app",
+  "version": "0.0.1",
+  "description": "Telemetry display for Project Cars 2",
+  "main": "contents/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nabezokodaikon/pcars2-udp-app.git"
+  },
+  "author": "nabezokodaikon",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/nabezokodaikon/pcars2-udp-app/issues"
+  },
+  "homepage": "https://github.com/nabezokodaikon/pcars2-udp-app#readme"
+}
