@@ -10,6 +10,13 @@ object TelemetryDataStructFactory {
     Array.fill[T](count)(emptyValue)
   }
 
+  private def toGearString(gear: Int): String =
+    gear match {
+      case -1 => GEAR_REVERS
+      case 0 => GEAR_NEUTRAL
+      case _ => gear.toString
+    }
+
   private def createNameString(data: List[Byte], stringLength: Int): String = {
     val (nameString, _) = readUByteArray(data, stringLength) match {
       case (v, d) => (toStringFromArray(v), d)
@@ -280,7 +287,7 @@ object TelemetryDataStructFactory {
         speed = speed * 3.6f,
         rpm = rpm,
         maxRpm = maxRpm,
-        gear = gearNumGears & 15,
+        gear = toGearString(gearNumGears & 15),
         numGears = gearNumGears >> 4,
         boostAmount = boostAmount,
         enforcedPitStopLap = enforcedPitStopLap,

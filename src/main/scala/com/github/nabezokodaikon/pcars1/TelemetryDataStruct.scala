@@ -160,7 +160,7 @@ case class CarStateData(
   speed: Float,
   rpm: Int,
   maxRpm: Int,
-  gear: Int, // [ RANGE = -1 (Reverse)  0 (Neutral)  1 (Gear 1)  2 (Gear 2)  etc... ]  TODO *Revers = 15?
+  gear: String, // [ RANGE = -1 (Reverse)  0 (Neutral)  1 (Gear 1)  2 (Gear 2)  etc... ]  TODO *Revers = 15?
   numGears: Int, // [ UNSET = -1 ]
   boostAmount: Int,
   enforcedPitStopLap: Byte,
