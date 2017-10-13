@@ -1,22 +1,13 @@
 package com.github.nabezokodaikon.pcars1
 
 import com.github.nabezokodaikon.pcars1.BinaryUtil._
+import com.github.nabezokodaikon.pcars1.TelemetryDataConst._
 import scala.reflect.ClassTag
 
 object TelemetryDataStructFactory {
 
-  def emptyArray[T: ClassTag](count: Int, emptyValue: T): Array[T] = {
+  private def emptyArray[T: ClassTag](count: Int, emptyValue: T): Array[T] = {
     Array.fill[T](count)(emptyValue)
-  }
-
-  def createFrameInfo(data: List[Byte]): FrameInfo = {
-    val frameTypeAndSequence = data(2);
-    val frameType = frameTypeAndSequence & 3
-    val sequence = frameTypeAndSequence >> 2
-    FrameInfo(
-      frameTypeAndSequence,
-      frameType,
-      sequence)
   }
 
   private def createNameString(data: List[Byte], stringLength: Int): String = {
@@ -27,7 +18,7 @@ object TelemetryDataStructFactory {
     nameString
   }
 
-  def createNameStringArray(data: List[Byte], stringCount: Int, stringLength: Int): (Array[String], List[Byte]) =
+  private def createNameStringArray(data: List[Byte], stringCount: Int, stringLength: Int): (Array[String], List[Byte]) =
     stringCount * stringLength match {
       case len if len <= data.length =>
         (data.take(len).grouped(stringLength).map(d => createNameString(d, stringLength)).toArray, data.drop(len))
@@ -72,15 +63,6 @@ object TelemetryDataStructFactory {
       trackVariation = trackVariation,
       nameString = nameString)
   }
-
-  val PARTICIPANT_INFO_EMPTY = ParticipantInfo(
-    worldPosition = emptyArray(3, 0),
-    currentLapDistance = 0,
-    racePosition = 0,
-    lapsCompleted = 0,
-    currentLap = 0,
-    sector = 0,
-    lastSectorTime = 0f)
 
   private def createParticipantInfo(data: List[Byte]): ParticipantInfo = {
     val (worldPosition, currentLapDistanceData) = readShortArray(data, 3)
@@ -352,5 +334,30 @@ object TelemetryDataStructFactory {
         windSpeed = windSpeed * 2,
         windDirectionX = windDirectionX / 127f,
         windDirectionY = windDirectionY / 127f))
+  }
+
+  def createFrameInfo(data: List[Byte]): FrameInfo = {
+    val frameTypeAndSequence = data(2);
+    val frameType = frameTypeAndSequence & 3
+    val sequence = frameTypeAndSequence >> 2
+    FrameInfo(
+      frameTypeAndSequence,
+      frameType,
+      sequence)
+  }
+
+  def getJsonText(dataArray: Array[Byte]): String = {
+    if (dataArray.length < 3) {
+      ""
+    } else {
+      val dataList = dataArray.toList
+      val frameInfo = createFrameInfo(dataList)
+      frameInfo.frameType match {
+        case TELEMETRY_DATA_FRAME_TYPE => createTelemetryData(dataList).toJsonString
+        case PARTICIPANT_INFO_STRINGS_FRAME_TYPE => createParticipantInfoStrings(dataList).toJsonString
+        case PARTICIPANT_INFO_STRINGS_ADDITIONAL_FRAME_TYPE => ""
+        case _ => ""
+      }
+    }
   }
 }
