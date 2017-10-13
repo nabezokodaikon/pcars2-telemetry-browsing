@@ -6,7 +6,8 @@ module.exports = {
   entry: {
     index: "./public/src/example.js",
     main: "./public/src/main.js",
-    react: "./public/src/react.jsx"
+    react: "./public/src/react.jsx",
+    car_state_data: "./public/src/car_state_data.js"
   },
   devtool: 'inline-source-map',
   output: {
