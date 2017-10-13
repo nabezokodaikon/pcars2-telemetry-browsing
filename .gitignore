@@ -29,6 +29,7 @@ tags
 logs/
 
 testdata/
+testdata_bk/
 
 # node.js
 node_modules/
