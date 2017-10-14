@@ -1,3 +1,75 @@
-body {
-  background-color: #aaaaaa;
+/* body { */
+  /* background-color: #aaaaaa; */
+/* } */
+
+ul {
+  margin: 0;
+  padding-left: 0;
+  position: fixed;
+  top: 8rem;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.menuopen{
+  z-index: 1;
+  position: absolute;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-width: 0;
+  width: 0;
+  height: 0;
+}
+.menuopen:focus {
+  outline: 0;
+}
+.menuopen:before, .menuopen:after {  
+  position: absolute;
+  content: "";
+  display: block;
+  height: 12px;
+  width: 40px;
+  border-color: gray;
+  border-top-style: solid;
+  border-bottom-style: solid;
+}
+.menuopen:before{
+    top: 4px;
+    border-top-width: 4px;
+    border-bottom-width: 2px;
+}
+.menuopen:after{    
+    top: 22px;
+    border-top-width: 2px;
+    border-bottom-width: 4px;
+}
+.menuopen:checked:before, .menuopen:checked:after {
+  border-color: black;
+}
+
+.menu {
+  position: fixed;
+  top: 0;
+  left: -340px;
+  overflow: hidden;
+  width: 300px;
+  height: 100%;
+  padding: 20px;
+  transition: left .5s, right .5s;
+  background-color: rgba(86, 86, 86, .7);
+}
+.menu:hover {
+  left: 0;
+}
+
+#root > .menuopen:checked + .menu {
+  left: 0;
 }
