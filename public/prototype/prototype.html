@@ -7,8 +7,7 @@
   </head>
   <body>
     <div id="root">
-      <input type="checkbox" class="menuopen">
-      <div class="menu">
+      <div id="menu" class="menu">
         <nav>
           <ul class="list">
             <li><a href="">ParticipantInfoStrings</a></li>
@@ -28,11 +27,12 @@
             <li><a href="">TyreUdpData</a></li>
             <li><a href="">OtherUdpData</a></li>
             <li><a href="">CarDamageData,</a></li>
-            <li><a href="">WeatherData</a></li>
+            <li><input id="input" value="WeatherData" type="radio" value="WeatherData">WeatherData</li>
           </ul>
         </nav>
       </div>
-      <div>
+      <div id="filter" class="filter" tabindex="0"></div>
+      <div class="contents">
         <main>
           <p>ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
           <p>ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
@@ -45,5 +45,6 @@
         </main>
       </div>
     </div>
+    <script src="prototype.js"></script>
   </body>
 </html>
