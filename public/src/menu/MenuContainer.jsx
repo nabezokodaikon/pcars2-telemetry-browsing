@@ -37,14 +37,15 @@ class Menu extends React.Component {
     this.props.onMenuClick();
   }
 
-  handleMenuItemClick(menuItemName) {
-    this.props.onMenuItemClick(menuItemName);
+  handleMenuItemClick(contentName) {
+    this.props.onMenuItemClick(contentName);
   }
 
   handleFilterClick() {
     this.props.onFilterClick();
   }
 
+  // TODO: ループが可能なら、このクラス内にスタイルシートを定義する。
   renderFilter() {
     return (
       <div className="menu" style={menuStyle} tabIndex="2" onClick={this.handleMenuClick()}>
