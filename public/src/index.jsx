@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import thunkMiddleware from 'redux-thunk'
 import appReducer from "./appReducer.js"
-import CarStateDataContainer from "./main/carStateData/CarStateDataContainer.jsx";
+import CarStateDataContainer from "./contents/carStateData/CarStateDataContainer.jsx";
 
 const composeEnhancers =
   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
