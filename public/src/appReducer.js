@@ -20,7 +20,7 @@ function telemetry(state = {}, action) {
   console.log("telemetryReducer");
   switch (action.type) {
     case actionTypes.RECEIVED_DATA:
-      return action.telemetry;
+      return action.nextTelemetry;
     default:
       return state;
   }

@@ -1,7 +1,10 @@
 import * as actionTypes from "./appActionTypes.js";
 
 export function receivedData(telemetry) {
-  return { type: actionTypes.RECEIVED_DATA, telemetry };
+  return {
+    type: actionTypes.RECEIVED_DATA, 
+    nextTelemetry 
+  };
 }
 
 export function open() {
@@ -9,8 +12,8 @@ export function open() {
 }
 
 export function testCounter(addValue) {
-    return {
-      type: actionTypes.TEST_COUNTER,
-      addValue
-    };
+  return {
+    type: actionTypes.TEST_COUNTER,
+    addValue
+  };
 };
