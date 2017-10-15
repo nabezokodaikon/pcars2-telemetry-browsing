@@ -4,9 +4,7 @@ import CleanWebpackPlugin from "clean-webpack-plugin";
 
 module.exports = {
   entry: {
-    index: "./public/src/index.jsx",
-    main: "./public/src/main.js",
-    react: "./public/src/react.jsx",
+    index: "./public/src/index.jsx"
   },
   devtool: 'inline-source-map',
   output: {
