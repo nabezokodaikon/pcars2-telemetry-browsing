@@ -6,6 +6,8 @@ import thunk from "redux-thunk";
 import appReducer from "./appReducer.js"
 import CarStateDataContainer from "./main/carStateData/CarStateDataContainer.jsx";
 
+import { testCounter } from "./appActionCreators.js";
+
 const store = createStore(
   appReducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
@@ -28,6 +30,8 @@ const store = createStore(
   // const json = JSON.parse(e.data)
   // store.dispatch(receivedData(json));
 // }
+
+store.dispatch(testCounter(3));
 
 render(
   <Provider store={store}>
