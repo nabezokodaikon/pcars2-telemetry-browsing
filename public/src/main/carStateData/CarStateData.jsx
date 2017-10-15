@@ -1,39 +1,17 @@
 import React from "react";
 import ReactDom from "react-dom";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { testCounter } from "../../appActionCreators.js";
 
-export default class CarStateData extends React.Component {
+class CarStateData extends React.Component {
   constructor(props) {
     super(props)
+    this.handleTestClick = this.handleTestClick.bind(this);
   }
 
   componentDidMount() {
     console.log("componentDidMount");
-    // this.props.onOpen(this.props.telemetry);
-
-
-    // const ws = new WebSocket("ws://192.168.1.18:9000/pcars1");
-    // ws.onopen = e => {
-      // console.log("Websocket was opened.");
-    // };
-
-    // ws.onclose = e => {
-      // console.log("Websocket was closed.");
-    // }
-
-    // ws.onerror = e => {
-      // console.log("Error occurred in Websocket.");
-    // }
-
-    // ws.onmessage = e => {
-      // const json = JSON.parse(e.data)
-      // // store.dispatch(receivedData(json));
-      // store.dispatch(fetchReceived(json));
-    // }
-
-    // this.props.onOpen(ws);
-
-
   }
 
   renderSpeed() {
@@ -44,12 +22,48 @@ export default class CarStateData extends React.Component {
     }
   }
 
+  handleTestClick() {
+    this.props.onTestClick(2);
+  }
+
   render() {
     console.log("render");
-    return this.renderSpeed();
+    return (
+      <div>
+        {this.renderSpeed()}
+        <button onClick={this.handleTestClick}>Click me</button>
+        <p>{this.props.testCount}</p>
+      </div>
+    );
   }
 }
 
 CarStateData.propTypes = {
-  telemetry: PropTypes.object.isRequired
+  telemetry: PropTypes.object.isRequired,
+  testCount: PropTypes.number.isRequired,
+  onTestClick: PropTypes.func.isRequired
 };
+
+const mapStateToProps = state => {
+  console.log("mapStateToProps");
+  return {
+    testCount: state.testCount,
+    telemetry: state.telemetry
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  console.log("mapDispatchToProps");
+  return {
+    onTestClick: addValue => {
+      dispatch(testCounter(addValue));
+    }
+  };
+};
+
+const CarStateDataContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CarStateData);
+
+export default CarStateDataContainer;

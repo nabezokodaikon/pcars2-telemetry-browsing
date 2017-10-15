@@ -1,14 +1,25 @@
 import { combineReducers } from "redux";
-import { receivedData, RECEIVED_DATA } from "./appAction.js"
+import * as actionTypes from "./appActionTypes.js";
 
 const initialState = {
+  testCount: 0,
   telemetry: {}
 }
 
-function telemetry(state = {}, action) {
-  console.log("appReducer");
+function testCount(state = 0, action) {
+  console.log("testCounterReducer");
   switch (action.type) {
-    case RECEIVED_DATA:
+    case actionTypes.TEST_COUNTER:
+      return state + action.addValue;
+    default:
+      return state;
+  }
+}
+
+function telemetry(state = {}, action) {
+  console.log("telemetryReducer");
+  switch (action.type) {
+    case actionTypes.RECEIVED_DATA:
       return action.telemetry;
     default:
       return state;
@@ -16,6 +27,7 @@ function telemetry(state = {}, action) {
 }
 
 const appReducer = combineReducers({
+  testCount,
   telemetry
 });
 
