@@ -2,7 +2,7 @@ import React from "react";
 import ReactDom from "react-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { testCounter } from "../../appActionCreators.js";
+import { testCounter, openWebSocket } from "../../appActionCreators.js";
 
 class CarStateData extends React.Component {
   constructor(props) {
@@ -12,11 +12,12 @@ class CarStateData extends React.Component {
 
   componentDidMount() {
     console.log("componentDidMount");
+    this.props.onOpenWebSocket();
   }
 
   renderSpeed() {
     if (Object.keys(this.props.telemetry).length > 0 && this.props.telemetry.frameType == 0) {
-      return <p>this.props.telemetry.carStateData.speed</p>;
+      return <p>{this.props.telemetry.carStateData.speed}</p>;
     } else {
       return <p>--:--:--.---</p>;
     }
@@ -27,7 +28,6 @@ class CarStateData extends React.Component {
   }
 
   render() {
-    console.log("render");
     return (
       <div>
         {this.renderSpeed()}
@@ -41,11 +41,11 @@ class CarStateData extends React.Component {
 CarStateData.propTypes = {
   telemetry: PropTypes.object.isRequired,
   testCount: PropTypes.number.isRequired,
-  onTestClick: PropTypes.func.isRequired
+  onTestClick: PropTypes.func.isRequired,
+  onOpenWebSocket: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
-  console.log("mapStateToProps");
   return {
     testCount: state.testCount,
     telemetry: state.telemetry
@@ -57,6 +57,9 @@ const mapDispatchToProps = dispatch => {
   return {
     onTestClick: addValue => {
       dispatch(testCounter(addValue));
+    },
+    onOpenWebSocket: () => {
+      dispatch(openWebSocket());
     }
   };
 };

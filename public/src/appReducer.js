@@ -7,7 +7,6 @@ const initialState = {
 }
 
 function testCount(state = 0, action) {
-  console.log("testCounterReducer");
   switch (action.type) {
     case actionTypes.TEST_COUNTER:
       return state + action.addValue;
@@ -17,7 +16,6 @@ function testCount(state = 0, action) {
 }
 
 function telemetry(state = {}, action) {
-  console.log("telemetryReducer");
   switch (action.type) {
     case actionTypes.RECEIVED_DATA:
       return action.nextTelemetry;
