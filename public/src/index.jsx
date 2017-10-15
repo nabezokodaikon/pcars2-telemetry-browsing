@@ -16,6 +16,9 @@ const enhancer = composeEnhancers(
 
 const store = createStore(appReducer, enhancer);
 
+// For mobile.
+// const store = createStore(appReducer, applyMiddleware(thunkMiddleware));
+
 render(
   <Provider store={store}>
     <div>
