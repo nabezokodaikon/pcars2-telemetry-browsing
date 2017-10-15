@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import appReducer from "./appReducer.js"
-import CarStateDataContainer from "./main/carStateData/CarStateData.jsx";
+import CarStateDataContainer from "./main/carStateData/CarStateDataContainer.jsx";
 
 const store = createStore(
   appReducer,
