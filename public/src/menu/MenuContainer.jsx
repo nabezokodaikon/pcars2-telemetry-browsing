@@ -40,6 +40,30 @@ class Menu extends React.Component {
     }
   }
 
+  getContentItems() {
+    return [
+      contentNames.PARTICIPANT_INFO_STRINGS,
+      contentNames.PARTICIPANT_INFO_STRINGS_ADDITIONAL,
+      contentNames.GAMESTATE_DATA,
+      contentNames.PARTICIPANT_INFO_DATA,
+      contentNames.PARTICIPANT_INFO,
+      contentNames.UNFILTEREDINPUT_DATA,
+      contentNames.EVENT_INFO_DATA,
+      contentNames.TIMING_INFO_DATA,
+      contentNames.SECTOR_TIME_DATA,
+      contentNames.FLAG_DATA,
+      contentNames.PITINFO_DATA,
+      contentNames.CAR_STATE_DATA,
+      contentNames.CAR_STATE_VECOTRDATA,
+      contentNames.TYRE_DATA,
+      contentNames.TYRE_UDP_DATA,
+      contentNames.OTHER_UDP_DATA,
+      contentNames.CAR_DAMAGE_DATA
+    ].map((v, i) =>
+      <li key={i.toString()}><button onClick={evt => this.handleMenuItemClick(evt, v)}>{v}</button></li>
+    );
+  }
+
   handleMenuClick() {
     this.props.onMenuClick();
   }
@@ -53,29 +77,12 @@ class Menu extends React.Component {
     this.props.onFilterClick();
   }
 
-  // TODO: ループが可能なら、このクラス内にスタイルシートを定義する。
   renderMenu() {
     return (
       <div className="menu" style={this.getMenuStyle()} tabIndex="2" onClick={this.handleMenuClick}>
         <nav>
           <ul>
-            <li><button onClick={evt => this.handleMenuItemClick(evt, "ParticipantInfoStrings")}>ParticipantInfoStrings</button></li>
-            <li><button onClick={evt => this.handleMenuItemClick(evt, "ParticipantInfoStringsAdditional")}>ParticipantInfoStringsAdditional</button></li>
-            <li><button onClick={evt => this.handleMenuItemClick(evt, "GameStateData")}>GameStateData</button></li>
-            <li><button onClick={evt => this.handleMenuItemClick(evt, "ParticipantInfoData")}>ParticipantInfoData</button></li>
-            <li><button onClick={evt => this.handleMenuItemClick(evt, "ParticipantInfo")}>ParticipantInfo</button></li>
-            <li><button onClick={evt => this.handleMenuItemClick(evt, "UnfilteredInputData")}>UnfilteredInputData</button></li>
-            <li><button onClick={evt => this.handleMenuItemClick(evt, "EventInfoData")}>EventInfoData</button></li>
-            <li><button onClick={evt => this.handleMenuItemClick(evt, "TimingInfoData")}>TimingInfoData</button></li>
-            <li><button onClick={evt => this.handleMenuItemClick(evt, "SectorTimeData")}>SectorTimeData</button></li>
-            <li><button onClick={evt => this.handleMenuItemClick(evt, "FlagData")}>FlagData</button></li>
-            <li><button onClick={evt => this.handleMenuItemClick(evt, "PitInfoData")}>PitInfoData</button></li>
-            <li><button onClick={evt => this.handleMenuItemClick(evt, "CarStateData")}>CarStateData</button></li>
-            <li><button onClick={evt => this.handleMenuItemClick(evt, "CarStateVecotrData")}>CarStateVecotrData</button></li>
-            <li><button onClick={evt => this.handleMenuItemClick(evt, "TyreData")}>TyreData</button></li>
-            <li><button onClick={evt => this.handleMenuItemClick(evt, "TyreUdpData")}>TyreUdpData</button></li>
-            <li><button onClick={evt => this.handleMenuItemClick(evt, "OtherUdpData")}>OtherUdpData</button></li>
-            <li><button onClick={evt => this.handleMenuItemClick(evt, "CarDamageData")}>CarDamageData</button></li>
+            {this.getContentItems()}
           </ul>
         </nav>
       </div>
