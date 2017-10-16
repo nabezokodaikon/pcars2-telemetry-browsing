@@ -1,7 +1,7 @@
 * {
-  margin: 0rem;
-  padding: 0rem;
-  border-width: 0rem;
+  margin: 0;
+  padding: 0;
+  border-width: 0;
   color: #565656;
 }
 *:focus {
@@ -9,15 +9,15 @@
 }
 html,
 body {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
 }
 
 ul {
   margin: 0;
   padding-left: 0;
   position: fixed;
-  top: 8rem;
+  top: 8%;
 }
 
 li {
@@ -33,20 +33,20 @@ a {
   z-index: 2;
   position: fixed;
   top: 0;
-  left: -340px;
+  left: -30vw;
   overflow: hidden;
-  width: 300px;
-  height: 100%;
-  padding: 20px;
-  transition: left .5s, right .5s;
-  background-color: rgba(86, 86, 86, .7);
+  width: 30vmin;
+  height: 100vmax;
+  padding: 2rem;
+  transition: left 0.5s, right 0.5s;
+  background-color: #868686;
 }
 
 .filter {
   z-index: 1;
   position: absolute;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background-color: #555555;
   opacity: 0.0;
   /* タッチイベントをonclickイベントで実行される。 */
@@ -55,6 +55,10 @@ a {
 
 .contents {
   z-index: 0;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: #DDDDDD;
   /* タッチイベントをonclickイベントで実行される。 */
   cursor: pointer;
 }
