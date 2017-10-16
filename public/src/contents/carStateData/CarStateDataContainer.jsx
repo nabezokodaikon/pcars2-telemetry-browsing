@@ -2,12 +2,11 @@ import React from "react";
 import ReactDom from "react-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { testCounter, openWebSocket } from "../../appActionCreators.js";
+import { openWebSocket } from "../../appActionCreators.js";
 
 class CarStateData extends React.Component {
   constructor(props) {
     super(props)
-    this.handleTestClick = this.handleTestClick.bind(this);
   }
 
   componentDidMount() {
@@ -23,16 +22,10 @@ class CarStateData extends React.Component {
     }
   }
 
-  handleTestClick() {
-    this.props.onTestClick(2);
-  }
-
   render() {
     return (
       <div>
         {this.renderSpeed()}
-        <button onClick={this.handleTestClick}>Click me</button>
-        <p>{this.props.testCount}</p>
       </div>
     );
   }
@@ -40,14 +33,11 @@ class CarStateData extends React.Component {
 
 CarStateData.propTypes = {
   telemetry: PropTypes.object.isRequired,
-  testCount: PropTypes.number.isRequired,
-  onTestClick: PropTypes.func.isRequired,
   onOpenWebSocket: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
   return {
-    testCount: state.testCount,
     telemetry: state.telemetry
   };
 };
@@ -55,9 +45,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   console.log("mapDispatchToProps");
   return {
-    onTestClick: addValue => {
-      dispatch(testCounter(addValue));
-    },
     onOpenWebSocket: () => {
       dispatch(openWebSocket());
     }

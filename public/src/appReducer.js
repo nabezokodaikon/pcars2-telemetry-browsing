@@ -20,15 +20,6 @@ function isMenuToVisible(state = false, action) {
   }
 }
 
-function testCount(state = 0, action) {
-  switch (action.type) {
-    case actionTypes.TEST_COUNTER:
-      return state + action.addValue;
-    default:
-      return state;
-  }
-}
-
 function telemetry(state = {}, action) {
   switch (action.type) {
     case actionTypes.RECEIVED_DATA:
@@ -41,7 +32,6 @@ function telemetry(state = {}, action) {
 const appReducer = combineReducers({
   currentContent,
   isMenuToVisible,
-  testCount,
   telemetry
 });
 

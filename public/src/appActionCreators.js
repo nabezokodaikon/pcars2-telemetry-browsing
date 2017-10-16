@@ -7,29 +7,18 @@ export function receivedData(nextTelemetry) {
   };
 }
 
-export function open() {
-  return { type: actionTypes.OPEN_WEBSOCKET };
-}
-
 export function currentContent(selectedContent) {
   return {
     type: actionTypes.SELECTED_CONTENT,
     selectedContent
-  }
+  };
 }
 
 export function toggleMenu() {
   return {
     type: actionTypes.TOGGLE_MENU
-  }
-}
-
-export function testCounter(addValue) {
-  return {
-    type: actionTypes.TEST_COUNTER,
-    addValue
   };
-};
+}
 
 function startWebSocketConnection() {
   return new Promise((resolve, reject) => {
