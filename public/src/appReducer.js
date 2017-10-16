@@ -1,9 +1,6 @@
 import { combineReducers } from "redux";
 import * as actionTypes from "./appActionTypes.js";
 
-const initialState = {
-  testCount: 0,
-  telemetry: {}
 }
 
 function testCount(state = 0, action) {
