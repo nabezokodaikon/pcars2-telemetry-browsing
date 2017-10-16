@@ -8,7 +8,7 @@ export function receivedData(nextTelemetry) {
 }
 
 export function open() {
-  return { type: actionTypes.OPEN };
+  return { type: actionTypes.OPEN_WEBSOCKET };
 }
 
 export function testCounter(addValue) {
