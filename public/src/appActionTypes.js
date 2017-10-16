@@ -1,3 +1,5 @@
 export const OPEN_WEBSOCKET = "OPEN_WEBSOCKET";
 export const RECEIVED_DATA = "RECEIVED_DATA";
 export const TEST_COUNTER = "TEST_COUNTER";
+export const TOGGLE_MENU = "TOGGLE_MENU"
+export const SELECTED_CONTENT = "SELECTED_CONTENT";
