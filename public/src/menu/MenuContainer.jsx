@@ -12,24 +12,49 @@ class Menu extends React.Component {
     this.handleFilterClick = this.handleFilterClick.bind(this);
   }
 
-  getMenuStyle() {
-    return {
-      left: this.getMenuLeft()
-    };
-  }
-
-  getFilterStyle() {
-    return {
-      opacity: this.getFilterOpacity()
-    };
-  };
-
   getMenuLeft() {
     if (this.props.isMenuToVisible) {
       return "0";
     } else {
-      return "-340px";
+      return "-44vw";
     }
+  }
+
+  getMenuStyle() {
+    return {
+      zIndex: 2,
+      position: "fixed",
+      top: 0,
+      left: this.getMenuLeft(),
+      overflow: "hidden",
+      width: "30vw",
+      height: "100vh",
+      padding: "1rem",
+      transition: "left 0.5s, right 0.5s",
+      backgroundColor: "#868686",
+      cursor: "pointer"
+    };
+  }
+
+  getUlStyle() {
+    return {
+      margin: 0,
+      paddingLeft: 0
+    };
+  }
+
+  getLiStyle() {
+    return {
+      listStyle: "none"
+    };
+  }
+
+  getButtonStyle() {
+    return {
+      color: "#555555",
+      fontSize: "1rem",
+      cursor: "pointer"
+    };
   }
 
   getFilterOpacity() {
@@ -39,6 +64,18 @@ class Menu extends React.Component {
       return "0";
     }
   }
+
+  getFilterStyle() {
+    return {
+      zIndex: 1,
+      position: "absolute",
+      width: "100vw",
+      height: "100vh",
+      backgroundColor: "#555555",
+      opacity: this.getFilterOpacity(),
+      cursor: "pointer"
+    };
+  };
 
   getContentItems() {
     return [
@@ -60,7 +97,9 @@ class Menu extends React.Component {
       contentNames.OTHER_UDP_DATA,
       contentNames.CAR_DAMAGE_DATA
     ].map((v, i) =>
-      <li key={i.toString()}><button onClick={evt => this.handleMenuItemClick(evt, v)}>{v}</button></li>
+      <li style={this.getLiStyle()} key={i.toString()}>
+        <button style={this.getButtonStyle()} onClick={evt => this.handleMenuItemClick(evt, v)}>{v}</button>
+      </li>
     );
   }
 
@@ -79,9 +118,9 @@ class Menu extends React.Component {
 
   renderMenu() {
     return (
-      <div className="menu" style={this.getMenuStyle()} tabIndex="2" onClick={this.handleMenuClick}>
+      <div style={this.getMenuStyle()} tabIndex="1" onClick={this.handleMenuClick}>
         <nav>
-          <ul>
+          <ul style={this.getUlStyle()}>
             {this.getContentItems()}
           </ul>
         </nav>
@@ -91,7 +130,7 @@ class Menu extends React.Component {
 
   renderFilter() {
     return (
-      <div className="filter" style={this.getFilterStyle()} tabIndex="1" onClick={this.handleFilterClick}></div>
+      <div className="filter" style={this.getFilterStyle()} tabIndex="2" onClick={this.handleFilterClick}></div>
     );
   }
 
