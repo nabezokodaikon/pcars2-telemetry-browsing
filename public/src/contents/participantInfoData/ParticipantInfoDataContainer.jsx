@@ -2,17 +2,11 @@ import React from "react";
 import ReactDom from "react-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { openWebSocket } from "../../appActionCreators.js";
 import { isTelemetryDataFrameType } from "../../common/telemetryUtil.js";
 
 class ParticipantInfoData extends React.Component {
   constructor(props) {
     super(props)
-  }
-
-  componentDidMount() {
-    console.log("componentDidMount");
-    this.props.onOpenWebSocket();
   }
 
   getData() {
@@ -48,8 +42,7 @@ class ParticipantInfoData extends React.Component {
 }
 
 ParticipantInfoData.propTypes = {
-  telemetry: PropTypes.object.isRequired,
-  onOpenWebSocket: PropTypes.func.isRequired
+  telemetry: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
@@ -58,17 +51,8 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onOpenWebSocket: () => {
-      dispatch(openWebSocket());
-    }
-  };
-};
-
 const ParticipantInfoDataContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(ParticipantInfoData);
 
 export default ParticipantInfoDataContainer;

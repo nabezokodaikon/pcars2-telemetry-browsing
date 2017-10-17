@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as contentNames from "../common/contentNames.js";
+import { openWebSocket } from "../appActionCreators.js";
 import GameStateDataContainer from "./gameStateData/GameStateDataContainer.jsx";
 import ParticipantInfoDataContainer from "./participantInfoData/ParticipantInfoDataContainer.jsx";
 import ParticipantInfoContainer from "./participantInfo/ParticipantInfoContainer.jsx";
@@ -10,6 +11,10 @@ import CarStateDataContainer from "./carStateData/CarStateDataContainer.jsx";
 class Contents extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount() {
+    this.props.onOpenWebSocket();
   }
 
   getContentStyle() {
@@ -73,7 +78,8 @@ class Contents extends React.Component {
 }
 
 Contents.propTypes = {
-  currentContent: PropTypes.string.isRequired
+  currentContent: PropTypes.string.isRequired,
+  onOpenWebSocket: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => {
@@ -82,8 +88,17 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    onOpenWebSocket: () => {
+      dispatch(openWebSocket());
+    }
+  };
+};
+
 const ContentsContainer = connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Contents);
 
 export default ContentsContainer;
