@@ -3,6 +3,8 @@
   padding: 0;
   border-width: 0;
   color: #565656;
+  font-size: 62.5%;
+  font-family: 'Open Sans', sans-serif;
 }
 
 *:focus {
