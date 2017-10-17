@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as contentNames from "../common/contentNames.js";
 import GameStateDataContainer from "./gameStateData/GameStateDataContainer.jsx";
+import ParticipantInfoDataContainer from "./participantInfoData/ParticipantInfoDataContainer.jsx";
 import CarStateDataContainer from "./carStateData/CarStateDataContainer.jsx";
 
 class Contents extends React.Component {
@@ -29,7 +30,7 @@ class Contents extends React.Component {
         case contentNames.GAMESTATE_DATA:
           return <GameStateDataContainer />;
         case contentNames.PARTICIPANT_INFO_DATA:
-          return <div></div>;
+          return <ParticipantInfoDataContainer />
         case contentNames.PARTICIPANT_INFO:
           return <div></div>;
         case contentNames.UNFILTEREDINPUT_DATA:
