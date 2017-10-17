@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import * as contentNames from "../common/contentNames.js";
 import GameStateDataContainer from "./gameStateData/GameStateDataContainer.jsx";
 import ParticipantInfoDataContainer from "./participantInfoData/ParticipantInfoDataContainer.jsx";
+import ParticipantInfoContainer from "./participantInfo/ParticipantInfoContainer.jsx";
 import CarStateDataContainer from "./carStateData/CarStateDataContainer.jsx";
 
 class Contents extends React.Component {
@@ -32,7 +33,7 @@ class Contents extends React.Component {
         case contentNames.PARTICIPANT_INFO_DATA:
           return <ParticipantInfoDataContainer />
         case contentNames.PARTICIPANT_INFO:
-          return <div></div>;
+          return <ParticipantInfoContainer />;
         case contentNames.UNFILTEREDINPUT_DATA:
           return <div></div>;
         case contentNames.EVENT_INFO_DATA:
