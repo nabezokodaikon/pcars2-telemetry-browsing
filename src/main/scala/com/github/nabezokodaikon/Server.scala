@@ -1,7 +1,6 @@
 package com.github.nabezokodaikon
 
 import akka.actor.{ ActorRef, Props }
-// import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.model.HttpEntity
 import akka.http.scaladsl.model.ws.TextMessage
 import akka.http.scaladsl.server.Directives._
@@ -10,16 +9,6 @@ import akka.http.scaladsl.server.directives._
 import akka.stream.scaladsl.{ Flow, Sink, Source }
 import com.github.nabezokodaikon.util.FileUtil
 import com.typesafe.scalalogging.LazyLogging
-// import spray.json.DefaultJsonProtocol
-
-// final case class User(userName: String, userAge: Int)
-// final case class Group(groupName: String)
-// final case class Info(user: User, group: Group)
-// trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol {
-// implicit val userFormat = jsonFormat2(User)
-// implicit val groupFormat = jsonFormat1(Group)
-// implicit val infoFormat = jsonFormat2(Info)
-// }
 
 class Server(manager: ActorRef) extends HttpApp with LazyLogging {
 
