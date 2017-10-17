@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import * as contentNames from "../common/js/contentNames.js";
+import * as contentNames from "../common/contentNames.js";
 import CarStateDataContainer from "./carStateData/CarStateDataContainer.jsx";
 
 class Contents extends React.Component {

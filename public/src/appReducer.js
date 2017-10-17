@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import * as actionTypes from "./appActionTypes.js";
-import { CAR_STATE_DATA } from "./common/js/contentNames";
+import { CAR_STATE_DATA } from "./common/contentNames";
 
 function currentContent(state = CAR_STATE_DATA, action) {
   switch (action.type) {
