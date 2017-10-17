@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as contentNames from "../common/contentNames.js";
+import GameStateDataContainer from "./gameStateData/GameStateDataContainer.jsx";
 import CarStateDataContainer from "./carStateData/CarStateDataContainer.jsx";
 
 class Contents extends React.Component {
@@ -26,7 +27,7 @@ class Contents extends React.Component {
         case contentNames.PARTICIPANT_INFO_STRINGS_ADDITIONAL:
           return <div></div>;
         case contentNames.GAMESTATE_DATA:
-          return <div></div>;
+          return <GameStateDataContainer />;
         case contentNames.PARTICIPANT_INFO_DATA:
           return <div></div>;
         case contentNames.PARTICIPANT_INFO:
