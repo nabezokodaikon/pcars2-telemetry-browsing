@@ -93,7 +93,6 @@ class Menu extends React.Component {
       contentNames.CAR_STATE_DATA,
       contentNames.CAR_STATE_VECOTRDATA,
       contentNames.TYRE_DATA,
-      contentNames.TYRE_UDP_DATA,
       contentNames.OTHER_UDP_DATA,
       contentNames.CAR_DAMAGE_DATA
     ].map((v, i) =>
