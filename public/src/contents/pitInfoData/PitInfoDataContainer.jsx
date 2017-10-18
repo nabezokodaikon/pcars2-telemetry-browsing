@@ -56,4 +56,3 @@ const PitInfoDataContainer = connect(
 )(PitInfoData);
 
 export default PitInfoDataContainer;
-

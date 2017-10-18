@@ -56,4 +56,3 @@ const SectorTimeDataContainer = connect(
 )(SectorTimeData);
 
 export default SectorTimeDataContainer;
-
