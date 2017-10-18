@@ -9,6 +9,7 @@ import ParticipantInfoContainer from "./participantInfo/ParticipantInfoContainer
 import CarStateDataContainer from "./carStateData/CarStateDataContainer.jsx";
 import UnfilteredInputDataContainer from "./unfilteredInputData/UnfilteredInputDataContainer.jsx";
 import EventInfoDataContainer from "./eventInfoData/EventInfoDataContainer.jsx";
+import TimingInfoDataContainer from "./timingInfoData/TimingInfoDataContainer.jsx";
 
 class Contents extends React.Component {
   constructor(props) {
@@ -46,7 +47,7 @@ class Contents extends React.Component {
         case contentNames.EVENT_INFO_DATA:
           return <EventInfoDataContainer />;
         case contentNames.TIMING_INFO_DATA:
-          return <div></div>;
+          return <TimingInfoDataContainer />;
         case contentNames.SECTOR_TIME_DATA:
           return <div></div>;
         case contentNames.FLAG_DATA:
