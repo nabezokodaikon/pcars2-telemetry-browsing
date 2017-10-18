@@ -29,7 +29,7 @@ tags
 logs/
 
 testdata/
-testdata_bk/
+testdata_bk_private-test/
 
 # node.js
 node_modules/
