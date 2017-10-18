@@ -12,7 +12,7 @@ object TelemetryDataStructFactory {
 
   private def toGearString(gear: Int): String =
     gear match {
-      case -1 => GEAR_REVERS
+      case 15 => GEAR_REVERS
       case 0 => GEAR_NEUTRAL
       case _ => gear.toString
     }
@@ -83,7 +83,7 @@ object TelemetryDataStructFactory {
     ParticipantInfo(
       worldPosition = worldPosition,
       currentLapDistance = currentLapDistance,
-      racePosition = racePosition,
+      racePosition = racePosition & 127,
       lapsCompleted = lapsCompleted,
       currentLap = currentLap,
       sector = sector,
@@ -272,9 +272,9 @@ object TelemetryDataStructFactory {
         pitMode = pitModeSchedule & 7,
         pitSchedule = pitModeSchedule >> 3 & 3),
       carStateData = CarStateData(
-        oilTempCelsius = oilTempCelsius,
+        oilTempCelsius = oilTempCelsius / 255f,
         oilPressureKPa = oilPressureKPa,
-        waterTempCelsius = waterTempCelsius,
+        waterTempCelsius = waterTempCelsius / 255f,
         waterPressureKpa = waterPressureKpa,
         fuelPressureKpa = fuelPressureKpa,
         carFlags = carFlags,
@@ -283,7 +283,7 @@ object TelemetryDataStructFactory {
         throttle = throttle / 255f,
         clutch = clutch / 255f,
         steering = steering / 127f,
-        fuelLevel = fuelLevel,
+        fuelLevel = fuelLevel * fuelCapacity,
         speed = speed * 3.6f,
         rpm = rpm,
         maxRpm = maxRpm,
@@ -308,14 +308,14 @@ object TelemetryDataStructFactory {
         tyreY = tyreY,
         tyreRPS = tyreRPS,
         tyreSlipSpeed = tyreSlipSpeed,
-        tyreTemp = tyreTemp.map(_ / 255f),
-        tyreGrip = tyreGrip.map(_ / 255f),
+        tyreTemp = tyreTemp,
+        tyreGrip = tyreGrip,
         tyreHeightAboveGround = tyreHeightAboveGround,
         tyreLateralStiffness = tyreLateralStiffness,
-        tyreWear = tyreWear.map(_ / 255f),
-        brakeDamage = brakeDamage.map(_ / 255f),
-        suspensionDamage = suspensionDamage.map(_ / 255f),
-        brakeTempCelsius = brakeTempCelsius.map(_ / 1f),
+        tyreWear = tyreWear,
+        brakeDamage = brakeDamage,
+        suspensionDamage = suspensionDamage,
+        brakeTempCelsius = brakeTempCelsius.map(_ / 255f),
         tyreTreadTemp = tyreTreadTemp.map(_ / 1f),
         tyreLayerTemp = tyreLayerTemp.map(_ / 1f),
         tyreCarcassTemp = tyreCarcassTemp.map(_ / 1f),
@@ -323,10 +323,10 @@ object TelemetryDataStructFactory {
         tyreInternalAirTemp = tyreInternalAirTemp.map(_ / 1f)),
       tyreUdpData = TyreUdpData(
         wheelLocalPositionY = wheelLocalPositionY,
-        rideHeight = rideHeight,
-        suspensionTravel = suspensionTravel,
+        rideHeight = rideHeight.map(_ * 100f),
+        suspensionTravel = suspensionTravel.map(_ * 100f),
         suspensionVelocity = suspensionVelocity,
-        airPressure = airPressure.map(_ / 1f)),
+        airPressure = airPressure.map(_ / 100f)),
       otherUdpData = OtherUdpData(
         engineSpeed = engineSpeed,
         engineTorque = engineTorque),

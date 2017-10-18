@@ -146,9 +146,9 @@ case class PitInfoData(
 }
 
 case class CarStateData(
-  oilTempCelsius: Short, // [ UNITS = Celsius ]
+  oilTempCelsius: Float, // [ UNITS = Celsius ]
   oilPressureKPa: Int, // [ UNITS = Kilopascal ]
-  waterTempCelsius: Short, // [ UNITS = Celsius ]
+  waterTempCelsius: Float, // [ UNITS = Celsius ]
   waterPressureKpa: Int, // [ UNITS = Kilopascal ]
   fuelPressureKpa: Short, // [ UNITS = Kilopascal ]
   carFlags: Int,
@@ -157,11 +157,11 @@ case class CarStateData(
   throttle: Float,
   clutch: Float,
   steering: Float,
-  fuelLevel: Float,
+  fuelLevel: Float, // [ UNITS = Liters ]
   speed: Float,
   rpm: Int,
   maxRpm: Int,
-  gear: String, // [ RANGE = -1 (Reverse)  0 (Neutral)  1 (Gear 1)  2 (Gear 2)  etc... ]  TODO *Revers = 15?
+  gear: String, // [ RANGE = 15 (Reverse)  0 (Neutral)  1 (Gear 1)  2 (Gear 2)  etc... ]
   numGears: Int, // [ UNSET = -1 ]
   boostAmount: Int,
   enforcedPitStopLap: Byte,
@@ -189,13 +189,13 @@ case class TyreData(
   tyreY: Array[Float], // [ UNITS = Local Space  Y ]
   tyreRPS: Array[Float], // [ UNITS = Revolutions per second ]
   tyreSlipSpeed: Array[Float], // [ UNITS = Metres per-second ]
-  tyreTemp: Array[Float], // [ UNITS = Celsius ]
-  tyreGrip: Array[Float],
+  tyreTemp: Array[Int], // [ UNITS = Celsius ]
+  tyreGrip: Array[Int],
   tyreHeightAboveGround: Array[Float], // [ UNITS = Local Space  Y ]
   tyreLateralStiffness: Array[Float], // [ UNITS = Lateral stiffness coefficient used in tyre deformation ]
-  tyreWear: Array[Float],
-  brakeDamage: Array[Float],
-  suspensionDamage: Array[Float],
+  tyreWear: Array[Int],
+  brakeDamage: Array[Int],
+  suspensionDamage: Array[Int],
   brakeTempCelsius: Array[Float], // [ UNITS = Celsius ]
   tyreTreadTemp: Array[Float], // [ UNITS = Kelvin ]
   tyreLayerTemp: Array[Float], // [ UNITS = Kelvin ]
@@ -208,10 +208,10 @@ case class TyreData(
 
 case class TyreUdpData(
   wheelLocalPositionY: Array[Float],
-  rideHeight: Array[Float],
-  suspensionTravel: Array[Float],
+  rideHeight: Array[Float], // [ UNITS = Centimeter ] タイヤサイドのHEIGHT
+  suspensionTravel: Array[Float], // [ UNITS = Centimeter ] タイヤサイドのTRAVEL
   suspensionVelocity: Array[Float],
-  airPressure: Array[Float] // [ UNITS = psi]
+  airPressure: Array[Float] // [ UNITS = bar]
 ) {
   def toJsonString: String = this.toJson.toString
 }
