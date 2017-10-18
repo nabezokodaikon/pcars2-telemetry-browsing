@@ -86,10 +86,11 @@ case class ParticipantInfo(
 }
 
 case class UnfilteredInputData(
-  unfilteredThrottle: Float,
-  unfilteredBrake: Float,
-  unfilteredSteering: Float,
-  unfilteredClutch: Float) {
+  unfilteredThrottle: Float, // [ RANGE = 0.0f->1.0f ]
+  unfilteredBrake: Float, // [ RANGE = 0.0f->1.0f ]
+  unfilteredSteering: Float, // [ RANGE = -1.0f->1.0f ]
+  unfilteredClutch: Float // [ RANGE = 0.0f->1.0f ]
+) {
   def toJsonString: String = this.toJson.toString
 }
 
