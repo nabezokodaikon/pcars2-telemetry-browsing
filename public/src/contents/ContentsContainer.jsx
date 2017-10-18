@@ -16,6 +16,7 @@ import PitInfoDataContainer from "./pitInfoData/PitInfoDataContainer.jsx";
 import CarStateVecotrDataContainer from "./carStateVecotrData/CarStateVecotrDataContainer.jsx"
 import TyreDataContainer from "./tyreData/TyreDataContainer.jsx";
 import OtherUdpDataContainer from "./otherUdpData/OtherUdpDataContainer.jsx";
+import CarDamageDataContainer from "./carDamageData/CarDamageDataContainer.jsx";
 
 class Contents extends React.Component {
   constructor(props) {
@@ -69,7 +70,7 @@ class Contents extends React.Component {
         case contentNames.OTHER_UDP_DATA:
           return <OtherUdpDataContainer />;
         case contentNames.CAR_DAMAGE_DATA:
-          return <div></div>;
+          return <CarDamageDataContainer />;
         default:
           return <div></div>;
     }
