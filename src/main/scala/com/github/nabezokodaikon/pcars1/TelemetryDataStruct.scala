@@ -96,7 +96,7 @@ case class UnfilteredInputData(
 
 case class EventInfoData(
   lapsInEvent: Int,
-  trackLength: Float // [ UNITS = Metres ]
+  trackLength: Float // [ UNITS = Kilometers ]
 ) {
   def toJsonString: String = this.toJson.toString
 }

@@ -240,7 +240,7 @@ object TelemetryDataStructFactory {
         unfilteredClutch = unfilteredClutch / 255f),
       eventInfoData = EventInfoData(
         lapsInEvent = lapsInEvent,
-        trackLength = trackLength),
+        trackLength = trackLength / 1000f),
       timingInfoData = TimingInfoData(
         lapInvalidated = (raceStateFlags >> 3 & 1) == 1,
         bestLapTime = bestLapTime,
