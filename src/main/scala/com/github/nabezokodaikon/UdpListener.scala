@@ -2,6 +2,7 @@ package com.github.nabezokodaikon
 
 import akka.actor.{ Actor, ActorRef }
 import akka.io.{ IO, Udp }
+import com.github.nabezokodaikon.pcars1.TelemetryDataStructFactory.getJsonText
 import com.typesafe.scalalogging.LazyLogging
 import java.net.InetSocketAddress
 
@@ -24,9 +25,9 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
 
   def ready(socket: ActorRef): Receive = {
     case Udp.Received(data, remote) =>
-      clientManager ! OutgoingValue(s"$data.toString")
-      // output(data.toArray)
-      confirm(data.toList)
+      clientManager ! OutgoingValue(getJsonText(data.toArray))
+    // output(data.toArray)
+    // confirm(data.toList)
     case Udp.Unbind =>
       logger.debug("UDP unbind.")
       socket ! Udp.Unbind
