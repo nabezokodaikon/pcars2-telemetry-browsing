@@ -94,7 +94,8 @@ class Menu extends React.Component {
       contentNames.CAR_STATE_VECOTRDATA,
       contentNames.TYRE_DATA,
       contentNames.OTHER_UDP_DATA,
-      contentNames.CAR_DAMAGE_DATA
+      contentNames.CAR_DAMAGE_DATA,
+      contentNames.WEATHER_DATA
     ].map((v, i) =>
       <li style={this.getLiStyle()} key={i.toString()}>
         <button style={this.getButtonStyle()} onClick={evt => this.handleMenuItemClick(evt, v)}>{v}</button>

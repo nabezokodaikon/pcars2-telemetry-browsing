@@ -17,6 +17,7 @@ import CarStateVecotrDataContainer from "./carStateVecotrData/CarStateVecotrData
 import TyreDataContainer from "./tyreData/TyreDataContainer.jsx";
 import OtherUdpDataContainer from "./otherUdpData/OtherUdpDataContainer.jsx";
 import CarDamageDataContainer from "./carDamageData/CarDamageDataContainer.jsx";
+import WeatherDataContainer from "./weatherData/WeatherDataContainer.jsx"
 
 class Contents extends React.Component {
   constructor(props) {
@@ -71,6 +72,8 @@ class Contents extends React.Component {
           return <OtherUdpDataContainer />;
         case contentNames.CAR_DAMAGE_DATA:
           return <CarDamageDataContainer />;
+        case contentNames.WEATHER_DATA:
+          return <WeatherDataContainer />
         default:
           return <div></div>;
     }

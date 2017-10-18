@@ -15,3 +15,4 @@ export const TYRE_DATA = "TyreData";
 export const TYRE_UDP_DATA = "TyreUdpData";
 export const OTHER_UDP_DATA = "OtherUdpData";
 export const CAR_DAMAGE_DATA = "CarDamageData";
+export const WEATHER_DATA = "WeatherData";
