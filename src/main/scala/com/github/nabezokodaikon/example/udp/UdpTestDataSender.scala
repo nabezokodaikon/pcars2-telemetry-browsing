@@ -15,9 +15,7 @@ object UdpTestDataSender {
 class UdpTestDataSender(clientManager: ActorRef) extends Actor with LazyLogging {
   import UdpTestDataSender._
 
-  case class TestData(path: String, dateTime: Long) {
-    val data = if (path != "") FileUtil.readBinary(path) else Array[Byte]()
-  }
+  case class TestData(path: String, dateTime: Long)
 
   val regex = """^(\d)(_)(\d+)(\.bin)$""".r
   val srcTestDataList = new File(s"${FileUtil.getCurrentDirectory}/testdata").listFiles
@@ -45,11 +43,11 @@ class UdpTestDataSender(clientManager: ActorRef) extends Actor with LazyLogging 
       if (interval > 100) {
         testDataList match {
           case head :: Nil =>
-            clientManager ! UdpListener.OutgoingValue(getJsonText(head.data))
+            clientManager ! UdpListener.OutgoingValue(getJsonText(FileUtil.readBinary(head.path)))
             context.become(ready(srcTestDataList, System.currentTimeMillis))
             self ! Received
           case head :: tail =>
-            clientManager ! UdpListener.OutgoingValue(getJsonText(head.data))
+            clientManager ! UdpListener.OutgoingValue(getJsonText(FileUtil.readBinary(head.path)))
             context.become(ready(tail, System.currentTimeMillis))
             self ! Received
           case _ => ()
