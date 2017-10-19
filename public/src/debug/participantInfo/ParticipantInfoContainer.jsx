@@ -16,39 +16,60 @@ class ParticipantInfo extends React.Component {
 
     const data = this.props.telemetryData.participantInfo;
 
-    const map = {};
-    const firstData = data[0];
-    Object.keys(firstData).forEach(valueName => {
-      const value = firstData[valueName];
-      if (isArray(value)) {
-        value.forEach((v, i) => map[valueName + "[" + i + "]"] = Array(data.length)); 
-      } else {
-        map[valueName] = Array(data.length);
-      }
-    });
-
-    data.forEach((record, index) => {
-      Object.keys(record).forEach(valueName => {
-        const value = record[valueName];
+    const createHeader = () => {
+      const firstData = data[0];
+      return Object.keys(firstData).map(key => {
+        const value = firstData[key];
         if (isArray(value)) {
-          value.forEach((v, i) => map[valueName + "[" + i + "]"][index] = v); 
+          return value.map((childValue, index) => {
+            const indexKey = key + "[" + index + "]";
+            return (
+              <td key={indexKey}>{indexKey}</td>
+            );
+          });
         } else {
-          map[valueName][index] = value;
+          return (<td key={key}>{key}</td>);
         }
       });
-    });
+    };
 
-    return Object.keys(map).map(valueName => {
-      const valueArray = map[valueName];
-      const valueNameField = <td>{valueName}</td>;
-      const valuesFieldArray = valueArray.map(value => <td>{value}</td>);
-      return (
-        <tr key={valueName}>
-          {valueNameField}
-          {valuesFieldArray}
-        </tr>
-      );
-    });
+    const createValueFields = (value, key) => {
+      if (isArray(value)) {
+        return value.map((childValue, index) => {
+          const indexKey = key + "[" + index + "]";
+          return (
+            <td key={indexKey}>{childValue}</td>
+          );
+        });
+      } else {
+        return <td key={key}>{value}</td>;
+      }
+    };
+
+    const createRecords = () => {
+      return data.map((value, index) => {
+        return (
+          <tr key={index}>
+            <td key={index}>{index}</td>
+            {Object.keys(value).map(key => createValueFields(value[key], key))}
+          </tr>
+        );
+      });
+    };
+
+    return (
+      <table>
+        <thead>
+          <tr>
+            <td>Index</td>
+            {createHeader()}
+          </tr>
+        </thead>
+        <tbody>
+          {createRecords()}
+        </tbody>
+      </table>
+    );
   }
 
   render() {
