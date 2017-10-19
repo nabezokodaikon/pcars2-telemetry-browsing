@@ -1,3 +1,4 @@
+// Debug contents.
 export const PARTICIPANT_INFO_STRINGS = "ParticipantInfoStrings";
 export const PARTICIPANT_INFO_STRINGS_ADDITIONAL = "ParticipantInfoStringsAdditional";
 export const GAMESTATE_DATA = "GameStateData";

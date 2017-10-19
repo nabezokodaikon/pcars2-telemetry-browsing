@@ -4,7 +4,8 @@ import webpack from "webpack";
 
 module.exports = {
   entry: {
-    index: "./public/src/index.jsx"
+    index: "./public/src/index.jsx",
+    debug: "./public/src/debug.jsx"
   },
   devtool: 'inline-source-map',
   output: {

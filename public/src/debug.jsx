@@ -4,7 +4,8 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import thunkMiddleware from 'redux-thunk'
 import appReducer from "./appReducer.js"
-import MenuContainer from "./menu/MenuContainer.jsx";
+import DebugMenuContainer from "./menu/DebugMenuContainer.jsx";
+import ContentsContainer from "./debug/ContentsContainer.jsx";
 
 const composeEnhancers =
   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -22,7 +23,8 @@ const store = createStore(appReducer, enhancer);
 render(
   <Provider store={store}>
     <div>
-      <MenuContainer />
+      <DebugMenuContainer />
+      <ContentsContainer /> 
     </div>
   </Provider>,
   document.getElementById("root")

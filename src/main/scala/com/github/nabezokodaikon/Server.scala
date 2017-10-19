@@ -33,6 +33,14 @@ class Server(manager: ActorRef) extends HttpApp with LazyLogging {
         complete(HttpEntity(contentType, text))
       }
     } ~
+      path("debug") {
+        get {
+          val file = s"${contentsDirectory}/debug.html"
+          val contentType = FileUtil.getContentType(file)
+          val text = FileUtil.readText(file)
+          complete(HttpEntity(contentType, text))
+        }
+      } ~
       path("pcars1") {
         get {
           handleWebSocketMessages(createUser())
