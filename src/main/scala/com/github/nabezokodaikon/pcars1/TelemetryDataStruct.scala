@@ -193,7 +193,7 @@ case class TyreData(
   tyreGrip: Array[Int],
   tyreHeightAboveGround: Array[Float], // [ UNITS = Local Space  Y ]
   tyreLateralStiffness: Array[Float], // [ UNITS = Lateral stiffness coefficient used in tyre deformation ]
-  tyreWear: Array[Int],
+  tyreWear: Array[Int], // [ タイヤ摩耗 ]
   brakeDamage: Array[Int],
   suspensionDamage: Array[Int],
   brakeTempCelsius: Array[Float], // [ UNITS = Celsius ]
