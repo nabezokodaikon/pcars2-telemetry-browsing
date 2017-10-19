@@ -9,6 +9,8 @@
 
 
 ## CREDITS
+### CrewChief
+* CrewChiefV4 <https://github.com/mrbelowski/CrewChiefV4>
 ### scala
 * Copyright (c) 2002-2017 EPFL
 * Copyright (c) 2011-2017 Lightbend, Inc.
@@ -22,6 +24,3 @@
 * Copyright (c) 2013-present, Facebook, Inc.
 ### redux
 * Copyright (c) 2015-present Dan Abramov
-
-## Reference
-* TODO
