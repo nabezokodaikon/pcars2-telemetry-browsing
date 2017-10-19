@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as contentNames from "../common/contentNames.js";
 import { openWebSocket } from "../appActionCreators.js";
+import ParticipantInfoStringsContainer from "./participantInfoStrings/ParticipantInfoStringsContainer.jsx";
 import GameStateDataContainer from "./gameStateData/GameStateDataContainer.jsx";
 import ParticipantInfoDataContainer from "./participantInfoData/ParticipantInfoDataContainer.jsx";
 import ParticipantInfoContainer from "./participantInfo/ParticipantInfoContainer.jsx";
@@ -41,7 +42,7 @@ class Contents extends React.Component {
   getCurrentContents() {
     switch (this.props.currentContent) {
         case contentNames.PARTICIPANT_INFO_STRINGS:
-          return <div></div>;
+          return <ParticipantInfoStringsContainer />;
         case contentNames.PARTICIPANT_INFO_STRINGS_ADDITIONAL:
           return <div></div>;
         case contentNames.GAMESTATE_DATA:
