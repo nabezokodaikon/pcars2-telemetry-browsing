@@ -20,10 +20,28 @@ function isMenuToVisible(state = false, action) {
   }
 }
 
-function telemetry(state = {}, action) {
+function participantInfoStrings(state = {}, action) {
   switch (action.type) {
-    case actionTypes.RECEIVED_DATA:
-      return action.nextTelemetry;
+    case actionTypes.RECEIVED_PARTICIPANT_INFO_STRINGS:
+      return action.participantInfoStrings;
+    default:
+      return state;
+  }
+}
+
+function participantInfoStringsAdditional(state = {}, action) {
+  switch (action.type) {
+    case actionTypes.RECEIVED_PARTICIPANT_INFO_STRINGS_ADDITIONAL:
+      return action.participantInfoStringsAdditional;
+    default:
+      return state;
+  }
+}
+
+function telemetryData(state = {}, action) {
+  switch (action.type) {
+    case actionTypes.RECEIVED_TELEMETRY_DATA:
+      return action.nextTelemetryData;
     default:
       return state;
   }
@@ -32,7 +50,9 @@ function telemetry(state = {}, action) {
 const appReducer = combineReducers({
   currentContent,
   isMenuToVisible,
-  telemetry
+  participantInfoStrings,
+  participantInfoStringsAdditional,
+  telemetryData
 });
 
 export default appReducer;

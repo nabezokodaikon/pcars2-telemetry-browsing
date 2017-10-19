@@ -1,9 +1,28 @@
+import {
+  isTelemetryDataFrameType,
+  isParticipantInfoStringsFrameType,
+  isParticipantInfoStringsAdditionalFrameType
+} from "./common/telemetryUtil.js";
 import * as actionTypes from "./appActionTypes.js";
 
-export function receivedData(nextTelemetry) {
+export function receivedParticipantInfoStrings(nextParticipantInfoStrings) {
   return {
-    type: actionTypes.RECEIVED_DATA, 
-    nextTelemetry 
+    type: actionTypes.RECEIVED_PARTICIPANT_INFO_STRINGS, 
+    nextParticipantInfoStrings 
+  };
+}
+
+export function receivedParticipantInfoStringsAdditional(nextParticipantInfoStringsAdditional) {
+  return {
+    type: actionTypes.RECEIVED_PARTICIPANT_INFO_STRINGS_ADDITIONAL, 
+    nextParticipantInfoStringsAdditional 
+  };
+}
+
+export function receivedTelemetryData(nextTelemetryData) {
+  return {
+    type: actionTypes.RECEIVED_TELEMETRY_DATA, 
+    nextTelemetryData 
   };
 }
 
@@ -48,8 +67,24 @@ export function openWebSocket() {
         }
 
         ws.onmessage = e => {
-          const json = JSON.parse(e.data)
-          dispatch(receivedData(json));
+          try {
+            const json = JSON.parse(e.data)
+            if (isTelemetryDataFrameType(json)) {
+              dispatch(receivedTelemetryData(json));
+            } else if (isParticipantInfoStringsFrameType) {
+              dispatch(receivedParticipantInfoStrings(json));
+            } else if (isParticipantInfoStringsAdditionalFrameType) {
+              dispatch(receivedParticipantInfoStringsAdditional(json));
+            } else {
+              console.log("WebSocket received unknown frame type data.");
+            }
+          } catch (e) {
+            if (e instanceof SyntaxError) {
+              console.log("WebSocket received json parse failed.");
+            } else {
+              console.log(e);
+            }
+          }
         };
       })
       // TODO .catch(error => dispatch(errorOpeningWebSocket(error.message)))

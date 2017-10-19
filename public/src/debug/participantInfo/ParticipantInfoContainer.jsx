@@ -2,8 +2,7 @@ import React from "react";
 import ReactDom from "react-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { isArray } from "../../common/jsUtil.js";
-import { isTelemetryDataFrameType } from "../../common/telemetryUtil.js";
+import { isArray, isJson } from "../../common/jsUtil.js";
 
 class ParticipantInfo extends React.Component {
   constructor(props) {
@@ -11,11 +10,11 @@ class ParticipantInfo extends React.Component {
   }
 
   getData() {
-    if (!isTelemetryDataFrameType(this.props.telemetry)) {
+    if (!isJson(this.props.telemetryData)) {
       return <div></div>;
     }
 
-    const data = this.props.telemetry.participantInfo;
+    const data = this.props.telemetryData.participantInfo;
 
     const map = {};
     const firstData = data[0];
@@ -58,12 +57,12 @@ class ParticipantInfo extends React.Component {
 }
 
 ParticipantInfo.propTypes = {
-  telemetry: PropTypes.object.isRequired
+  telemetryData: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
   return {
-    telemetry: state.telemetry
+    telemetryData: state.telemetryData
   };
 };
 

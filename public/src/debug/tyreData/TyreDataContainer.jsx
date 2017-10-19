@@ -2,8 +2,7 @@ import React from "react";
 import ReactDom from "react-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { isArray } from "../../common/jsUtil.js";
-import { isTelemetryDataFrameType } from "../../common/telemetryUtil.js";
+import { isArray, isJson } from "../../common/jsUtil.js";
 import { TYRE_FRONT_LEFT, TYRE_FRONT_RIGHT, TYRE_REAR_LEFT, TYRE_REAR_RIGHT } from "../../common/telemetryConst.js";
 
 class TyreData extends React.Component {
@@ -12,12 +11,12 @@ class TyreData extends React.Component {
   }
 
   getData() {
-    if (!isTelemetryDataFrameType(this.props.telemetry)) {
+    if (!isJson(this.props.telemetryData)) {
       return <div></div>;
     }
 
-    const data1 = this.props.telemetry.tyreData;
-    const data2 = this.props.telemetry.tyreUdpData;
+    const data1 = this.props.telemetryData.tyreData;
+    const data2 = this.props.telemetryData.tyreUdpData;
 
     const frontLeft1 = Object.keys(data1).map(key => {
       return (
@@ -122,12 +121,12 @@ class TyreData extends React.Component {
 }
 
 TyreData.propTypes = {
-  telemetry: PropTypes.object.isRequired
+  telemetryData: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
   return {
-    telemetry: state.telemetry
+    telemetryData: state.telemetryData
   };
 };
 

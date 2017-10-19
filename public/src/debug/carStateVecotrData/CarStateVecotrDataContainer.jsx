@@ -2,8 +2,7 @@ import React from "react";
 import ReactDom from "react-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { isArray } from "../../common/jsUtil.js";
-import { isTelemetryDataFrameType } from "../../common/telemetryUtil.js";
+import { isArray, isJson } from "../../common/jsUtil.js";
 import { VEC_X, VEC_Y, VEC_Z } from "../../common/telemetryConst.js";
 
 class CarStateVecotrData extends React.Component {
@@ -12,11 +11,11 @@ class CarStateVecotrData extends React.Component {
   }
 
   getData() {
-    if (!isTelemetryDataFrameType(this.props.telemetry)) {
+    if (!isJson(this.props.telemetryData)) {
       return <div></div>;
     }
 
-    const data = this.props.telemetry.carStateVecotrData;
+    const data = this.props.telemetryData.carStateVecotrData;
 
     const vecX = Object.keys(data).map(key => {
       return (
@@ -71,12 +70,12 @@ class CarStateVecotrData extends React.Component {
 }
 
 CarStateVecotrData.propTypes = {
-  telemetry: PropTypes.object.isRequired
+  telemetryData: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
   return {
-    telemetry: state.telemetry
+    telemetryData: state.telemetryData
   };
 };
 

@@ -2,7 +2,7 @@ import React from "react";
 import ReactDom from "react-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { isTelemetryDataFrameType } from "../../common/telemetryUtil.js";
+import { isJson } from "../../common/jsUtil.js";
 
 class CarDamageData extends React.Component {
   constructor(props) {
@@ -10,12 +10,12 @@ class CarDamageData extends React.Component {
   }
 
   getData() {
-    if (!isTelemetryDataFrameType(this.props.telemetry)) {
+    if (!isJson(this.props.telemetryData)) {
       return <div></div>;
     }
 
     const createRecords = () => {
-      const data = this.props.telemetry.carDamageData;
+      const data = this.props.telemetryData.carDamageData;
       return Object.keys(data).map(key => {
         const value = data[key];
         return (
@@ -42,12 +42,12 @@ class CarDamageData extends React.Component {
 }
 
 CarDamageData.propTypes = {
-  telemetry: PropTypes.object.isRequired
+  telemetryData: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
   return {
-    telemetry: state.telemetry
+    telemetryData: state.telemetryData
   };
 };
 
