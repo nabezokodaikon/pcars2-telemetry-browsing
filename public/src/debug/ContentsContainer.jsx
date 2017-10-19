@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import * as contentNames from "../common/contentNames.js";
 import { openWebSocket } from "../appActionCreators.js";
 import ParticipantInfoStringsContainer from "./participantInfoStrings/ParticipantInfoStringsContainer.jsx";
+import ParticipantInfoStringsAdditionalContainer from "./participantInfoStringsAdditional/ParticipantInfoStringsAdditionalContainer.jsx";
 import GameStateDataContainer from "./gameStateData/GameStateDataContainer.jsx";
 import ParticipantInfoDataContainer from "./participantInfoData/ParticipantInfoDataContainer.jsx";
 import ParticipantInfoContainer from "./participantInfo/ParticipantInfoContainer.jsx";
@@ -44,7 +45,7 @@ class Contents extends React.Component {
         case contentNames.PARTICIPANT_INFO_STRINGS:
           return <ParticipantInfoStringsContainer />;
         case contentNames.PARTICIPANT_INFO_STRINGS_ADDITIONAL:
-          return <div></div>;
+          return <ParticipantInfoStringsAdditionalContainer />;
         case contentNames.GAMESTATE_DATA:
           return <GameStateDataContainer />;
         case contentNames.PARTICIPANT_INFO_DATA:
