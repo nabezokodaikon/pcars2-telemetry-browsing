@@ -23,7 +23,7 @@ function isMenuToVisible(state = false, action) {
 function participantInfoStrings(state = {}, action) {
   switch (action.type) {
     case actionTypes.RECEIVED_PARTICIPANT_INFO_STRINGS:
-      return action.participantInfoStrings;
+      return action.nextParticipantInfoStrings;
     default:
       return state;
   }
@@ -32,7 +32,7 @@ function participantInfoStrings(state = {}, action) {
 function participantInfoStringsAdditional(state = {}, action) {
   switch (action.type) {
     case actionTypes.RECEIVED_PARTICIPANT_INFO_STRINGS_ADDITIONAL:
-      return action.participantInfoStringsAdditional;
+      return action.nextParticipantInfoStringsAdditional;
     default:
       return state;
   }
