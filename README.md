@@ -18,6 +18,10 @@
 * Copyright (C) 1999-2015, QOS.ch. All rights reserved.
 ### scala-logging
 * Copyright 2014 Typesafe Inc. <http://www.typesafe.com>
+### react
+* Copyright (c) 2013-present, Facebook, Inc.
+### redux
+* Copyright (c) 2015-present Dan Abramov
 
 ## Reference
 * TODO
