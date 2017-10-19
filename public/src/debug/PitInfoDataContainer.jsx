@@ -2,9 +2,9 @@ import React from "react";
 import ReactDom from "react-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { isJson } from "../../common/jsUtil.js";
+import { isJson } from "../common/jsUtil.js";
 
-class FlagData extends React.Component {
+class PitInfoData extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -15,7 +15,7 @@ class FlagData extends React.Component {
     }
 
     const createRecords = () => {
-      const data = this.props.telemetryData.flagData;
+      const data = this.props.telemetryData.pitInfoData;
       return Object.keys(data).map(key => {
         const value = data[key];
         return (
@@ -41,7 +41,7 @@ class FlagData extends React.Component {
   }
 }
 
-FlagData.propTypes = {
+PitInfoData.propTypes = {
   telemetryData: PropTypes.object.isRequired
 };
 
@@ -51,8 +51,8 @@ const mapStateToProps = state => {
   };
 };
 
-const FlagDataContainer = connect(
+const PitInfoDataContainer = connect(
   mapStateToProps
-)(FlagData);
+)(PitInfoData);
 
-export default FlagDataContainer;
+export default PitInfoDataContainer;

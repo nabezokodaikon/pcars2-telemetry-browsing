@@ -2,8 +2,8 @@ import React from "react";
 import ReactDom from "react-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { isArray, isJson } from "../../common/jsUtil.js";
-import { VEC_X, VEC_Y, VEC_Z } from "../../common/telemetryConst.js";
+import { isArray, isJson } from "../common/jsUtil.js";
+import { VEC_X, VEC_Y, VEC_Z } from "../common/telemetryConst.js";
 
 class CarStateVecotrData extends React.Component {
   constructor(props) {

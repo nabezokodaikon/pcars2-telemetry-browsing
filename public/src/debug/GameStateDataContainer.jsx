@@ -2,9 +2,9 @@ import React from "react";
 import ReactDom from "react-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { isJson } from "../../common/jsUtil.js";
+import { isJson } from "../common/jsUtil.js";
 
-class UnfilteredInputData extends React.Component {
+class GameStateData extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -15,7 +15,7 @@ class UnfilteredInputData extends React.Component {
     }
 
     const createRecords = () => {
-      const data = this.props.telemetryData.unfilteredInputData;
+      const data = this.props.telemetryData.gameStateData;
       return Object.keys(data).map(key => {
         const value = data[key];
         return (
@@ -41,7 +41,7 @@ class UnfilteredInputData extends React.Component {
   }
 }
 
-UnfilteredInputData.propTypes = {
+GameStateData.propTypes = {
   telemetryData: PropTypes.object.isRequired
 };
 
@@ -51,8 +51,8 @@ const mapStateToProps = state => {
   };
 };
 
-const UnfilteredInputDataContainer = connect(
+const GameStateDataContainer = connect(
   mapStateToProps
-)(UnfilteredInputData);
+)(GameStateData);
 
-export default UnfilteredInputDataContainer;
+export default GameStateDataContainer;

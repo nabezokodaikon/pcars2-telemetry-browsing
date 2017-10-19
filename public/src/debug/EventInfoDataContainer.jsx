@@ -2,9 +2,9 @@ import React from "react";
 import ReactDom from "react-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { isJson } from "../../common/jsUtil.js";
+import { isJson } from "../common/jsUtil.js";
 
-class SectorTimeData extends React.Component {
+class EventInfoData extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -15,7 +15,7 @@ class SectorTimeData extends React.Component {
     }
 
     const createRecords = () => {
-      const data = this.props.telemetryData.sectorTimeData;
+      const data = this.props.telemetryData.eventInfoData;
       return Object.keys(data).map(key => {
         const value = data[key];
         return (
@@ -41,7 +41,7 @@ class SectorTimeData extends React.Component {
   }
 }
 
-SectorTimeData.propTypes = {
+EventInfoData.propTypes = {
   telemetryData: PropTypes.object.isRequired
 };
 
@@ -51,8 +51,8 @@ const mapStateToProps = state => {
   };
 };
 
-const SectorTimeDataContainer = connect(
+const EventInfoDataContainer = connect(
   mapStateToProps
-)(SectorTimeData);
+)(EventInfoData);
 
-export default SectorTimeDataContainer;
+export default EventInfoDataContainer;

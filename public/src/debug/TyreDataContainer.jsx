@@ -2,8 +2,8 @@ import React from "react";
 import ReactDom from "react-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { isArray, isJson } from "../../common/jsUtil.js";
-import { TYRE_FRONT_LEFT, TYRE_FRONT_RIGHT, TYRE_REAR_LEFT, TYRE_REAR_RIGHT } from "../../common/telemetryConst.js";
+import { isArray, isJson } from "../common/jsUtil.js";
+import { TYRE_FRONT_LEFT, TYRE_FRONT_RIGHT, TYRE_REAR_LEFT, TYRE_REAR_RIGHT } from "../common/telemetryConst.js";
 
 class TyreData extends React.Component {
   constructor(props) {

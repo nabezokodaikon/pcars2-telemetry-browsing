@@ -3,23 +3,23 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as contentNames from "../common/contentNames.js";
 import { openWebSocket } from "../appActionCreators.js";
-import ParticipantInfoStringsContainer from "./participantInfoStrings/ParticipantInfoStringsContainer.jsx";
-import ParticipantInfoStringsAdditionalContainer from "./participantInfoStringsAdditional/ParticipantInfoStringsAdditionalContainer.jsx";
-import GameStateDataContainer from "./gameStateData/GameStateDataContainer.jsx";
-import ParticipantInfoDataContainer from "./participantInfoData/ParticipantInfoDataContainer.jsx";
-import ParticipantInfoContainer from "./participantInfo/ParticipantInfoContainer.jsx";
-import CarStateDataContainer from "./carStateData/CarStateDataContainer.jsx";
-import UnfilteredInputDataContainer from "./unfilteredInputData/UnfilteredInputDataContainer.jsx";
-import EventInfoDataContainer from "./eventInfoData/EventInfoDataContainer.jsx";
-import TimingInfoDataContainer from "./timingInfoData/TimingInfoDataContainer.jsx";
-import SectorTimeDataContainer from "./sectorTimeData/SectorTimeDataContainer.jsx";
-import FlagDataContainer from "./flagData/FlagDataContainer.jsx";
-import PitInfoDataContainer from "./pitInfoData/PitInfoDataContainer.jsx";
-import CarStateVecotrDataContainer from "./carStateVecotrData/CarStateVecotrDataContainer.jsx"
-import TyreDataContainer from "./tyreData/TyreDataContainer.jsx";
-import OtherUdpDataContainer from "./otherUdpData/OtherUdpDataContainer.jsx";
-import CarDamageDataContainer from "./carDamageData/CarDamageDataContainer.jsx";
-import WeatherDataContainer from "./weatherData/WeatherDataContainer.jsx"
+import ParticipantInfoStringsContainer from "./ParticipantInfoStringsContainer.jsx";
+import ParticipantInfoStringsAdditionalContainer from "./ParticipantInfoStringsAdditionalContainer.jsx";
+import GameStateDataContainer from "./GameStateDataContainer.jsx";
+import ParticipantInfoDataContainer from "./ParticipantInfoDataContainer.jsx";
+import ParticipantInfoContainer from "./ParticipantInfoContainer.jsx";
+import CarStateDataContainer from "./CarStateDataContainer.jsx";
+import UnfilteredInputDataContainer from "./UnfilteredInputDataContainer.jsx";
+import EventInfoDataContainer from "./EventInfoDataContainer.jsx";
+import TimingInfoDataContainer from "./TimingInfoDataContainer.jsx";
+import SectorTimeDataContainer from "./SectorTimeDataContainer.jsx";
+import FlagDataContainer from "./FlagDataContainer.jsx";
+import PitInfoDataContainer from "./PitInfoDataContainer.jsx";
+import CarStateVecotrDataContainer from "./CarStateVecotrDataContainer.jsx"
+import TyreDataContainer from "./TyreDataContainer.jsx";
+import OtherUdpDataContainer from "./OtherUdpDataContainer.jsx";
+import CarDamageDataContainer from "./CarDamageDataContainer.jsx";
+import WeatherDataContainer from "./WeatherDataContainer.jsx"
 
 class Contents extends React.Component {
   constructor(props) {

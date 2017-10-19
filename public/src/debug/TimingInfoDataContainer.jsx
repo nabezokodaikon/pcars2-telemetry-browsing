@@ -2,9 +2,9 @@ import React from "react";
 import ReactDom from "react-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { isJson } from "../../common/jsUtil.js";
+import { isJson } from "../common/jsUtil.js";
 
-class PitInfoData extends React.Component {
+class TimingInfoData extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -15,7 +15,7 @@ class PitInfoData extends React.Component {
     }
 
     const createRecords = () => {
-      const data = this.props.telemetryData.pitInfoData;
+      const data = this.props.telemetryData.timingInfoData;
       return Object.keys(data).map(key => {
         const value = data[key];
         return (
@@ -41,7 +41,7 @@ class PitInfoData extends React.Component {
   }
 }
 
-PitInfoData.propTypes = {
+TimingInfoData.propTypes = {
   telemetryData: PropTypes.object.isRequired
 };
 
@@ -51,8 +51,8 @@ const mapStateToProps = state => {
   };
 };
 
-const PitInfoDataContainer = connect(
+const TimingInfoDataContainer = connect(
   mapStateToProps
-)(PitInfoData);
+)(TimingInfoData);
 
-export default PitInfoDataContainer;
+export default TimingInfoDataContainer;

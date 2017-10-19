@@ -2,9 +2,9 @@ import React from "react";
 import ReactDom from "react-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { isJson } from "../../common/jsUtil.js";
+import { isJson } from "../common/jsUtil.js";
 
-class WeatherData extends React.Component {
+class OtherUdpData extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -15,7 +15,7 @@ class WeatherData extends React.Component {
     }
 
     const createRecords = () => {
-      const data = this.props.telemetryData.weatherData;
+      const data = this.props.telemetryData.otherUdpData;
       return Object.keys(data).map(key => {
         const value = data[key];
         return (
@@ -41,7 +41,7 @@ class WeatherData extends React.Component {
   }
 }
 
-WeatherData.propTypes = {
+OtherUdpData.propTypes = {
   telemetryData: PropTypes.object.isRequired
 };
 
@@ -51,8 +51,8 @@ const mapStateToProps = state => {
   };
 };
 
-const WeatherDataContainer = connect(
+const OtherUdpDataContainer = connect(
   mapStateToProps
-)(WeatherData);
+)(OtherUdpData);
 
-export default WeatherDataContainer;
+export default OtherUdpDataContainer;

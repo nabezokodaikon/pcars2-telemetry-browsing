@@ -2,21 +2,21 @@ import React from "react";
 import ReactDom from "react-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { isArray, isJson } from "../../common/jsUtil.js";
+import { isArray, isJson } from "../common/jsUtil.js";
 
-class ParticipantInfoStrings extends React.Component {
+class ParticipantInfoStringsAdditional extends React.Component {
   constructor(props) {
     super(props)
   }
 
   getData() {
-    if (!isJson(this.props.participantInfoStrings)) {
+    if (!isJson(this.props.participantInfoStringsAdditional)) {
       return <div></div>;
     }
 
-    const data = this.props.participantInfoStrings;
-
     const createRecords = () => {
+      const data = this.props.participantInfoStringsAdditional;
+
       return Object.keys(data).map(valueName => {
         const value = data[valueName];
         if (isArray(value)) {
@@ -54,18 +54,18 @@ class ParticipantInfoStrings extends React.Component {
   }
 }
 
-ParticipantInfoStrings.propTypes = {
-  participantInfoStrings: PropTypes.object.isRequired
+ParticipantInfoStringsAdditional.propTypes = {
+  participantInfoStringsAdditional: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
   return {
-    participantInfoStrings: state.participantInfoStrings
+    participantInfoStringsAdditional: state.participantInfoStringsAdditional
   };
 };
 
-const ParticipantInfoStringsContainer = connect(
+const ParticipantInfoStringsAdditionalContainer = connect(
   mapStateToProps
-)(ParticipantInfoStrings);
+)(ParticipantInfoStringsAdditional);
 
-export default ParticipantInfoStringsContainer;
+export default ParticipantInfoStringsAdditionalContainer;

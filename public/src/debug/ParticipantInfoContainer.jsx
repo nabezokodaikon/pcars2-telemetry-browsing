@@ -2,7 +2,7 @@ import React from "react";
 import ReactDom from "react-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { isArray, isJson } from "../../common/jsUtil.js";
+import { isArray, isJson } from "../common/jsUtil.js";
 
 class ParticipantInfo extends React.Component {
   constructor(props) {

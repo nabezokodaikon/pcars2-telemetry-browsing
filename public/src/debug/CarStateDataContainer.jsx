@@ -2,9 +2,9 @@ import React from "react";
 import ReactDom from "react-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { isJson } from "../../common/jsUtil.js";
+import { isJson } from "../common/jsUtil.js";
 
-class CarDamageData extends React.Component {
+class CarStateData extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -13,9 +13,9 @@ class CarDamageData extends React.Component {
     if (!isJson(this.props.telemetryData)) {
       return <div></div>;
     }
-
+      
     const createRecords = () => {
-      const data = this.props.telemetryData.carDamageData;
+      const data = this.props.telemetryData.carStateData;
       return Object.keys(data).map(key => {
         const value = data[key];
         return (
@@ -41,7 +41,7 @@ class CarDamageData extends React.Component {
   }
 }
 
-CarDamageData.propTypes = {
+CarStateData.propTypes = {
   telemetryData: PropTypes.object.isRequired
 };
 
@@ -51,8 +51,8 @@ const mapStateToProps = state => {
   };
 };
 
-const CarDamageDataContainer = connect(
+const CarStateDataContainer = connect(
   mapStateToProps
-)(CarDamageData);
+)(CarStateData);
 
-export default CarDamageDataContainer;
+export default CarStateDataContainer;
