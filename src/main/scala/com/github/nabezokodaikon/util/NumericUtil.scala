@@ -35,7 +35,13 @@ object NumericUtil {
     def divide(divisor: Float, scale: Int): String =
       calcDivide(value, new BigDecimal(divisor), scale)
 
+    def divide(divisor: Double, scale: Int): String =
+      calcDivide(value, new BigDecimal(divisor), scale)
+
     def multiply(multiplicand: Float, scale: Int): String =
+      calcMultiply(value, new BigDecimal(multiplicand), scale)
+
+    def multiply(multiplicand: Double, scale: Int): String =
       calcMultiply(value, new BigDecimal(multiplicand), scale)
   }
 
