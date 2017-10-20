@@ -2,6 +2,7 @@ package com.github.nabezokodaikon.pcars1
 
 import com.github.nabezokodaikon.pcars1.BinaryUtil._
 import com.github.nabezokodaikon.pcars1.TelemetryDataConst._
+import com.github.nabezokodaikon.util.NumericUtil._
 import scala.reflect.ClassTag
 
 object TelemetryDataStructFactory {
@@ -234,13 +235,13 @@ object TelemetryDataStructFactory {
         numParticipants = numParticipants),
       participantInfo = participantInfo,
       unfilteredInputData = UnfilteredInputData(
-        unfilteredThrottle = unfilteredThrottle / 255f,
-        unfilteredBrake = unfilteredBrake / 255f,
-        unfilteredSteering = unfilteredSteering / 127f,
-        unfilteredClutch = unfilteredClutch / 255f),
+        unfilteredThrottle = unfilteredThrottle.divide(255, 2),
+        unfilteredBrake = unfilteredBrake.divide(255, 2),
+        unfilteredSteering = unfilteredSteering.divide(127, 2),
+        unfilteredClutch = unfilteredClutch.divide(255, 2)),
       eventInfoData = EventInfoData(
         lapsInEvent = lapsInEvent,
-        trackLength = trackLength / 1000f),
+        trackLength = trackLength.divide(1000, 3)),
       timingInfoData = TimingInfoData(
         lapInvalidated = (raceStateFlags >> 3 & 1) == 1,
         bestLapTime = bestLapTime,
@@ -272,17 +273,17 @@ object TelemetryDataStructFactory {
         pitMode = pitModeSchedule & 7,
         pitSchedule = pitModeSchedule >> 3 & 3),
       carStateData = CarStateData(
-        oilTempCelsius = oilTempCelsius / 255f,
+        oilTempCelsius = oilTempCelsius.divide(255, 0),
         oilPressureKPa = oilPressureKPa,
-        waterTempCelsius = waterTempCelsius / 255f,
+        waterTempCelsius = waterTempCelsius.divide(255, 0),
         waterPressureKpa = waterPressureKpa,
         fuelPressureKpa = fuelPressureKpa,
         carFlags = carFlags,
         fuelCapacity = fuelCapacity,
-        brake = brake / 255f,
-        throttle = throttle / 255f,
-        clutch = clutch / 255f,
-        steering = steering / 127f,
+        brake = brake.divide(255, 2),
+        throttle = throttle.divide(255, 2),
+        clutch = clutch.divide(255, 2),
+        steering = steering.divide(127, 2),
         fuelLevel = fuelLevel * fuelCapacity,
         speed = speed * 3.6f,
         rpm = rpm,
@@ -315,7 +316,7 @@ object TelemetryDataStructFactory {
         tyreWear = tyreWear,
         brakeDamage = brakeDamage,
         suspensionDamage = suspensionDamage,
-        brakeTempCelsius = brakeTempCelsius.map(_ / 255f),
+        brakeTempCelsius = brakeTempCelsius.map(_.divide(255f, 0)),
         tyreTreadTemp = tyreTreadTemp.map(_ / 1f),
         tyreLayerTemp = tyreLayerTemp.map(_ / 1f),
         tyreCarcassTemp = tyreCarcassTemp.map(_ / 1f),
@@ -326,21 +327,21 @@ object TelemetryDataStructFactory {
         rideHeight = rideHeight.map(_ * 100f),
         suspensionTravel = suspensionTravel.map(_ * 100f),
         suspensionVelocity = suspensionVelocity,
-        airPressure = airPressure.map(_ / 100f)),
+        airPressure = airPressure.map(_.divide(100, 2))),
       otherUdpData = OtherUdpData(
         engineSpeed = engineSpeed,
         engineTorque = engineTorque),
       carDamageData = CarDamageData(
         crashState = crashState,
-        aeroDamage = aeroDamage / 255f,
-        engineDamage = engineDamage / 255f),
+        aeroDamage = aeroDamage.divide(255, 2),
+        engineDamage = engineDamage.divide(255, 2)),
       weatherData = WeatherData(
         ambientTemperature = ambientTemperature,
         trackTemperature = trackTemperature,
-        rainDensity = rainDensity / 255f,
+        rainDensity = rainDensity.divide(255, 2),
         windSpeed = windSpeed * 2,
-        windDirectionX = windDirectionX / 127f,
-        windDirectionY = windDirectionY / 127f))
+        windDirectionX = windDirectionX.divide(127, 2),
+        windDirectionY = windDirectionY.divide(127, 2)))
   }
 
   def createFrameInfo(data: List[Byte]): FrameInfo = {

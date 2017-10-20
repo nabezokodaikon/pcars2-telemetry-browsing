@@ -86,17 +86,17 @@ case class ParticipantInfo(
 }
 
 case class UnfilteredInputData(
-  unfilteredThrottle: Float, // [ RANGE = 0.0f->1.0f ]
-  unfilteredBrake: Float, // [ RANGE = 0.0f->1.0f ]
-  unfilteredSteering: Float, // [ RANGE = -1.0f->1.0f ]
-  unfilteredClutch: Float // [ RANGE = 0.0f->1.0f ]
+  unfilteredThrottle: String, // [ RANGE = 0.0f->1.0f ]
+  unfilteredBrake: String, // [ RANGE = 0.0f->1.0f ]
+  unfilteredSteering: String, // [ RANGE = -1.0f->1.0f ]
+  unfilteredClutch: String // [ RANGE = 0.0f->1.0f ]
 ) {
   def toJsonString: String = this.toJson.toString
 }
 
 case class EventInfoData(
   lapsInEvent: Int,
-  trackLength: Float // [ UNITS = Kilometers ]
+  trackLength: String // [ UNITS = Kilometers ]
 ) {
   def toJsonString: String = this.toJson.toString
 }
@@ -146,17 +146,17 @@ case class PitInfoData(
 }
 
 case class CarStateData(
-  oilTempCelsius: Float, // [ UNITS = Celsius ]
+  oilTempCelsius: String, // [ UNITS = Celsius ]
   oilPressureKPa: Int, // [ UNITS = Kilopascal ]
-  waterTempCelsius: Float, // [ UNITS = Celsius ]
+  waterTempCelsius: String, // [ UNITS = Celsius ]
   waterPressureKpa: Int, // [ UNITS = Kilopascal ]
   fuelPressureKpa: Short, // [ UNITS = Kilopascal ]
   carFlags: Int,
   fuelCapacity: Int, // [ UNITS = Liters ]
-  brake: Float,
-  throttle: Float,
-  clutch: Float,
-  steering: Float,
+  brake: String,
+  throttle: String,
+  clutch: String,
+  steering: String,
   fuelLevel: Float, // [ UNITS = Liters ]
   speed: Float,
   rpm: Int,
@@ -196,7 +196,7 @@ case class TyreData(
   tyreWear: Array[Int], // [ タイヤ摩耗 ]
   brakeDamage: Array[Int],
   suspensionDamage: Array[Int],
-  brakeTempCelsius: Array[Float], // [ UNITS = Celsius ]
+  brakeTempCelsius: Array[String], // [ UNITS = Celsius ]
   tyreTreadTemp: Array[Float], // [ UNITS = Kelvin ]
   tyreLayerTemp: Array[Float], // [ UNITS = Kelvin ]
   tyreCarcassTemp: Array[Float], // [ UNITS = Kelvin ]
@@ -211,7 +211,7 @@ case class TyreUdpData(
   rideHeight: Array[Float], // [ UNITS = Centimeter ] タイヤサイドのHEIGHT
   suspensionTravel: Array[Float], // [ UNITS = Centimeter ] タイヤサイドのTRAVEL
   suspensionVelocity: Array[Float],
-  airPressure: Array[Float] // [ UNITS = bar]
+  airPressure: Array[String] // [ UNITS = bar]
 ) {
   def toJsonString: String = this.toJson.toString
 }
@@ -224,18 +224,18 @@ case class OtherUdpData(
 
 case class CarDamageData(
   crashState: Int,
-  aeroDamage: Float,
-  engineDamage: Float) {
+  aeroDamage: String,
+  engineDamage: String) {
   def toJsonString: String = this.toJson.toString
 }
 
 case class WeatherData(
   ambientTemperature: Byte, // [ UNITS = Celsius ] [ UNSET = 25.0f ]
   trackTemperature: Byte, // [ UNITS = Celsius ] [ UNSET = 30.0f ]
-  rainDensity: Float, // [ UNITS = How much rain will fall ]
+  rainDensity: String, // [ UNITS = How much rain will fall ]
   windSpeed: Int,
-  windDirectionX: Float, // [ UNITS = Normalised Vector X ]
-  windDirectionY: Float // [ UNITS = Normalised Vector Y ]
+  windDirectionX: String, // [ UNITS = Normalised Vector X ]
+  windDirectionY: String // [ UNITS = Normalised Vector Y ]
 ) {
   def toJsonString: String = this.toJson.toString
 }
