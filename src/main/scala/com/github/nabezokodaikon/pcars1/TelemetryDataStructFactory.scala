@@ -284,8 +284,8 @@ object TelemetryDataStructFactory {
         throttle = throttle.divide(255, 2),
         clutch = clutch.divide(255, 2),
         steering = steering.divide(127, 2),
-        fuelLevel = fuelLevel * fuelCapacity,
-        speed = speed * 3.6f,
+        fuelLevel = fuelLevel.multiply(fuelCapacity, 1),
+        speed = speed.multiply(3.6, 0),
         rpm = rpm,
         maxRpm = maxRpm,
         gear = toGearString(gearNumGears & 15),
@@ -324,8 +324,8 @@ object TelemetryDataStructFactory {
         tyreInternalAirTemp = tyreInternalAirTemp.map(_ / 1f)),
       tyreUdpData = TyreUdpData(
         wheelLocalPositionY = wheelLocalPositionY,
-        rideHeight = rideHeight.map(_ * 100f),
-        suspensionTravel = suspensionTravel.map(_ * 100f),
+        rideHeight = rideHeight.map(_.multiply(100, 2)),
+        suspensionTravel = suspensionTravel.map(_.multiply(100, 2)),
         suspensionVelocity = suspensionVelocity,
         airPressure = airPressure.map(_.divide(100, 2))),
       otherUdpData = OtherUdpData(
