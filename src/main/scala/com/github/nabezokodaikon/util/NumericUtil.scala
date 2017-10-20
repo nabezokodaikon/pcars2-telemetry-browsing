@@ -5,7 +5,7 @@ import java.math.{ BigDecimal, RoundingMode }
 object NumericUtil {
   import scala.language.implicitConversions
 
-  private def calc(valueDecimal: BigDecimal, divisionValueDecimal: BigDecimal, scale: Int): String =
+  private def calcDivide(valueDecimal: BigDecimal, divisionValueDecimal: BigDecimal, scale: Int): String =
     scale match {
       case a if a > -1 =>
         valueDecimal.divide(divisionValueDecimal, scale, RoundingMode.DOWN).toString
@@ -17,13 +17,13 @@ object NumericUtil {
     def divide(divisionValue: Int, scale: Int): String = {
       val valueDecimal = new BigDecimal(value)
       val divisionValueDecimal = new BigDecimal(divisionValue)
-      calc(valueDecimal, divisionValueDecimal, scale)
+      calcDivide(valueDecimal, divisionValueDecimal, scale)
     }
 
     def divide(divisionValue: Float, scale: Int): String = {
       val valueDecimal = new BigDecimal(value)
       val divisionValueDecimal = new BigDecimal(divisionValue.toString)
-      calc(valueDecimal, divisionValueDecimal, scale)
+      calcDivide(valueDecimal, divisionValueDecimal, scale)
     }
   }
 
@@ -31,19 +31,19 @@ object NumericUtil {
     def divide(divisionValue: Int, scale: Int): String = {
       val valueDecimal = new BigDecimal(value)
       val divisionValueDecimal = new BigDecimal(divisionValue)
-      calc(valueDecimal, divisionValueDecimal, scale)
+      calcDivide(valueDecimal, divisionValueDecimal, scale)
     }
 
     def divide(divisionValue: Long, scale: Int): String = {
       val valueDecimal = new BigDecimal(value)
       val divisionValueDecimal = new BigDecimal(divisionValue)
-      calc(valueDecimal, divisionValueDecimal, scale)
+      calcDivide(valueDecimal, divisionValueDecimal, scale)
     }
 
     def divide(divisionValue: Float, scale: Int): String = {
       val valueDecimal = new BigDecimal(value)
       val divisionValueDecimal = new BigDecimal(divisionValue.toString)
-      calc(valueDecimal, divisionValueDecimal, scale)
+      calcDivide(valueDecimal, divisionValueDecimal, scale)
     }
   }
 
@@ -51,13 +51,13 @@ object NumericUtil {
     def divide(divisionValue: Int, scale: Int): String = {
       val valueDecimal = new BigDecimal(value.toString)
       val divisionValueDecimal = new BigDecimal(divisionValue)
-      calc(valueDecimal, divisionValueDecimal, scale)
+      calcDivide(valueDecimal, divisionValueDecimal, scale)
     }
 
     def divide(divisionValue: Float, scale: Int): String = {
       val valueDecimal = new BigDecimal(value.toString)
       val divisionValueDecimal = new BigDecimal(divisionValue.toString)
-      calc(valueDecimal, divisionValueDecimal, scale)
+      calcDivide(valueDecimal, divisionValueDecimal, scale)
     }
   }
 
