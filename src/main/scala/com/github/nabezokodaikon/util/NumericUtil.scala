@@ -8,9 +8,9 @@ object NumericUtil {
   private def calc(valueDecimal: BigDecimal, divisionValueDecimal: BigDecimal, scale: Int): Float =
     scale match {
       case a if a > -1 =>
-        valueDecimal.divide(divisionValueDecimal, scale, RoundingMode.HALF_UP).floatValue
+        valueDecimal.divide(divisionValueDecimal, scale, RoundingMode.DOWN).floatValue
       case _ =>
-        valueDecimal.divide(divisionValueDecimal, 0, RoundingMode.HALF_UP).floatValue
+        valueDecimal.divide(divisionValueDecimal, 0, RoundingMode.DOWN).floatValue
     }
 
   class IntRoundingSupport(value: Int) {
