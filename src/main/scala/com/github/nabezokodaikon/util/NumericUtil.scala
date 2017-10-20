@@ -9,6 +9,10 @@ object NumericUtil {
     if (scale > -1) a.divide(b, scale, RoundingMode.DOWN).toString
     else a.divide(b, 0, RoundingMode.DOWN).toString
 
+  private def calcMultiply(a: BigDecimal, b: BigDecimal, scale: Int): String =
+    if (scale > -1) a.multiply(b).setScale(scale, RoundingMode.DOWN).toString
+    else a.multiply(b).setScale(0, RoundingMode.DOWN).toString
+
   class IntRoundingSupport(value: Int) {
     def divide(divisionValue: Int, scale: Int): String = {
       val valueDecimal = new BigDecimal(value)
