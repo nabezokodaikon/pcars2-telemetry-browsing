@@ -5,13 +5,9 @@ import java.math.{ BigDecimal, RoundingMode }
 object NumericUtil {
   import scala.language.implicitConversions
 
-  private def calcDivide(valueDecimal: BigDecimal, divisionValueDecimal: BigDecimal, scale: Int): String =
-    scale match {
-      case a if a > -1 =>
-        valueDecimal.divide(divisionValueDecimal, scale, RoundingMode.DOWN).toString
-      case _ =>
-        valueDecimal.divide(divisionValueDecimal, 0, RoundingMode.DOWN).toString
-    }
+  private def calcDivide(a: BigDecimal, b: BigDecimal, scale: Int): String =
+    if (scale > -1) a.divide(b, scale, RoundingMode.DOWN).toString
+    else a.divide(b, 0, RoundingMode.DOWN).toString
 
   class IntRoundingSupport(value: Int) {
     def divide(divisionValue: Int, scale: Int): String = {
