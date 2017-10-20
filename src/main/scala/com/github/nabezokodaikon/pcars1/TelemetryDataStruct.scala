@@ -108,8 +108,8 @@ case class TimingInfoData(
   currentTime: Float, // [ UNITS = seconds ]
   splitTimeAhead: Float, // [ UNITS = seconds ] [ UNSET = -1.0f ]
   splitTimeBehind: Float, // [ UNITS = seconds ] [ UNSET = -1.0f ]
-  splitTime: Float, // [ UNITS = seconds ] [ UNSET = -1.0f ]
-  eventTimeRemaining: Float, // [ UNITS = milli-seconds ]
+  splitTime: Float, // [ UNITS = seconds ]
+  eventTimeRemaining: Float, // [ UNITS = milli-seconds ] [ UNSET = -1.0f ]
   personalFastestLapTime: Float, // [ UNITS = seconds ] [ UNSET = -1.0f ]
   worldFastestLapTime: Float // [ UNITS = seconds ] [ UNSET = -1.0f ]
 ) {
@@ -157,8 +157,8 @@ case class CarStateData(
   throttle: String,
   clutch: String,
   steering: String,
-  fuelLevel: Float, // [ UNITS = Liters ]
-  speed: Float,
+  fuelLevel: String, // [ UNITS = Liters ]
+  speed: String,
   rpm: Int,
   maxRpm: Int,
   gear: String, // [ RANGE = 15 (Reverse)  0 (Neutral)  1 (Gear 1)  2 (Gear 2)  etc... ]
@@ -208,8 +208,8 @@ case class TyreData(
 
 case class TyreUdpData(
   wheelLocalPositionY: Array[Float],
-  rideHeight: Array[Float], // [ UNITS = Centimeter ] タイヤサイドのHEIGHT
-  suspensionTravel: Array[Float], // [ UNITS = Centimeter ] タイヤサイドのTRAVEL
+  rideHeight: Array[String], // [ UNITS = Centimeter ] タイヤサイドのHEIGHT
+  suspensionTravel: Array[String], // [ UNITS = Centimeter ] タイヤサイドのTRAVEL
   suspensionVelocity: Array[Float],
   airPressure: Array[String] // [ UNITS = bar]
 ) {
