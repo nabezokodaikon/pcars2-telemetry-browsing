@@ -2,7 +2,7 @@ package com.github.nabezokodaikon.pcars1
 
 import com.github.nabezokodaikon.pcars1.BinaryUtil._
 import com.github.nabezokodaikon.pcars1.TelemetryDataConst._
-import com.github.nabezokodaikon.util.NumericUtil._
+import com.github.nabezokodaikon.util.BigDecimalSupport._
 import scala.reflect.ClassTag
 
 object TelemetryDataStructFactory {
@@ -244,28 +244,28 @@ object TelemetryDataStructFactory {
         trackLength = trackLength.divide(1000, 3)),
       timingInfoData = TimingInfoData(
         lapInvalidated = (raceStateFlags >> 3 & 1) == 1,
-        bestLapTime = bestLapTime,
-        lastLapTime = lastLapTime,
-        currentTime = currentTime,
-        splitTimeAhead = splitTimeAhead,
-        splitTimeBehind = splitTimeBehind,
-        splitTime = splitTime,
-        eventTimeRemaining = eventTimeRemaining,
-        personalFastestLapTime = personalFastestLapTime,
-        worldFastestLapTime = worldFastestLapTime),
+        bestLapTime = bestLapTime.toTimeFormatFromSeconds,
+        lastLapTime = lastLapTime.toTimeFormatFromSeconds,
+        currentTime = currentTime.toTimeFormatFromSeconds,
+        splitTimeAhead = splitTimeAhead.toTimeFormatFromSeconds,
+        splitTimeBehind = splitTimeBehind.toTimeFormatFromSeconds,
+        splitTime = splitTime.toTimeFormatFromSeconds,
+        eventTimeRemaining = eventTimeRemaining.toTimeFormatFromMilliseconds,
+        personalFastestLapTime = personalFastestLapTime.toTimeFormatFromSeconds,
+        worldFastestLapTime = worldFastestLapTime.toTimeFormatFromSeconds),
       sectorTimeData = SectorTimeData(
-        currentSector1Time = currentSector1Time,
-        currentSector2Time = currentSector2Time,
-        currentSector3Time = currentSector3Time,
-        fastestSector1Time = fastestSector1Time,
-        fastestSector2Time = fastestSector2Time,
-        fastestSector3Time = fastestSector3Time,
-        personalFastestSector1Time = personalFastestSector1Time,
-        personalFastestSector2Time = personalFastestSector2Time,
-        personalFastestSector3Time = personalFastestSector3Time,
-        worldFastestSector1Time = worldFastestSector1Time,
-        worldFastestSector2Time = worldFastestSector2Time,
-        worldFastestSector3Time = worldFastestSector3Time),
+        currentSector1Time = currentSector1Time.toTimeFormatFromSeconds,
+        currentSector2Time = currentSector2Time.toTimeFormatFromSeconds,
+        currentSector3Time = currentSector3Time.toTimeFormatFromSeconds,
+        fastestSector1Time = fastestSector1Time.toTimeFormatFromSeconds,
+        fastestSector2Time = fastestSector2Time.toTimeFormatFromSeconds,
+        fastestSector3Time = fastestSector3Time.toTimeFormatFromSeconds,
+        personalFastestSector1Time = personalFastestSector1Time.toTimeFormatFromSeconds,
+        personalFastestSector2Time = personalFastestSector2Time.toTimeFormatFromSeconds,
+        personalFastestSector3Time = personalFastestSector3Time.toTimeFormatFromSeconds,
+        worldFastestSector1Time = worldFastestSector1Time.toTimeFormatFromSeconds,
+        worldFastestSector2Time = worldFastestSector2Time.toTimeFormatFromSeconds,
+        worldFastestSector3Time = worldFastestSector3Time.toTimeFormatFromSeconds),
       flagData = FlagData(
         highestFlagColor = highestFlag & 7,
         highestFlagReason = highestFlag >> 3 & 3),

@@ -103,32 +103,32 @@ case class EventInfoData(
 
 case class TimingInfoData(
   lapInvalidated: Boolean,
-  bestLapTime: Float, // [ UNITS = seconds ]
-  lastLapTime: Float, // [ UNITS = seconds ]
-  currentTime: Float, // [ UNITS = seconds ]
-  splitTimeAhead: Float, // [ UNITS = seconds ] [ UNSET = -1.0f ]
-  splitTimeBehind: Float, // [ UNITS = seconds ] [ UNSET = -1.0f ]
-  splitTime: Float, // [ UNITS = seconds ]
-  eventTimeRemaining: Float, // [ UNITS = milli-seconds ] [ UNSET = -1.0f ]
-  personalFastestLapTime: Float, // [ UNITS = seconds ] [ UNSET = -1.0f ]
-  worldFastestLapTime: Float // [ UNITS = seconds ] [ UNSET = -1.0f ]
+  bestLapTime: String, // [ UNITS = seconds ]
+  lastLapTime: String, // [ UNITS = seconds ]
+  currentTime: String, // [ UNITS = seconds ]
+  splitTimeAhead: String, // [ UNITS = seconds ] [ UNSET = -1.0f ]
+  splitTimeBehind: String, // [ UNITS = seconds ] [ UNSET = -1.0f ]
+  splitTime: String, // [ UNITS = seconds ]
+  eventTimeRemaining: String, // [ UNITS = milli-seconds ] [ UNSET = -1.0f ]
+  personalFastestLapTime: String, // [ UNITS = seconds ] [ UNSET = -1.0f ]
+  worldFastestLapTime: String // [ UNITS = seconds ] [ UNSET = -1.0f ]
 ) {
   def toJsonString: String = this.toJson.toString
 }
 
 case class SectorTimeData(
-  currentSector1Time: Float, // [ UNITS = seconds ] [ UNSET = -1.0f ]
-  currentSector2Time: Float, // [ UNITS = seconds ] [ UNSET = -1.0f ]
-  currentSector3Time: Float, // [ UNITS = seconds ] [ UNSET = -1.0f ]
-  fastestSector1Time: Float, // [ UNITS = seconds ] [ UNSET = -1.0f ]
-  fastestSector2Time: Float, // [ UNITS = seconds ] [ UNSET = -1.0f ]
-  fastestSector3Time: Float, // [ UNITS = seconds ] [ UNSET = -1.0f ]
-  personalFastestSector1Time: Float, // [ UNITS = seconds ] [ UNSET = -1.0f ]
-  personalFastestSector2Time: Float, // [ UNITS = seconds ] [ UNSET = -1.0f ]
-  personalFastestSector3Time: Float, // [ UNITS = seconds ] [ UNSET = -1.0f ]
-  worldFastestSector1Time: Float, // [ UNITS = seconds ] [ UNSET = -1.0f ]
-  worldFastestSector2Time: Float, // [ UNITS = seconds ] [ UNSET = -1.0f ]
-  worldFastestSector3Time: Float // [ UNITS = seconds ] [ UNSET = -1.0f ]
+  currentSector1Time: String, // [ UNITS = seconds ] [ UNSET = -1.0f ]
+  currentSector2Time: String, // [ UNITS = seconds ] [ UNSET = -1.0f ]
+  currentSector3Time: String, // [ UNITS = seconds ] [ UNSET = -1.0f ]
+  fastestSector1Time: String, // [ UNITS = seconds ] [ UNSET = -1.0f ]
+  fastestSector2Time: String, // [ UNITS = seconds ] [ UNSET = -1.0f ]
+  fastestSector3Time: String, // [ UNITS = seconds ] [ UNSET = -1.0f ]
+  personalFastestSector1Time: String, // [ UNITS = seconds ] [ UNSET = -1.0f ]
+  personalFastestSector2Time: String, // [ UNITS = seconds ] [ UNSET = -1.0f ]
+  personalFastestSector3Time: String, // [ UNITS = seconds ] [ UNSET = -1.0f ]
+  worldFastestSector1Time: String, // [ UNITS = seconds ] [ UNSET = -1.0f ]
+  worldFastestSector2Time: String, // [ UNITS = seconds ] [ UNSET = -1.0f ]
+  worldFastestSector3Time: String // [ UNITS = seconds ] [ UNSET = -1.0f ]
 ) {
   def toJsonString: String = this.toJson.toString
 }
