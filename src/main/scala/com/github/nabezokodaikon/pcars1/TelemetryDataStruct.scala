@@ -81,7 +81,8 @@ case class ParticipantInfo(
   lapsCompleted: Int,
   currentLap: Int,
   sector: Int,
-  lastSectorTime: Float) {
+  lastSectorTime: String // [ UNITS = seconds ]
+) {
   def toJsonString: String = this.toJson.toString
 }
 

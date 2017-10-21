@@ -88,7 +88,7 @@ object TelemetryDataStructFactory {
       lapsCompleted = lapsCompleted,
       currentLap = currentLap,
       sector = sector,
-      lastSectorTime = lastSectorTime)
+      lastSectorTime = lastSectorTime.toTimeFormatFromSeconds)
   }
 
   private def createParticipantInfoArray(data: List[Byte], count: Int): (Array[ParticipantInfo], List[Byte]) =
