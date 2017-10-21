@@ -292,7 +292,7 @@ object TelemetryDataStructFactory {
         numGears = gearNumGears >> 4,
         boostAmount = boostAmount,
         enforcedPitStopLap = enforcedPitStopLap,
-        odometerKM = odometerKM,
+        odometerKM = odometerKM.toRound(3),
         antiLockActive = (raceStateFlags >> 4 & 1) == 1,
         boostActive = (raceStateFlags >> 5 & 1) == 1),
       carStateVecotrData = CarStateVecotrData(

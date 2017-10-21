@@ -85,6 +85,12 @@ object BigDecimalSupport {
 
     def multiply(multiplicand: Double, scale: Int): String =
       calcMultiply(value, new BigDecimal(multiplicand), scale)
+
+    def toRound(scale: Int): String =
+      if (scale > -1)
+        value.setScale(scale, RoundingMode.DOWN).toString
+      else
+        value.setScale(0, RoundingMode.DOWN).toString
   }
 
   class ByteSupport(srcValue: Byte)

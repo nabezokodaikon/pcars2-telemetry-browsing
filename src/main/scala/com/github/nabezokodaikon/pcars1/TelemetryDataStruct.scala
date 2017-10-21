@@ -166,7 +166,7 @@ case class CarStateData(
   numGears: Int, // [ UNSET = -1 ]
   boostAmount: Int,
   enforcedPitStopLap: Byte,
-  odometerKM: Float, // [ UNITS = Kilometers ] [ UNSET = -1.0f ]
+  odometerKM: String, // [ UNITS = Kilometers ] [ UNSET = -1.0f ]
   antiLockActive: Boolean,
   boostActive: Boolean) {
   def toJsonString: String = this.toJson.toString
