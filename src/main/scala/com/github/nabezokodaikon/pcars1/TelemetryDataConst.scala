@@ -26,4 +26,12 @@ object TelemetryDataConst {
   // Gear string
   val GEAR_NEUTRAL: String = "N"
   val GEAR_REVERS: String = "R"
+
+  // Game state
+  val GAME_EXITED: Int = 0 // Waiting for game to start...
+  val GAME_FRONT_END: Int = 1 // In Menus
+  val GAME_INGAME_PLAYING: Int = 2 // In Session
+  val GAME_INGAME_PAUSED: Int = 3 // Game Paused
+  val GAME_UNDEFINED: Int = 4 // Undefined
+  val GAME_VIEWING_REPLAY: Int = 5 // Viewing replay
 }
