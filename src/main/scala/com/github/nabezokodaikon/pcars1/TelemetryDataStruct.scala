@@ -191,12 +191,12 @@ case class TyreData(
   tyreRPS: Array[Float], // [ UNITS = Revolutions per second ]
   tyreSlipSpeed: Array[Float], // [ UNITS = Metres per-second ]
   tyreTemp: Array[Int], // [ UNITS = Celsius ]
-  tyreGrip: Array[Int],
+  tyreGrip: Array[String],
   tyreHeightAboveGround: Array[Float], // [ UNITS = Local Space  Y ]
   tyreLateralStiffness: Array[Float], // [ UNITS = Lateral stiffness coefficient used in tyre deformation ]
-  tyreWear: Array[Int], // [ タイヤ摩耗 ]
-  brakeDamage: Array[Int],
-  suspensionDamage: Array[Int],
+  tyreWear: Array[String], // [ タイヤ摩耗 ]
+  brakeDamage: Array[String],
+  suspensionDamage: Array[String],
   brakeTempCelsius: Array[String], // [ UNITS = Celsius ]
   tyreTreadTemp: Array[Float], // [ UNITS = Kelvin ]
   tyreLayerTemp: Array[Float], // [ UNITS = Kelvin ]

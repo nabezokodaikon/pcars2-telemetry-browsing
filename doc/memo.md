@@ -1,4 +1,28 @@
 # MEMO
+## Game State
+* 起動時 - メニュー画面
+  * GameStateData.gameState = 1
+  * GameStateData.sessionState = 0
+  * GameStateData.raceStateFlags = 0
+* ブリフィーグ画面
+  * GameStateData.gameState = 2
+  * GameStateData.sessionState = 5
+  * GameStateData.raceStateFlags = 1
+* 発進時
+  * GameStateData.gameState = 2
+  * GameStateData.sessionState = 5
+  * GameStateData.raceStateFlags = 2
+* ゴール後
+  * GameStateData.gameState = 2
+  * GameStateData.sessionState = 5
+  * GameStateData.raceStateFlags = 3
+* リプレイ
+  * GameStateData.gameState = 5
+  * GameStateData.sessionState = 5
+  * GameStateData.raceStateFlags = 2
+
+
+
 ## View
 ### Common
 * 車両名
@@ -62,6 +86,10 @@
 * タイヤの消耗
   * TyreData.tyreWear
     * 0 - 1
+* タイヤ横の高さ
+  * TyreUdpData.rideHeight
+* タイヤ横の走行距離
+  * TyreUdpData.suspensionTravel
       
 ### Detail view
 ### Tyre state chart

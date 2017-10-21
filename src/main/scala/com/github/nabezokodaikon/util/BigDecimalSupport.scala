@@ -52,15 +52,15 @@ object BigDecimalSupport {
 
     def calcDivide(value: BigDecimal, divisor: BigDecimal, scale: Int): String =
       if (scale > -1)
-        value.divide(divisor, scale, RoundingMode.DOWN).toString
+        value.divide(divisor, scale, RoundingMode.HALF_UP).toString
       else
-        value.divide(divisor, 0, RoundingMode.DOWN).toString
+        value.divide(divisor, 0, RoundingMode.HALF_UP).toString
 
     def calcMultiply(value: BigDecimal, multiplicand: BigDecimal, scale: Int): String =
       if (scale > -1)
-        value.multiply(multiplicand).setScale(scale, RoundingMode.DOWN).toString
+        value.multiply(multiplicand).setScale(scale, RoundingMode.HALF_UP).toString
       else
-        value.multiply(multiplicand).setScale(0, RoundingMode.DOWN).toString
+        value.multiply(multiplicand).setScale(0, RoundingMode.HALF_UP).toString
 
     def divide(divisor: Byte, scale: Int): String =
       calcDivide(value, new BigDecimal(divisor), scale)
