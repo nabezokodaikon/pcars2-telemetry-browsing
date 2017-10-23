@@ -113,7 +113,6 @@ function createText(cx, cy, radius, startDegree, finishDegree, fontSize, fontCol
     return svgText;
 }
 
-// const clutch = document.getElementById("clutch");
 
 // const strokePath = createFanStroke(100, 200, 100, 210, 330, 16, "#555555", 1)
 // clutch.appendChild(strokePath);
@@ -147,8 +146,9 @@ Array.from({length: Math.floor(maxRpm / 1000) + 1}, (v, k) => k).map(i => {
 
 
 
-// const path = createFanShape(100, 200, 100, 210, 330, 16, "#555555", 2);
-// clutch.appendChild(path);
+const clutch = document.getElementById("clutch");
+const path = createFanShape(100, 200, 100, 60, 120, 16, "#555555", 2);
+clutch.appendChild(path);
 
 // const clutchValue = document.getElementById("clutchValue");
 // const path1 = cradiuseateFanShape(96, 200, 100, 34, 146, "none", "#DDDDDD", 12);

@@ -3,7 +3,10 @@ import ReactDom from "react-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { isJson } from "../common/jsUtil.js";
-import { createRpmComponent } from "../common/telemetryComponents.jsx";
+import { 
+  createRpmComponent,
+  createClutchComponent
+} from "../common/telemetryComponents.jsx";
 
 class SimpleProtoType extends React.Component {
   constructor(props) {
@@ -18,12 +21,17 @@ class SimpleProtoType extends React.Component {
     const carStateData = this.props.telemetryData.carStateData; 
     const maxRpm = carStateData.maxRpm;
     const rpm = carStateData.rpm;
+    const clutch = carStateData.clutch;
 
-    const rpmComponent = createRpmComponent(rpm, maxRpm, 500, 500, 400, 16);
+    const cx = 500;
+    const cy = 500;
+    const rpmComponent = createRpmComponent(rpm, maxRpm, cx, cy, 400, 16);
+    const clutchComponent = createClutchComponent(clutch, cx, cy, 500, 90);
 
     return (
       <svg viewBox="0 0 1000 1000">
         {rpmComponent}
+        {clutchComponent}
       </svg>
     );
   }

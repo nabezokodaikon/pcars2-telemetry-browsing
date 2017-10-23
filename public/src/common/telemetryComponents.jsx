@@ -1,6 +1,7 @@
 import React from "react";
 import {
   createFanShape,
+  createFanStroke,
   createFanText
 } from "./svgComponents.jsx"
 
@@ -24,7 +25,7 @@ export function createRpmComponent(rpm, maxRpm, cx, cy, radius, width) {
   const maxRpmShape = createFanShape(cx, cy, radius, 30, maxRpmValue, width, "#000000");
   const rpmShape = createFanShape(cx, cy, radius, 30, rpmValue, width * 1.5, "#FFFFFF");
 
-  const rpmText = Array.from({length: Math.floor(rpmBackgroundShape / 1000) + 1}, (v, k) => k).map(i =>
+  const rpmText = Array.from({length: Math.floor(rpmBackground / 1000) + 1}, (v, k) => k).map(i =>
     createFanText(cx, cy, radius - fontSize * 2, 30 + separateDegree * (i - 0.5), 30 + separateDegree * (i + 0.5), fontSize, "#5555AA", i.toString())
   );
 
@@ -36,4 +37,27 @@ export function createRpmComponent(rpm, maxRpm, cx, cy, radius, width) {
       {rpmText}
     </g>
   ); 
+}
+
+export function createClutchComponent(srcValue, cx, cy, radius, width) {
+  const value = parseFloat(srcValue) * 100;
+  const unit = 60 / 100; 
+  const lBG = 60;
+  const rBG = 300;
+  const lValue = unit * value + lBG;
+  const rValue = rBG - unit * value;
+
+  const lBGStroke = createFanStroke(cx, cy, radius, lBG, lBG + 60, width, "#777777", 1);
+  const rBGStroke = createFanStroke(cx, cy, radius, rBG - 60, rBG, width, "#777777", 1);
+  const lValueShape = createFanShape(cx, cy, radius, lBG, lValue, width, "#777777");
+  const rValueShape = createFanShape(cx, cy, radius, rValue, rBG, width, "#777777");
+
+  return (
+    <g>
+      {lBGStroke}
+      {rBGStroke}
+      {lValueShape}
+      {rValueShape}
+    </g>
+  );
 }

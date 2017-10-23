@@ -31,7 +31,7 @@ export function createFanStroke(cx, cy, radius, startDegree, finishDegree, width
 
   const startLine = "M" + innerStartX + " " + innerStartY + " L " + arcStartX + " " + arcStartY;
   const arc = "A" + radius + " " + radius + " " + 0 + " " + largeArcFlag + " " + 1 + " " + arcFinishX + " " + arcFinishY;
-  const finishLine = "L" + innerFinishX + " " + innerFinishY + " ";
+  const finishLine = "L" + innerFinishX + " " + innerFinishY;
 
   return (
     <path
@@ -73,7 +73,7 @@ export function createFanShape(cx, cy, radius, startDegree, finishDegree, width,
 
   const startLine = "M" + innerStartX + " " + innerStartY + " L " + arcStartX + " " + arcStartY;
   const arc = "A" + radius + " " + radius + " " + 0 + " " + largeArcFlag + " " + 1 + " " + arcFinishX + " " + arcFinishY;
-  const finishLine = "L" + innerFinishX + " " + innerFinishY + " ";
+  const finishLine = "L" + innerFinishX + " " + innerFinishY;
   const innerArc = "A" + innerRadius + " " + innerRadius + " " + 0 + " " + largeArcFlag + " " + 0 + " " + innerStartX + " " + innerStartY + " Z";
 
   return (
