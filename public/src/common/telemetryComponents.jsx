@@ -14,27 +14,26 @@ import {
 */
 export function createRpmComponent(rpm, maxRpm, cx, cy, radius, width) {
   const fontSize = width * 2;
-  const allRpm = maxRpm * 1.18;
-  const rpmUnit = 300 / allRpm;
+  const rpmBackground = maxRpm * 1.2;
+  const rpmUnit = 300 / rpmBackground;
   const rpmValue = rpmUnit * rpm + 30;
   const maxRpmValue = rpmUnit * maxRpm + 30;
-  const separateDegree = 300 / allRpm * 1000;
+  const separateDegree = 300 / rpmBackground * 1000;
 
-  const allRpmShape = createFanShape(cx, cy, radius, 30, 330, width, "#FF0000");
+  const rpmBackgroundShape = createFanShape(cx, cy, radius, 30, 330, width, "#FF0000");
   const maxRpmShape = createFanShape(cx, cy, radius, 30, maxRpmValue, width, "#000000");
   const rpmShape = createFanShape(cx, cy, radius, 30, rpmValue, width * 1.5, "#FFFFFF");
 
-  const rpmText = Array.from({length: Math.floor(allRpm / 1000) + 1}, (v, k) => k).map(i =>
+  const rpmText = Array.from({length: Math.floor(rpmBackgroundShape / 1000) + 1}, (v, k) => k).map(i =>
     createFanText(cx, cy, radius - fontSize * 2, 30 + separateDegree * (i - 0.5), 30 + separateDegree * (i + 0.5), fontSize, "#5555AA", i.toString())
   );
 
   return (
     <g>
-      {allRpmShape}
+      {rpmBackgroundShape}
       {maxRpmShape}
       {rpmShape}
       {rpmText}
     </g>
   ); 
 }
-
