@@ -76,6 +76,8 @@ class Contents extends React.Component {
           return <CarDamageDataContainer />;
         case contentNames.WEATHER_DATA:
           return <WeatherDataContainer />
+        case contentNames.SIMPLE:
+          return <SimpleProtoTypeContainer />;
         default:
           return <div></div>;
     }
