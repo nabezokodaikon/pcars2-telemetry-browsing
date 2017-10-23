@@ -4,8 +4,10 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { isJson } from "../common/jsUtil.js";
 import { 
+  createBrakeComponent,
+  createClutchComponent,
   createRpmComponent,
-  createClutchComponent
+  createThrottleComponent
 } from "../common/telemetryComponents.jsx";
 
 class SimpleProtoType extends React.Component {
@@ -22,16 +24,22 @@ class SimpleProtoType extends React.Component {
     const maxRpm = carStateData.maxRpm;
     const rpm = carStateData.rpm;
     const clutch = carStateData.clutch;
+    const throttle = carStateData.throttle;
+    const brake = carStateData.brake;
 
     const cx = 500;
     const cy = 500;
-    const rpmComponent = createRpmComponent(rpm, maxRpm, cx, cy, 400, 16);
-    const clutchComponent = createClutchComponent(clutch, cx, cy, 500, 90);
+    const rpmComponent = createRpmComponent(rpm, maxRpm, cx, cy, 200, 8);
+    const clutchComponent = createClutchComponent(clutch, cx, cy, 232, 16);
+    const throttleComponent = createThrottleComponent(throttle, cx, cy, 264, 16);
+    const brakeComponent = createBrakeComponent(brake, cx, cy, 264, 16);
 
     return (
       <svg viewBox="0 0 1000 1000">
         {rpmComponent}
         {clutchComponent}
+        {throttleComponent}
+        {brakeComponent}
       </svg>
     );
   }
