@@ -14,7 +14,7 @@ import {
  * width: 扇の幅
 */
 export function createRpmComponent(rpm, maxRpm, cx, cy, radius, width) {
-  const fontSize = width * 2;
+  const fontSize = width * 2.5;
   const rpmBG = maxRpm * 1.2;
   const rpmUnit = 300 / rpmBG;
   const rpmValue = rpmUnit * rpm + 30;
@@ -84,8 +84,8 @@ export function createThrottleComponent(srcValue, cx, cy, radius, width) {
   const bg = degree;
   const destValue = unit * value + bg;
 
-  const bgStroke = createFanStroke(cx, cy, radius, bg, bg + degree, width, "#777777", 1);
-  const bgValueShape = createFanShape(cx, cy, radius, bg, destValue, width, "#007700");
+  const bgStroke = createFanStroke(cx, cy, radius, bg, bg + degree, width, "#00FF00", 1);
+  const bgValueShape = createFanShape(cx, cy, radius, bg, destValue, width, "#00FF00");
 
   return (
     <g>
@@ -109,8 +109,8 @@ export function createBrakeComponent(srcValue, cx, cy, radius, width) {
   const bg = 360 - degree;
   const destValue = bg - unit * value;
 
-  const bgStroke = createFanStroke(cx, cy, radius, bg - degree, bg, width, "#777777", 1);
-  const valueShape = createFanShape(cx, cy, radius, destValue, bg, width, "#770000");
+  const bgStroke = createFanStroke(cx, cy, radius, bg - degree, bg, width, "#FF0000", 1);
+  const valueShape = createFanShape(cx, cy, radius, destValue, bg, width, "#FF0000");
 
   return (
     <g>
