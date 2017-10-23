@@ -32,7 +32,8 @@ import TelemetryJsonProtocol._
 case class FrameInfo(
   frameTypeAndSequence: Int,
   frameType: Int,
-  sequence: Int)
+  sequence: Int //
+)
 
 // 1,347 Byte
 case class ParticipantInfoStrings(
@@ -65,7 +66,8 @@ case class ParticipantInfoStringsAdditional(
 case class GameStateData(
   gameState: Long,
   sessionState: Long,
-  raceStateFlags: Long)
+  raceStateFlags: Long //
+)
 
 case class ParticipantInfoData(
   viewedParticipantIndex: Byte, // [ UNSET = -1 ]
@@ -136,13 +138,15 @@ case class SectorTimeData(
 
 case class FlagData(
   highestFlagColor: Int,
-  highestFlagReason: Int) {
+  highestFlagReason: Int //
+) {
   def toJsonString: String = this.toJson.toString
 }
 
 case class PitInfoData(
   pitMode: Int,
-  pitSchedule: Int) {
+  pitSchedule: Int //
+) {
   def toJsonString: String = this.toJson.toString
 }
 
@@ -168,7 +172,8 @@ case class CarStateData(
   enforcedPitStopLap: Byte,
   odometerKM: String, // [ UNITS = Kilometers ] [ UNSET = -1.0f ]
   antiLockActive: Boolean,
-  boostActive: Boolean) {
+  boostActive: Boolean //
+) {
   def toJsonString: String = this.toJson.toString
 }
 
@@ -219,14 +224,16 @@ case class TyreUdpData(
 
 case class OtherUdpData(
   engineSpeed: Float,
-  engineTorque: Float) {
+  engineTorque: Float //
+) {
   def toJsonString: String = this.toJson.toString
 }
 
 case class CarDamageData(
   crashState: Int,
   aeroDamage: String,
-  engineDamage: String) {
+  engineDamage: String //
+) {
   def toJsonString: String = this.toJson.toString
 }
 
@@ -258,6 +265,7 @@ case class TelemetryData(
   tyreUdpData: TyreUdpData,
   otherUdpData: OtherUdpData,
   carDamageData: CarDamageData,
-  weatherData: WeatherData) {
+  weatherData: WeatherData //
+) {
   def toJsonString: String = this.toJson.toString
 }

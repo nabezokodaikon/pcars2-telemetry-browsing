@@ -69,7 +69,8 @@ object TelemetryDataStructFactory {
       carClassName = carClassName,
       trackLocation = trackLocation,
       trackVariation = trackVariation,
-      nameString = nameString)
+      nameString = nameString //
+    )
   }
 
   private def createParticipantInfo(data: List[Byte]): ParticipantInfo = {
@@ -88,7 +89,8 @@ object TelemetryDataStructFactory {
       lapsCompleted = lapsCompleted,
       currentLap = currentLap,
       sector = sector,
-      lastSectorTime = lastSectorTime.toTimeFormatFromSeconds)
+      lastSectorTime = lastSectorTime.toTimeFormatFromSeconds //
+    )
   }
 
   private def createParticipantInfoArray(data: List[Byte], count: Int): (Array[ParticipantInfo], List[Byte]) =
@@ -229,19 +231,23 @@ object TelemetryDataStructFactory {
       gameStateData = GameStateData(
         gameState = gameSessionState & 7,
         sessionState = gameSessionState >> 4,
-        raceStateFlags = raceStateFlags & 7),
+        raceStateFlags = raceStateFlags & 7 //
+      ),
       participantInfoData = ParticipantInfoData(
         viewedParticipantIndex = viewedParticipantIndex,
-        numParticipants = numParticipants),
+        numParticipants = numParticipants //
+      ),
       participantInfo = participantInfo,
       unfilteredInputData = UnfilteredInputData(
         unfilteredThrottle = unfilteredThrottle.divide(255, 2),
         unfilteredBrake = unfilteredBrake.divide(255, 2),
         unfilteredSteering = unfilteredSteering.divide(127, 2),
-        unfilteredClutch = unfilteredClutch.divide(255, 2)),
+        unfilteredClutch = unfilteredClutch.divide(255, 2) //
+      ),
       eventInfoData = EventInfoData(
         lapsInEvent = lapsInEvent,
-        trackLength = trackLength.divide(1000, 3)),
+        trackLength = trackLength.divide(1000, 3) //
+      ),
       timingInfoData = TimingInfoData(
         lapInvalidated = (raceStateFlags >> 3 & 1) == 1,
         bestLapTime = bestLapTime.toTimeFormatFromSeconds,
@@ -252,7 +258,8 @@ object TelemetryDataStructFactory {
         splitTime = splitTime.toTimeFormatFromSeconds,
         eventTimeRemaining = eventTimeRemaining.toTimeFormatFromMilliseconds,
         personalFastestLapTime = personalFastestLapTime.toTimeFormatFromSeconds,
-        worldFastestLapTime = worldFastestLapTime.toTimeFormatFromSeconds),
+        worldFastestLapTime = worldFastestLapTime.toTimeFormatFromSeconds //
+      ),
       sectorTimeData = SectorTimeData(
         currentSector1Time = currentSector1Time.toTimeFormatFromSeconds,
         currentSector2Time = currentSector2Time.toTimeFormatFromSeconds,
@@ -265,13 +272,16 @@ object TelemetryDataStructFactory {
         personalFastestSector3Time = personalFastestSector3Time.toTimeFormatFromSeconds,
         worldFastestSector1Time = worldFastestSector1Time.toTimeFormatFromSeconds,
         worldFastestSector2Time = worldFastestSector2Time.toTimeFormatFromSeconds,
-        worldFastestSector3Time = worldFastestSector3Time.toTimeFormatFromSeconds),
+        worldFastestSector3Time = worldFastestSector3Time.toTimeFormatFromSeconds //
+      ),
       flagData = FlagData(
         highestFlagColor = highestFlag & 7,
-        highestFlagReason = highestFlag >> 3 & 3),
+        highestFlagReason = highestFlag >> 3 & 3 //
+      ),
       pitInfoData = PitInfoData(
         pitMode = pitModeSchedule & 7,
-        pitSchedule = pitModeSchedule >> 3 & 3),
+        pitSchedule = pitModeSchedule >> 3 & 3 //
+      ),
       carStateData = CarStateData(
         oilTempCelsius = oilTempCelsius.divide(255, 0),
         oilPressureKPa = oilPressureKPa,
@@ -294,7 +304,8 @@ object TelemetryDataStructFactory {
         enforcedPitStopLap = enforcedPitStopLap,
         odometerKM = odometerKM.toRound(3),
         antiLockActive = (raceStateFlags >> 4 & 1) == 1,
-        boostActive = (raceStateFlags >> 5 & 1) == 1),
+        boostActive = (raceStateFlags >> 5 & 1) == 1 //
+      ),
       carStateVecotrData = CarStateVecotrData(
         orientation = orientation,
         localVelocity = localVelocity,
@@ -302,7 +313,8 @@ object TelemetryDataStructFactory {
         angularVelocity = angularVelocity,
         localAcceleration = localAcceleration,
         worldAcceleration = worldAcceleration,
-        extentsCentre = extentsCentre),
+        extentsCentre = extentsCentre //
+      ),
       tyreData = TyreData(
         tyreFlag = tyreFlag,
         terrain = terrain,
@@ -321,27 +333,32 @@ object TelemetryDataStructFactory {
         tyreLayerTemp = tyreLayerTemp.map(_ / 1f),
         tyreCarcassTemp = tyreCarcassTemp.map(_ / 1f),
         tyreRimTemp = tyreRimTemp.map(_ / 1f),
-        tyreInternalAirTemp = tyreInternalAirTemp.map(_ / 1f)),
+        tyreInternalAirTemp = tyreInternalAirTemp.map(_ / 1f) //
+      ),
       tyreUdpData = TyreUdpData(
         wheelLocalPositionY = wheelLocalPositionY,
         rideHeight = rideHeight.map(_.multiply(100, 1)),
         suspensionTravel = suspensionTravel.map(_.multiply(100, 1)),
         suspensionVelocity = suspensionVelocity,
-        airPressure = airPressure.map(_.divide(100, 2))),
+        airPressure = airPressure.map(_.divide(100, 2)) //
+      ),
       otherUdpData = OtherUdpData(
         engineSpeed = engineSpeed,
-        engineTorque = engineTorque),
+        engineTorque = engineTorque //
+      ),
       carDamageData = CarDamageData(
         crashState = crashState,
         aeroDamage = aeroDamage.divide(255, 2),
-        engineDamage = engineDamage.divide(255, 2)),
+        engineDamage = engineDamage.divide(255, 2) //
+      ),
       weatherData = WeatherData(
         ambientTemperature = ambientTemperature,
         trackTemperature = trackTemperature,
         rainDensity = rainDensity.divide(255, 2),
         windSpeed = windSpeed * 2,
         windDirectionX = windDirectionX.divide(127, 2),
-        windDirectionY = windDirectionY.divide(127, 2)))
+        windDirectionY = windDirectionY.divide(127, 2)) //
+    )
   }
 
   def createFrameInfo(data: List[Byte]): FrameInfo = {
