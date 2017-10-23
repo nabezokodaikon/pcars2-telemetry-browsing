@@ -20,6 +20,7 @@ import TyreDataContainer from "./TyreDataContainer.jsx";
 import OtherUdpDataContainer from "./OtherUdpDataContainer.jsx";
 import CarDamageDataContainer from "./CarDamageDataContainer.jsx";
 import WeatherDataContainer from "./WeatherDataContainer.jsx"
+import SimpleProtoTypeContainer from "./SimpleProtoTypeContainer.jsx";
 
 class Contents extends React.Component {
   constructor(props) {
@@ -49,7 +50,7 @@ class Contents extends React.Component {
         case contentNames.GAMESTATE_DATA:
           return <GameStateDataContainer />;
         case contentNames.PARTICIPANT_INFO_DATA:
-          return <ParticipantInfoDataContainer />
+          return <ParticipantInfoDataContainer />;
         case contentNames.PARTICIPANT_INFO:
           return <ParticipantInfoContainer />;
         case contentNames.UNFILTEREDINPUT_DATA:
@@ -75,7 +76,7 @@ class Contents extends React.Component {
         case contentNames.CAR_DAMAGE_DATA:
           return <CarDamageDataContainer />;
         case contentNames.WEATHER_DATA:
-          return <WeatherDataContainer />
+          return <WeatherDataContainer />;
         case contentNames.SIMPLE:
           return <SimpleProtoTypeContainer />;
         default:
