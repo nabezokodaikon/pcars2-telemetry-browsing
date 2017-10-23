@@ -14,7 +14,7 @@ import {
 */
 export function createRpmComponent(rpm, maxRpm, cx, cy, radius, width) {
   const fontSize = width * 2;
-  const allRpm = maxRpm * 1.17;
+  const allRpm = maxRpm * 1.18;
   const rpmUnit = 300 / allRpm;
   const rpmValue = rpmUnit * rpm + 30;
   const maxRpmValue = rpmUnit * maxRpm + 30;
