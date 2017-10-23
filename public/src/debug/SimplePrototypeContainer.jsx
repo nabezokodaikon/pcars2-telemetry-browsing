@@ -22,7 +22,7 @@ class SimpleProtoType extends React.Component {
     const rpmComponent = createRpmComponent(rpm, maxRpm, 500, 500, 400, 16);
 
     return (
-      <svg>
+      <svg viewBox="0 0 1000 1000">
         {rpmComponent}
       </svg>
     );
