@@ -358,7 +358,7 @@ object TelemetryDataStructFactory {
         windSpeed = windSpeed * 2,
         windDirectionX = windDirectionX.divide(127, 2),
         windDirectionY = windDirectionY.divide(127, 2) //
-      )
+      ) //
     )
   }
 
