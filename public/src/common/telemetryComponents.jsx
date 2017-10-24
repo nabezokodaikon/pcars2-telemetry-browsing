@@ -48,7 +48,7 @@ export function createRpmComponent(rpm, maxRpm, cx, cy, radius, width) {
 */
 export function createClutchComponent(srcValue, cx, cy, radius, width) {
   const degree = 60;
-  const value = parseFloat(srcValue) * 100;
+  const value = srcValue * 100;
   const unit = degree / 100; 
   const lBG = degree;
   const rBG = 300;
@@ -79,7 +79,7 @@ export function createClutchComponent(srcValue, cx, cy, radius, width) {
 */
 export function createThrottleComponent(srcValue, cx, cy, radius, width) {
   const degree = 60;
-  const value = parseFloat(srcValue) * 100;
+  const value = srcValue * 100;
   const unit = degree / 100; 
   const bg = 300;
   const destValue = bg - unit * value;
@@ -104,7 +104,7 @@ export function createThrottleComponent(srcValue, cx, cy, radius, width) {
 */
 export function createBrakeComponent(srcValue, cx, cy, radius, width) {
   const degree = 60;
-  const value = parseFloat(srcValue) * 100;
+  const value = srcValue * 100;
   const unit = degree / 100; 
   const bg = 60;
   const destValue = unit * value + bg;

@@ -239,10 +239,10 @@ object TelemetryDataStructFactory {
       ),
       participantInfo = participantInfo,
       unfilteredInputData = UnfilteredInputData(
-        unfilteredThrottle = unfilteredThrottle.divide(255, 2),
-        unfilteredBrake = unfilteredBrake.divide(255, 2),
-        unfilteredSteering = unfilteredSteering.divide(127, 2),
-        unfilteredClutch = unfilteredClutch.divide(255, 2) //
+        unfilteredThrottle = unfilteredThrottle / 255f,
+        unfilteredBrake = unfilteredBrake / 255f,
+        unfilteredSteering = unfilteredSteering / 127f,
+        unfilteredClutch = unfilteredClutch / 255f //
       ),
       eventInfoData = EventInfoData(
         lapsInEvent = lapsInEvent,
@@ -290,10 +290,10 @@ object TelemetryDataStructFactory {
         fuelPressureKpa = fuelPressureKpa,
         carFlags = carFlags,
         fuelCapacity = fuelCapacity,
-        brake = brake.divide(255, 2),
-        throttle = throttle.divide(255, 2),
-        clutch = clutch.divide(255, 2),
-        steering = steering.divide(127, 2),
+        brake = brake / 255f,
+        throttle = throttle / 255f,
+        clutch = clutch / 255f,
+        steering = steering / 127f,
         fuelLevel = fuelLevel.multiply(fuelCapacity, 1),
         speed = speed.multiply(3.6, 0),
         rpm = rpm,

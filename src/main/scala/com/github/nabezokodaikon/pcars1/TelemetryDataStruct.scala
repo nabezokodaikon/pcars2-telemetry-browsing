@@ -89,10 +89,10 @@ case class ParticipantInfo(
 }
 
 case class UnfilteredInputData(
-  unfilteredThrottle: String, // [ RANGE = 0.0f->1.0f ]
-  unfilteredBrake: String, // [ RANGE = 0.0f->1.0f ]
-  unfilteredSteering: String, // [ RANGE = -1.0f->1.0f ]
-  unfilteredClutch: String // [ RANGE = 0.0f->1.0f ]
+  unfilteredThrottle: Float, // [ RANGE = 0.0f->1.0f ]
+  unfilteredBrake: Float, // [ RANGE = 0.0f->1.0f ]
+  unfilteredSteering: Float, // [ RANGE = -1.0f->1.0f ]
+  unfilteredClutch: Float // [ RANGE = 0.0f->1.0f ]
 ) {
   def toJsonString: String = this.toJson.toString
 }
@@ -158,10 +158,10 @@ case class CarStateData(
   fuelPressureKpa: Short, // [ UNITS = Kilopascal ]
   carFlags: Int,
   fuelCapacity: Int, // [ UNITS = Liters ]
-  brake: String,
-  throttle: String,
-  clutch: String,
-  steering: String,
+  brake: Float,
+  throttle: Float,
+  clutch: Float,
+  steering: Float,
   fuelLevel: String, // [ UNITS = Liters ]
   speed: String,
   rpm: Int,
