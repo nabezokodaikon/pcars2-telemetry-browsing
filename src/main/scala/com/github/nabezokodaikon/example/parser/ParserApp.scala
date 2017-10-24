@@ -17,16 +17,16 @@ object ParserApp extends /* App with */ LazyLogging {
   val telemetryDataName = s"${dir}/testdata/0_20171011161712739.bin"
   var telemetryDataData = FileUtil.readBinary(telemetryDataName).toList
   val telemetryData = createTelemetryData(telemetryDataData)
-  println(telemetryData.carStateData.brake)
-  println(telemetryData.carStateData.throttle)
-  println(telemetryData.carStateData.clutch)
-  println(telemetryData.carStateData.steering)
-  println(telemetryData.carStateData.speed)
-  println(telemetryData.carStateData.gear)
-  println(telemetryData.tyreUdpData.airPressure(0))
-  println(telemetryData.tyreUdpData.airPressure(1))
-  println(telemetryData.tyreUdpData.airPressure(2))
-  println(telemetryData.tyreUdpData.airPressure(3))
+  // println(telemetryData.carStateData.brake)
+  // println(telemetryData.carStateData.throttle)
+  // println(telemetryData.carStateData.clutch)
+  // println(telemetryData.carStateData.steering)
+  // println(telemetryData.carStateData.speed)
+  // println(telemetryData.carStateData.gear)
+  // println(telemetryData.tyreUdpData.airPressure(0))
+  // println(telemetryData.tyreUdpData.airPressure(1))
+  // println(telemetryData.tyreUdpData.airPressure(2))
+  // println(telemetryData.tyreUdpData.airPressure(3))
   // println(telemetryData.toJsonString)
 
   runningTime {
@@ -42,11 +42,11 @@ object ParserApp extends /* App with */ LazyLogging {
   val participantInfoStringsName = s"${dir}/testdata/1_20171011162536537.bin"
   var participantInfoStringsData = FileUtil.readBinary(participantInfoStringsName).toList
   val participantInfoStrings = createParticipantInfoStrings(participantInfoStringsData)
-  println(participantInfoStrings.carName)
-  println(participantInfoStrings.carClassName)
-  println(participantInfoStrings.trackLocation)
-  println(participantInfoStrings.trackVariation)
-  println(participantInfoStrings.nameString(0))
+  // println(participantInfoStrings.carName)
+  // println(participantInfoStrings.carClassName)
+  // println(participantInfoStrings.trackLocation)
+  // println(participantInfoStrings.trackVariation)
+  // println(participantInfoStrings.nameString(0))
   // println(participantInfoStrings.toJsonString)
 
   runningTime {

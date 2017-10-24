@@ -52,7 +52,7 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
       // println(telemetryData.carStateData.throttle.toString)
       // println(telemetryData.carStateData.clutch)
       // println(telemetryData.carStateData.steering)
-      println(telemetryData.carStateData.speed)
+      // println(telemetryData.carStateData.speed)
       // println(telemetryData.carStateData.gear)
       // println(telemetryData.carStateData.numGears)
       // println(telemetryData.carStateData.rpm)

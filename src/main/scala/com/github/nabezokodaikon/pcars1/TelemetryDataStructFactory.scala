@@ -357,7 +357,8 @@ object TelemetryDataStructFactory {
         rainDensity = rainDensity.divide(255, 2),
         windSpeed = windSpeed * 2,
         windDirectionX = windDirectionX.divide(127, 2),
-        windDirectionY = windDirectionY.divide(127, 2)) //
+        windDirectionY = windDirectionY.divide(127, 2) //
+      )
     )
   }
 
