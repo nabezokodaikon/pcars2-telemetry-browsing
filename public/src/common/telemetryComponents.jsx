@@ -6,6 +6,91 @@ import {
 } from "./svgComponents.jsx"
 
 /*
+ * gear: Gear
+ * rpm: RPM
+ * speed: Speed
+ * speedUnit: Speed unit
+ * cx: 円の中心のx座標
+ * cy: 円の中心のy座標
+ * radius: 半径
+ * width: 扇の幅
+*/
+export function createGearComponent(gear, rpm, speed, speedUnit, cx, cy, radius, width) {
+  const frameShape = createFanShape(cx, cy, radius, 30, 330, width, "#FFFFFF");
+
+  const gearText =
+    <text
+      x={cx}
+      y={cy - 20}
+      fill="#FFFFFF"
+      style={{fontSize: "14rem"}}
+      textAnchor="middle"
+      dominantBaseline="middle"
+    >
+      {gear}
+    </text>
+
+  const rpmValueText =
+    <text
+      x={cx}
+      y={cy + 80}
+      fill="#7777FF"
+      style={{fontSize: "4rem"}}
+      textAnchor="middle"
+      dominantBaseline="middle"
+    >
+      {rpm}
+    </text>
+
+  const rpmUnitText =
+    <text
+      x={cx}
+      y={cy + 120}
+      fill="#7777FF"
+      style={{fontSize: "3rem"}}
+      textAnchor="middle"
+      dominantBaseline="middle"
+    >
+      rpm
+    </text>
+
+  const speedValueText =
+    <text
+      x={cx}
+      y={cy + 200}
+      fill="#FFFFFF"
+      style={{fontSize: "6rem"}}
+      textAnchor="middle"
+      dominantBaseline="middle"
+    >
+      {speed}
+    </text>
+
+  const speedUnitText =
+    <text
+      x={cx}
+      y={cy + 260}
+      fill="#FFFFFF"
+      style={{fontSize: "3rem"}}
+      textAnchor="middle"
+      dominantBaseline="middle"
+    >
+      {speedUnit}
+    </text>
+
+  return (
+    <g>
+      {frameShape}
+      {gearText}
+      {rpmValueText}
+      {rpmUnitText}
+      {speedValueText}
+      {speedUnitText}
+    </g>
+  );
+}
+
+/*
  * rpm: RPM
  * maxRpm: Max RPM
  * cx: 円の中心のx座標
@@ -14,7 +99,7 @@ import {
  * width: 扇の幅
 */
 export function createRpmComponent(rpm, maxRpm, cx, cy, radius, width) {
-  const fontSize = width * 2.5;
+  const fontSize = width * 4;
   const rpmBG = maxRpm * 1.2;
   const rpmUnit = 300 / rpmBG;
   const rpmValue = rpmUnit * rpm + 30;
@@ -26,7 +111,7 @@ export function createRpmComponent(rpm, maxRpm, cx, cy, radius, width) {
   const rpmShape = createFanShape(cx, cy, radius, 30, rpmValue, width * 1.5, "#FFFFFF");
 
   const rpmText = Array.from({length: Math.floor(rpmBG / 1000) + 1}, (v, k) => k).map(i =>
-    createFanText(cx, cy, radius - fontSize * 2, 30 + separateDegree * (i - 0.5), 30 + separateDegree * (i + 0.5), fontSize, "#5555AA", i.toString())
+    createFanText(cx, cy, radius - fontSize, 30 + separateDegree * (i - 0.5), 30 + separateDegree * (i + 0.5), fontSize, "#7777FF", i.toString())
   );
 
   return (
@@ -47,11 +132,11 @@ export function createRpmComponent(rpm, maxRpm, cx, cy, radius, width) {
  * width: 扇の幅
 */
 export function createClutchComponent(srcValue, cx, cy, radius, width) {
-  const degree = 60;
+  const degree = 120;
   const value = srcValue * 100;
   const unit = degree / 100; 
-  const lBG = degree;
-  const rBG = 300;
+  const lBG = 30;
+  const rBG = 330;
   const lValue = unit * value + lBG;
   const rValue = rBG - unit * value;
 
@@ -78,10 +163,10 @@ export function createClutchComponent(srcValue, cx, cy, radius, width) {
  * width: 扇の幅
 */
 export function createThrottleComponent(srcValue, cx, cy, radius, width) {
-  const degree = 60;
+  const degree = 120;
   const value = srcValue * 100;
   const unit = degree / 100; 
-  const bg = 300;
+  const bg = 330;
   const destValue = bg - unit * value;
 
   const bgStroke = createFanStroke(cx, cy, radius, bg - degree, bg, width, "#00FF00", 1);
@@ -103,10 +188,10 @@ export function createThrottleComponent(srcValue, cx, cy, radius, width) {
  * width: 扇の幅
 */
 export function createBrakeComponent(srcValue, cx, cy, radius, width) {
-  const degree = 60;
+  const degree = 120;
   const value = srcValue * 100;
   const unit = degree / 100; 
-  const bg = 60;
+  const bg = 30;
   const destValue = unit * value + bg;
 
   const bgStroke = createFanStroke(cx, cy, radius, bg, bg + degree, width, "#FF0000", 1);
@@ -119,4 +204,3 @@ export function createBrakeComponent(srcValue, cx, cy, radius, width) {
     </g>
   );
 }
-
