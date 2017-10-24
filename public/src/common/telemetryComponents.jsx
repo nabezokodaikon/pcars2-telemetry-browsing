@@ -81,16 +81,16 @@ export function createThrottleComponent(srcValue, cx, cy, radius, width) {
   const degree = 60;
   const value = parseFloat(srcValue) * 100;
   const unit = degree / 100; 
-  const bg = degree;
-  const destValue = unit * value + bg;
+  const bg = 300;
+  const destValue = bg - unit * value;
 
-  const bgStroke = createFanStroke(cx, cy, radius, bg, bg + degree, width, "#00FF00", 1);
-  const bgValueShape = createFanShape(cx, cy, radius, bg, destValue, width, "#00FF00");
+  const bgStroke = createFanStroke(cx, cy, radius, bg - degree, bg, width, "#00FF00", 1);
+  const valueShape = createFanShape(cx, cy, radius, destValue, bg, width, "#00FF00");
 
   return (
     <g>
       {bgStroke}
-      {bgValueShape}
+      {valueShape}
     </g>
   );
 }
@@ -106,11 +106,11 @@ export function createBrakeComponent(srcValue, cx, cy, radius, width) {
   const degree = 60;
   const value = parseFloat(srcValue) * 100;
   const unit = degree / 100; 
-  const bg = 360 - degree;
-  const destValue = bg - unit * value;
+  const bg = 60;
+  const destValue = unit * value + bg;
 
-  const bgStroke = createFanStroke(cx, cy, radius, bg - degree, bg, width, "#FF0000", 1);
-  const valueShape = createFanShape(cx, cy, radius, destValue, bg, width, "#FF0000");
+  const bgStroke = createFanStroke(cx, cy, radius, bg, bg + degree, width, "#FF0000", 1);
+  const valueShape = createFanShape(cx, cy, radius, bg, destValue, width, "#FF0000");
 
   return (
     <g>
