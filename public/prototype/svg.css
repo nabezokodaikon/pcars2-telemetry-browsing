@@ -6,3 +6,7 @@ svg {
   width: 200px;
   height: 200px;
 }
+
+body {
+  background-color: #555555;
+}
