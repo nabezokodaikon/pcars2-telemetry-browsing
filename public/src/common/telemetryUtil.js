@@ -18,3 +18,11 @@ export function isParticipantInfoStringsAdditionalFrameType(telemetry) {
     && existsKey(telemetry, "frameType")
     && telemetry.frameType == telemetryConst.PARTICIPANT_INFO_STRINGS_ADDITIONAL_FRAME_TYPE; 
 }
+
+export function KmmToMih(kmh) {
+  return Math.floor(kmh * 0.625);
+}
+
+export function CelsiusToFahrenheit(celsius) {
+  return Math.floor(celsius * 1.8) + 32;
+}

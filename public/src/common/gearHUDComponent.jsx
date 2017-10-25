@@ -4,6 +4,10 @@ import {
   createFanStroke,
   createFanText
 } from "./svgComponents.jsx";
+import {
+  CelsiusToFahrenheit,
+  KmmToMih
+} from "./telemetryUtil.js";
 import gasolineIcon from "../image/gasoline.png";
 import oilIcon from "../image/oil.png";
 
@@ -157,7 +161,7 @@ function createFuelLevelComponent(value, cx, cy, iconSize, fontSize) {
  * gearValueFontSize: ギア値のフォントサイズ
 */
 function createGearComponent(gear, rpm, maxRpm, srcSpeed, isMeter, cx, cy, radius, width, gearValueFontSize) {
-  const speed = (isMeter ? Math.floor(srcSpeed) : Math.floor(srcSpeed * 0.625)); 
+  const speed = (isMeter ? Math.floor(srcSpeed) : KmmToMih(srcSpeed)); 
   const speedUnit = (isMeter ? "KM/H" : "MI/H");
   const gearColor = (rpm > maxRpm * 0.99 ? "#FF0000" : "#FFFFFF");
   const rpmValueFontSize = gearValueFontSize * 0.3;
@@ -250,7 +254,7 @@ function createOilTempComponent(srcValue, isCelsius, cx, cy, iconSize, fontSize)
   const x = cx - 40;
   const y = cy - 300;
   const unit = (isCelsius ? "°C" : "ºF");
-  const value = (isCelsius ? Math.floor(srcValue) : Math.floor(srcValue * 1.8) + 32); 
+  const value = (isCelsius ? Math.floor(srcValue) : CelsiusToFahrenheit(srcValue)); 
   const text = value + unit;
 
   const icon =
