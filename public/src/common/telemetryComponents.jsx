@@ -3,7 +3,8 @@ import {
   createFanShape,
   createFanStroke,
   createFanText
-} from "./svgComponents.jsx"
+} from "./svgComponents.jsx";
+import gasolineIcon from "../image/gasoline.png";
 
 /*
  * gear: Gear
@@ -97,21 +98,23 @@ export function createGearComponent(gear, rpm, speed, speedUnit, cx, cy, radius,
  * cy: 円の中心のy座標
  * radius: 半径
  * width: 扇の幅
+ * fontSize: Font size
 */
-export function createRpmComponent(rpm, maxRpm, cx, cy, radius, width) {
-  const fontSize = width * 4;
+export function createRpmComponent(rpm, maxRpm, cx, cy, radius, width, fontSize) {
   const rpmBG = maxRpm * 1.2;
   const rpmUnit = 300 / rpmBG;
   const rpmValue = rpmUnit * rpm + 30;
   const maxRpmValue = rpmUnit * maxRpm + 30;
   const separateDegree = 300 / rpmBG * 1000;
+  const bgWidth = width * 0.5;
 
-  const rpmBGShape = createFanShape(cx, cy, radius, 30, 330, width, "#FF0000");
-  const maxRpmShape = createFanShape(cx, cy, radius, 30, maxRpmValue, width, "#000000");
-  const rpmShape = createFanShape(cx, cy, radius, 30, rpmValue, width * 1.5, "#FFFFFF");
+  const rpmBGShape = createFanShape(cx, cy, radius, 30, 330, bgWidth, "#FF0000");
+  const maxRpmShape = createFanShape(cx, cy, radius, 30, maxRpmValue, bgWidth, "#000000");
+  const rpmShape = createFanShape(cx, cy, radius, 30, rpmValue, width, "#FFFFFF");
 
+  const textRadius = radius * 0.85;
   const rpmText = Array.from({length: Math.floor(rpmBG / 1000) + 1}, (v, k) => k).map(i =>
-    createFanText(cx, cy, radius - fontSize, 30 + separateDegree * (i - 0.5), 30 + separateDegree * (i + 0.5), fontSize, "#7777FF", i.toString())
+    createFanText(cx, cy, textRadius, 30 + separateDegree * (i - 0.5), 30 + separateDegree * (i + 0.5), fontSize, "#7777FF", i.toString())
   );
 
   return (
@@ -122,6 +125,21 @@ export function createRpmComponent(rpm, maxRpm, cx, cy, radius, width) {
       {rpmText}
     </g>
   ); 
+}
+
+export function createGasolineComponent(x, y, width, height) {
+
+  return (
+    <g>
+      <image
+        xlinkHref={gasolineIcon}
+        x={x}
+        y={y}
+        width={width}
+        height={height}
+      />
+    </g>
+  );
 }
 
 /*

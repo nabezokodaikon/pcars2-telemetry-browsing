@@ -6,6 +6,7 @@ import { isJson } from "../common/jsUtil.js";
 import { 
   createBrakeComponent,
   createClutchComponent,
+  createGasolineComponent,
   createGearComponent,
   createRpmComponent,
   createThrottleComponent
@@ -30,21 +31,20 @@ class SimpleProtoType extends React.Component {
     const gear = carStateData.gear;
     const speed = carStateData.speed;
 
-    const cx = 500;
+    const cx = 100;
     const cy = 500;
-    const gearComponent = createGearComponent(gear, rpm, speed, "KM/H", cx, cy, 140, 8);
-    const rpmComponent = createRpmComponent(rpm, maxRpm, cx, cy, 200, 8);
-    const clutchComponent = createClutchComponent(clutch, cx, cy, 232, 16);
-    const throttleComponent = createThrottleComponent(throttle, cx, cy, 264, 16);
-    const brakeComponent = createBrakeComponent(brake, cx, cy, 264, 16);
+    const rpmComponent = createRpmComponent(rpm, maxRpm, cx, cy, 440, 32, 64);
+    const gasolineComponent = createGasolineComponent(cx, cy, 32, 32);
+    // const gearComponent = createGearComponent(gear, rpm, speed, "KM/H", cx, cy, 140, 8);
+    // const clutchComponent = createClutchComponent(clutch, cx, cy, 232, 16);
+    // const throttleComponent = createThrottleComponent(throttle, cx, cy, 500, 16);
+    // const brakeComponent = createBrakeComponent(brake, cx, cy, 264, 16);
 
     return (
-      <svg viewBox="0 0 1000 1000">
-        {gearComponent}
+      <svg xmlns="http://www.w3.org/2000/svg" 
+     xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 1000 1000">
         {rpmComponent}
-        {clutchComponent}
-        {throttleComponent}
-        {brakeComponent}
+        {gasolineComponent}
       </svg>
     );
   }
