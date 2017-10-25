@@ -3,14 +3,7 @@ import ReactDom from "react-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { isJson } from "../common/jsUtil.js";
-import { 
-  createBrakeComponent,
-  createClutchComponent,
-  createGasolineComponent,
-  createGearComponent,
-  createRpmComponent,
-  createThrottleComponent
-} from "../common/telemetryComponents.jsx";
+import { createGearHUDComponent } from "../common/gearHUDComponent.jsx";
 
 class SimpleProtoType extends React.Component {
   constructor(props) {
@@ -23,28 +16,26 @@ class SimpleProtoType extends React.Component {
     }
 
     const carStateData = this.props.telemetryData.carStateData; 
-    const maxRpm = carStateData.maxRpm;
-    const rpm = carStateData.rpm;
-    const clutch = carStateData.clutch;
-    const throttle = carStateData.throttle;
-    const brake = carStateData.brake;
-    const gear = carStateData.gear;
-    const speed = carStateData.speed;
 
-    const cx = 100;
-    const cy = 500;
-    const rpmComponent = createRpmComponent(rpm, maxRpm, cx, cy, 440, 32, 64);
-    const gasolineComponent = createGasolineComponent(cx, cy, 32, 32);
-    // const gearComponent = createGearComponent(gear, rpm, speed, "KM/H", cx, cy, 140, 8);
-    // const clutchComponent = createClutchComponent(clutch, cx, cy, 232, 16);
-    // const throttleComponent = createThrottleComponent(throttle, cx, cy, 500, 16);
-    // const brakeComponent = createBrakeComponent(brake, cx, cy, 264, 16);
+    const gearHUDComponent = createGearHUDComponent({
+      cx: 50,
+      cy: 500,
+      gear: carStateData.gear,
+      speed: carStateData.speed,
+      rpm: carStateData.rpm,
+      maxRpm: carStateData.maxRpm,
+      throttle: carStateData.throttle,
+      brake: carStateData.brake,
+      clutch: carStateData.clutch,
+      oilTempCelsius: carStateData.oilTempCelsius,
+      fuelLevel: carStateData.fuelLevel,
+      isCelsius: true,
+      isMeter: true
+    });
 
     return (
-      <svg xmlns="http://www.w3.org/2000/svg" 
-     xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 1000 1000">
-        {rpmComponent}
-        {gasolineComponent}
+      <svg viewBox="0 0 1000 1000">
+        {gearHUDComponent}
       </svg>
     );
   }

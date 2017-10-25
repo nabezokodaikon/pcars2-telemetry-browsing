@@ -283,7 +283,7 @@ object TelemetryDataStructFactory {
         pitSchedule = pitModeSchedule >> 3 & 3 //
       ),
       carStateData = CarStateData(
-        oilTempCelsius = oilTempCelsius.divide(255, 0),
+        oilTempCelsius = oilTempCelsius / 255f,
         oilPressureKPa = oilPressureKPa,
         waterTempCelsius = waterTempCelsius.divide(255, 0),
         waterPressureKpa = waterPressureKpa,
@@ -295,7 +295,7 @@ object TelemetryDataStructFactory {
         clutch = clutch / 255f,
         steering = steering / 127f,
         fuelLevel = fuelLevel.multiply(fuelCapacity, 1),
-        speed = speed.multiply(3.6, 0),
+        speed = speed * 3.6f,
         rpm = rpm,
         maxRpm = maxRpm,
         gear = toGearString(gearNumGears & 15),

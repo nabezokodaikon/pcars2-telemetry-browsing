@@ -151,7 +151,7 @@ case class PitInfoData(
 }
 
 case class CarStateData(
-  oilTempCelsius: String, // [ UNITS = Celsius ]
+  oilTempCelsius: Float, // [ UNITS = Celsius ]
   oilPressureKPa: Int, // [ UNITS = Kilopascal ]
   waterTempCelsius: String, // [ UNITS = Celsius ]
   waterPressureKpa: Int, // [ UNITS = Kilopascal ]
@@ -163,7 +163,7 @@ case class CarStateData(
   clutch: Float,
   steering: Float,
   fuelLevel: String, // [ UNITS = Liters ]
-  speed: String,
+  speed: Float, // [ UNITS = KM/H ]
   rpm: Int,
   maxRpm: Int,
   gear: String, // [ RANGE = 15 (Reverse)  0 (Neutral)  1 (Gear 1)  2 (Gear 2)  etc... ]
