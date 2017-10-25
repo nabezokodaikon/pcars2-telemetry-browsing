@@ -17,7 +17,7 @@ module.exports = {
       {
         test: /(\.js$|\.jsx$)/,
         exclude: /(node_modules|bower_components)/,
-        use: { loader: "babel-loader" }
+        loader: "babel-loader"
       },
       {
         test: /\.css$/,
@@ -25,6 +25,10 @@ module.exports = {
           { loader: "style-loader" },
           { loader: "css-loader" }
         ]
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
+        loader: "file-loader"
       }
     ]
   },
