@@ -12,7 +12,7 @@ import com.typesafe.scalalogging.LazyLogging
 
 object ParserApp extends /* App with */ LazyLogging {
 
-  val dir = FileUtil.getCurrentDirectory()
+  val dir = FileUtil.currentDirectory
 
   val telemetryDataName = s"${dir}/testdata/0_20171011161712739.bin"
   var telemetryDataData = FileUtil.readBinary(telemetryDataName).toList

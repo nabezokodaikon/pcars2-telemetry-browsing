@@ -22,7 +22,7 @@ trait JsonSupport extends SprayJsonSupport with DefaultJsonProtocol {
 object WebServer extends HttpApp with JsonSupport {
 
   val contentDirectory = {
-    val current = FileUtil.getCurrentDirectory
+    val current = FileUtil.currentDirectory
     s"$current/contents"
   }
 

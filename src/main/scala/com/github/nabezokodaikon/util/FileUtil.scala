@@ -1,6 +1,6 @@
 package com.github.nabezokodaikon.util
 
-import akka.http.scaladsl.model.{ ContentTypes, HttpCharsets, MediaTypes }
+import akka.http.scaladsl.model.{ ContentType, ContentTypes, HttpCharsets, MediaType, MediaTypes }
 import akka.http.scaladsl.model.ContentType.WithCharset
 import com.github.nabezokodaikon.util.Loan.using
 import com.typesafe.scalalogging.LazyLogging
@@ -13,6 +13,12 @@ import scala.util.control.Exception.catching
 object FileUtil extends LazyLogging {
 
   val enc = "UTF-8"
+
+  val currentDirectory: String =
+    new File(".").getAbsoluteFile().getParent()
+
+  def exists(name: String): Boolean =
+    new File(name).exists()
 
   def readText(name: String): String = {
     catching(classOf[FileNotFoundException]).either {
@@ -64,19 +70,19 @@ object FileUtil extends LazyLogging {
     }
   }
 
-  def getCurrentDirectory(): String = {
-    new File(".").getAbsoluteFile().getParent()
-  }
-
   def getExtension(file: String): String = {
     file.split('.').last
   }
 
-  def getContentType(file: String): WithCharset = {
+  def getContentType(file: String): ContentType = {
     getExtension(file) match {
       case "html" => ContentTypes.`text/html(UTF-8)`
       case "css" => WithCharset(MediaTypes.`text/css`, HttpCharsets.`UTF-8`)
       case "js" => WithCharset(MediaTypes.`application/javascript`, HttpCharsets.`UTF-8`)
+      case "svg" => MediaTypes.`image/svg+xml`
+      case "png" => MediaTypes.`image/png`
+      case "jpg" => MediaTypes.`image/jpeg`
+      case "ico" => MediaTypes.`image/x-icon`
       case _ => WithCharset(MediaTypes.`text/plain`, HttpCharsets.`UTF-8`)
     }
   }

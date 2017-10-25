@@ -13,8 +13,13 @@ import com.typesafe.scalalogging.LazyLogging
 class Server(manager: ActorRef) extends HttpApp with LazyLogging {
 
   private val contentsDirectory = {
-    val current = FileUtil.getCurrentDirectory
+    val current = FileUtil.currentDirectory
     s"${current}/public"
+  }
+
+  private val contentsDistDirectory = {
+    val current = FileUtil.currentDirectory
+    s"${current}/public/dist"
   }
 
   private def createUser() = {
@@ -29,7 +34,7 @@ class Server(manager: ActorRef) extends HttpApp with LazyLogging {
       get {
         val file = s"${contentsDirectory}/index.html"
         val contentType = FileUtil.getContentType(file)
-        val text = FileUtil.readText(file)
+        val text = FileUtil.readBinary(file)
         complete(HttpEntity(contentType, text))
       }
     } ~
@@ -37,7 +42,7 @@ class Server(manager: ActorRef) extends HttpApp with LazyLogging {
         get {
           val file = s"${contentsDirectory}/debug.html"
           val contentType = FileUtil.getContentType(file)
-          val text = FileUtil.readText(file)
+          val text = FileUtil.readBinary(file)
           complete(HttpEntity(contentType, text))
         }
       } ~
@@ -49,10 +54,15 @@ class Server(manager: ActorRef) extends HttpApp with LazyLogging {
       path(Segments) { x: List[String] =>
         get {
           val segments = x.mkString("/")
-          val file = s"${contentsDirectory}/${segments}"
+
+          val file = s"${contentsDirectory}/${segments}" match {
+            case f if FileUtil.exists(f) => f
+            case _ => s"${contentsDistDirectory}/${segments}"
+          }
+
           val contentType = FileUtil.getContentType(file)
-          val text = FileUtil.readText(file)
-          complete(HttpEntity(contentType, text))
+          val data = FileUtil.readBinary(file)
+          complete(HttpEntity(contentType, data))
         }
       }
 }
