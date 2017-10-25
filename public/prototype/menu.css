@@ -16,3 +16,28 @@ body {
   width: 100vw;
   height: 100vh;
 }
+
+#open {
+  z-index: 3;
+  position: absolute;
+}
+
+#open:checked + #menu {
+  left: 0;
+}
+
+#menu {
+  z-index: 2;
+  position: fixed;
+  top: 0;
+  left: -340px; /* メニューのwidth + padding */
+  width: 300px; /* メニューのwidth */
+  height: 100%;
+  padding: 20px;
+  transition: left .5s, right .5s; /* アニメーション */
+  background-color: rgba(86, 86, 86, .7);
+}
+
+#contents {
+  z-index: 0;
+}
