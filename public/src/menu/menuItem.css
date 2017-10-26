@@ -1,0 +1,38 @@
+.activeMenuItem {
+  border-style: solid;
+  border-color: #899ba9;
+  border-width: 0.1rem;
+  margin-bottom: 0.5rem;
+  background-color: #80adfd;
+  transform: skewX(-12deg);
+}
+
+.activeMenuItem > p {
+  font-size: 0.8rem;
+  text-align: center;
+  color: #0f192a;
+  transform: skewX(12deg);
+}
+
+.inactiveMenuItem {
+  border-style: solid;
+  border-color: #899ba9;
+  border-width: 0.1rem;
+  margin-bottom: 0.5rem;
+  transform: skewX(-12deg);
+}
+
+.inactiveMenuItem > p {
+  font-size: 0.8rem;
+  text-align: center;
+  color: #e3e4e5;
+  transform: skewX(12deg);
+}
+
+.inactiveMenuItem:hover {
+  background-color: #80adfd;
+}
+
+.inactiveMenuItem:hover > p {
+  color: #0f192a;
+}

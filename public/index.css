@@ -5,6 +5,7 @@
   color: #565656;
   font-size: 100%;
   font-family: 'Open Sans', sans-serif;
+  cursor: pointer;
 }
 
 *:focus {

@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
 import * as actionTypes from "./appActionTypes.js";
-import { SIMPLE } from "./common/contentNames";
+import { TIME } from "./common/contentNames";
 
-function currentContent(state = SIMPLE, action) {
+function currentContent(state = TIME, action) {
   switch (action.type) {
       case actionTypes.SELECTED_CONTENT:
         return action.selectedContent;
@@ -11,7 +11,7 @@ function currentContent(state = SIMPLE, action) {
   }
 }
 
-function isMenuToVisible(state = false, action) {
+function isMenuVisible(state = false, action) {
   switch (action.type) {
       case actionTypes.TOGGLE_MENU:
         return !state;
@@ -49,7 +49,7 @@ function telemetryData(state = {}, action) {
 
 const appReducer = combineReducers({
   currentContent,
-  isMenuToVisible,
+  isMenuVisible,
   participantInfoStrings,
   participantInfoStringsAdditional,
   telemetryData

@@ -13,7 +13,7 @@ class DebugMenu extends React.Component {
   }
 
   getMenuLeft() {
-    if (this.props.isMenuToVisible) {
+    if (this.props.isMenuVisible) {
       return "0";
     } else {
       return "-44vw";
@@ -58,7 +58,7 @@ class DebugMenu extends React.Component {
   }
 
   getFilterOpacity() {
-    if (this.props.isMenuToVisible) {
+    if (this.props.isMenuVisible) {
       return "0.5";
     } else {
       return "0";
@@ -96,7 +96,7 @@ class DebugMenu extends React.Component {
       contentNames.OTHER_UDP_DATA,
       contentNames.CAR_DAMAGE_DATA,
       contentNames.WEATHER_DATA,
-      contentNames.SIMPLE
+      contentNames.TIME
     ].map((v, i) =>
       <li style={this.getLiStyle()} key={i.toString()}>
         <button style={this.getButtonStyle()} onClick={evt => this.handleMenuItemClick(evt, v)}>{v}</button>
@@ -146,7 +146,7 @@ class DebugMenu extends React.Component {
 }
 
 DebugMenu.propTypes = {
-  isMenuToVisible: PropTypes.bool.isRequired,
+  isMenuVisible: PropTypes.bool.isRequired,
   onMenuClick: PropTypes.func.isRequired,
   onMenuItemClick: PropTypes.func.isRequired,
   onFilterClick: PropTypes.func.isRequired
@@ -154,7 +154,7 @@ DebugMenu.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    isMenuToVisible: state.isMenuToVisible
+    isMenuVisible: state.isMenuVisible
   };
 };
 

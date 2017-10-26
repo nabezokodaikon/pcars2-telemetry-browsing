@@ -1,3 +1,7 @@
+// Product contents.
+export const TIME = "Time";
+export const OPTIONS = "OPTIONS";
+
 // Debug contents.
 export const PARTICIPANT_INFO_STRINGS = "ParticipantInfoStrings";
 export const PARTICIPANT_INFO_STRINGS_ADDITIONAL = "ParticipantInfoStringsAdditional";
@@ -18,5 +22,3 @@ export const OTHER_UDP_DATA = "OtherUdpData";
 export const CAR_DAMAGE_DATA = "CarDamageData";
 export const WEATHER_DATA = "WeatherData";
 
-// Product contents.
-export const SIMPLE = "Simple";
