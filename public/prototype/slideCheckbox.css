@@ -1,0 +1,46 @@
+.checkboxButton{
+  position: relative;
+  display: inline-block;
+  width: 6rem;
+  height: 1.5rem;
+  background: #899ba9;
+  transform: skew(-12deg);
+}
+
+.checkboxButton > label {
+  position: absolute;
+  z-index: 1;
+  display: block;
+  top: -0.25rem;
+  left: 0rem;
+  width: 1.6rem;
+  height: 2rem;
+  cursor: pointer;
+  background: #80adfd;
+  transition: all .4s ease;
+}
+
+.checkboxButton > input[type=checkbox]:checked + label {
+  left: 4.37rem;
+}
+
+.checkboxButton > input[type=checkbox] {
+  background: #dcdcdc;
+  border-color: #dcdcdc;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+
+.checkboxButton > input[type=checkbox]:checked {
+  background: #dcdcdc;
+  border-color: #dcdcdc;
+}
+
+/*
+ * USAGE
+<div class="checkboxButton">
+  <input id="checkboxButton" type="checkbox" />
+  <label for="checkboxButton"></label>
+</div>
+*/
