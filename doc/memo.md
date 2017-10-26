@@ -22,7 +22,6 @@
   * GameStateData.raceStateFlags = 2
 
 
-
 ## View
 ### Common
 * 車両名
@@ -103,3 +102,12 @@
 ### 温度
 * 摂氏
 * 華氏
+
+
+## キーワード
+* 設定
+  * OPTIONS
+* 単位
+  * Display Units
+    * Metric
+    * Imperial
