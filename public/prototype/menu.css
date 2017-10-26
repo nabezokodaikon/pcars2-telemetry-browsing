@@ -9,9 +9,9 @@
   font-family: 'Open Sans', sans-serif;
 }
 
-/* *:focus { */
-  /* outline: none; */
-/* } */
+*:focus {
+  outline: none;
+}
 
 * {
   cursor: "pointer"
@@ -37,6 +37,7 @@ label {
   font-weight: bolder;
 }
 
+
 #open {
   z-index: 3;
   position: absolute;
@@ -49,12 +50,22 @@ label {
 #menu {
   z-index: 2;
   position: fixed;
-  left: -40%; /* メニューのwidth + padding */
-  width: 30%; /* メニューのwidth */
+  left: -50%;
+  width: 40%;
   height: 100%;
-  transition: left .3s, right .3s; /* アニメーション */
-  background-color: #000000;
   font-size: 75%;
+  background-color: #777777;
+  transition: left .3s, right .3s;
+  transform:skewX(-12deg);
+}
+
+#innerMenu {
+  position: fixed;
+  left: -20%;
+  width: 80%;
+  padding: 10%;
+  background-color: #000000; /* 範囲確認用。後で #777777 に変更する。*/
+  transform:skewX(12deg);
 }
 
 #filter {
@@ -75,3 +86,12 @@ label {
   color: #FFFFFF;
   background-color: #333333; 
 }
+
+
+/*
+ * 角度確認用
+ */
+img {
+  padding-left: 10%;
+}
+
