@@ -25,16 +25,9 @@
 }
 
 .checkboxButton > input[type=checkbox] {
-  background: #dcdcdc;
-  border-color: #dcdcdc;
   appearance: none;
   -moz-appearance: none;
   -webkit-appearance: none;
-}
-
-.checkboxButton > input[type=checkbox]:checked {
-  background: #dcdcdc;
-  border-color: #dcdcdc;
 }
 
 /*
