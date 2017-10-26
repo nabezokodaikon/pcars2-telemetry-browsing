@@ -1,4 +1,5 @@
 @import url("menuIcon.css");
+@import url("menuItem.css");
 @import url("slideCheckbox.css");
 
 * {
@@ -68,29 +69,6 @@ label {
   padding: 2.5%;
   background-color: #485867;
   transform: skewX(12deg);
-}
-
-.menuItem {
-  border-style: solid;
-  border-color: #899ba9;
-  border-width: 0.1rem;
-  margin-bottom: 1rem;
-  transform: skewX(-12deg);
-}
-
-.menuItem > p {
-  font-size: 0.8rem;
-  text-align: center;
-  color: #e3e4e5;
-  transform: skewX(12deg);
-}
-
-.menuItem:hover {
-  background-color: #80adfd;
-}
-
-.menuItem:hover > p {
-  color: #0f192a;
 }
 
 #filter {

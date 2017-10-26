@@ -1,0 +1,28 @@
+.menuItem {
+  border-style: solid;
+  border-color: #899ba9;
+  border-width: 0.1rem;
+  margin-bottom: 1rem;
+  transform: skewX(-12deg);
+}
+
+.menuItem > p {
+  font-size: 0.8rem;
+  text-align: center;
+  color: #e3e4e5;
+  transform: skewX(12deg);
+}
+
+.menuItem:hover {
+  background-color: #80adfd;
+}
+
+.menuItem:hover > p {
+  color: #0f192a;
+}
+
+/* USAGE
+<div class="menuItem">
+  <p>Simple &amp; Time</p>
+</div>
+*/
