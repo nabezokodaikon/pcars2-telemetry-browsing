@@ -90,7 +90,8 @@ class Menu extends React.Component {
       position: "fixed",
       width: "100%",
       height: "100%",
-      backgroundColor: "#555555",
+      backgroundColor: "#000000",
+      opacity: 0.5,
       visibility: this.getFilterVisibility()
     };
   }
