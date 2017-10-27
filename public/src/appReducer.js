@@ -47,9 +47,35 @@ function telemetryData(state = {}, action) {
   }
 }
 
+const initialOptions = {
+  isCelsius: true,
+  isMeter: true,
+  isBar: true
+};
+
+function options(state = initialOptions, action) {
+  switch (action.type) {
+    case actionTypes.CHANGED_TEMP_UNIT:
+      return Object.assign({}, state, {
+        isCelsius: action.isCelsius
+      });
+    case actionTypes.CHANGED_DISTANCE_UNIT:
+      return Object.assign({}, state, {
+        isMeger: action.isMeger
+      });
+    case actionTypes.CHANGED_AIR_PRESSURE_UNIT:
+      return Object.assign({}, state, {
+        isBar: action.isBar
+      });
+    default:
+      return state;
+  }
+}
+
 const appReducer = combineReducers({
   currentContent,
   isMenuVisible,
+  options,
   participantInfoStrings,
   participantInfoStringsAdditional,
   telemetryData

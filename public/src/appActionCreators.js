@@ -33,10 +33,47 @@ export function currentContent(selectedContent) {
   };
 }
 
+// TODO
+export function requestCurrentContentChange(selectedContent) {
+}
+
 export function toggleMenu() {
   return {
     type: actionTypes.TOGGLE_MENU
   };
+}
+
+export function changeTempUnit(isCelsius) {
+  return {
+    type: actionTypes.CHANGE_TEMP_UNIT,
+    isCelsius
+  };
+}
+
+export function changedDistanceUnit(isMeter) {
+  return {
+    type: actionTypes.CHANGED_DISTANCE_UNIT,
+    isMeter
+  };
+}
+
+export function changedAirPressureUnit(isBar) {
+  return {
+    type: actionTypes.CHANGED_AIR_PRESSURE_UNIT,
+    isBar
+  };
+}
+
+// TODO
+export function requestTempUnitChange(isCelsius) {
+}  
+
+// TODO
+export function requestDistanceUnitChange(isMeger) {
+}
+
+// TODO
+export function requestAirPressureUnitChange(isBar) {
 }
 
 function startWebSocketConnection() {
