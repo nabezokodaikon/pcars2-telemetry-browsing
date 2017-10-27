@@ -17,13 +17,14 @@ class OptionsContent extends React.Component {
     this.handleAirPressureUnitCheckBoxChanged = this.handleAirPressureUnitCheckBoxChanged.bind(this);
   }
 
-  handleTempUnitCheckBoxChanged() {
+  handleTempUnitCheckBoxChanged(evt) {
+    console.log(evt.target.checked);
   }
 
-  handleDistanceUnitCheckBoxChanged() {
+  handleDistanceUnitCheckBoxChanged(evt) {
   }
 
-  handleAirPressureUnitCheckBoxChanged() {
+  handleAirPressureUnitCheckBoxChanged(evt) {
   }
 
   createTempChangeContent() {
@@ -31,7 +32,12 @@ class OptionsContent extends React.Component {
       <div>
         <span>Celsius</span>
         <div className={checkBoxStyle.slideCheckBox}>
-          <input id="tempCheckBox" type="checkbox" />
+          <input
+            id="tempCheckBox"
+            type="checkbox"
+            checked={this.props.isCelsius}
+            onChange={evt => this.handleTempUnitCheckBoxChanged(evt)}
+          />
           <label htmlFor="tempCheckBox"></label>
         </div>
         <span>Fahrenheit</span>
@@ -44,7 +50,12 @@ class OptionsContent extends React.Component {
       <div>
         <span>Meter</span>
         <div className={checkBoxStyle.slideCheckBox}>
-          <input id="distanceCheckBox" type="checkbox" />
+          <input
+            id="distanceCheckBox"
+            type="checkbox"
+            checked={this.props.isMeter}
+            onChange={evt => this.handleDistanceUnitCheckBoxChanged(evt)}
+          />
           <label htmlFor="distanceCheckBox"></label>
         </div>
         <span>Miles</span>
@@ -57,7 +68,12 @@ class OptionsContent extends React.Component {
       <div>
         <span>bar</span>
         <div className={checkBoxStyle.slideCheckBox}>
-          <input id="airPressureCheckBox" type="checkbox" />
+          <input
+            id="airPressureCheckBox"
+            type="checkbox"
+            checked={this.props.isBar}
+            onChange={evt => this.handleAirPressureUnitCheckBoxChanged(evt)}
+          />
           <label htmlFor="airPressureCheckBox"></label>
         </div>
         <span>psi</span>
@@ -90,7 +106,7 @@ const mapStateToProps = state => {
   return {
     isCelsius: options.isCelsius,
     isMeter: options.isMeter,
-    isBar: options.isBar,
+    isBar: options.isBar
   };
 };
 
