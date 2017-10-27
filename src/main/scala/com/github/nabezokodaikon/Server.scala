@@ -8,14 +8,22 @@ import akka.http.scaladsl.server.{ HttpApp, Route }
 import akka.http.scaladsl.server.directives._
 import akka.stream.scaladsl.{ Flow, Sink, Source }
 import com.github.nabezokodaikon.util.FileUtil
-import com.github.nabezokodaikon.db.DBEntityJsonProtocol
 import com.github.nabezokodaikon.db.{
-  CurrentContent,
+  DBEntityJsonProtocol,
   UnitOption
 }
+import com.github.nabezokodaikon.config.{
+  ConfigEntityJsonProtocol,
+  ConnectionInfo
+}
+import com.typesafe.config.{ Config, ConfigFactory }
 import com.typesafe.scalalogging.LazyLogging
 
-class Server(manager: ActorRef) extends HttpApp with LazyLogging with DBEntityJsonProtocol {
+class Server(manager: ActorRef)
+  extends HttpApp
+  with LazyLogging
+  with ConfigEntityJsonProtocol
+  with DBEntityJsonProtocol {
 
   private val contentsDirectory = {
     val current = FileUtil.currentDirectory
@@ -56,13 +64,13 @@ class Server(manager: ActorRef) extends HttpApp with LazyLogging with DBEntityJs
           handleWebSocketMessages(createUser())
         }
       } ~
-      pathPrefix("state") {
-        path("current-content") {
-          post {
-            entity(as[CurrentContent]) { req =>
-              // TODO Update database
-              complete(req)
-            }
+      pathPrefix("config") {
+        path("connection-info") {
+          get {
+            val config = ConfigFactory.load
+            val ipAddress = config.getString("app.server.ip-address")
+            val port = config.getInt("app.server.port")
+            complete(ConnectionInfo(ipAddress, port))
           }
         }
       } ~

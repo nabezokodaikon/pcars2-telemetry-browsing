@@ -72,6 +72,11 @@ function options(state = initialOptions, action) {
   }
 }
 
+const initialConnectionInfo = {
+  ipAddress: "127.0.0.1",
+  port: 9000
+}
+
 const appReducer = combineReducers({
   currentContent,
   isMenuVisible,

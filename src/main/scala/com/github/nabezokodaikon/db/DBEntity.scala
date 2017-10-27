@@ -6,7 +6,6 @@ import DefaultJsonProtocol._
 
 trait DBEntityJsonProtocol extends SprayJsonSupport with DefaultJsonProtocol {
   implicit val unitOptionFormat = jsonFormat2(UnitOption)
-  implicit val currentContentFormat = jsonFormat2(CurrentContent)
 }
 
 /*
@@ -16,9 +15,3 @@ trait DBEntityJsonProtocol extends SprayJsonSupport with DefaultJsonProtocol {
  *        isBar
  */
 final case class UnitOption(key: String, value: Boolean)
-
-/*
- * key: state/
- *        currentContent
- */
-final case class CurrentContent(key: String, value: String)

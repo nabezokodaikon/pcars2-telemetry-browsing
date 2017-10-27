@@ -15,6 +15,12 @@ function fetchPostByJson(json, url) {
   });
 }
 
+function fetchGet(url) {
+  return fetch(url, {
+    method: "GET",
+  });
+}
+
 export function receivedParticipantInfoStrings(nextParticipantInfoStrings) {
   return {
     type: actionTypes.RECEIVED_PARTICIPANT_INFO_STRINGS, 
@@ -115,10 +121,11 @@ export function requestAirPressureUnitChange(isBar) {
   }
 }
 
-function startWebSocketConnection() {
+function startWebSocketConnection(connectionInfo) {
   return new Promise((resolve, reject) => {
     try {
-      const ws = new WebSocket("ws://192.168.1.18:9000/pcars1");
+      const url = "ws://" + connectionInfo.ipAddress + ":" + connectionInfo.port + "/pcars1";
+      const ws = new WebSocket(url);
       return resolve(ws);
     } catch(error) {
       return reject(error);
@@ -126,9 +133,9 @@ function startWebSocketConnection() {
   });
 }
 
-export function openWebSocket() {
+function openWebSocket(connectionInfo) {
   return dispatch => {
-    return startWebSocketConnection()
+    return startWebSocketConnection(connectionInfo)
       .then(ws => {
         ws.onopen = e => {
           console.log("WebSocket was opened.");
@@ -210,3 +217,13 @@ export function openWebSocket() {
   }
 } 
 
+export function requestConnectionInfo() {
+  return dispatch => {
+    fetchGet("config/connection-info")
+      .then(res => res.json())
+      .then(json => dispatch(openWebSocket(json)))
+      .catch(error => {
+        console.log(error.message);
+      });
+  }
+}

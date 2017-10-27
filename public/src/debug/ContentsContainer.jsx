@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as contentNames from "../common/contentNames.js";
-import { openWebSocket } from "../appActionCreators.js";
+import { requestConnectionInfo } from "../appActionCreators.js";
 import ParticipantInfoStringsContainer from "./ParticipantInfoStringsContainer.jsx";
 import ParticipantInfoStringsAdditionalContainer from "./ParticipantInfoStringsAdditionalContainer.jsx";
 import GameStateDataContainer from "./GameStateDataContainer.jsx";
@@ -28,7 +28,7 @@ class Contents extends React.Component {
   }
 
   componentDidMount() {
-    this.props.onOpenWebSocket();
+    this.props.onRequestConnectionInfo();
   }
 
   getContentStyle() {
@@ -95,7 +95,7 @@ class Contents extends React.Component {
 
 Contents.propTypes = {
   currentContent: PropTypes.string.isRequired,
-  onOpenWebSocket: PropTypes.func.isRequired
+  onRequestConnectionInfo: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => {
@@ -106,8 +106,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onOpenWebSocket: () => {
-      dispatch(openWebSocket());
+    onRequestConnectionInfo: () => {
+      dispatch(requestConnectionInfo());
     }
   };
 };
