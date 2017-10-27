@@ -5,22 +5,13 @@ import {
 } from "./common/telemetryUtil.js";
 import * as actionTypes from "./appActionTypes.js";
 
-function xmlHttpRequestByJSON(json, url) {
-  return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open("POST", url);
-      xhr.setRequestHeader("Content-type", "application/json;charset=UTF-8");
-      xhr.responseType = "json";
-
-      xhr.onload = evt => {
-        resolve(xhr.response)
-      };
-
-      xhr.onerror = () => {
-        reject("Failed temp unit change request.")
-      }
-
-      xhr.send(JSON.stringify(json));
+function fetchPostByJson(json, url) {
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(json)
   });
 }
 
@@ -54,16 +45,15 @@ function currentContent(selectedContent) {
 
 export function requestCurrentContentChange(selectedContent) {
   return dispatch => {
-    const json = {
+    const req = {
       key: "state/currentContent",
       value: selectedContent
     };
-    xmlHttpRequestByJSON(json, "state/current-content")
-      .then(res => {
-        dispatch(currentContent(res.value));
-      })
-      .catch(errMsg => {
-        console.log(errMsg);
+    fetchPostByJson(req, "state/current-content")
+      .then(res => res.json())
+      .then(json => dispatch(currentContent(json.value)))
+      .catch(error => {
+        console.log(error.message);
       });
   }
 }
@@ -87,15 +77,14 @@ export function requestTempUnitChange(isCelsius) {
       key: "option/isCelsius",
       value: isCelsius
     };
-    xmlHttpRequestByJSON(json, "option/unit")
-      .then(res => {
-        dispatch(changedTempUnit(res.value));
-      })
-      .catch(errMsg => {
-        console.log(errMsg);
+    fetchPostByJson(json, "option/unit")
+      .then(res => res.json())
+      .then(json => dispatch(changedTempUnit(json.value)))
+      .catch(error => {
+        console.log(error.message);
       });
   }
-}  
+}
 
 function changedDistanceUnit(isMeter) {
   return {
@@ -110,12 +99,11 @@ export function requestDistanceUnitChange(isMeter) {
       key: "option/isMeter",
       value: isMeter
     };
-    xmlHttpRequestByJSON(json, "option/unit")
-      .then(res => {
-        dispatch(changedDistanceUnit(res.value));
-      })
-      .catch(errMsg => {
-        console.log(errMsg);
+    fetchPostByJson(json, "option/unit")
+      .then(res => res.json())
+      .then(json => dispatch(changedDistanceUnit(json.value)))
+      .catch(error => {
+        console.log(error.message);
       });
   }
 }
@@ -133,12 +121,11 @@ export function requestAirPressureUnitChange(isBar) {
       key: "option/isBar",
       value: isBar
     };
-    xmlHttpRequestByJSON(json, "option/unit")
-      .then(res => {
-        dispatch(changedAirPressureUnit(res.value));
-      })
-      .catch(errMsg => {
-        console.log(errMsg);
+    fetchPostByJson(json, "option/unit")
+      .then(res => res.json())
+      .then(json => dispatch(changedAirPressureUnit(json.value)))
+      .catch(error => {
+        console.log(error.message);
       });
   }
 }
