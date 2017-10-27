@@ -61,7 +61,7 @@ function options(state = initialOptions, action) {
       });
     case actionTypes.CHANGED_DISTANCE_UNIT:
       return Object.assign({}, state, {
-        isMeger: action.isMeger
+        isMeger: action.isMeter
       });
     case actionTypes.CHANGED_AIR_PRESSURE_UNIT:
       return Object.assign({}, state, {

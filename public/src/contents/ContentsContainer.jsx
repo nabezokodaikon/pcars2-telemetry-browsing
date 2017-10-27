@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as contentNames from "../common/contentNames.js";
 import { openWebSocket } from "../appActionCreators.js";
+import OptionsContainer from "../contents/options/OptionsContainer.jsx";
 
 class Contents extends React.Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class Contents extends React.Component {
         case contentNames.TIME:
           return <div>TODO</div>;
         case contentNames.OPTIONS:
-          return <div>TODO</div>;
+          return <OptionsContainer />;
         default:
           return <div></div>;
     }

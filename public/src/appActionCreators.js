@@ -69,7 +69,7 @@ export function requestTempUnitChange(isCelsius) {
 }  
 
 // TODO
-export function requestDistanceUnitChange(isMeger) {
+export function requestDistanceUnitChange(isMeter) {
 }
 
 // TODO
