@@ -36,26 +36,11 @@ export function receivedTelemetryData(nextTelemetryData) {
   };
 }
 
-function currentContent(selectedContent) {
+export function currentContent(selectedContent) {
   return {
     type: actionTypes.SELECTED_CONTENT,
     selectedContent
   };
-}
-
-export function requestCurrentContentChange(selectedContent) {
-  return dispatch => {
-    const req = {
-      key: "state/currentContent",
-      value: selectedContent
-    };
-    fetchPostByJson(req, "state/current-content")
-      .then(res => res.json())
-      .then(json => dispatch(currentContent(json.value)))
-      .catch(error => {
-        console.log(error.message);
-      });
-  }
 }
 
 export function toggleMenu() {
