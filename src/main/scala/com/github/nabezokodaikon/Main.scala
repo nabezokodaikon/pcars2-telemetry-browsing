@@ -3,6 +3,7 @@ package com.github.nabezokodaikon
 import akka.actor.{ ActorSystem, Props }
 import akka.pattern.{ AskTimeoutException, ask, gracefulStop }
 import akka.stream.ActorMaterializer
+import com.typesafe.config.{ Config, ConfigFactory }
 import com.typesafe.scalalogging.LazyLogging
 import scala.concurrent.Await
 import scala.concurrent.duration._
@@ -18,6 +19,8 @@ object UsingActor {
 object Main extends App with LazyLogging {
   import UsingActor._
 
+  val config = ConfigFactory.load
+
   val clientManagerProps = Props(classOf[ClientManager])
   val clientManager = system.actorOf(clientManagerProps, "clientManager")
 
@@ -32,7 +35,9 @@ object Main extends App with LazyLogging {
   val udpSender = system.actorOf(udpSenderProps, "udpSender")
   udpSender ! UdpTestDataSender.Received
 
-  server.startServer("192.168.1.18", 9000, system)
+  val ipAddress = config.getString("app.server.ip-address")
+  val port = config.getInt("app.server.port")
+  server.startServer(ipAddress, port, system)
 
   // Test code.
   try {
