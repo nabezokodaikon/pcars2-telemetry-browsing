@@ -4,8 +4,8 @@ import webpack from "webpack";
 
 module.exports = {
   entry: {
-    index: "./public/src/index.jsx",
-    debug: "./public/src/debug.jsx"
+    index: ["babel-polyfill", "./public/src/index.jsx"],
+    debug: ["babel-polyfill", "./public/src/debug.jsx"]
   },
   devtool: 'inline-source-map',
   output: {

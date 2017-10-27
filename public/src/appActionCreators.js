@@ -121,16 +121,10 @@ export function requestAirPressureUnitChange(isBar) {
   }
 }
 
-function startWebSocketConnection(connectionInfo) {
-  return new Promise((resolve, reject) => {
-    try {
-      const url = "ws://" + connectionInfo.ipAddress + ":" + connectionInfo.port + "/pcars1";
-      const ws = new WebSocket(url);
-      return resolve(ws);
-    } catch(error) {
-      return reject(error);
-    }
-  });
+async function startWebSocketConnection(connectionInfo) {
+  const url = "ws://" + connectionInfo.ipAddress + ":" + connectionInfo.port + "/pcars1";
+  const ws = new WebSocket(url);
+  return ws;
 }
 
 function openWebSocket(connectionInfo) {
@@ -185,7 +179,7 @@ function openWebSocket(connectionInfo) {
             console.log("WebSocket was closed. Received unknown status code: " + e.code);
           }
 
-          dispatch(openWebSocket());
+          dispatch(openWebSocket(connectionInfo));
         };
 
         ws.onerror = e => {
@@ -213,7 +207,10 @@ function openWebSocket(connectionInfo) {
           }
         };
       })
-      // TODO .catch(error => dispatch(errorOpeningWebSocket(error.message)))
+      .catch(error => {
+        console.log(error.message);
+        dispatch(openWebSocket(connectionInfo))
+      })
   }
 } 
 
