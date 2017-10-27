@@ -18,19 +18,21 @@ class OptionsContent extends React.Component {
   }
 
   handleTempUnitCheckBoxChanged(evt) {
-    console.log(evt.target.checked);
+    this.props.onTempUnitChange(evt.target.checked);
   }
 
   handleDistanceUnitCheckBoxChanged(evt) {
+    this.props.onDistanceUnitChange(evt.target.checked);
   }
 
   handleAirPressureUnitCheckBoxChanged(evt) {
+    this.props.onAirPressureUnitChange(evt.target.checked);
   }
 
   createTempChangeContent() {
     return (
       <div>
-        <span>Celsius</span>
+        <span>Fahrenheit</span>
         <div className={checkBoxStyle.slideCheckBox}>
           <input
             id="tempCheckBox"
@@ -40,7 +42,7 @@ class OptionsContent extends React.Component {
           />
           <label htmlFor="tempCheckBox"></label>
         </div>
-        <span>Fahrenheit</span>
+        <span>Celsius</span>
       </div>
     );
   }
@@ -48,7 +50,7 @@ class OptionsContent extends React.Component {
   createDistanceChangeContent() {
     return (
       <div>
-        <span>Meter</span>
+        <span>Miles</span>
         <div className={checkBoxStyle.slideCheckBox}>
           <input
             id="distanceCheckBox"
@@ -58,7 +60,7 @@ class OptionsContent extends React.Component {
           />
           <label htmlFor="distanceCheckBox"></label>
         </div>
-        <span>Miles</span>
+        <span>Meter</span>
       </div>
     );
   }
@@ -66,7 +68,7 @@ class OptionsContent extends React.Component {
   createAirPressureChangeContent() {
     return (
       <div>
-        <span>bar</span>
+        <span>psi</span>
         <div className={checkBoxStyle.slideCheckBox}>
           <input
             id="airPressureCheckBox"
@@ -76,7 +78,7 @@ class OptionsContent extends React.Component {
           />
           <label htmlFor="airPressureCheckBox"></label>
         </div>
-        <span>psi</span>
+        <span>bar</span>
       </div>
     );
   }

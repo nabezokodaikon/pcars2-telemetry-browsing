@@ -43,9 +43,9 @@ export function toggleMenu() {
   };
 }
 
-export function changeTempUnit(isCelsius) {
+export function changedTempUnit(isCelsius) {
   return {
-    type: actionTypes.CHANGE_TEMP_UNIT,
+    type: actionTypes.CHANGED_TEMP_UNIT,
     isCelsius
   };
 }
@@ -64,16 +64,71 @@ export function changedAirPressureUnit(isBar) {
   };
 }
 
-// TODO
-export function requestTempUnitChange(isCelsius) {
-}  
+function xmlHttpRequestByJSON(json, url) {
+  return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", url);
+      xhr.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+      xhr.responseType = "json";
 
-// TODO
-export function requestDistanceUnitChange(isMeter) {
+      xhr.onload = evt => {
+        resolve(xhr.response)
+      };
+
+      xhr.onerror = () => {
+        reject("Failed temp unit change request.")
+      }
+
+      xhr.send(JSON.stringify(json));
+  });
 }
 
-// TODO
+export function requestTempUnitChange(isCelsius) {
+  const json = {
+    key: "isCelsius",
+    value: isCelsius
+  };
+  return dispatch => {
+    xmlHttpRequestByJSON(json, "options/unit")
+      .then(res => {
+        dispatch(changedTempUnit(res.value));
+      })
+      .catch(errMsg => {
+        console.log(errMsg);
+      });
+  }
+}  
+
+export function requestDistanceUnitChange(isMeter) {
+  const json = {
+    key: "isMeter",
+    value: isMeter
+  };
+  return dispatch => {
+    xmlHttpRequestByJSON(json, "options/unit")
+      .then(res => {
+        dispatch(changedDistanceUnit(res.value));
+      })
+      .catch(errMsg => {
+        console.log(errMsg);
+      });
+  }
+}
+
 export function requestAirPressureUnitChange(isBar) {
+  const json = {
+    key: "isBar",
+    value: isBar
+  };
+  return dispatch => {
+    xmlHttpRequestByJSON(json, "options/unit")
+      .then(res => {
+        dispatch(changedAirPressureUnit(res.value));
+      })
+      .catch(errMsg => {
+        console.log(errMsg);
+      });
+  }
 }
 
 function startWebSocketConnection() {

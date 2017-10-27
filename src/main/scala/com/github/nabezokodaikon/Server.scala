@@ -1,16 +1,18 @@
 package com.github.nabezokodaikon
 
 import akka.actor.{ ActorRef, Props }
-import akka.http.scaladsl.model.HttpEntity
+import akka.http.scaladsl.model.{ HttpEntity, StatusCodes }
 import akka.http.scaladsl.model.ws.TextMessage
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.{ HttpApp, Route }
 import akka.http.scaladsl.server.directives._
 import akka.stream.scaladsl.{ Flow, Sink, Source }
 import com.github.nabezokodaikon.util.FileUtil
+import com.github.nabezokodaikon.db.DBEntityJsonProtocol
+import com.github.nabezokodaikon.db.UnitOption
 import com.typesafe.scalalogging.LazyLogging
 
-class Server(manager: ActorRef) extends HttpApp with LazyLogging {
+class Server(manager: ActorRef) extends HttpApp with LazyLogging with DBEntityJsonProtocol {
 
   private val contentsDirectory = {
     val current = FileUtil.currentDirectory
@@ -49,6 +51,16 @@ class Server(manager: ActorRef) extends HttpApp with LazyLogging {
       path("pcars1") {
         get {
           handleWebSocketMessages(createUser())
+        }
+      } ~
+      pathPrefix("options") {
+        path("unit") {
+          post {
+            entity(as[UnitOption]) { req =>
+              // TODO Update database
+              complete(req)
+            }
+          }
         }
       } ~
       path(Segments) { x: List[String] =>
