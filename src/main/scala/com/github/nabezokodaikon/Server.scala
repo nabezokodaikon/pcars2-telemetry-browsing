@@ -9,7 +9,10 @@ import akka.http.scaladsl.server.directives._
 import akka.stream.scaladsl.{ Flow, Sink, Source }
 import com.github.nabezokodaikon.util.FileUtil
 import com.github.nabezokodaikon.db.DBEntityJsonProtocol
-import com.github.nabezokodaikon.db.UnitOption
+import com.github.nabezokodaikon.db.{
+  CurrentContent,
+  UnitOption
+}
 import com.typesafe.scalalogging.LazyLogging
 
 class Server(manager: ActorRef) extends HttpApp with LazyLogging with DBEntityJsonProtocol {
@@ -53,7 +56,17 @@ class Server(manager: ActorRef) extends HttpApp with LazyLogging with DBEntityJs
           handleWebSocketMessages(createUser())
         }
       } ~
-      pathPrefix("options") {
+      pathPrefix("state") {
+        path("current-content") {
+          post {
+            entity(as[CurrentContent]) { req =>
+              // TODO Update database
+              complete(req)
+            }
+          }
+        }
+      } ~
+      pathPrefix("option") {
         path("unit") {
           post {
             entity(as[UnitOption]) { req =>

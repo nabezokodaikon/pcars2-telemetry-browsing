@@ -5,6 +5,25 @@ import {
 } from "./common/telemetryUtil.js";
 import * as actionTypes from "./appActionTypes.js";
 
+function xmlHttpRequestByJSON(json, url) {
+  return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", url);
+      xhr.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+      xhr.responseType = "json";
+
+      xhr.onload = evt => {
+        resolve(xhr.response)
+      };
+
+      xhr.onerror = () => {
+        reject("Failed temp unit change request.")
+      }
+
+      xhr.send(JSON.stringify(json));
+  });
+}
+
 export function receivedParticipantInfoStrings(nextParticipantInfoStrings) {
   return {
     type: actionTypes.RECEIVED_PARTICIPANT_INFO_STRINGS, 
@@ -26,15 +45,27 @@ export function receivedTelemetryData(nextTelemetryData) {
   };
 }
 
-export function currentContent(selectedContent) {
+function currentContent(selectedContent) {
   return {
     type: actionTypes.SELECTED_CONTENT,
     selectedContent
   };
 }
 
-// TODO
 export function requestCurrentContentChange(selectedContent) {
+  return dispatch => {
+    const json = {
+      key: "state/currentContent",
+      value: selectedContent
+    };
+    xmlHttpRequestByJSON(json, "state/current-content")
+      .then(res => {
+        dispatch(currentContent(res.value));
+      })
+      .catch(errMsg => {
+        console.log(errMsg);
+      });
+  }
 }
 
 export function toggleMenu() {
@@ -43,53 +74,20 @@ export function toggleMenu() {
   };
 }
 
-export function changedTempUnit(isCelsius) {
+function changedTempUnit(isCelsius) {
   return {
     type: actionTypes.CHANGED_TEMP_UNIT,
     isCelsius
   };
 }
 
-export function changedDistanceUnit(isMeter) {
-  return {
-    type: actionTypes.CHANGED_DISTANCE_UNIT,
-    isMeter
-  };
-}
-
-export function changedAirPressureUnit(isBar) {
-  return {
-    type: actionTypes.CHANGED_AIR_PRESSURE_UNIT,
-    isBar
-  };
-}
-
-function xmlHttpRequestByJSON(json, url) {
-  return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open("POST", url);
-      xhr.setRequestHeader("Content-type", "application/json;charset=UTF-8");
-      xhr.responseType = "json";
-
-      xhr.onload = evt => {
-        resolve(xhr.response)
-      };
-
-      xhr.onerror = () => {
-        reject("Failed temp unit change request.")
-      }
-
-      xhr.send(JSON.stringify(json));
-  });
-}
-
 export function requestTempUnitChange(isCelsius) {
-  const json = {
-    key: "isCelsius",
-    value: isCelsius
-  };
   return dispatch => {
-    xmlHttpRequestByJSON(json, "options/unit")
+    const json = {
+      key: "option/isCelsius",
+      value: isCelsius
+    };
+    xmlHttpRequestByJSON(json, "option/unit")
       .then(res => {
         dispatch(changedTempUnit(res.value));
       })
@@ -99,13 +97,20 @@ export function requestTempUnitChange(isCelsius) {
   }
 }  
 
-export function requestDistanceUnitChange(isMeter) {
-  const json = {
-    key: "isMeter",
-    value: isMeter
+function changedDistanceUnit(isMeter) {
+  return {
+    type: actionTypes.CHANGED_DISTANCE_UNIT,
+    isMeter
   };
+}
+
+export function requestDistanceUnitChange(isMeter) {
   return dispatch => {
-    xmlHttpRequestByJSON(json, "options/unit")
+    const json = {
+      key: "option/isMeter",
+      value: isMeter
+    };
+    xmlHttpRequestByJSON(json, "option/unit")
       .then(res => {
         dispatch(changedDistanceUnit(res.value));
       })
@@ -115,13 +120,20 @@ export function requestDistanceUnitChange(isMeter) {
   }
 }
 
-export function requestAirPressureUnitChange(isBar) {
-  const json = {
-    key: "isBar",
-    value: isBar
+function changedAirPressureUnit(isBar) {
+  return {
+    type: actionTypes.CHANGED_AIR_PRESSURE_UNIT,
+    isBar
   };
+}
+
+export function requestAirPressureUnitChange(isBar) {
   return dispatch => {
-    xmlHttpRequestByJSON(json, "options/unit")
+    const json = {
+      key: "option/isBar",
+      value: isBar
+    };
+    xmlHttpRequestByJSON(json, "option/unit")
       .then(res => {
         dispatch(changedAirPressureUnit(res.value));
       })
