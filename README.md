@@ -24,3 +24,5 @@
 * Copyright (c) 2013-present, Facebook, Inc.
 ### redux
 * Copyright (c) 2015-present Dan Abramov
+### MapDB
+* Apache LicenseVersion 2.0, January 2004
