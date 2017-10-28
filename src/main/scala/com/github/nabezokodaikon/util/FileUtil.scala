@@ -1,12 +1,12 @@
 package com.github.nabezokodaikon.util
 
-import akka.http.scaladsl.model.{ ContentType, ContentTypes, HttpCharsets, MediaType, MediaTypes }
+import akka.http.scaladsl.model.{ ContentType, ContentTypes, HttpCharsets, MediaTypes }
 import akka.http.scaladsl.model.ContentType.WithCharset
 import com.github.nabezokodaikon.util.Loan.using
 import com.typesafe.scalalogging.LazyLogging
 import java.io.File
 import java.io.FileNotFoundException
-import java.io.{ BufferedInputStream, ByteArrayInputStream, FileInputStream, FileOutputStream, IOException, OutputStreamWriter }
+import java.io.{ BufferedInputStream, FileInputStream, FileOutputStream, IOException, OutputStreamWriter }
 import scala.io.Source
 import scala.util.control.Exception.catching
 

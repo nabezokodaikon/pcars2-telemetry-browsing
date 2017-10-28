@@ -6,17 +6,17 @@ lazy val commonSettings = Seq(
     "-deprecation",
     "-feature",
     "-unchecked",
-    "-Xlint"
-  ),
-  scalacOptions in (Compile, console) -= "-Ywarn-unused-import"
+    "-Xlint",
+    "-Ywarn-unused",
+    "-Ywarn-unused-import",
+    "-Ywarn-value-discard"
+  )
 )
-
 
 lazy val root = (project.in(file(".")))
   .settings(commonSettings: _*)
   .settings(
     name := "pcars2-udp-app",
-    initialCommands in console := "import com.github.nabezokodaikon._",
     resolvers ++= {
       Seq(
       )

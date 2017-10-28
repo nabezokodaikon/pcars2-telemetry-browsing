@@ -369,7 +369,8 @@ object TelemetryDataStructFactory {
     FrameInfo(
       frameTypeAndSequence,
       frameType,
-      sequence)
+      sequence
+    )
   }
 
   def getJsonText(dataArray: Array[Byte]): String = {

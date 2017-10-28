@@ -71,7 +71,8 @@ object BinaryUtil {
       (byte4 << 24)
         + ((byte3 << 24) >>> 8)
         + ((byte2 << 24) >>> 16)
-        + ((byte1 << 24) >>> 24))
+        + ((byte1 << 24) >>> 24)
+    )
   }
 
   def readFloat(data: List[Byte], default: Float = 0f): (Float, List[Byte]) =

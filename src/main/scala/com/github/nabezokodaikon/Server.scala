@@ -86,7 +86,8 @@ class Server(manager: ActorRef, dac: DBAccessor)
             val res = AllOptions(
               isCelsius = UnitOption("option/isCelsius", isCelsius),
               isMeter = UnitOption("option/isMeter", isMeter),
-              isBar = UnitOption("option/isBar", isBar))
+              isBar = UnitOption("option/isBar", isBar)
+            )
             complete(res)
           }
         } ~

@@ -18,6 +18,7 @@ trait DBEntityJsonProtocol extends SprayJsonSupport with DefaultJsonProtocol {
 final case class UnitOption(key: String, value: Boolean)
 
 final case class AllOptions(
-  isCelsius: UnitOption,
-  isMeter: UnitOption,
-  isBar: UnitOption)
+    isCelsius: UnitOption,
+    isMeter: UnitOption,
+    isBar: UnitOption
+)
