@@ -1,6 +1,6 @@
 package com.github.nabezokodaikon
 
-import akka.actor.{ ActorRef, Props }
+import akka.actor.{ ActorRef }
 import akka.stream.{ Attributes, Outlet }
 import akka.stream.SourceShape
 import akka.stream.stage.{ GraphStage, GraphStageLogic, OutHandler }
@@ -16,7 +16,6 @@ class ClientStage(clientManager: ActorRef)
 
   override def createLogic(inheritedAttributes: Attributes): GraphStageLogic =
     new GraphStageLogic(shape) {
-      import UsingActor._
 
       setHandler(out, new OutHandler {
         override def onPull(): Unit = ()
