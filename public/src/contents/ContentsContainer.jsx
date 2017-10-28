@@ -2,16 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as contentNames from "../common/contentNames.js";
-import { requestAllOptions } from "../appActionCreators.js";
 import OptionsContainer from "../contents/options/OptionsContainer.jsx";
 
 class Contents extends React.Component {
   constructor(props) {
     super(props);
-  }
-
-  componentDidMount() {
-    this.props.onRequestAllOptions();
   }
 
   getContentStyle() {
@@ -46,7 +41,6 @@ class Contents extends React.Component {
 
 Contents.propTypes = {
   currentContent: PropTypes.string.isRequired,
-  onRequestAllOptions: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => {
@@ -55,17 +49,8 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onRequestAllOptions: () => {
-      dispatch(requestAllOptions());
-    }
-  };
-};
-
 const ContentsContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(Contents);
 
 export default ContentsContainer;

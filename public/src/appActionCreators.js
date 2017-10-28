@@ -58,7 +58,7 @@ export function toggleMenu() {
 function gotAllOptions(options) {
   return {
     type: actionTypes.GOT_ALL_OPTIONS,
-    state: {
+    options: {
       isCelsius: options.isCelsius.value,
       isMeter: options.isMeter.value,
       isBar: options.isBar.value
@@ -70,14 +70,33 @@ export function requestAllOptions() {
   return dispatch => {
     fetchGet("option/all")
       .then(res => res.json())
-      .then(json => {
-        dispatch(gotAllOptions(json))
-        dispatch(requestConnectionInfo())
-      })
+      .then(json => dispatch(gotAllOptions(json)))
       .catch(error => {
         console.log(error.message);
       });
-  }
+  };
+}
+
+function gotConnectionInfo(connectionInfo) {
+  return {
+    type: actionTypes.GOT_CONNECTION_INFO,
+    connectionInfo: {
+      ipAddress: connectionInfo.ipAddress,
+      port: connectionInfo.port,
+      isGot: true
+    }
+  };
+}
+
+export function requestConnectionInfo() {
+  return dispatch => {
+    fetchGet("config/connection-info")
+      .then(res => res.json())
+      .then(json => dispatch(gotConnectionInfo(json)))
+      .catch(error => {
+        console.log(error.message);
+      });
+  };
 }
 
 function changedTempUnit(isCelsius) {
@@ -146,18 +165,26 @@ export function requestAirPressureUnitChange(isBar) {
   }
 }
 
-async function startWebSocketConnection(connectionInfo) {
+function openWebSocket(isWebSocketOpened) {
+  return {
+    type: actionTypes.OPEN_WEBSOCKET,
+    isWebSocketOpened
+  }
+}
+
+async function beginConnectWebSocket(connectionInfo) {
   const url = "ws://" + connectionInfo.ipAddress + ":" + connectionInfo.port + "/pcars1";
   const ws = new WebSocket(url);
   return ws;
 }
 
-function openWebSocket(connectionInfo) {
+export function connectWebSocket(connectionInfo) {
   return dispatch => {
-    return startWebSocketConnection(connectionInfo)
+    return beginConnectWebSocket(connectionInfo)
       .then(ws => {
         ws.onopen = e => {
           console.log("WebSocket was opened.");
+          dispatch(openWebSocket(true));
         };
 
         ws.onclose = e => {
@@ -204,11 +231,12 @@ function openWebSocket(connectionInfo) {
             console.log("WebSocket was closed. Received unknown status code: " + e.code);
           }
 
-          dispatch(openWebSocket(connectionInfo));
+          dispatch(openWebSocket(false));
         };
 
         ws.onerror = e => {
           console.log("WebSocket was error occurred.");
+          dispatch(openWebSocket(false));
         }
 
         ws.onmessage = e => {
@@ -234,18 +262,7 @@ function openWebSocket(connectionInfo) {
       })
       .catch(error => {
         console.log(error.message);
-        dispatch(openWebSocket(connectionInfo))
+        dispatch(openWebSocket(false));
       })
   }
 } 
-
-export function requestConnectionInfo() {
-  return dispatch => {
-    fetchGet("config/connection-info")
-      .then(res => res.json())
-      .then(json => dispatch(openWebSocket(json)))
-      .catch(error => {
-        console.log(error.message);
-      });
-  }
-}

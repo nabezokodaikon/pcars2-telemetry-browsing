@@ -4,6 +4,11 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import thunkMiddleware from 'redux-thunk'
 import appReducer from "./appReducer.js"
+import {
+  connectWebSocket,
+  requestAllOptions,
+  requestConnectionInfo
+} from "./appActionCreators.js"
 import MenuContainer from "./menu/MenuContainer.jsx";
 import ContentsContainer from "./contents/ContentsContainer.jsx";
 
@@ -20,6 +25,16 @@ const store = createStore(appReducer, enhancer);
 // For mobile.
 // const store = createStore(appReducer, applyMiddleware(thunkMiddleware));
 
+store.subscribe(() => {
+  const state = store.getState();
+  if (state.connectionInfo.isGot && !state.isWebSocketOpened) {
+    store.dispatch(connectWebSocket(state.connectionInfo));
+  }
+}); 
+
+store.dispatch(requestAllOptions());
+store.dispatch(requestConnectionInfo());
+
 render(
   <Provider store={store}>
     <div>
@@ -29,3 +44,4 @@ render(
   </Provider>,
   document.getElementById("root")
 );
+
