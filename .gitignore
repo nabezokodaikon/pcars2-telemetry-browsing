@@ -37,3 +37,6 @@ node_modules/
 
 # webpack
 public/dist/
+
+# Database
+app.db
