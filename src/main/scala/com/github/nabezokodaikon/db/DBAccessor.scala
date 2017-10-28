@@ -1,13 +1,25 @@
 package com.github.nabezokodaikon.db
 
+import com.github.nabezokodaikon.util.FileUtil
 import java.util.concurrent.ConcurrentMap
-import org.mapdb.{ DB, DBMaker, Serializer }
+import org.mapdb.{ DB, DBException, DBMaker, Serializer }
 
 final class DBAccessor(file: String) {
 
-  val db: DB = DBMaker.fileDB(file).make()
+  private val db: DB = open()
 
   val option: OptionMap = new OptionMap(db, "option")
+
+  private def open(): DB = {
+    try {
+      DBMaker.fileDB(file).make()
+    } catch {
+      case e: DBException.DataCorruption => {
+        FileUtil.delete(file)
+        DBMaker.fileDB(file).make()
+      }
+    }
+  }
 
   def close(): Unit = {
     println("Call close.")

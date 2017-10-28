@@ -20,6 +20,10 @@ object FileUtil extends LazyLogging {
   def exists(name: String): Boolean =
     new File(name).exists()
 
+  def delete(name: String): Unit = {
+    new File(name).delete()
+  }
+
   def readText(name: String): String = {
     catching(classOf[FileNotFoundException]).either {
       using(Source.fromFile(name, enc)) { src =>
