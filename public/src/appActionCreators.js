@@ -55,6 +55,31 @@ export function toggleMenu() {
   };
 }
 
+function gotAllOptions(options) {
+  return {
+    type: actionTypes.GOT_ALL_OPTIONS,
+    state: {
+      isCelsius: options.isCelsius.value,
+      isMeter: options.isMeter.value,
+      isBar: options.isBar.value
+    }
+  };
+}
+
+export function requestAllOptions() {
+  return dispatch => {
+    fetchGet("option/all")
+      .then(res => res.json())
+      .then(json => {
+        dispatch(gotAllOptions(json))
+        dispatch(requestConnectionInfo())
+      })
+      .catch(error => {
+        console.log(error.message);
+      });
+  }
+}
+
 function changedTempUnit(isCelsius) {
   return {
     type: actionTypes.CHANGED_TEMP_UNIT,

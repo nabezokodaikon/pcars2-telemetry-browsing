@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as contentNames from "../common/contentNames.js";
-import { requestConnectionInfo } from "../appActionCreators.js";
+import { requestAllOptions } from "../appActionCreators.js";
 import OptionsContainer from "../contents/options/OptionsContainer.jsx";
 
 class Contents extends React.Component {
@@ -11,7 +11,7 @@ class Contents extends React.Component {
   }
 
   componentDidMount() {
-    this.props.onRequestConnectionInfo();
+    this.props.onRequestAllOptions();
   }
 
   getContentStyle() {
@@ -46,7 +46,7 @@ class Contents extends React.Component {
 
 Contents.propTypes = {
   currentContent: PropTypes.string.isRequired,
-  onRequestConnectionInfo: PropTypes.func.isRequired
+  onRequestAllOptions: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => {
@@ -57,8 +57,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onRequestConnectionInfo: () => {
-      dispatch(requestConnectionInfo());
+    onRequestAllOptions: () => {
+      dispatch(requestAllOptions());
     }
   };
 };

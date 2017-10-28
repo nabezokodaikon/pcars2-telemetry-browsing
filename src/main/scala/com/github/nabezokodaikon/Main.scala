@@ -30,7 +30,7 @@ object Main extends App with LazyLogging {
     // val udpProps = Props(classOf[UdpListener], clientManager)
     // val udpListener = system.actorOf(udpProps, "udpListener")
 
-    val server = new Server(clientManager)
+    val server = new Server(clientManager, dac)
 
     // Test code.
     import com.github.nabezokodaikon.example.udp.UdpTestDataSender

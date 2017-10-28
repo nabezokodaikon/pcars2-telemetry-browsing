@@ -7,8 +7,10 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.{ HttpApp, Route }
 import akka.http.scaladsl.server.directives._
 import akka.stream.scaladsl.{ Flow, Sink, Source }
+import com.github.nabezokodaikon.db.DBAccessor
 import com.github.nabezokodaikon.util.FileUtil
 import com.github.nabezokodaikon.db.{
+  AllOptions,
   DBEntityJsonProtocol,
   UnitOption
 }
@@ -19,7 +21,7 @@ import com.github.nabezokodaikon.config.{
 import com.typesafe.config.{ Config, ConfigFactory }
 import com.typesafe.scalalogging.LazyLogging
 
-class Server(manager: ActorRef)
+class Server(manager: ActorRef, dac: DBAccessor)
   extends HttpApp
   with LazyLogging
   with ConfigEntityJsonProtocol
@@ -75,14 +77,28 @@ class Server(manager: ActorRef)
         }
       } ~
       pathPrefix("option") {
-        path("unit") {
-          post {
-            entity(as[UnitOption]) { req =>
-              // TODO Update database
-              complete(req)
+        path("all") {
+          get {
+            val map = dac.option.booleanMap
+            val isCelsius = map.getOrDefault("option/isCelsius", true)
+            val isMeter = map.getOrDefault("option/isMeter", true)
+            val isBar = map.getOrDefault("option/isBar", true)
+            val res = AllOptions(
+              isCelsius = UnitOption("option/isCelsius", isCelsius),
+              isMeter = UnitOption("option/isMeter", isMeter),
+              isBar = UnitOption("option/isBar", isBar))
+            complete(res)
+          }
+        } ~
+          path("unit") {
+            post {
+              entity(as[UnitOption]) { req =>
+                val map = dac.option.booleanMap
+                map.put(req.key, req.value)
+                complete(req)
+              }
             }
           }
-        }
       } ~
       path(Segments) { x: List[String] =>
         get {

@@ -55,6 +55,12 @@ const initialOptions = {
 
 function options(state = initialOptions, action) {
   switch (action.type) {
+    case actionTypes.GOT_ALL_OPTIONS:
+      return {
+        isCelsius: action.state.isCelsius,
+        isMeter: action.state.isMeter,
+        isBar: action.state.isBar
+      }
     case actionTypes.CHANGED_TEMP_UNIT:
       return Object.assign({}, state, {
         isCelsius: action.isCelsius

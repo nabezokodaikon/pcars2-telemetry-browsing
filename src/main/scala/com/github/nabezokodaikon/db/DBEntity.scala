@@ -6,12 +6,18 @@ import DefaultJsonProtocol._
 
 trait DBEntityJsonProtocol extends SprayJsonSupport with DefaultJsonProtocol {
   implicit val unitOptionFormat = jsonFormat2(UnitOption)
+  implicit val allOptionsFormat = jsonFormat3(AllOptions)
 }
 
 /*
- * key: options/
+ * key: option/
  *        isCelsius
  *        isMeter
  *        isBar
  */
 final case class UnitOption(key: String, value: Boolean)
+
+final case class AllOptions(
+  isCelsius: UnitOption,
+  isMeter: UnitOption,
+  isBar: UnitOption)
