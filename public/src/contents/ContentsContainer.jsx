@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as contentNames from "../common/contentNames.js";
+import SimpleContainer from "../contents/simple/simpleContainer.jsx";
 import OptionsContainer from "../contents/options/OptionsContainer.jsx";
 import CreditsContent from "../contents/credits/CreditsContent.jsx";
 
@@ -22,8 +23,8 @@ class Contents extends React.Component {
 
   createCurrentContents() {
     switch (this.props.currentContent) {
-        case contentNames.TIME:
-          return <div>TODO</div>;
+        case contentNames.SIMPLE:
+          return <SimpleContainer />;
         case contentNames.OPTIONS:
           return <OptionsContainer />;
         case contentNames.CREDITS:

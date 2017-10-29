@@ -1,5 +1,5 @@
 // Product contents.
-export const TIME = "Time";
+export const SIMPLE = "SIMPLE";
 export const OPTIONS = "OPTIONS";
 export const CREDITS = "CREDITS";
 

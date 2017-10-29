@@ -132,7 +132,7 @@ class Menu extends React.Component {
 
   createMenuItems() {
     return [
-      contentNames.TIME,
+      contentNames.SIMPLE,
       contentNames.OPTIONS,
       contentNames.CREDITS
     ].map((v, i) => {

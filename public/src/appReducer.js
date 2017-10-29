@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
 import * as actionTypes from "./appActionTypes.js";
-import { TIME } from "./common/contentNames";
+import { SIMPLE } from "./common/contentNames";
 
-function currentContent(state = TIME, action) {
+function currentContent(state = SIMPLE, action) {
   switch (action.type) {
       case actionTypes.SELECTED_CONTENT:
         return action.selectedContent;
