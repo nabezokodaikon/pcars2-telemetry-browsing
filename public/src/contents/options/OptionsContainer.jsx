@@ -3,6 +3,7 @@ import ReactDom from "react-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import {
+  requestAllOptions,
   requestTempUnitChange,
   requestDistanceUnitChange,
   requestAirPressureUnitChange
@@ -15,6 +16,8 @@ class OptionsContent extends React.Component {
     this.handleTempUnitCheckBoxChanged = this.handleTempUnitCheckBoxChanged.bind(this);
     this.handleDistanceUnitCheckBoxChanged = this.handleDistanceUnitCheckBoxChanged.bind(this);
     this.handleAirPressureUnitCheckBoxChanged = this.handleAirPressureUnitCheckBoxChanged.bind(this);
+    
+    this.props.onRequestAllOptions();
   }
 
   handleTempUnitCheckBoxChanged() {
@@ -126,6 +129,7 @@ OptionsContent.propTypes = {
   isCelsius: PropTypes.bool.isRequired,
   isMeter: PropTypes.bool.isRequired,
   isBar: PropTypes.bool.isRequired,
+  onRequestAllOptions: PropTypes.func.isRequired,
   onTempUnitChange: PropTypes.func.isRequired,
   onDistanceUnitChange: PropTypes.func.isRequired,
   onAirPressureUnitChange: PropTypes.func.isRequired
@@ -142,6 +146,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    onRequestAllOptions: () => {
+      dispatch(requestAllOptions());
+    },
     onTempUnitChange: isCelsius => {
       dispatch(requestTempUnitChange(isCelsius));
     },
