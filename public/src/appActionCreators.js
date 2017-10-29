@@ -92,7 +92,10 @@ export function requestConnectionInfo() {
   return dispatch => {
     fetchGet("config/connection-info")
       .then(res => res.json())
-      .then(json => dispatch(gotConnectionInfo(json)))
+      .then(json => {
+        dispatch(gotConnectionInfo(json));
+        dispatch(connectWebSocket(json));
+      })
       .catch(error => {
         console.log(error.message);
       });

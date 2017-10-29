@@ -25,12 +25,13 @@ const store = createStore(appReducer, enhancer);
 // For mobile.
 // const store = createStore(appReducer, applyMiddleware(thunkMiddleware));
 
-store.subscribe(() => {
+setInterval(() => {
   const state = store.getState();
   if (state.connectionInfo.isGot && !state.isWebSocketOpened) {
+    console.log("Begin reconnect WebSocket.");
     store.dispatch(connectWebSocket(state.connectionInfo));
   }
-}); 
+}, 5000);
 
 store.dispatch(requestAllOptions());
 store.dispatch(requestConnectionInfo());
