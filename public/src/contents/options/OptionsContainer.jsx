@@ -17,16 +17,16 @@ class OptionsContent extends React.Component {
     this.handleAirPressureUnitCheckBoxChanged = this.handleAirPressureUnitCheckBoxChanged.bind(this);
   }
 
-  handleTempUnitCheckBoxChanged(evt) {
-    this.props.onTempUnitChange(evt.target.checked);
+  handleTempUnitCheckBoxChanged() {
+    this.props.onTempUnitChange(!this.props.isCelsius);
   }
 
-  handleDistanceUnitCheckBoxChanged(evt) {
-    this.props.onDistanceUnitChange(evt.target.checked);
+  handleDistanceUnitCheckBoxChanged() {
+    this.props.onDistanceUnitChange(!this.props.isMeter);
   }
 
-  handleAirPressureUnitCheckBoxChanged(evt) {
-    this.props.onAirPressureUnitChange(evt.target.checked);
+  handleAirPressureUnitCheckBoxChanged() {
+    this.props.onAirPressureUnitChange(!this.props.isBar);
   }
 
   getFlexContainerStyle() {
@@ -57,14 +57,14 @@ class OptionsContent extends React.Component {
 
   createTempChangeContent() {
     return (
-      <div style={this.getFlexItemStyle()}>
+      <div style={this.getFlexItemStyle()} onClick={this.handleTempUnitCheckBoxChanged}>
         <span style={this.getSpanStyle()}>Fahrenheit</span>
         <div className={checkBoxStyle.slideCheckBox}>
           <input
             id="tempCheckBox"
             type="checkbox"
             checked={this.props.isCelsius}
-            onChange={evt => this.handleTempUnitCheckBoxChanged(evt)}
+            onChange={this.handleTempUnitCheckBoxChanged}
           />
           <label htmlFor="tempCheckBox"></label>
         </div>
@@ -75,14 +75,14 @@ class OptionsContent extends React.Component {
 
   createDistanceChangeContent() {
     return (
-      <div style={this.getFlexItemStyle()}>
+      <div style={this.getFlexItemStyle()} onClick={this.handleDistanceUnitCheckBoxChanged}>
         <span style={this.getSpanStyle()}>Miles</span>
         <div className={checkBoxStyle.slideCheckBox}>
           <input
             id="distanceCheckBox"
             type="checkbox"
             checked={this.props.isMeter}
-            onChange={evt => this.handleDistanceUnitCheckBoxChanged(evt)}
+            onChange={this.handleDistanceUnitCheckBoxChanged}
           />
           <label htmlFor="distanceCheckBox"></label>
         </div>
@@ -93,14 +93,14 @@ class OptionsContent extends React.Component {
 
   createAirPressureChangeContent() {
     return (
-      <div style={this.getFlexItemStyle()}>
+      <div style={this.getFlexItemStyle()} onClick={this.handleAirPressureUnitCheckBoxChanged}>
         <span style={this.getSpanStyle()}>psi</span>
         <div className={checkBoxStyle.slideCheckBox}>
           <input
             id="airPressureCheckBox"
             type="checkbox"
             checked={this.props.isBar}
-            onChange={evt => this.handleAirPressureUnitCheckBoxChanged(evt)}
+            onChange={this.handleAirPressureUnitCheckBoxChanged}
           />
           <label htmlFor="airPressureCheckBox"></label>
         </div>
