@@ -4,13 +4,17 @@
 
 ## Usage
 
+### iPhone Web page to Home short cut
+
 
 ## Install
 
 
 ## CREDITS
+### Project CARS Official Forum 
+* <http://forum.projectcarsgame.com/forum.php>
 ### CrewChief
-* CrewChiefV4 <https://github.com/mrbelowski/CrewChiefV4>
+* CrewChief <http://thecrewchief.org>
 ### scala
 * Copyright (c) 2002-2017 EPFL
 * Copyright (c) 2011-2017 Lightbend, Inc.

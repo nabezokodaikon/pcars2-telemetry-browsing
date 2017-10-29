@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as contentNames from "../common/contentNames.js";
 import OptionsContainer from "../contents/options/OptionsContainer.jsx";
+import CreditsContent from "../contents/credits/CreditsContent.jsx";
 
 class Contents extends React.Component {
   constructor(props) {
@@ -25,6 +26,8 @@ class Contents extends React.Component {
           return <div>TODO</div>;
         case contentNames.OPTIONS:
           return <OptionsContainer />;
+        case contentNames.CREDITS:
+          return <CreditsContent />;
         default:
           return <div></div>;
     }

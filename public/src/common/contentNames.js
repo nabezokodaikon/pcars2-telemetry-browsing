@@ -1,6 +1,7 @@
 // Product contents.
 export const TIME = "Time";
 export const OPTIONS = "OPTIONS";
+export const CREDITS = "CREDITS";
 
 // Debug contents.
 export const PARTICIPANT_INFO_STRINGS = "ParticipantInfoStrings";

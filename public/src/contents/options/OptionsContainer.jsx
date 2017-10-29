@@ -115,8 +115,8 @@ class OptionsContent extends React.Component {
   render() {
     return (
       <div style={this.getFlexContainerStyle()}>
-        <h1>OPTIONS</h1>
-        <h2>Unit</h2>
+        <h2>OPTIONS</h2>
+        <h3>Unit</h3>
         {this.createTempChangeContent()}
         {this.createDistanceChangeContent()}
         {this.createAirPressureChangeContent()}
