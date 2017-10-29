@@ -33,8 +33,9 @@ class OptionsContent extends React.Component {
     return {
       display: "flex",
       flexDirection: "column",
-      alignItems: "center",
-      width: "50%"
+      alignItems: "left",
+      width: "50%",
+      marginLeft: "4rem"
     };
   }
 
