@@ -29,10 +29,35 @@ class OptionsContent extends React.Component {
     this.props.onAirPressureUnitChange(evt.target.checked);
   }
 
+  getFlexContainerStyle() {
+    return {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      width: "50%"
+    };
+  }
+
+  getFlexItemStyle() {
+    return {
+      display: "flex",
+      alignItems: "center",
+      marginBottom: "4rem"
+    };
+  }
+
+  getSpanStyle() {
+    return {
+      display: "block",
+      width: "6rem",
+      textAlign: "center"
+    }
+  }
+
   createTempChangeContent() {
     return (
-      <div>
-        <span>Fahrenheit</span>
+      <div style={this.getFlexItemStyle()}>
+        <span style={this.getSpanStyle()}>Fahrenheit</span>
         <div className={checkBoxStyle.slideCheckBox}>
           <input
             id="tempCheckBox"
@@ -42,15 +67,15 @@ class OptionsContent extends React.Component {
           />
           <label htmlFor="tempCheckBox"></label>
         </div>
-        <span>Celsius</span>
+        <span style={this.getSpanStyle()}>Celsius</span>
       </div>
     );
   }
 
   createDistanceChangeContent() {
     return (
-      <div>
-        <span>Miles</span>
+      <div style={this.getFlexItemStyle()}>
+        <span style={this.getSpanStyle()}>Miles</span>
         <div className={checkBoxStyle.slideCheckBox}>
           <input
             id="distanceCheckBox"
@@ -60,15 +85,15 @@ class OptionsContent extends React.Component {
           />
           <label htmlFor="distanceCheckBox"></label>
         </div>
-        <span>Meter</span>
+        <span style={this.getSpanStyle()}>Meter</span>
       </div>
     );
   }
 
   createAirPressureChangeContent() {
     return (
-      <div>
-        <span>psi</span>
+      <div style={this.getFlexItemStyle()}>
+        <span style={this.getSpanStyle()}>psi</span>
         <div className={checkBoxStyle.slideCheckBox}>
           <input
             id="airPressureCheckBox"
@@ -78,14 +103,15 @@ class OptionsContent extends React.Component {
           />
           <label htmlFor="airPressureCheckBox"></label>
         </div>
-        <span>bar</span>
+        <span style={this.getSpanStyle()}>bar</span>
       </div>
     );
   }
 
   render() {
     return (
-      <div>
+      <div style={this.getFlexContainerStyle()}>
+        <h2>Unit</h2>
         {this.createTempChangeContent()}
         {this.createDistanceChangeContent()}
         {this.createAirPressureChangeContent()}

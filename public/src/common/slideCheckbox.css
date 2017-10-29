@@ -21,7 +21,7 @@
 }
 
 .slideCheckBox > input[type=checkbox]:checked + label {
-  left: 4.37rem;
+  left: 4.4rem;
 }
 
 .slideCheckBox > input[type=checkbox] {

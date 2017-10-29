@@ -25,7 +25,6 @@
 .inactiveMenuItem > p {
   font-size: 0.8rem;
   text-align: center;
-  color: #e3e4e5;
   transform: skewX(12deg);
 }
 
