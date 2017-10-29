@@ -31,7 +31,7 @@ class Menu extends React.Component {
     return {
       zIndex: 3,
       position: "absolute",
-      margin: "0.25rem"
+      margin: "1rem"
     };
   }
 
