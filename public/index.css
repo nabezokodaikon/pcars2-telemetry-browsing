@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Oswald');
 @import url('https://fonts.googleapis.com/css?family=Inconsolata');
+@import url("headline.css");
 
 * {
   margin: 0;
@@ -31,8 +32,4 @@ p,
 span
 {
   color: #e3e4e5;
-}
-
-h2 {
-  margin: 1rem;
 }

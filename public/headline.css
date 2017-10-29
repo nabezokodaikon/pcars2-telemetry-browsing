@@ -1,0 +1,23 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  display: block;
+  width: 50%;
+  text-align: left;
+  padding: 0.25rem 1rem;
+  margin-bottom: 1rem;
+  border-left: solid 1rem #80adfd;
+  background: linear-gradient(transparent 95%, #80adfd 95%);
+}
+
+h1 {
+  font-size: 2rem;
+  margin-top: 1rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+}

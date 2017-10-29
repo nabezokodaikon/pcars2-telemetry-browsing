@@ -42,7 +42,7 @@ class OptionsContent extends React.Component {
     return {
       display: "flex",
       alignItems: "center",
-      marginBottom: "4rem"
+      marginBottom: "2rem"
     };
   }
 
@@ -111,6 +111,7 @@ class OptionsContent extends React.Component {
   render() {
     return (
       <div style={this.getFlexContainerStyle()}>
+        <h1>OPTIONS</h1>
         <h2>Unit</h2>
         {this.createTempChangeContent()}
         {this.createDistanceChangeContent()}
