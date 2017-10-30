@@ -4,6 +4,10 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { isJson } from "../../common/jsUtil.js";
 import { createGearHUDComponent } from "../../common/gearHUDComponent.jsx";
+import rankIcon from "../../image/rank.png";
+import rapIcon from "../../image/lap.png";
+import timeIcon from "../../image/time.png";
+import fuelIcon from "../../image/fuel.png";
 
 class SimpleContent extends React.Component {
   constructor(props) {
@@ -21,9 +25,66 @@ class SimpleContent extends React.Component {
   getDataStyle() {
     return {
       position: "fixed",
-      left: "50%",
-      width: "50%",
-      height: "100%"
+      left: "55%",
+      width: "45%",
+      height: "100%",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-around"
+    };
+  }
+
+  getDataItemStyle() {
+    return {
+      width: "95%",
+      height: "6rem",
+      borderStyle: "solid",
+      borderWidth: "0.1rem",
+      borderColor: "#899ba9",
+      backgroundColor: "#80adfd",
+      transform: "skewX(-12deg)",
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "flex-start",
+      alignItems: "center"
+    };
+  }
+
+  getDataIconContainerStyle() {
+    return {
+      width: "6rem",
+      height: "6rem",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center"
+    };
+  }
+
+  getDataIconStyle() {
+    return {
+      width: "80%",
+      height: "80%",
+      transform: "skewX(12deg)"
+    };
+  }
+
+  getDataValueContainerStyle() {
+    return {
+      flexGrow: 1,
+      height: "6rem",
+      backgroundColor: "#485867",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center"
+    };
+  }
+
+  getDataValueStyle() {
+    return {
+      margin: "1.5rem",
+      fontSize: "3rem",
+      fontFamily: "'Inconsolata', monospace",
+      transform: "skewX(12deg)"
     };
   }
 
@@ -62,7 +123,25 @@ class SimpleContent extends React.Component {
   createData() {
     return (
       <div style={this.getDataStyle()}>
-        <p>hoge</p>
+
+        <div style={this.getDataItemStyle()}>
+          <div style={this.getDataIconContainerStyle()}>
+            <img style={this.getDataIconStyle()} src={rankIcon} />
+          </div>
+          <div style={this.getDataValueContainerStyle()}>
+            <span style={this.getDataValueStyle()}>00:00.000</span>
+          </div>
+        </div>
+
+        <div style={this.getDataItemStyle()}>
+        </div>
+
+        <div style={this.getDataItemStyle()}>
+        </div>
+
+        <div style={this.getDataItemStyle()}>
+        </div>
+        
       </div>
     );
   }
@@ -73,8 +152,8 @@ class SimpleContent extends React.Component {
     } else {
       return (
         <div style={this.getViewStyle()}>
-          {this.createData()}
           {this.createGear()}
+          {this.createData()}
         </div>
       );
     }

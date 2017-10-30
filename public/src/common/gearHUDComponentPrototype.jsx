@@ -7,7 +7,7 @@ import {
 import {
   kmhToMIH
 } from "./telemetryUtil.js";
-import gasolineIcon from "../image/gasoline.png";
+import gasolineIcon from "../image/fuel.png";
 import oilIcon from "../image/oil.png";
 
 /*

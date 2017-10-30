@@ -9,8 +9,6 @@ import {
   getSpeedUnit,
   kmhToMIH
 } from "./telemetryUtil.js";
-import gasolineIcon from "../image/gasoline.png";
-import oilIcon from "../image/oil.png";
 
 const WHITE = "#FEFEFE";
 const BLACK = "#1B1B1B";
