@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { isJson } from "../../common/jsUtil.js";
 import { createGearHUDComponent } from "../../common/gearHUDComponent.jsx";
 import rankIcon from "../../image/rank.png";
-import rapIcon from "../../image/lap.png";
+import lapIcon from "../../image/lap.png";
 import timeIcon from "../../image/time.png";
 import fuelIcon from "../../image/fuel.png";
 
@@ -41,7 +41,6 @@ class SimpleContent extends React.Component {
       borderStyle: "solid",
       borderWidth: "0.1rem",
       borderColor: "#899ba9",
-      backgroundColor: "#80adfd",
       transform: "skewX(-12deg)",
       display: "flex",
       flexDirection: "row",
@@ -54,6 +53,7 @@ class SimpleContent extends React.Component {
     return {
       width: "6rem",
       height: "6rem",
+      backgroundColor: "#80adfd",
       display: "flex",
       justifyContent: "center",
       alignItems: "center"
@@ -72,18 +72,16 @@ class SimpleContent extends React.Component {
     return {
       flexGrow: 1,
       height: "6rem",
-      backgroundColor: "#485867",
       display: "flex",
-      justifyContent: "center",
+      justifyContent: "flex-end",
       alignItems: "center"
     };
   }
 
   getDataValueStyle() {
     return {
-      margin: "1.5rem",
-      fontSize: "3rem",
-      fontFamily: "'Inconsolata', monospace",
+      margin: "1rem",
+      fontSize: "5rem",
       transform: "skewX(12deg)"
     };
   }
@@ -129,19 +127,37 @@ class SimpleContent extends React.Component {
             <img style={this.getDataIconStyle()} src={rankIcon} />
           </div>
           <div style={this.getDataValueContainerStyle()}>
-            <span style={this.getDataValueStyle()}>00:00.000</span>
+            <span style={this.getDataValueStyle()}>32/32</span>
           </div>
         </div>
 
         <div style={this.getDataItemStyle()}>
-        </div>
-
-        <div style={this.getDataItemStyle()}>
-        </div>
-
-        <div style={this.getDataItemStyle()}>
+          <div style={this.getDataIconContainerStyle()}>
+            <img style={this.getDataIconStyle()} src={lapIcon} />
+          </div>
+          <div style={this.getDataValueContainerStyle()}>
+            <span style={this.getDataValueStyle()}>1/5</span>
+          </div>
         </div>
         
+        <div style={this.getDataItemStyle()}>
+          <div style={this.getDataIconContainerStyle()}>
+            <img style={this.getDataIconStyle()} src={timeIcon} />
+          </div>
+          <div style={this.getDataValueContainerStyle()}>
+            <span style={this.getDataValueStyle()}>88:88.888</span>
+          </div>
+        </div>
+
+        <div style={this.getDataItemStyle()}>
+          <div style={this.getDataIconContainerStyle()}>
+            <img style={this.getDataIconStyle()} src={fuelIcon} />
+          </div>
+          <div style={this.getDataValueContainerStyle()}>
+            <span style={this.getDataValueStyle()}>20L</span>
+          </div>
+        </div>
+
       </div>
     );
   }
