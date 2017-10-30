@@ -4,8 +4,8 @@ import webpack from "webpack";
 
 module.exports = {
   entry: {
-    index: ["babel-polyfill", "./public/src/index.jsx"],
-    debug: ["babel-polyfill", "./public/src/debug.jsx"]
+    index: ["babel-polyfill", "./public/src/index.jsx"]
+    // debug: ["babel-polyfill", "./public/src/debug.jsx"]
   },
   devtool: 'inline-source-map',
   output: {
@@ -44,11 +44,11 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(["public/dist"]),
+    new webpack.optimize.UglifyJsPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }
-    }),
-    new webpack.optimize.UglifyJsPlugin()
+    })
   ]
 }

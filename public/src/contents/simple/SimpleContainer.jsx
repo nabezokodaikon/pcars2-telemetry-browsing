@@ -10,15 +10,32 @@ class SimpleContent extends React.Component {
     super(props)
   }
 
-  getData() {
-    if (!isJson(this.props.telemetryData)) {
-      return <div></div>;
-    }
+  getGearStyle() {
+    return {
+      position: "fixed",
+      width: "50%",
+      height: "100%",
+    };
+  }
 
-    const width = document.documentElement.clientWidth;
-    const height = document.documentElement.clientHeight;
-    const viewBox = "0" + " " + "0" + " " + width + " " + height;
+  getDataStyle() {
+    return {
+      position: "fixed",
+      left: "50%",
+      width: "50%",
+      height: "100%"
+    };
+  }
 
+  getViewStyle() {
+    return {
+      position: "fixed",
+      width: "100%",
+      height: "100%"
+    };
+  }
+
+  createGear() {
     const carStateData = this.props.telemetryData.carStateData; 
 
     const gearHUDComponent = createGearHUDComponent({
@@ -36,14 +53,35 @@ class SimpleContent extends React.Component {
     });
 
     return (
-      <svg preserveAspectRatio="xMinYMin meet" width="100%" height="100%" viewBox="0 0 100 100">
+      <svg style={this.getGearStyle()} preserveAspectRatio="xMidYMid meet" viewBox="0 0 100 100">
         {gearHUDComponent}
       </svg>
     );
   }
 
+  createData() {
+    return (
+      <div style={this.getDataStyle()}>
+        <p>hoge</p>
+      </div>
+    );
+  }
+
+  createView() {
+    if (!isJson(this.props.telemetryData)) {
+      return <div></div>;
+    } else {
+      return (
+        <div style={this.getViewStyle()}>
+          {this.createData()}
+          {this.createGear()}
+        </div>
+      );
+    }
+  }
+
   render() {
-    return this.getData();
+    return this.createView();
   }
 }
 
