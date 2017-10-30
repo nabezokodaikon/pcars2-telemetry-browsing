@@ -4,7 +4,7 @@ import webpack from "webpack";
 
 module.exports = {
   entry: {
-    index: ["babel-polyfill", "./public/src/index.jsx"]
+    index: ["babel-polyfill", "whatwg-fetch", "./public/src/index.jsx"]
   },
   output: {
     filename: "[name].bundle.js",
