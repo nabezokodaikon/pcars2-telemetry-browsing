@@ -29,28 +29,35 @@ const BLUE = "#B0C1D1";
 function createRpmComponent(rpm, maxRpm, width, fontSize, cx, cy, radius) {
   const rpmBG = maxRpm * 1.2;
   const rpmUnit = 300 / rpmBG;
-  const rpmValue = rpmUnit * rpm + 30;
-  const maxRpmValue = rpmUnit * maxRpm + 30;
-  const separateDegree = 300 / rpmBG * 1000;
   const bgWidth = width * 0.75;
-
   const rpmBGShape = createFanShape(cx, cy, radius, 30, 330, bgWidth, RED);
-  const maxRpmShape = createFanShape(cx, cy, radius, 30, maxRpmValue, bgWidth, BLACK);
-  const rpmShape = createFanShape(cx, cy, radius, 30, rpmValue, width, WHITE);
 
-  const textRadius = radius * 0.875;
-  const rpmText = Array.from({length: Math.floor(rpmBG / 1000) + 1}, (v, k) => k).map(i =>
-    createFanText(cx, cy, textRadius, 30 + separateDegree * (i - 0.5), 30 + separateDegree * (i + 0.5), fontSize, BLUE, i.toString())
-  );
+  if (maxRpm > 0) {
+    const rpmValue = rpmUnit * rpm + 30;
+    const maxRpmValue = rpmUnit * maxRpm + 30;
+    const separateDegree = 300 / rpmBG * 1000;
+    const maxRpmShape = createFanShape(cx, cy, radius, 30, maxRpmValue, bgWidth, BLACK);
+    const rpmShape = createFanShape(cx, cy, radius, 30, rpmValue, width, WHITE);
+    const textRadius = radius * 0.875;
+    const rpmText = Array.from({length: Math.floor(rpmBG / 1000) + 1}, (v, k) => k).map(i =>
+      createFanText(cx, cy, textRadius, 30 + separateDegree * (i - 0.5), 30 + separateDegree * (i + 0.5), fontSize, BLUE, i.toString())
+    );
 
-  return (
-    <g>
-      {rpmBGShape}
-      {maxRpmShape}
-      {rpmShape}
-      {rpmText}
-    </g>
-  ); 
+    return (
+      <g>
+        {rpmBGShape}
+        {maxRpmShape}
+        {rpmShape}
+        {rpmText}
+      </g>
+    ); 
+  } else {
+    return (
+      <g>
+        {rpmBGShape}
+      </g>
+    );
+  }
 }
 
 /*
