@@ -1,7 +1,7 @@
 package com.github.nabezokodaikon
 
 import akka.actor.{ ActorSystem, Props }
-import akka.pattern.{ AskTimeoutException, ask, gracefulStop }
+import akka.pattern.{ AskTimeoutException, gracefulStop }
 import akka.stream.ActorMaterializer
 import com.github.nabezokodaikon.db.DBAccessor
 import com.github.nabezokodaikon.util.FileUtil

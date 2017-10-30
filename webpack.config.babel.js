@@ -43,13 +43,12 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(["public/dist"]) /*,
+    new CleanWebpackPlugin(["public/dist"]),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }
     }),
     new webpack.optimize.UglifyJsPlugin()
-    */
   ]
 }
