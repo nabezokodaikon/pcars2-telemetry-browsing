@@ -4,7 +4,8 @@
   "description": "Telemetry display for Project Cars 2",
   "main": "contents/index.js",
   "scripts": {
-    "build": "./node_modules/.bin/webpack --config webpack.config.babel.js"
+    "build": "./node_modules/.bin/webpack --config webpack.develop.config.babel.js",
+    "product": "./node_modules/.bin/webpack --config webpack.product.config.babel.js"
   },
   "repository": {
     "type": "git",

@@ -4,10 +4,8 @@ import webpack from "webpack";
 
 module.exports = {
   entry: {
-    index: ["babel-polyfill", "./public/src/index.jsx"],
-    debug: ["babel-polyfill", "./public/src/debug.jsx"]
+    index: ["babel-polyfill", "./public/src/index.jsx"]
   },
-  devtool: 'inline-source-map',
   output: {
     filename: "[name].bundle.js",
     path: path.resolve(__dirname, "public/dist")
@@ -43,12 +41,12 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(["public/dist"])/*,
+    new CleanWebpackPlugin(["public/dist"]),
     new webpack.optimize.UglifyJsPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }
-    })*/
+    })
   ]
 }
