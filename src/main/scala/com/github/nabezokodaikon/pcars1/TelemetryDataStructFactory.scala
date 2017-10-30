@@ -246,7 +246,8 @@ object TelemetryDataStructFactory {
       ),
       eventInfoData = EventInfoData(
         lapsInEvent = lapsInEvent,
-        trackLength = trackLength.divide(1000, 3) //
+        trackLength = trackLength.divide(1000, 3),
+        participantsCount = participantInfo.maxBy(_.racePosition).racePosition //
       ),
       timingInfoData = TimingInfoData(
         lapInvalidated = (raceStateFlags >> 3 & 1) == 1,

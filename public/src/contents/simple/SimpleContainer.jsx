@@ -121,9 +121,9 @@ class SimpleContent extends React.Component {
 
   createData() {
     const data = this.props.telemetryData;
+    const eventInfoData = data.eventInfoData;
     const participantInfo = data.participantInfo;
     const firstParticipantInfo = participantInfo[0];
-    const maxRacePosition = Math.max.apply(null, participantInfo.map(i => i.racePosition));
     
     return (
       <div style={this.getDataStyle()}>
@@ -133,7 +133,7 @@ class SimpleContent extends React.Component {
             <img style={this.getDataIconStyle()} src={rankIcon} />
           </div>
           <div style={this.getDataValueContainerStyle()}>
-            <span style={this.getDataValueStyle()}>{firstParticipantInfo.racePosition}/{maxRacePosition}</span>
+            <span style={this.getDataValueStyle()}>{firstParticipantInfo.racePosition}/{eventInfoData.participantsCount}</span>
           </div>
         </div>
 
@@ -142,7 +142,7 @@ class SimpleContent extends React.Component {
             <img style={this.getDataIconStyle()} src={lapIcon} />
           </div>
           <div style={this.getDataValueContainerStyle()}>
-            <span style={this.getDataValueStyle()}>{firstParticipantInfo.currentLap}/{data.eventInfoData.lapsInEvent}</span>
+            <span style={this.getDataValueStyle()}>{firstParticipantInfo.currentLap}/{eventInfoData.lapsInEvent}</span>
           </div>
         </div>
         

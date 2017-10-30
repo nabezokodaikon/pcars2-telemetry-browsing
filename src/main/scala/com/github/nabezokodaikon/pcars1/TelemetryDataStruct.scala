@@ -12,7 +12,7 @@ object TelemetryJsonProtocol extends DefaultJsonProtocol {
   implicit val participantInfoDataFormat = jsonFormat2(ParticipantInfoData)
   implicit val participantInfoFormat = jsonFormat7(ParticipantInfo)
   implicit val unfilteredInputDataFormat = jsonFormat4(UnfilteredInputData)
-  implicit val eventInfoDataFormat = jsonFormat2(EventInfoData)
+  implicit val eventInfoDataFormat = jsonFormat3(EventInfoData)
   implicit val timingInfoDataFormat = jsonFormat10(TimingInfoData)
   implicit val sectorTimeDataFormat = jsonFormat12(SectorTimeData)
   implicit val flagDataFormat = jsonFormat2(FlagData)
@@ -99,7 +99,8 @@ case class UnfilteredInputData(
 
 case class EventInfoData(
     lapsInEvent: Int,
-    trackLength: String // [ UNITS = Kilometers ]
+    trackLength: String, // [ UNITS = Kilometers ]
+    participantsCount: Int //
 ) {
   def toJsonString: String = this.toJson.toString
 }
