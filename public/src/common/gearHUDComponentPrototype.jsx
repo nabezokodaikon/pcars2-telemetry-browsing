@@ -160,7 +160,7 @@ function createFuelLevelComponent(value, cx, cy, iconSize, fontSize) {
  * gearValueFontSize: ギア値のフォントサイズ
 */
 function createGearComponent(gear, rpm, maxRpm, srcSpeed, isMeter, cx, cy, radius, width, gearValueFontSize) {
-  const speed = (isMeter ? Math.floor(srcSpeed) : KMHToMIH(srcSpeed)); 
+  const speed = (isMeter ? Math.floor(srcSpeed) : kmhToMIH(srcSpeed)); 
   const speedUnit = (isMeter ? "KM/H" : "MI/H");
   const gearColor = (rpm > maxRpm * 0.99 ? "#FF0000" : "#FFFFFF");
   const rpmValueFontSize = gearValueFontSize * 0.3;
