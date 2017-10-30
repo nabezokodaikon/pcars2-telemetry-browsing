@@ -107,7 +107,7 @@ export function createFanText(cx, cy, radius, startDegree, finishDegree, fontSiz
       fill={fontColor}
       textAnchor="middle"
       dominantBaseline="middle"
-      style={{fontSize: fontSize}}
+      style={{fontSize: fontSize, fontFamily: "'Inconsolata', monospace"}}
     >
       {text}
     </text>

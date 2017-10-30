@@ -80,8 +80,9 @@ class SimpleContent extends React.Component {
 
   getDataValueStyle() {
     return {
-      margin: "1rem",
-      fontSize: "5rem",
+      margin: "0.5rem",
+      fontSize: "4.25rem",
+      fontFamily: "'Inconsolata', monospace",
       transform: "skewX(12deg)"
     };
   }
@@ -119,6 +120,11 @@ class SimpleContent extends React.Component {
   }
 
   createData() {
+    const data = this.props.telemetryData;
+    const participantInfo = data.participantInfo;
+    const firstParticipantInfo = participantInfo[0];
+    const maxRacePosition = Math.max.apply(null, participantInfo.map(i => i.racePosition));
+    
     return (
       <div style={this.getDataStyle()}>
 
@@ -127,7 +133,7 @@ class SimpleContent extends React.Component {
             <img style={this.getDataIconStyle()} src={rankIcon} />
           </div>
           <div style={this.getDataValueContainerStyle()}>
-            <span style={this.getDataValueStyle()}>32/32</span>
+            <span style={this.getDataValueStyle()}>{firstParticipantInfo.racePosition}/{maxRacePosition}</span>
           </div>
         </div>
 
@@ -136,7 +142,7 @@ class SimpleContent extends React.Component {
             <img style={this.getDataIconStyle()} src={lapIcon} />
           </div>
           <div style={this.getDataValueContainerStyle()}>
-            <span style={this.getDataValueStyle()}>1/5</span>
+            <span style={this.getDataValueStyle()}>{firstParticipantInfo.currentLap}/{data.eventInfoData.lapsInEvent}</span>
           </div>
         </div>
         
@@ -145,7 +151,7 @@ class SimpleContent extends React.Component {
             <img style={this.getDataIconStyle()} src={timeIcon} />
           </div>
           <div style={this.getDataValueContainerStyle()}>
-            <span style={this.getDataValueStyle()}>88:88.888</span>
+            <span style={this.getDataValueStyle()}>{data.timingInfoData.currentTime}</span>
           </div>
         </div>
 
@@ -154,7 +160,7 @@ class SimpleContent extends React.Component {
             <img style={this.getDataIconStyle()} src={fuelIcon} />
           </div>
           <div style={this.getDataValueContainerStyle()}>
-            <span style={this.getDataValueStyle()}>20L</span>
+            <span style={this.getDataValueStyle()}>{data.carStateData.fuelLevel}L</span>
           </div>
         </div>
 

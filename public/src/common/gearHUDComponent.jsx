@@ -143,7 +143,7 @@ function createGearComponent(
       x={cx}
       y={cy}
       fill={gearColor}
-      style={{fontSize: gearValueFontSize}}
+      style={{fontSize: gearValueFontSize, fontFamily: "'Inconsolata', monospace"}}
       textAnchor="middle"
       dominantBaseline="middle"
     >
@@ -155,7 +155,7 @@ function createGearComponent(
       x={cx}
       y={cy * 1.275}
       fill={BLUE}
-      style={{fontSize: rpmValueFontSize}}
+      style={{fontSize: rpmValueFontSize, fontFamily: "'Inconsolata', monospace"}}
       textAnchor="middle"
       dominantBaseline="middle"
     >
@@ -167,7 +167,7 @@ function createGearComponent(
       x={cx}
       y={cy * 1.375}
       fill={BLUE}
-      style={{fontSize: rpmUnitFontSize}}
+      style={{fontSize: rpmUnitFontSize, fontFamily: "'Inconsolata', monospace"}}
       textAnchor="middle"
       dominantBaseline="middle"
     >
@@ -179,7 +179,7 @@ function createGearComponent(
       x={cx}
       y={cy * 1.7}
       fill={WHITE}
-      style={{fontSize: speedFontSize}}
+      style={{fontSize: speedFontSize, fontFamily: "'Inconsolata', monospace"}}
       textAnchor="middle"
       dominantBaseline="middle"
     >
@@ -191,7 +191,7 @@ function createGearComponent(
       x={cx}
       y={cy * 1.92}
       fill={WHITE}
-      style={{fontSize: speedUnitFontSize}}
+      style={{fontSize: speedUnitFontSize, fontFamily: "'Inconsolata', monospace"}}
       textAnchor="middle"
       dominantBaseline="middle"
     >
@@ -232,9 +232,9 @@ export function createGearHUDComponent(param) {
 
   const gearComponent = createGearComponent(
     param.gear, param.rpm, param.maxRpm, param.speed, param.isMeter,
-    radius * 0.5, width, cx, cy, radius);
+    radius * 0.6, width, cx, cy, radius);
   const rpmComponent = createRpmComponent(
-    param.rpm, param.maxRpm, width, radius * 0.1, cx, cy, radius);
+    param.rpm, param.maxRpm, width, radius * 0.15, cx, cy, radius);
   const throttleComponent = createThrottleComponent(
     param.throttle, width, cx, cy, throttoleAndBrakeRadius);
   const brakeComponent = createBrakeComponent(

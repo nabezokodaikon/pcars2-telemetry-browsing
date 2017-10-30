@@ -15,7 +15,7 @@ object BigDecimalSupport {
     val divisor1000 = new BigDecimal(1000)
     val minusValue = new BigDecimal(-1)
 
-    def toTimeFormatFromMilliseconds(): String = {
+    def toHourFormatFromMilliseconds(): String = {
       value.compareTo(BigDecimal.ZERO) match {
         case -1 => "--:--:--.---"
         case _ =>
@@ -32,7 +32,7 @@ object BigDecimalSupport {
       }
     }
 
-    def toTimeFormatFromSeconds(): String = {
+    def toHourFormatFromSeconds(): String = {
       value.compareTo(BigDecimal.ZERO) match {
         case -1 => "--:--:--.---"
         case _ =>
@@ -43,6 +43,32 @@ object BigDecimalSupport {
                   val milliseconds = seconds.multiply(divisor1000).remainder(divisor1000)
                   s"${"%02d".format(hours.intValue)}:${"%02d".format(minutes.intValue)}:${"%02d".format(seconds.intValue)}.${"%03d".format(milliseconds.intValue)}"
               }
+          }
+      }
+    }
+
+    def toMinuteFormatFromMilliseconds(): String = {
+      value.compareTo(BigDecimal.ZERO) match {
+        case -1 => "--:--.---"
+        case _ =>
+          value.divideAndRemainder(divisor1000) match {
+            case Array(srcSeconds, milliseconds) =>
+              srcSeconds.divideAndRemainder(divisor60) match {
+                case Array(minutes, seconds) =>
+                  s"${"%02d".format(minutes.intValue)}:${"%02d".format(seconds.intValue)}.${"%03d".format(milliseconds.intValue)}"
+              }
+          }
+      }
+    }
+
+    def toMinuteFormatFromSeconds(): String = {
+      value.compareTo(BigDecimal.ZERO) match {
+        case -1 => "--:--.---"
+        case _ =>
+          value.divideAndRemainder(divisor60) match {
+            case Array(minutes, seconds) =>
+              val milliseconds = seconds.multiply(divisor1000).remainder(divisor1000)
+              s"${"%02d".format(minutes.intValue)}:${"%02d".format(seconds.intValue)}.${"%03d".format(milliseconds.intValue)}"
           }
       }
     }

@@ -89,7 +89,7 @@ object TelemetryDataStructFactory {
       lapsCompleted = lapsCompleted,
       currentLap = currentLap,
       sector = sector,
-      lastSectorTime = lastSectorTime.toTimeFormatFromSeconds //
+      lastSectorTime = lastSectorTime.toMinuteFormatFromSeconds //
     )
   }
 
@@ -250,29 +250,29 @@ object TelemetryDataStructFactory {
       ),
       timingInfoData = TimingInfoData(
         lapInvalidated = (raceStateFlags >> 3 & 1) == 1,
-        bestLapTime = bestLapTime.toTimeFormatFromSeconds,
-        lastLapTime = lastLapTime.toTimeFormatFromSeconds,
-        currentTime = currentTime.toTimeFormatFromSeconds,
-        splitTimeAhead = splitTimeAhead.toTimeFormatFromSeconds,
-        splitTimeBehind = splitTimeBehind.toTimeFormatFromSeconds,
-        splitTime = splitTime.toTimeFormatFromSeconds,
-        eventTimeRemaining = eventTimeRemaining.toTimeFormatFromMilliseconds,
-        personalFastestLapTime = personalFastestLapTime.toTimeFormatFromSeconds,
-        worldFastestLapTime = worldFastestLapTime.toTimeFormatFromSeconds //
+        bestLapTime = bestLapTime.toMinuteFormatFromSeconds,
+        lastLapTime = lastLapTime.toMinuteFormatFromSeconds,
+        currentTime = currentTime.toMinuteFormatFromSeconds,
+        splitTimeAhead = splitTimeAhead.toMinuteFormatFromSeconds,
+        splitTimeBehind = splitTimeBehind.toMinuteFormatFromSeconds,
+        splitTime = splitTime.toMinuteFormatFromSeconds,
+        eventTimeRemaining = eventTimeRemaining.toMinuteFormatFromMilliseconds,
+        personalFastestLapTime = personalFastestLapTime.toMinuteFormatFromSeconds,
+        worldFastestLapTime = worldFastestLapTime.toMinuteFormatFromSeconds //
       ),
       sectorTimeData = SectorTimeData(
-        currentSector1Time = currentSector1Time.toTimeFormatFromSeconds,
-        currentSector2Time = currentSector2Time.toTimeFormatFromSeconds,
-        currentSector3Time = currentSector3Time.toTimeFormatFromSeconds,
-        fastestSector1Time = fastestSector1Time.toTimeFormatFromSeconds,
-        fastestSector2Time = fastestSector2Time.toTimeFormatFromSeconds,
-        fastestSector3Time = fastestSector3Time.toTimeFormatFromSeconds,
-        personalFastestSector1Time = personalFastestSector1Time.toTimeFormatFromSeconds,
-        personalFastestSector2Time = personalFastestSector2Time.toTimeFormatFromSeconds,
-        personalFastestSector3Time = personalFastestSector3Time.toTimeFormatFromSeconds,
-        worldFastestSector1Time = worldFastestSector1Time.toTimeFormatFromSeconds,
-        worldFastestSector2Time = worldFastestSector2Time.toTimeFormatFromSeconds,
-        worldFastestSector3Time = worldFastestSector3Time.toTimeFormatFromSeconds //
+        currentSector1Time = currentSector1Time.toMinuteFormatFromSeconds,
+        currentSector2Time = currentSector2Time.toMinuteFormatFromSeconds,
+        currentSector3Time = currentSector3Time.toMinuteFormatFromSeconds,
+        fastestSector1Time = fastestSector1Time.toMinuteFormatFromSeconds,
+        fastestSector2Time = fastestSector2Time.toMinuteFormatFromSeconds,
+        fastestSector3Time = fastestSector3Time.toMinuteFormatFromSeconds,
+        personalFastestSector1Time = personalFastestSector1Time.toMinuteFormatFromSeconds,
+        personalFastestSector2Time = personalFastestSector2Time.toMinuteFormatFromSeconds,
+        personalFastestSector3Time = personalFastestSector3Time.toMinuteFormatFromSeconds,
+        worldFastestSector1Time = worldFastestSector1Time.toMinuteFormatFromSeconds,
+        worldFastestSector2Time = worldFastestSector2Time.toMinuteFormatFromSeconds,
+        worldFastestSector3Time = worldFastestSector3Time.toMinuteFormatFromSeconds //
       ),
       flagData = FlagData(
         highestFlagColor = highestFlag & 7,
