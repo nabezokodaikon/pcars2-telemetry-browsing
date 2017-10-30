@@ -19,10 +19,22 @@ export function isParticipantInfoStringsAdditionalFrameType(telemetry) {
     && telemetry.frameType == telemetryConst.PARTICIPANT_INFO_STRINGS_ADDITIONAL_FRAME_TYPE; 
 }
 
-export function KmmToMih(kmh) {
+export function kmhToMIH(kmh) {
   return Math.floor(kmh * 0.625);
 }
 
-export function CelsiusToFahrenheit(celsius) {
+export function celsiusToFahrenheit(celsius) {
   return Math.floor(celsius * 1.8) + 32;
+}
+
+export function getTempUnit(isCelsius) {
+  return (isCelsius ? "°C" : "ºF");
+}
+
+export function getSpeedUnit(isMeter) {
+  return (isMeter ? "KM/H" : "MI/H");
+}
+
+export function getSpeed(speed, isMeter) {
+  return (isMeter ? Math.floor(speed) : kmhToMIH(speed))
 }

@@ -6,7 +6,7 @@ import akka.stream.ActorMaterializer
 import com.github.nabezokodaikon.db.DBAccessor
 import com.github.nabezokodaikon.util.FileUtil
 import com.github.nabezokodaikon.util.Loan.using
-import com.typesafe.config.{ Config, ConfigFactory }
+import com.typesafe.config.{ ConfigFactory }
 import com.typesafe.scalalogging.LazyLogging
 import scala.concurrent.Await
 import scala.concurrent.duration._

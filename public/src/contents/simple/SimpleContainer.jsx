@@ -15,24 +15,29 @@ class SimpleContent extends React.Component {
       return <div></div>;
     }
 
+    const width = document.documentElement.clientWidth;
+    const height = document.documentElement.clientHeight;
+    const viewBox = "0" + " " + "0" + " " + width + " " + height;
+
     const carStateData = this.props.telemetryData.carStateData; 
 
-    // const gearHUDComponent = createGearHUDComponent({
-      // cx: 500,
-      // cy: 500,
-      // radius: 500,
-      // gear: carStateData.gear,
-      // speed: carStateData.speed,
-      // rpm: carStateData.rpm,
-      // maxRpm: carStateData.maxRpm,
-      // throttle: carStateData.throttle,
-      // brake: carStateData.brake,
-      // clutch: carStateData.clutch,
-      // isMeter: this.props.isMeter
-    // });
+    const gearHUDComponent = createGearHUDComponent({
+      cx: 50,
+      cy: 50,
+      radius: 50,
+      gear: carStateData.gear,
+      speed: carStateData.speed,
+      rpm: carStateData.rpm,
+      maxRpm: carStateData.maxRpm,
+      throttle: carStateData.throttle,
+      brake: carStateData.brake,
+      clutch: carStateData.clutch,
+      isMeter: this.props.isMeter
+    });
 
     return (
-      <svg viewBox="0 0 1000 1000">
+      <svg preserveAspectRatio="xMinYMin meet" width="100%" height="100%" viewBox="0 0 100 100">
+        {gearHUDComponent}
       </svg>
     );
   }
