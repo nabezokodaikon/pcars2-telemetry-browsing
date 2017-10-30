@@ -7,10 +7,12 @@ import appReducer from "./appReducer.js"
 import {
   connectWebSocket,
   requestAllOptions,
-  requestConnectionInfo
+  requestConnectionInfo,
+  currentContent
 } from "./appActionCreators.js"
 import DebugMenuContainer from "./menu/DebugMenuContainer.jsx";
 import ContentsContainer from "./debug/ContentsContainer.jsx";
+import * as contentNames from "./common/contentNames.js";
 
 const composeEnhancers =
   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -35,6 +37,7 @@ setInterval(() => {
 
 store.dispatch(requestAllOptions());
 store.dispatch(requestConnectionInfo());
+store.dispatch(currentContent(contentNames.CAR_STATE_DATA));
 
 render(
   <Provider store={store}>
