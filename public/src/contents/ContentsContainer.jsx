@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as contentNames from "../common/contentNames.js";
 import SimpleContainer from "../contents/simple/simpleContainer.jsx";
+import TyreContainer from "../contents/tyre/tyreContainer.jsx";
 import OptionsContainer from "../contents/options/OptionsContainer.jsx";
 import CreditsContent from "../contents/credits/CreditsContent.jsx";
 
@@ -25,6 +26,8 @@ class Contents extends React.Component {
     switch (this.props.currentContent) {
         case contentNames.SIMPLE:
           return <SimpleContainer />;
+        case contentNames.TYRE:
+          return <TyreContainer />;
         case contentNames.OPTIONS:
           return <OptionsContainer />;
         case contentNames.CREDITS:

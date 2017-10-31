@@ -133,6 +133,7 @@ class Menu extends React.Component {
   createMenuItems() {
     return [
       contentNames.SIMPLE,
+      contentNames.TYRE,
       contentNames.OPTIONS,
       contentNames.CREDITS
     ].map((v, i) => {
