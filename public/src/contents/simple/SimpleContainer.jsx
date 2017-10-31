@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDom from "react-dom";
-import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { isJson } from "../../common/jsUtil.js";
 import { createGearHUDComponent } from "../../common/gearHUDComponent.jsx";
 import rankIcon from "../../image/rank.png";
@@ -168,7 +168,7 @@ class SimpleContent extends React.Component {
     );
   }
 
-  createView() {
+  render() {
     if (!isJson(this.props.telemetryData)) {
       return <div></div>;
     } else {
@@ -179,10 +179,6 @@ class SimpleContent extends React.Component {
         </div>
       );
     }
-  }
-
-  render() {
-    return this.createView();
   }
 }
 
