@@ -326,7 +326,7 @@ object TelemetryDataStructFactory {
         tyreGrip = tyreGrip.map(_.divide(255f, 2)),
         tyreHeightAboveGround = tyreHeightAboveGround,
         tyreLateralStiffness = tyreLateralStiffness,
-        tyreWear = tyreWear.map(_.divide(255f, 2)),
+        tyreWear = tyreWear.map(_ / 255f),
         brakeDamage = brakeDamage.map(_.divide(255f, 2)),
         suspensionDamage = suspensionDamage.map(_.divide(255f, 2)),
         brakeTempCelsius = brakeTempCelsius.map(_.divide(255f, 0)),

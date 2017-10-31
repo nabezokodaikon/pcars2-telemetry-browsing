@@ -10,22 +10,41 @@ class TyreContent extends React.Component {
     super(props)
   }
 
-  createLeftTyre() {
+  getFrontLeftStyle() {
+    return {
+      position: "fixed",
+      left: 0,
+      top: "1rem",
+      width: "30%",
+      height: "40%"
+    };
+  }
+
+  getContentStyle() {
+    return {
+      position: "fixed",
+      width: "100%",
+      height: "100%"
+    };
+  }
+
+  createLeftTyre(index, style) {
     const tyreData = this.props.telemetryData.tyreData;
+    const tyreUdpData = this.props.telemetryData.tyreUdpData; 
 
     const tyreComponent = createLeftTyreComponent({
-      width: 200,
-      height: 300,
-      tyreWear: tyreData.tyreWear,
-      tyreTemp: tyreData.tyreTemp,
-      brakeTempCelsius: tyreData.brakeTempCelsius,
-      airPressure: tyreData.airPressure,
+      width: 100,
+      height: 100,
+      tyreWear: tyreData.tyreWear[index],
+      tyreTempCelsius: tyreData.tyreTemp[index],
+      brakeTempCelsius: tyreData.brakeTempCelsius[index],
+      airPressureBar: tyreUdpData.airPressure[index],
       isCelsius: this.props.isCelsius,
       isBar: this.props.isBar
     }); 
 
     return (
-      <svg>
+      <svg style={style} preserveAspectRatio="xMidYMid meet" viewBox="0 0 100 100">
         {tyreComponent}
       </svg>
     );
@@ -36,8 +55,8 @@ class TyreContent extends React.Component {
       return <div></div>;
     } else {
       return (
-        <div>
-          {this.createLeftTyre()}
+        <div style={this.getContentStyle()}>
+          {this.createLeftTyre(0, this.getFrontLeftStyle())}
         </div>
       );
     }
@@ -46,12 +65,14 @@ class TyreContent extends React.Component {
 
 TyreContent.propTypes = {
   telemetryData: PropTypes.object.isRequired,
+  isCelsius: PropTypes.bool.isRequired,
   isBar: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => {
   return {
     telemetryData: state.telemetryData,
+    isCelsius: state.options.isCelsius,
     isBar: state.options.isBar
   };
 };
