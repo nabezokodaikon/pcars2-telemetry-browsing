@@ -27,12 +27,20 @@ export function celsiusToFahrenheit(celsius) {
   return Math.floor(celsius * 1.8) + 32;
 }
 
+export function barToPSI(bar) {
+  return bar * 14.5038;
+}
+
 export function getTempUnit(isCelsius) {
   return (isCelsius ? "°C" : "ºF");
 }
 
 export function getSpeedUnit(isMeter) {
   return (isMeter ? "KM/H" : "MI/H");
+}
+
+export function getAirPressureUnit(isBar) {
+  return (isBar ? "bar" : "psi");
 }
 
 export function getSpeed(speed, isMeter) {
