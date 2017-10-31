@@ -3,13 +3,32 @@ import ReactDom from "react-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { isJson } from "../../common/jsUtil.js";
+import { createLeftTyreComponent } from "./tyreComponent.jsx";
 
 class TyreContent extends React.Component {
   constructor(props) {
     super(props)
   }
 
-  createView() {
+  createLeftTyre() {
+    const tyreData = this.props.telemetryData.tyreData;
+
+    const tyreComponent = createLeftTyreComponent({
+      width: 200,
+      height: 300,
+      tyreWear: tyreData.tyreWear,
+      tyreTemp: tyreData.tyreTemp,
+      brakeTempCelsius: tyreData.brakeTempCelsius,
+      airPressure: tyreData.airPressure,
+      isCelsius: this.props.isCelsius,
+      isBar: this.props.isBar
+    }); 
+
+    return (
+      <svg>
+        {tyreComponent}
+      </svg>
+    );
   }
 
   render() {
@@ -18,6 +37,7 @@ class TyreContent extends React.Component {
     } else {
       return (
         <div>
+          {this.createLeftTyre()}
         </div>
       );
     }
