@@ -17,16 +17,17 @@ class SimpleContent extends React.Component {
   getGearStyle() {
     return {
       position: "fixed",
-      width: "50%",
-      height: "100%",
+      left: "1rem",
+      width: "45%",
+      height: "100%"
     };
   }
 
   getDataStyle() {
     return {
       position: "fixed",
-      left: "55%",
-      width: "45%",
+      left: "50%",
+      width: "50%",
       height: "100%",
       display: "flex",
       flexDirection: "column",
@@ -87,7 +88,7 @@ class SimpleContent extends React.Component {
     };
   }
 
-  getViewStyle() {
+  getContentStyle() {
     return {
       position: "fixed",
       width: "100%",
@@ -173,7 +174,7 @@ class SimpleContent extends React.Component {
       return <div></div>;
     } else {
       return (
-        <div style={this.getViewStyle()}>
+        <div style={this.getContentStyle()}>
           {this.createGear()}
           {this.createData()}
         </div>
