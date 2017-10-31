@@ -22,7 +22,7 @@
   * GameStateData.raceStateFlags = 2
 
 
-## View
+## Contents
 ### Common
 * 車両名
   * ParticipantInfoStrings.carName
@@ -31,7 +31,7 @@
 * コース名
   * ParticipantInfoStrings.trackLocation
     * 最後の5文字がおかしい。
-### Simple view
+### Simple
 #### ラップ
 * ラップタイム
   * TimingInfoData.currentTime(秒)
@@ -90,6 +90,49 @@
 * タイヤ横の走行距離
   * TyreUdpData.suspensionTravel
       
+### Tyre(Telemetry)
+#### 中央
+* タイヤの摩耗
+  * tyreData.tyreWear
+  * 0.00が摩耗無し - 1.00?
+  * 緑のメーターが上から縮んでいく。
+  * メーターは0.4でなくなるようにする。
+#### 上
+* タイヤ温度
+  * tyreData.tyreTemp
+#### 下
+* 空気圧
+  * tyreData.airPressure
+  * bar
+#### 左
+* BUMP
+* TRAEL
+  * tyreData.suspensionTravel
+  * cm
+* HEIGHT
+  * tyreData.rideHeight
+  * cm
+#### 右
+* ブレーキ温度
+  * tyreData.brakeTempCelsius
+  * 摂氏
+### 他
+* 単位はケルビンと思われる。
+  * tyreData.tyreRimTemp
+  * tyreData.tyreCarcaseTemp
+  * tyreData.tyreLayerTemp
+* タイヤ内部空気温度
+  * tyreData.tyreInternalAirTemp
+  * tyreData.tyreTreadTemp
+
+### 画面右下
+* Speed
+* POWER
+* TORQUE
+  * otherUdpData.engineToque
+  * NM
+  * 小数点以下切り捨て
+
 ### Detail view
 ### Tyre state chart
 ### Tyre state chart
