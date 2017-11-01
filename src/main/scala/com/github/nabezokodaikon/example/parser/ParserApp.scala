@@ -16,15 +16,13 @@ object ParserApp extends App with LazyLogging {
 
   val dir = FileUtil.currentDirectory
 
-  val gameStateName = s"${dir}/testdata/0_TelemetryData_20171101102119401.bin"
-  var gameStateData = FileUtil.readBinary(gameStateName).toList
-  val gameState = readPacketBase(gameStateData)
-  println(gameState.packetNumber)
-  println(gameState.categoryPacketNumber)
-  println(gameState.partialPacketIndex)
-  println(gameState.partialPacketNumber)
-  println(gameState.packetType)
-  println(gameState.packetVersion)
+  val telemetryDataName = s"${dir}/testdata/pcars2/20171101102509488.bin"
+  var telemetryDataBuffer = FileUtil.readBinary(telemetryDataName).toList
+  val telemetryData = readTelemetryData(telemetryDataBuffer)
+  println(telemetryData.hwState.tyreCompound(0))
+  println(telemetryData.hwState.tyreCompound(1))
+  println(telemetryData.hwState.tyreCompound(2))
+  println(telemetryData.hwState.tyreCompound(3))
 
   // val gameStateName = s"${dir}/testdata/4_GameState_20171101102112656.bin"
   // var gameStateData = FileUtil.readBinary(gameStateName).toList

@@ -18,7 +18,7 @@ class UdpTestDataSender(clientManager: ActorRef) extends Actor with LazyLogging 
   case class TestData(path: String, dateTime: Long)
 
   val regex = """^(\d)(_)(\d+)(\.bin)$""".r
-  val srcTestDataList = new File(s"${FileUtil.currentDirectory}/testdata").listFiles
+  val srcTestDataList = new File(s"${FileUtil.currentDirectory}/testdata/pcars1").listFiles
     .map {
       f =>
         f.getName match {
