@@ -15,21 +15,21 @@ object BinaryUtil {
       case _ => (Array[Byte](), List[Byte]())
     }
 
-  private def _readUByte(byte1: Byte): Int = {
-    byte1 & 0xFF
+  private def _readUByte(byte1: Byte): Short = {
+    (byte1 & 0xFF).toShort
   }
 
-  def readUByte(data: List[Byte], default: Int = 0): (Int, List[Byte]) =
+  def readUByte(data: List[Byte], default: Short = 0): (Short, List[Byte]) =
     data match {
       case byte1 :: tail => (_readUByte(byte1), tail)
       case _ => (default, List[Byte]())
     }
 
-  def readUByteArray(data: List[Byte], count: Int): (Array[Int], List[Byte]) =
+  def readUByteArray(data: List[Byte], count: Int): (Array[Short], List[Byte]) =
     count match {
       case len if len <= data.length =>
         (data.take(len).map(_readUByte).toArray, data.drop(len))
-      case _ => (Array[Int](), List[Byte]())
+      case _ => (Array[Short](), List[Byte]())
     }
 
   private def _readShort(byte1: Byte, byte2: Byte): Short = {
@@ -66,6 +66,26 @@ object BinaryUtil {
       case _ => (Array[Int](), List[Byte]())
     }
 
+  private def _readUInt(byte1: Byte, byte2: Byte, byte3: Byte, byte4: Byte): Long = {
+    ((byte1 & 0xFF) << 0) |
+      ((byte2 & 0xFF) << 8) |
+      ((byte3 & 0xFF) << 16) |
+      ((byte4 & 0xFF) << 24)
+  }
+
+  def readUInt(data: List[Byte], default: Long = 0L): (Long, List[Byte]) =
+    data match {
+      case byte1 :: byte2 :: byte3 :: byte4 :: tail => (_readUInt(byte1, byte2, byte3, byte4), tail)
+      case _ => (default, List[Byte]())
+    }
+
+  def readUIntArray(data: List[Byte], count: Int): (Array[Long], List[Byte]) =
+    count * 4 match {
+      case len if len <= data.length =>
+        (data.take(len).grouped(4).map(l => _readUInt(l(0), l(1), l(2), l(3))).toArray, data.drop(len))
+      case _ => (Array[Long](), List[Byte]())
+    }
+
   private def _readFloat(byte1: Byte, byte2: Byte, byte3: Byte, byte4: Byte): Float = {
     java.lang.Float.intBitsToFloat(
       (byte4 << 24)
@@ -89,7 +109,7 @@ object BinaryUtil {
       case _ => (Array[Float](), List[Byte]())
     }
 
-  def toStringFromArray(data: Array[Int]): String = {
+  def toStringFromArray(data: Array[Short]): String = {
     data.map(_.toChar).mkString.trim
   }
 }

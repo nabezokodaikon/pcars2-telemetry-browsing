@@ -191,12 +191,12 @@ case class CarStateVecotrData(
 }
 
 case class TyreData(
-    tyreFlag: Array[Int],
-    terrain: Array[Int],
+    tyreFlag: Array[Short],
+    terrain: Array[Short],
     tyreY: Array[Float], // [ UNITS = Local Space  Y ]
     tyreRPS: Array[Float], // [ UNITS = Revolutions per second ]
     tyreSlipSpeed: Array[Float], // [ UNITS = Metres per-second ]
-    tyreTemp: Array[Int], // [ UNITS = Celsius ]
+    tyreTemp: Array[Short], // [ UNITS = Celsius ]
     tyreGrip: Array[String],
     tyreHeightAboveGround: Array[Float], // [ UNITS = Local Space  Y ]
     tyreLateralStiffness: Array[Float], // [ UNITS = Lateral stiffness coefficient used in tyre deformation ]
