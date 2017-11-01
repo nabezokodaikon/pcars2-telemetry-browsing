@@ -27,7 +27,7 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
     case Udp.Received(data, remote) =>
       val dataArray = data.toArray
       clientManager ! OutgoingValue(getJsonText(dataArray))
-    // output(dataArray)
+    // output2(dataArray)
     // confirm(data.toList)
     case Udp.Unbind =>
       logger.debug("UDP unbind.")
@@ -69,19 +69,31 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
     val sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS")
     val time = sdf.format(c.getTime())
     val dir = FileUtil.currentDirectory
-    val name = s"${dir}/testdata/${time}.bin"
 
     val info = TelemetryDataStructFactory.createFrameInfo(data.toList)
     info.frameType match {
       case TelemetryDataConst.TELEMETRY_DATA_FRAME_TYPE =>
-        val name = s"${dir}/testdata/0_${time}.bin"
+        val name = s"${dir}/testdata/pcars1/0_${time}.bin"
         FileUtil.writeBinary(name, data)
       case TelemetryDataConst.PARTICIPANT_INFO_STRINGS_FRAME_TYPE =>
-        val name = s"${dir}/testdata/1_${time}.bin"
+        val name = s"${dir}/testdata/pcars1/1_${time}.bin"
         FileUtil.writeBinary(name, data)
       case TelemetryDataConst.PARTICIPANT_INFO_STRINGS_ADDITIONAL_FRAME_TYPE =>
-        val name = s"${dir}/testdata/2_${time}.bin"
+        val name = s"${dir}/testdata/pcars1/2_${time}.bin"
         FileUtil.writeBinary(name, data)
     }
+  }
+
+  def output2(data: Array[Byte]) = {
+    import com.github.nabezokodaikon.util.FileUtil
+    import java.util.Calendar
+    import java.text.SimpleDateFormat
+
+    val c = Calendar.getInstance()
+    val sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS")
+    val time = sdf.format(c.getTime())
+    val dir = FileUtil.currentDirectory
+    val name = s"${dir}/testdata/pcars2/${time}.bin"
+    FileUtil.writeBinary(name, data)
   }
 }
