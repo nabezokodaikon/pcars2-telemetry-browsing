@@ -1,4 +1,4 @@
-package com.github.nabezokodaikon.pcars1
+package com.github.nabezokodaikon.util
 
 object BinaryUtil {
 

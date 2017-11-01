@@ -2,7 +2,6 @@ package com.github.nabezokodaikon.example
 
 import akka.http.scaladsl.model.ws.TextMessage
 import com.github.nabezokodaikon.pcars1._
-import com.github.nabezokodaikon.pcars1.BinaryUtil._
 import com.github.nabezokodaikon.pcars1.Encoding
 import com.github.nabezokodaikon.pcars1.ParticipantInfo
 import com.github.nabezokodaikon.pcars1.TelemetryDataStructFactory._

@@ -1,9 +1,9 @@
 package com.github.nabezokodaikon.pcars2
 
-import com.github.nabezokodaikon.pcars1.BinaryUtil._
 import com.github.nabezokodaikon.pcars2._
 import com.github.nabezokodaikon.pcars2.UDPDataConst._
 import com.github.nabezokodaikon.util.BigDecimalSupport._
+import com.github.nabezokodaikon.util.BinaryUtil._
 import scala.reflect.ClassTag
 
 object UDPDataReader {
