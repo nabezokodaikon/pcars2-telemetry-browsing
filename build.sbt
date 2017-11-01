@@ -1,22 +1,22 @@
 lazy val commonSettings = Seq(
   organization := "com.github.nabezokodaikon",
+  name := "pcars2-udp-app",
   version := "0.0.1",
   scalaVersion := "2.12.4",
   scalacOptions ++= Seq(
     "-deprecation",
     "-feature",
-    "-unchecked",
+    "-unchecked" /*,
     "-Xlint",
     "-Ywarn-unused",
     "-Ywarn-unused-import",
-    "-Ywarn-value-discard"
+    "-Ywarn-value-discard" */
   )
 )
 
 lazy val root = (project.in(file(".")))
   .settings(commonSettings: _*)
   .settings(
-    name := "pcars2-udp-app",
     resolvers ++= {
       Seq(
       )
