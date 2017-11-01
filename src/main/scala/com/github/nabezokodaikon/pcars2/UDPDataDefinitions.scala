@@ -1,5 +1,14 @@
 package com.github.nabezokodaikon.pcars2
 
+import spray.json._
+import DefaultJsonProtocol._
+
+object UDPDataJsonProtocol extends DefaultJsonProtocol {
+  // implicit val participantInfoStringsFormat = jsonFormat8(ParticipantInfoStrings)
+}
+
+import UDPDataJsonProtocol._
+
 object EUDPStreamerPacketHandlerType {
   val CAR_PHYSICS: Byte = 0 // TelemetryData
   val RACE_DEFINITION: Byte = 1
@@ -10,6 +19,19 @@ object EUDPStreamerPacketHandlerType {
   val VEHICLE_NAMES: Byte = 6 // not sent at the moment
   val TIME_STATS: Byte = 7
   val PARTICIPANT_VEHICLE_NAMES: Byte = 8
+}
+
+object UDPDataConst {
+  val UDP_STREAMER_PARTICIPANTS_SUPPORTED: Byte = 32
+  val UDP_STREAMER_CAR_PHYSICS_HANDLER_VERSION: Byte = 2
+  val TYRE_NAME_LENGTH_MAX: Byte = 40
+  val TRACKNAME_LENGTH_MAX: Byte = 64
+  val PARTICIPANTS_PER_PACKET: Byte = 16
+  val PARTICIPANT_NAME_LENGTH_MAX: Byte = 64
+  val VEHICLE_NAME_LENGTH_MAX: Byte = 64
+  val VEHICLES_PER_PACKET: Byte = 16
+  val CLASS_NAME_LENGTH_MAX: Byte = 20
+  val CLASSES_SUPPORTED_PER_PACKET: Byte = 60
 }
 
 /*
@@ -23,3 +45,293 @@ case class PacketBase(
     packetType: Short, // 10 what is the type of this packet (see EUDPStreamerPacketHanlderType for details)
     packetVersion: Short // 11 what is the version of protocol for this handler, to be bumped with data structure change
 )
+
+/*******************************************************************************************************************
+//
+//	Telemetry data for the viewed participant. 
+//
+//	Frequency: Each tick of the UDP streamer how it is set in the options
+//	When it is sent: in race
+//
+*******************************************************************************************************************/
+case class TelemetryParticipantInfo(
+    viewedParticipantIndex: Byte
+)
+
+case class UnfilteredInput(
+    sUnfilteredThrottle: Short,
+    sUnfilteredBrake: Short,
+    sUnfilteredSteering: Byte,
+    sUnfilteredClutch: Short
+)
+
+case class CarState(
+    carFlags: Short,
+    oilTempCelsius: Short,
+    oilPressureKPa: Int,
+    waterTempCelsius: Short,
+    waterPressureKpa: Int,
+    fuelPressureKpa: Int,
+    fuelCapacity: Short,
+    brake: Short,
+    throttle: Short,
+    clutch: Short,
+    fuelLevel: Float,
+    speed: Float,
+    rpm: Int,
+    maxRpm: Int,
+    steering: Byte,
+    gearNumGears: Short,
+    boostAmount: Short,
+    crashState: Short,
+    odometerKM: Float
+)
+
+case class Velocity(
+    orientation: Array[Float],
+    localVelocity: Array[Float],
+    worldVelocity: Array[Float],
+    angularVelocity: Array[Float],
+    localAcceleration: Array[Float],
+    worldAcceleration: Array[Float],
+    extentsCentre: Array[Float]
+)
+
+case class Tyre1(
+    tyreFlags: Array[Short],
+    terrain: Array[Short],
+    tyreY: Array[Float],
+    tyreRPS: Array[Float],
+    tyreTemp: Array[Short],
+    tyreHeightAboveGround: Array[Float],
+    tyreWear: Array[Short],
+    brakeDamage: Array[Short],
+    suspensionDamage: Array[Short],
+    brakeTempCelsius: Array[Short],
+    tyreTreadTemp: Array[Int],
+    tyreLayerTemp: Array[Int],
+    tyreCarcassTemp: Array[Int],
+    tyreRimTemp: Array[Int],
+    tyreInternalAirTemp: Array[Int],
+    tyreTempLeft: Array[Int],
+    tyreTempCenter: Array[Int],
+    tyreTempRight: Array[Int],
+    wheelLocalPositionY: Array[Float],
+    rideHeight: Array[Float],
+    suspensionTravel: Array[Float],
+    suspensionVelocity: Array[Float]
+)
+case class Tyre2(
+    suspensionRideHeight: Array[Int],
+    airPressure: Array[Int]
+)
+
+case class Tyre3(
+    engineSpeed: Float,
+    engineTorque: Float,
+    wings: Array[Short],
+    handBrake: Short
+)
+
+case class CarDamage(
+    aeroDamage: Short,
+    engineDamage: Short
+)
+
+case class HWState(
+    joyPad0: Long,
+    dPad: Short,
+    tyreCompound: Array[String]
+)
+
+case class TelemetryData(
+    base: PacketBase,
+    participantinfo: TelemetryParticipantInfo,
+    unfilteredInput: UnfilteredInput,
+    carState: CarState,
+    velocity: Velocity,
+    tyre1: Tyre1,
+    tyre2: Tyre2,
+    tyre3: Tyre3,
+    carDamage: CarDamage,
+    hWState: HWState
+) {
+  val PACKET_SIZE: Short = 538
+}
+
+/*******************************************************************************************************************
+//
+//	Race stats data.  
+//
+//	Frequency: Logaritmic decrease
+//	When it is sent: Counter resets on entering InRace state and again each time any of the values changes
+//
+*******************************************************************************************************************/
+case class RaceData(
+    base: PacketBase,
+    worldFastestLapTime: Float,
+    personalFastestLapTime: Float,
+    personalFastestSector1Time: Float,
+    personalFastestSector2Time: Float,
+    personalFastestSector3Time: Float,
+    worldFastestSector1Time: Float,
+    worldFastestSector2Time: Float,
+    worldFastestSector3Time: Float,
+    trackLength: Float,
+    trackLocation: String,
+    trackVariation: String,
+    translatedTrackLocation: String,
+    translatedTrackVariation: String,
+    lapsTimeInEvent: Int, // contains lap number for lap based session or quantized session duration (number of 5mins) for timed sessions, the top bit is 1 for timed sessions
+    enforcedPitStopLap: Byte
+) {
+  val PACKET_SIZE: Short = 308
+}
+
+/*******************************************************************************************************************
+//
+//	Participant names data.  
+//
+//	Frequency: Logarithmic decrease
+//	When it is sent: Counter resets on entering InRace state and again each  the participants change. 
+//	The sParticipantsChangedTimestamp represent last time the participants has changed andis  to be used to sync 
+//	this information with the rest of the participant related packets
+//
+*******************************************************************************************************************/
+case class ParticipantsData(
+    base: PacketBase,
+    participantsChangedTimestamp: Long,
+    name: Array[String]
+) {
+  val PACKET_SIZE: Short = 1040
+}
+
+/*******************************************************************************************************************
+//
+//	Participant timings data.  
+//
+//	Frequency: Each tick of the UDP streamer how it is set in the options.
+//	When it is sent: in race
+//
+*******************************************************************************************************************/
+case class ParticipantInfo(
+    worldPosition: Array[Short],
+    orientation: Array[Short], // Quantized heading (-PI .. +PI) , Quantized pitch (-PI / 2 .. +PI / 2),  Quantized bank (-PI .. +PI).
+    currentLapDistance: Int,
+    racePosition: Short, // holds the race position, + top bit shows if the participant is active or not
+    sector: Short, // sector + extra precision bits for x/z position
+    highestFlag: Short,
+    pitModeSchedule: Short,
+    carIndex: Int, // top bit shows if participant is (local or remote) human player or not
+    raceState: Short, // race state flags + invalidated lap indication --
+    currentLap: Short,
+    currentTime: Float,
+    currentSectorTime: Float
+)
+
+case class TimingsData(
+    base: PacketBase,
+    numParticipants: Byte,
+    participantsChangedTimestamp: Long,
+    eventTimeRemaining: Float, // time remaining, -1 for invalid time,  -1 - laps remaining in lap based races  --
+    splitTimeAhead: Float,
+    splitTimeBehind: Float,
+    splitTime: Float,
+    partcipants: Array[ParticipantInfo]
+
+) {
+  val PACKET_SIZE: Short = 993
+}
+
+/*******************************************************************************************************************
+//
+//	Game State. 
+//
+//	Frequency: Each 5s while being in Main Menu, Each 10s while being in race + on each change Main Menu<->Race several times.
+//	the frequency in Race is increased in case of weather timer being faster  up to each 5s for 30x time progression
+//	When it is sent: Always
+//
+*******************************************************************************************************************/
+case class GameStateData(
+    base: PacketBase,
+    buildVersionNumber: Int,
+    gameState: Byte, // first 3 bits are used for game state enum, second 3 bits for session state enum See shared memory example file for the enums
+    ambientTemperature: Byte,
+    trackTemperature: Byte,
+    rainDensity: Short,
+    snowDensity: Short,
+    windSpeed: Byte,
+    windDirectionX: Byte,
+    windDirectionY: Byte // 22 padded to 24
+
+) {
+  val PACKET_SIZE: Short = 24
+}
+
+/*******************************************************************************************************************
+//
+//	Participant Stats and records
+//
+//	Frequency: When entering the race and each time any of the values change, so basically each time any of the participants
+//						crosses a sector boundary.
+//	When it is sent: In Race
+//
+*******************************************************************************************************************/
+case class ParticipantStatsInfo(
+    fastestLapTime: Float,
+    lastLapTime: Float,
+    lastSectorTime: Float,
+    fastestSector1Time: Float,
+    fastestSector2Time: Float,
+    fastestSector3Time: Float
+)
+
+case class ParticipantsStats(
+    Participants: Array[ParticipantStatsInfo]
+)
+
+case class TimeStatsData(
+    base: PacketBase,
+    participantsChangedTimestamp: Long,
+    stats: ParticipantsStats
+) {
+  val PACKET_SIZE: Short = 784
+}
+
+/*******************************************************************************************************************
+//
+//	Participant Vehicle names
+//
+//	Frequency: Logarithmic decrease
+//	When it is sent: Counter resets on entering InRace state and again each  the participants change. 
+//	The sParticipantsChangedTimestamp represent last time the participants has changed and is  to be used to sync 
+//	this information with the rest of the participant related packets
+//
+//	Note: This data is always sent with at least 2 packets. The 1-(n-1) holds the vehicle name for each participant
+//	The last one holding the class names.
+//
+*******************************************************************************************************************/
+case class VehicleInfo(
+    index: Int,
+    carClass: Long,
+    name: String
+)
+
+case class ParticipantVehicleNamesData(
+    base: PacketBase,
+    vehicles: Array[VehicleInfo]
+) {
+  val PACKET_SIZE: Short = 1164
+}
+
+case class ClassInfo(
+    classIndex: Long,
+    name: String
+)
+
+case class VehicleClassNamesData(
+    base: PacketBase,
+    classes: Array[ClassInfo]
+) {
+  val PACKET_SIZE: Short = 1452
+}
