@@ -21,6 +21,17 @@ object UDPStreamerPacketHandlerType {
   val PARTICIPANT_VEHICLE_NAMES: Byte = 8 // VehicleClassNamesData
 }
 
+object PacketSize {
+  val TELEMETRY_DATA = 538
+  val RACE_DATA = 308
+  val PARTICIPANTS_DATA = 1040
+  val TIMINGS_DATA = 993
+  val GAME_STATE_DATA = 24
+  val TIME_STATS_DATA = 784
+  val PARTICIPANT_VEHICLE_NAMES_DATA = 1164
+  val VEHICLE_CLASS_NAMES_DATA = 1452
+}
+
 object UDPDataConst {
   val UDP_STREAMER_PARTICIPANTS_SUPPORTED: Byte = 32
   val UDP_STREAMER_CAR_PHYSICS_HANDLER_VERSION: Byte = 2
@@ -155,9 +166,7 @@ case class TelemetryData(
     tyre3: Tyre3,
     carDamage: CarDamage,
     hwState: HWState
-) {
-  val PACKET_SIZE: Short = 538
-}
+)
 
 /*******************************************************************************************************************
 //
@@ -184,9 +193,7 @@ case class RaceData(
     translatedTrackVariation: String,
     lapsTimeInEvent: Int, // contains lap number for lap based session or quantized session duration (number of 5mins) for timed sessions, the top bit is 1 for timed sessions
     enforcedPitStopLap: Byte
-) {
-  val PACKET_SIZE: Short = 308
-}
+)
 
 /*******************************************************************************************************************
 //
@@ -202,9 +209,7 @@ case class ParticipantsData(
     base: PacketBase,
     participantsChangedTimestamp: Long,
     name: Array[String]
-) {
-  val PACKET_SIZE: Short = 1040
-}
+)
 
 /*******************************************************************************************************************
 //
@@ -214,6 +219,16 @@ case class ParticipantsData(
 //	When it is sent: in race
 //
 *******************************************************************************************************************/
+object RaceState {
+  val RACESTATE_INVALID = 0
+  val RACESTATE_NOT_STARTED = 1
+  val RACESTATE_RACING = 2
+  val RACESTATE_FINISHED = 3
+  val RACESTATE_DISQUALIFIED = 4
+  val RACESTATE_RETIRED = 5
+  val RACESTATE_DNF = 6
+}
+
 case class ParticipantInfo(
     worldPosition: Array[Short],
     orientation: Array[Short], // Quantized heading (-PI .. +PI) , Quantized pitch (-PI / 2 .. +PI / 2),  Quantized bank (-PI .. +PI).
@@ -238,9 +253,7 @@ case class TimingsData(
     splitTimeBehind: Float,
     splitTime: Float,
     partcipants: Array[ParticipantInfo]
-) {
-  val PACKET_SIZE: Short = 993
-}
+)
 
 /*******************************************************************************************************************
 //
@@ -251,10 +264,32 @@ case class TimingsData(
 //	When it is sent: Always
 //
 *******************************************************************************************************************/
+object GameState {
+  val GAME_EXITED = 0
+  val GAME_FRONT_END = 1
+  val GAME_INGAME_PLAYING = 2
+  val GAME_INGAME_PAUSED = 3
+  val GAME_INGAME_INMENU_TIME_TICKING = 4
+  val GAME_INGAME_RESTARTING = 5
+  val GAME_INGAME_REPLAY = 6
+  val GAME_FRONT_END_REPLAY = 7
+}
+
+object SessionState {
+  val SESSION_INVALID = 0
+  val SESSION_PRACTICE = 1
+  val SESSION_TEST = 2
+  val SESSION_QUALIFY = 3
+  val SESSION_FORMATION_LAP = 4
+  val SESSION_RACE = 5
+  val SESSION_TIME_ATTACK = 6
+}
+
 case class GameStateData(
     base: PacketBase,
     buildVersionNumber: Int,
     gameState: Byte, // first 3 bits are used for game state enum, second 3 bits for session state enum See shared memory example file for the enums
+    sessionState: Byte,
     ambientTemperature: Byte,
     trackTemperature: Byte,
     rainDensity: Short,
@@ -262,9 +297,7 @@ case class GameStateData(
     windSpeed: Byte,
     windDirectionX: Byte,
     windDirectionY: Byte // 22 padded to 24
-) {
-  val PACKET_SIZE: Short = 24
-}
+)
 
 /*******************************************************************************************************************
 //
@@ -292,9 +325,7 @@ case class TimeStatsData(
     base: PacketBase,
     participantsChangedTimestamp: Long,
     stats: ParticipantsStats
-) {
-  val PACKET_SIZE: Short = 784
-}
+)
 
 /*******************************************************************************************************************
 //
@@ -318,9 +349,7 @@ case class VehicleInfo(
 case class ParticipantVehicleNamesData(
     base: PacketBase,
     vehicles: Array[VehicleInfo]
-) {
-  val PACKET_SIZE: Short = 1164
-}
+)
 
 case class ClassInfo(
     classIndex: Long,
@@ -330,6 +359,4 @@ case class ClassInfo(
 case class VehicleClassNamesData(
     base: PacketBase,
     classes: Array[ClassInfo]
-) {
-  val PACKET_SIZE: Short = 1452
-}
+)

@@ -233,7 +233,6 @@ object UDPDataReader {
   private def readHWState(data1: List[Byte]): (HWState, List[Byte]) = {
     val (joyPad0, data2) = readUInt(data1)
     val (dPad, data3) = readUByte(data2)
-    println(data3.length)
     val (tyreCompound, nextData) = readStringArray(data3, 4, TYRE_NAME_LENGTH_MAX)
 
     (
@@ -256,9 +255,7 @@ object UDPDataReader {
     val (tyre2, data8) = readTyre2(data7)
     val (tyre3, data9) = readTyre3(data8)
     val (carDamage, data10) = readCarDamage(data9)
-    println(data10.length)
     val (hWState, nextData) = readHWState(data10)
-    println(nextData.length)
 
     TelemetryData(
       base = base,
@@ -394,7 +391,8 @@ object UDPDataReader {
     GameStateData(
       base = base,
       buildVersionNumber = buildVersionNumber,
-      gameState = gameState,
+      gameState = (gameState & 7).toByte,
+      sessionState = (gameState >> 4).toByte,
       ambientTemperature = ambientTemperature,
       trackTemperature = trackTemperature,
       rainDensity = rainDensity,

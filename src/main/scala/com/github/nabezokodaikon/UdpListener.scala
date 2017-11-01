@@ -87,6 +87,7 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
   def output2(data: Array[Byte]) = {
     import com.github.nabezokodaikon.pcars2.UDPStreamerPacketHandlerType._
     import com.github.nabezokodaikon.pcars2.UDPDataReader.readPacketBase
+    import com.github.nabezokodaikon.pcars2._
     import com.github.nabezokodaikon.util.FileUtil
     import java.util.Calendar
     import java.text.SimpleDateFormat
@@ -122,9 +123,14 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
       case TIME_STATS =>
         val name = s"${dir}/testdata/pcars2/${TIME_STATS}_${time}.bin"
         FileUtil.writeBinary(name, data)
-      case PARTICIPANT_VEHICLE_NAMES =>
-        val name = s"${dir}/testdata/pcars2/${PARTICIPANT_VEHICLE_NAMES}_${time}.bin"
-        FileUtil.writeBinary(name, data)
+      case PARTICIPANT_VEHICLE_NAMES => data.length match {
+        case PacketSize.PARTICIPANT_VEHICLE_NAMES_DATA =>
+          val name = s"${dir}/testdata/pcars2/${PARTICIPANT_VEHICLE_NAMES}_p_${time}.bin"
+          FileUtil.writeBinary(name, data)
+        case PacketSize.VEHICLE_CLASS_NAMES_DATA =>
+          val name = s"${dir}/testdata/pcars2/${PARTICIPANT_VEHICLE_NAMES}_v_${time}.bin"
+          FileUtil.writeBinary(name, data)
+      }
       case _ =>
         println(s"Unknown packet type: ${p.packetType}")
     }

@@ -109,11 +109,41 @@ object BinaryUtil {
       case _ => (Array[Float](), List[Byte]())
     }
 
+  // private def readString(data: Array[Byte]): String = {
+  // println(data)
+  // val i = data.map(_.toChar).mkString.trim
+  // println(i)
+  // i
+  // }
+
+  private val NULL_CHAR = new String(Array[Byte](0))
+
+  private def trimEnd(s: String, bad: Char): String =
+    s.replaceAll(s"[" + bad + "]+$", "")
+
   private def readString(data: Array[Byte]): String = {
-    println(data)
-    val i = data.map(_.toChar).mkString.trim
-    println(i)
-    i
+    if (data.length < 1) {
+      return ""
+    }
+
+    val firstChar = trimEnd(data.head.toChar.toString, '\u0000')
+    if (data.length < 2) {
+      return firstChar
+    }
+
+    val rest = trimEnd(data.drop(1).map(_.toChar).mkString, '\u0000')
+
+    val f = (firstChar.trim.length == 0 && rest.trim.length == 0) match {
+      case true => "?"
+      case false => firstChar.trim
+    }
+
+    val r = (rest.contains(NULL_CHAR)) match {
+      case true => rest.substring(0, rest.indexOf(NULL_CHAR))
+      case false => rest
+    }
+
+    s"${f}${r}".trim
   }
 
   def readString(data: List[Byte], stringLength: Int): (String, List[Byte]) =
