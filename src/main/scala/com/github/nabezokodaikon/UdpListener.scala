@@ -27,7 +27,7 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
     case Udp.Received(data, remote) =>
       val dataArray = data.toArray
       clientManager ! OutgoingValue(getJsonText(dataArray))
-      output2(dataArray)
+    // output2(dataArray)
     // confirm(data.toList)
     case Udp.Unbind =>
       logger.debug("UDP unbind.")
