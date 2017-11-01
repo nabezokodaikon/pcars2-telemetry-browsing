@@ -27,7 +27,7 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
     case Udp.Received(data, remote) =>
       val dataArray = data.toArray
       clientManager ! OutgoingValue(getJsonText(dataArray))
-    // output2(dataArray)
+      output2(dataArray)
     // confirm(data.toList)
     case Udp.Unbind =>
       logger.debug("UDP unbind.")
@@ -85,6 +85,8 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
   }
 
   def output2(data: Array[Byte]) = {
+    import com.github.nabezokodaikon.pcars2.UDPStreamerPacketHandlerType._
+    import com.github.nabezokodaikon.pcars2.UDPDataReader.readPacketBase
     import com.github.nabezokodaikon.util.FileUtil
     import java.util.Calendar
     import java.text.SimpleDateFormat
@@ -93,7 +95,38 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
     val sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS")
     val time = sdf.format(c.getTime())
     val dir = FileUtil.currentDirectory
-    val name = s"${dir}/testdata/pcars2/${time}.bin"
-    FileUtil.writeBinary(name, data)
+
+    val (p, _) = readPacketBase(data.toList)
+    p.packetType match {
+      case CAR_PHYSICS =>
+        val name = s"${dir}/testdata/pcars2/${CAR_PHYSICS}_${time}.bin"
+        FileUtil.writeBinary(name, data)
+      case RACE_DEFINITION =>
+        val name = s"${dir}/testdata/pcars2/${RACE_DEFINITION}_${time}.bin"
+        FileUtil.writeBinary(name, data)
+      case PARTICIPANTS =>
+        val name = s"${dir}/testdata/pcars2/${PARTICIPANTS}_${time}.bin"
+        FileUtil.writeBinary(name, data)
+      case TIMINGS =>
+        val name = s"${dir}/testdata/pcars2/${TIMINGS}_${time}.bin"
+        FileUtil.writeBinary(name, data)
+      case GAME_STATE =>
+        val name = s"${dir}/testdata/pcars2/${GAME_STATE}_${time}.bin"
+        FileUtil.writeBinary(name, data)
+      case WEATHER_STATE =>
+        val name = s"${dir}/testdata/pcars2/${WEATHER_STATE}_${time}.bin"
+        FileUtil.writeBinary(name, data)
+      case VEHICLE_NAMES =>
+        val name = s"${dir}/testdata/pcars2/${VEHICLE_NAMES}_${time}.bin"
+        FileUtil.writeBinary(name, data)
+      case TIME_STATS =>
+        val name = s"${dir}/testdata/pcars2/${TIME_STATS}_${time}.bin"
+        FileUtil.writeBinary(name, data)
+      case PARTICIPANT_VEHICLE_NAMES =>
+        val name = s"${dir}/testdata/pcars2/${PARTICIPANT_VEHICLE_NAMES}_${time}.bin"
+        FileUtil.writeBinary(name, data)
+      case _ =>
+        println(s"Unknown packet type: ${p.packetType}")
+    }
   }
 }
