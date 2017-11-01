@@ -14,8 +14,6 @@ object UDPDataReader {
     val (packetType, packetVersionData) = readUByte(packetTypeData)
     val (packetVersion, lastData) = readUByte(packetVersionData)
 
-    println(lastData.length)
-
     PacketBase(
       packetNumber = packetNumber,
       categoryPacketNumber = categoryPacketNumber,

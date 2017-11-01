@@ -15,9 +15,8 @@ import com.typesafe.scalalogging.LazyLogging
 object ParserApp extends App with LazyLogging {
 
   val dir = FileUtil.currentDirectory
-  println("parser")
 
-  val gameStateName = s"${dir}/testdata/TimingsData_20171101102119402.bin"
+  val gameStateName = s"${dir}/testdata/0_TelemetryData_20171101102119401.bin"
   var gameStateData = FileUtil.readBinary(gameStateName).toList
   val gameState = readPacketBase(gameStateData)
   println(gameState.packetNumber)

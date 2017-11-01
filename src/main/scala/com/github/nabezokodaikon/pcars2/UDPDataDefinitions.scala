@@ -5,7 +5,7 @@ object EUDPStreamerPacketHandlerType {
   val RACE_DEFINITION: Byte = 1
   val PARTICIPANTS: Byte = 2
   val TIMINGS: Byte = 3 // TimingsData
-  val GAME_STATE: Byte = 4
+  val GAME_STATE: Byte = 4 // GameState
   val WEATHER_STATE: Byte = 5 // not sent at the moment, information can be found in the game state packet
   val VEHICLE_NAMES: Byte = 6 // not sent at the moment
   val TIME_STATS: Byte = 7
