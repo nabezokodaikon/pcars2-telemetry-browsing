@@ -109,12 +109,8 @@ object BinaryUtil {
       case _ => (Array[Float](), List[Byte]())
     }
 
-  // private def readString(data: Array[Byte]): String = {
-  // println(data)
-  // val i = data.map(_.toChar).mkString.trim
-  // println(i)
-  // i
-  // }
+  // private def readString(data: Array[Byte]): String =
+  // data.map(_.toChar).mkString.trim
 
   private val NULL_CHAR = new String(Array[Byte](0))
 
