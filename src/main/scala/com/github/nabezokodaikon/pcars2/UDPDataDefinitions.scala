@@ -9,7 +9,7 @@ object UDPDataJsonProtocol extends DefaultJsonProtocol {
 
 import UDPDataJsonProtocol._
 
-object EUDPStreamerPacketHandlerType {
+object UDPStreamerPacketHandlerType {
   val CAR_PHYSICS: Byte = 0 // TelemetryData
   val RACE_DEFINITION: Byte = 1
   val PARTICIPANTS: Byte = 2
@@ -59,10 +59,10 @@ case class TelemetryParticipantInfo(
 )
 
 case class UnfilteredInput(
-    sUnfilteredThrottle: Short,
-    sUnfilteredBrake: Short,
-    sUnfilteredSteering: Byte,
-    sUnfilteredClutch: Short
+    unfilteredThrottle: Short,
+    unfilteredBrake: Short,
+    unfilteredSteering: Byte,
+    unfilteredClutch: Short
 )
 
 case class CarState(
@@ -154,7 +154,7 @@ case class TelemetryData(
     tyre2: Tyre2,
     tyre3: Tyre3,
     carDamage: CarDamage,
-    hWState: HWState
+    hwState: HWState
 ) {
   val PACKET_SIZE: Short = 538
 }
@@ -238,7 +238,6 @@ case class TimingsData(
     splitTimeBehind: Float,
     splitTime: Float,
     partcipants: Array[ParticipantInfo]
-
 ) {
   val PACKET_SIZE: Short = 993
 }
@@ -263,7 +262,6 @@ case class GameStateData(
     windSpeed: Byte,
     windDirectionX: Byte,
     windDirectionY: Byte // 22 padded to 24
-
 ) {
   val PACKET_SIZE: Short = 24
 }
@@ -287,7 +285,7 @@ case class ParticipantStatsInfo(
 )
 
 case class ParticipantsStats(
-    Participants: Array[ParticipantStatsInfo]
+    participants: Array[ParticipantStatsInfo]
 )
 
 case class TimeStatsData(

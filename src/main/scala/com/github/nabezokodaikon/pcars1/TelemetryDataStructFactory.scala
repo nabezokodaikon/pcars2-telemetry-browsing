@@ -18,49 +18,14 @@ object TelemetryDataStructFactory {
       case _ => gear.toString
     }
 
-  private def createNameString(data: List[Byte], stringLength: Int): String = {
-    val (nameString, _) = readUByteArray(data, stringLength) match {
-      case (v, d) => (toStringFromArray(v), d)
-      case _ => ("", List[Byte]())
-    }
-    nameString
-  }
-
-  private def createNameStringArray(data: List[Byte], stringCount: Int, stringLength: Int): (Array[String], List[Byte]) =
-    stringCount * stringLength match {
-      case len if len <= data.length =>
-        (data.take(len).grouped(stringLength).map(d => createNameString(d, stringLength)).toArray, data.drop(len))
-      case _ => (Array[String](), List[Byte]())
-    }
-
   def createParticipantInfoStrings(data: List[Byte]): ParticipantInfoStrings = {
     val (buildVersionNumber, packetTypeData) = readUShort(data)
     val (packetType, carNameData) = readUByte(packetTypeData)
-
-    val (carName, carClassNameData) = readUByteArray(carNameData, 64) match {
-      case (v, d) => (toStringFromArray(v), d)
-      case _ => ("", List[Byte]())
-    }
-
-    val (carClassName, trackLocationData) = readUByteArray(carClassNameData, 64) match {
-      case (v, d) => (toStringFromArray(v), d)
-      case _ => ("", List[Byte]())
-    }
-
-    val (trackLocation, trackVariationData) = readUByteArray(trackLocationData, 64) match {
-      case (v, d) => (toStringFromArray(v), d)
-      case _ => ("", List[Byte]())
-    }
-
-    val (trackVariation, nameStringData) = readUByteArray(trackVariationData, 64) match {
-      case (v, d) => (toStringFromArray(v), d)
-      case _ => ("", List[Byte]())
-    }
-
-    val nameString = createNameStringArray(nameStringData, 17, 64) match {
-      case (v, d) => v
-      case _ => Array[String]()
-    }
+    val (carName, carClassNameData) = readString(carNameData, 64)
+    val (carClassName, trackLocationData) = readString(carClassNameData, 64)
+    val (trackLocation, trackVariationData) = readString(trackLocationData, 64)
+    val (trackVariation, nameStringData) = readString(trackVariationData, 64)
+    val (nameString, _) = readStringArray(nameStringData, 17, 64)
 
     ParticipantInfoStrings(
       buildVersionNumber = buildVersionNumber,

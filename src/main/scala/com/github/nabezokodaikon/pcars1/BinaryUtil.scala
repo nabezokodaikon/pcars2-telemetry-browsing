@@ -109,7 +109,23 @@ object BinaryUtil {
       case _ => (Array[Float](), List[Byte]())
     }
 
-  def toStringFromArray(data: Array[Short]): String = {
-    data.map(_.toChar).mkString.trim
+  private def readString(data: Array[Byte]): String = {
+    println(data)
+    val i = data.map(_.toChar).mkString.trim
+    println(i)
+    i
   }
+
+  def readString(data: List[Byte], stringLength: Int): (String, List[Byte]) =
+    readByteArray(data, stringLength) match {
+      case (v, d) => (readString(v), d)
+      case _ => ("", List[Byte]())
+    }
+
+  def readStringArray(data: List[Byte], stringCount: Int, stringLength: Int): (Array[String], List[Byte]) =
+    stringCount * stringLength match {
+      case len if len <= data.length =>
+        (data.take(len).grouped(stringLength).map(d => readString(d, stringLength)._1).toArray, data.drop(len))
+      case _ => (Array[String](), List[Byte]())
+    }
 }
