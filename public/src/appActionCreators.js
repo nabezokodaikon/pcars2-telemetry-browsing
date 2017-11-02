@@ -1,7 +1,14 @@
 import {
-  isTelemetryDataFrameType,
-  isParticipantInfoStringsFrameType,
-  isParticipantInfoStringsAdditionalFrameType
+  isCarPhysics,
+  isRaceDefinition,
+  isParticipants,
+  isTimings,
+  isGameState,
+  isWeatherState,
+  isVehicleNames,
+  isTimeStats,
+  isParticipantVehicleNamesData,
+  isVehicleClassNamesData
 } from "./common/telemetryUtil.js";
 import * as actionTypes from "./appActionTypes.js";
 
@@ -176,7 +183,7 @@ function openWebSocket(isWebSocketOpened) {
 }
 
 async function beginConnectWebSocket(connectionInfo) {
-  const url = "ws://" + connectionInfo.ipAddress + ":" + connectionInfo.port + "/pcars1";
+  const url = "ws://" + connectionInfo.ipAddress + ":" + connectionInfo.port + "/pcars2";
   const ws = new WebSocket(url);
   return ws;
 }
@@ -245,14 +252,37 @@ export function connectWebSocket(connectionInfo) {
         ws.onmessage = e => {
           try {
             const json = JSON.parse(e.data)
-            if (isTelemetryDataFrameType(json)) {
-              dispatch(receivedTelemetryData(json));
-            } else if (isParticipantInfoStringsFrameType) {
-              dispatch(receivedParticipantInfoStrings(json));
-            } else if (isParticipantInfoStringsAdditionalFrameType) {
-              dispatch(receivedParticipantInfoStringsAdditional(json));
+
+            // if (isTelemetryDataFrameType(json)) {
+              // dispatch(receivedTelemetryData(json));
+            // } else if (isParticipantInfoStringsFrameType) {
+              // dispatch(receivedParticipantInfoStrings(json));
+            // } else if (isParticipantInfoStringsAdditionalFrameType) {
+              // dispatch(receivedParticipantInfoStringsAdditional(json));
+            // } else {
+              // console.log("WebSocket received unknown frame type data.");
+            // }
+
+            if (isCarPhysics(json)) {
+              dispatch(receivedCarPhysics(json))
+            } else if (isRaceDefinition(json)) {
+              dispatch(receivedRaceDefinition(json))
+            } else if (isParticipants(json)) {
+              dispatch(receivedParticipants(json))
+            } else if (isTimings(json)) {
+              dispatch(receivedTimings(json))
+            } else if (isGameState(json)) {
+              dispatch(receivedGameState(json))
+            } else if (isWeatherState(json)) {
+              dispatch(receivedWeatherState(json))
+            } else if (isVehicleNames(json)) {
+              dispatch(receivedVehicleNames(json))
+            } else if (isParticipantVehicleNamesData(json)) {
+              dispatch(receivedParticipantVehicleNamesData(json))
+            } else if (isVehicleClassNamesData(json)) {
+              dispatch(receivedVehicleClassNamesData(json))
             } else {
-              console.log("WebSocket received unknown frame type data.");
+              console.log("WebSocket received unknown packet type data.");
             }
           } catch (e) {
             if (e instanceof SyntaxError) {
