@@ -44,27 +44,36 @@ object Main extends App with LazyLogging {
 
     // Test code.
     try {
+      logger.info("udpSender stoping")
       val stopped = gracefulStop(udpSender, 5.seconds, ActorDone)
       Await.result(stopped, 6.seconds)
     } catch {
       case e: AskTimeoutException =>
         logger.error(e.getMessage)
+    } finally {
+      logger.info("udpSender stoped")
     }
 
     // try {
+    // logger.info("udpListener stoping")
     // val stopped = gracefulStop(udpListener, 5.seconds, ActorDone)
     // Await.result(stopped, 6.seconds)
     // } catch {
     // case e: AskTimeoutException =>
     // logger.error(e.getMessage)
+    // } finally {
+    // logger.info("udpListener stoped")
     // }
 
     try {
+      logger.info("clientManager stoping")
       val stopped = gracefulStop(clientManager, 5.seconds, ActorDone)
       Await.result(stopped, 6.seconds)
     } catch {
       case e: AskTimeoutException =>
         logger.error(e.getMessage)
+    } finally {
+      logger.info("clientManager stoped")
     }
 
     system.terminate()
