@@ -14,19 +14,19 @@ object UdpDataJsonProtocol extends DefaultJsonProtocol {
   implicit val tyre3Format = jsonFormat4(Tyre3)
   implicit val carDamageFormat = jsonFormat2(CarDamage)
   implicit val hwStateFormat = jsonFormat3(HWState)
-  implicit val telemetryDataFormat = jsonFormat10(TelemetryData)
-  implicit val raceDataFormat = jsonFormat16(RaceData)
-  implicit val participantsDataFormat = jsonFormat3(ParticipantsData)
+  implicit val telemetryDataFormat = jsonFormat12(TelemetryData)
+  implicit val raceDataFormat = jsonFormat18(RaceData)
+  implicit val participantsDataFormat = jsonFormat5(ParticipantsData)
   implicit val participantInfoFormat = jsonFormat12(ParticipantInfo)
-  implicit val timingsDataFormat = jsonFormat8(TimingsData)
-  implicit val gameStateDataFormat = jsonFormat11(GameStateData)
+  implicit val timingsDataFormat = jsonFormat10(TimingsData)
+  implicit val gameStateDataFormat = jsonFormat13(GameStateData)
   implicit val participantStatsInfoFormat = jsonFormat6(ParticipantStatsInfo)
   implicit val participantsStatsFormat = jsonFormat1(ParticipantsStats)
-  implicit val timeStatsDataFormat = jsonFormat3(TimeStatsData)
+  implicit val timeStatsDataFormat = jsonFormat5(TimeStatsData)
   implicit val vehicleInfoFormat = jsonFormat3(VehicleInfo)
-  implicit val participantVehicleNamesDataFormat = jsonFormat2(ParticipantVehicleNamesData)
+  implicit val participantVehicleNamesDataFormat = jsonFormat4(ParticipantVehicleNamesData)
   implicit val classInfoFormat = jsonFormat2(ClassInfo)
-  implicit val vehicleClassNamesDataFormat = jsonFormat2(VehicleClassNamesData)
+  implicit val vehicleClassNamesDataFormat = jsonFormat4(VehicleClassNamesData)
 }
 
 import UdpDataJsonProtocol._
@@ -44,14 +44,14 @@ object UdpStreamerPacketHandlerType {
 }
 
 object PacketSize {
-  val TELEMETRY_DATA = 538
-  val RACE_DATA = 308
-  val PARTICIPANTS_DATA = 1040
-  val TIMINGS_DATA = 993
-  val GAME_STATE_DATA = 24
-  val TIME_STATS_DATA = 784
-  val PARTICIPANT_VEHICLE_NAMES_DATA = 1164
-  val VEHICLE_CLASS_NAMES_DATA = 1452
+  val TELEMETRY_DATA: Short = 538
+  val RACE_DATA: Short = 308
+  val PARTICIPANTS_DATA: Short = 1040
+  val TIMINGS_DATA: Short = 993
+  val GAME_STATE_DATA: Short = 24
+  val TIME_STATS_DATA: Short = 784
+  val PARTICIPANT_VEHICLE_NAMES_DATA: Short = 1164
+  val VEHICLE_CLASS_NAMES_DATA: Short = 1452
 }
 
 object UdpDataConst {
@@ -178,6 +178,8 @@ case class HWState(
 )
 
 case class TelemetryData(
+    time: Long = System.currentTimeMillis,
+    size: Short = PacketSize.TELEMETRY_DATA,
     base: PacketBase,
     participantinfo: TelemetryParticipantInfo,
     unfilteredInput: UnfilteredInput,
@@ -201,6 +203,8 @@ case class TelemetryData(
 //
 *******************************************************************************************************************/
 case class RaceData(
+    time: Long = System.currentTimeMillis,
+    size: Short = PacketSize.RACE_DATA,
     base: PacketBase,
     worldFastestLapTime: Float,
     personalFastestLapTime: Float,
@@ -232,6 +236,8 @@ case class RaceData(
 //
 *******************************************************************************************************************/
 case class ParticipantsData(
+    time: Long = System.currentTimeMillis,
+    size: Short = PacketSize.PARTICIPANTS_DATA,
     base: PacketBase,
     participantsChangedTimestamp: Long,
     name: Array[String]
@@ -273,6 +279,8 @@ case class ParticipantInfo(
 )
 
 case class TimingsData(
+    time: Long = System.currentTimeMillis,
+    size: Short = PacketSize.TIMINGS_DATA,
     base: PacketBase,
     numParticipants: Byte,
     participantsChangedTimestamp: Long,
@@ -316,6 +324,8 @@ object SessionState {
 }
 
 case class GameStateData(
+    time: Long = System.currentTimeMillis,
+    size: Short = PacketSize.GAME_STATE_DATA,
     base: PacketBase,
     buildVersionNumber: Int,
     gameState: Byte, // first 3 bits are used for game state enum, second 3 bits for session state enum See shared memory example file for the enums
@@ -354,6 +364,8 @@ case class ParticipantsStats(
 )
 
 case class TimeStatsData(
+    time: Long = System.currentTimeMillis,
+    size: Short = PacketSize.TIME_STATS_DATA,
     base: PacketBase,
     participantsChangedTimestamp: Long,
     stats: ParticipantsStats
@@ -381,6 +393,8 @@ case class VehicleInfo(
 )
 
 case class ParticipantVehicleNamesData(
+    time: Long = System.currentTimeMillis,
+    size: Short = PacketSize.PARTICIPANT_VEHICLE_NAMES_DATA,
     base: PacketBase,
     vehicles: Array[VehicleInfo]
 ) {
@@ -393,6 +407,8 @@ case class ClassInfo(
 )
 
 case class VehicleClassNamesData(
+    time: Long = System.currentTimeMillis,
+    size: Short = PacketSize.VEHICLE_CLASS_NAMES_DATA,
     base: PacketBase,
     classes: Array[ClassInfo]
 ) {
