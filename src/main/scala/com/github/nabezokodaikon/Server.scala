@@ -37,7 +37,7 @@ class Server(manager: ActorRef, dac: DBAccessor)
     s"${current}/public/dist"
   }
 
-  private def createUser() = {
+  private def createClient() = {
     val sink = Sink.ignore
     val source = Source.fromGraph(new ClientStage(manager))
       .map((value: UdpListener.OutgoingValue) => TextMessage(value.value))
@@ -63,7 +63,12 @@ class Server(manager: ActorRef, dac: DBAccessor)
       } ~
       path("pcars1") {
         get {
-          handleWebSocketMessages(createUser())
+          handleWebSocketMessages(createClient())
+        }
+      } ~
+      path("pcars2") {
+        get {
+          handleWebSocketMessages(createClient())
         }
       } ~
       pathPrefix("config") {
