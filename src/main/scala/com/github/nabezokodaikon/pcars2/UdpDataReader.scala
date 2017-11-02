@@ -497,29 +497,40 @@ object UdpDataReader extends LazyLogging {
 
   def getJsonText(dataArray: Array[Byte]): String = {
     import UdpStreamerPacketHandlerType._
-    val dataList = dataArray.toList
-    val (p, _) = readPacketBase(dataList)
-    p.packetType match {
-      case CAR_PHYSICS => readTelemetryData(dataList).toJsonString
-      case RACE_DEFINITION => readRaceData(dataList).toJsonString
-      case PARTICIPANTS => readParticipantsData(dataList).toJsonString
-      case TIMINGS => readTimingsData(dataList).toJsonString
-      case GAME_STATE => readGameStateData(dataList).toJsonString
-      case WEATHER_STATE =>
-        logger.warn("UDP received unused packet type: WEATHER_STATE")
-        ""
-      case VEHICLE_NAMES =>
-        logger.warn("UDP received unused packet type: VEHICLE_NAMES")
-        ""
-      case TIME_STATS => readTimeStatsData(dataList).toJsonString
-      case PARTICIPANT_VEHICLE_NAMES => dataList.length match {
-        case PacketSize.PARTICIPANT_VEHICLE_NAMES_DATA =>
-          readParticipantVehicleNamesData(dataList).toJsonString
-        case PacketSize.VEHICLE_CLASS_NAMES_DATA =>
-          readVehicleClassNamesData(dataList).toJsonString
-      }
+    import PacketSize._
+    dataArray.length match {
+      case length if length >= 12 =>
+        val dataList = dataArray.toList
+        val (base, _) = readPacketBase(dataList)
+        base.packetType match {
+          case CAR_PHYSICS if length == TELEMETRY_DATA =>
+            readTelemetryData(dataList).toJsonString
+          case RACE_DEFINITION if length == RACE_DATA =>
+            readRaceData(dataList).toJsonString
+          case PARTICIPANTS if length == PARTICIPANTS_DATA =>
+            readParticipantsData(dataList).toJsonString
+          case TIMINGS if length == TIMINGS_DATA =>
+            readTimingsData(dataList).toJsonString
+          case GAME_STATE if length == GAME_STATE_DATA =>
+            readGameStateData(dataList).toJsonString
+          case WEATHER_STATE =>
+            logger.warn("UDP received unused packet type: WEATHER_STATE")
+            ""
+          case VEHICLE_NAMES =>
+            logger.warn("UDP received unused packet type: VEHICLE_NAMES")
+            ""
+          case TIME_STATS if length == TIME_STATS_DATA =>
+            readTimeStatsData(dataList).toJsonString
+          case PacketSize.PARTICIPANT_VEHICLE_NAMES_DATA if length == PARTICIPANT_VEHICLE_NAMES_DATA =>
+            readParticipantVehicleNamesData(dataList).toJsonString
+          case PacketSize.VEHICLE_CLASS_NAMES_DATA if length == VEHICLE_CLASS_NAMES_DATA =>
+            readVehicleClassNamesData(dataList).toJsonString
+          case _ =>
+            logger.warn(s"UDP received unknown packeat. PacketType: ${base.packetType}, DataSize: ${length}")
+            ""
+        }
       case _ =>
-        logger.warn(s"UDP received unknown packet type: ${p.packetType}")
+        logger.warn("UDP received unknown packeat.")
         ""
     }
   }
