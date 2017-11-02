@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import * as contentNames from "../common/contentNames.js";
 import TelemetryDataContainer from "./TelemetryDataContainer.jsx";
 import VelocityContainer from "./VelocityContainer.jsx";
+import TyreContainer from "./TyreContainer.jsx";
 
 class Contents extends React.Component {
   constructor(props) {
@@ -26,6 +27,8 @@ class Contents extends React.Component {
           return <TelemetryDataContainer />;
         case contentNames.TELEMETRY_DATA_VELOCITY:
           return <VelocityContainer />;
+        case contentNames.TELEMETRY_DATA_TYRE:
+          return <TyreContainer />;
         default:
           return <div></div>;
     }

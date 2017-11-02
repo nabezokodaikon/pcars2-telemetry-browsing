@@ -11,7 +11,7 @@ class Velocity extends React.Component {
 
   createRecords() {
     const createVelocity = () => {
-      const data = this.props.velocity;
+      const data = this.props.telemetryData.velocity;
       return Object.keys(data).map(valueName => {
         const value = data[valueName];
         return value.map((childValue, index) => {
@@ -52,12 +52,12 @@ class Velocity extends React.Component {
 }
 
 Velocity.propTypes = {
-  velocity: PropTypes.object.isRequired
+  telemetryData: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
   return {
-    velocity: state.currentUdpData.telemetryData.velocity
+    telemetryData: state.currentUdpData.telemetryData
   };
 };
 
