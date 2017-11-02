@@ -36,11 +36,11 @@ object UdpStreamerPacketHandlerType {
   val RACE_DEFINITION: Byte = 1 // RaceData
   val PARTICIPANTS: Byte = 2 // ParticipantsData
   val TIMINGS: Byte = 3 // TimingsData
-  val GAME_STATE: Byte = 4 // GameState
+  val GAME_STATE: Byte = 4 // GameStateData
   val WEATHER_STATE: Byte = 5 // not sent at the moment, information can be found in the game state packet
   val VEHICLE_NAMES: Byte = 6 // not sent at the moment
   val TIME_STATS: Byte = 7 // TimeStatsData
-  val PARTICIPANT_VEHICLE_NAMES: Byte = 8 // VehicleClassNamesData
+  val PARTICIPANT_VEHICLE_NAMES: Byte = 8 // ParticipantVehicleNamesData or VehicleClassNamesData
 }
 
 object PacketSize {
@@ -54,7 +54,7 @@ object PacketSize {
   val VEHICLE_CLASS_NAMES_DATA = 1452
 }
 
-object UDPDataConst {
+object UdpDataConst {
   val UDP_STREAMER_PARTICIPANTS_SUPPORTED: Byte = 32
   val UDP_STREAMER_CAR_PHYSICS_HANDLER_VERSION: Byte = 2
   val TYRE_NAME_LENGTH_MAX: Byte = 40
@@ -188,7 +188,9 @@ case class TelemetryData(
     tyre3: Tyre3,
     carDamage: CarDamage,
     hwState: HWState
-)
+) {
+  def toJsonString: String = this.toJson.toString
+}
 
 /*******************************************************************************************************************
 //
@@ -215,7 +217,9 @@ case class RaceData(
     translatedTrackVariation: String,
     lapsTimeInEvent: Int, // contains lap number for lap based session or quantized session duration (number of 5mins) for timed sessions, the top bit is 1 for timed sessions
     enforcedPitStopLap: Byte
-)
+) {
+  def toJsonString: String = this.toJson.toString
+}
 
 /*******************************************************************************************************************
 //
@@ -231,7 +235,9 @@ case class ParticipantsData(
     base: PacketBase,
     participantsChangedTimestamp: Long,
     name: Array[String]
-)
+) {
+  def toJsonString: String = this.toJson.toString
+}
 
 /*******************************************************************************************************************
 //
@@ -275,7 +281,9 @@ case class TimingsData(
     splitTimeBehind: Float,
     splitTime: Float,
     partcipants: Array[ParticipantInfo]
-)
+) {
+  def toJsonString: String = this.toJson.toString
+}
 
 /*******************************************************************************************************************
 //
@@ -319,7 +327,9 @@ case class GameStateData(
     windSpeed: Byte,
     windDirectionX: Byte,
     windDirectionY: Byte // 22 padded to 24
-)
+) {
+  def toJsonString: String = this.toJson.toString
+}
 
 /*******************************************************************************************************************
 //
@@ -347,7 +357,9 @@ case class TimeStatsData(
     base: PacketBase,
     participantsChangedTimestamp: Long,
     stats: ParticipantsStats
-)
+) {
+  def toJsonString: String = this.toJson.toString
+}
 
 /*******************************************************************************************************************
 //
@@ -371,7 +383,9 @@ case class VehicleInfo(
 case class ParticipantVehicleNamesData(
     base: PacketBase,
     vehicles: Array[VehicleInfo]
-)
+) {
+  def toJsonString: String = this.toJson.toString
+}
 
 case class ClassInfo(
     classIndex: Long,
@@ -381,4 +395,6 @@ case class ClassInfo(
 case class VehicleClassNamesData(
     base: PacketBase,
     classes: Array[ClassInfo]
-)
+) {
+  def toJsonString: String = this.toJson.toString
+}

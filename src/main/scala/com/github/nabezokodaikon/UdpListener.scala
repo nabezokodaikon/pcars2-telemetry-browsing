@@ -2,7 +2,7 @@ package com.github.nabezokodaikon
 
 import akka.actor.{ Actor, ActorRef }
 import akka.io.{ IO, Udp }
-import com.github.nabezokodaikon.pcars1.TelemetryDataStructFactory.getJsonText
+import com.github.nabezokodaikon.pcars2.UdpDataReader.getJsonText
 import com.typesafe.scalalogging.LazyLogging
 import java.net.InetSocketAddress
 
@@ -27,6 +27,7 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
     case Udp.Received(data, remote) =>
       val dataArray = data.toArray
       clientManager ! OutgoingValue(getJsonText(dataArray))
+    // output1(dataArray)
     // output2(dataArray)
     // confirm(data.toList)
     case Udp.Unbind =>
@@ -42,24 +43,7 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
       logger.warn("Received unknown message.")
   }
 
-  def confirm(data: List[Byte]) = {
-    import com.github.nabezokodaikon.pcars1.TelemetryDataStructFactory._
-    import com.github.nabezokodaikon.pcars1.TelemetryDataConst._
-    val frameInfo = createFrameInfo(data)
-    if (frameInfo.frameType == TELEMETRY_DATA_FRAME_TYPE) {
-      val telemetryData = createTelemetryData(data)
-      // println(telemetryData.carStateData.brake)
-      // println(telemetryData.carStateData.throttle.toString)
-      // println(telemetryData.carStateData.clutch)
-      // println(telemetryData.carStateData.steering)
-      // println(telemetryData.carStateData.speed)
-      // println(telemetryData.carStateData.gear)
-      // println(telemetryData.carStateData.numGears)
-      // println(telemetryData.carStateData.rpm)
-    }
-  }
-
-  def output(data: Array[Byte]) = {
+  def output1(data: Array[Byte]) = {
     import com.github.nabezokodaikon.util.FileUtil
     import java.util.Calendar
     import java.text.SimpleDateFormat

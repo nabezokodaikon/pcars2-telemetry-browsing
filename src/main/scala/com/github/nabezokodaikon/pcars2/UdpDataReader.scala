@@ -1,12 +1,13 @@
 package com.github.nabezokodaikon.pcars2
 
 import com.github.nabezokodaikon.pcars2._
-import com.github.nabezokodaikon.pcars2.UDPDataConst._
+import com.github.nabezokodaikon.pcars2.UdpDataConst._
 import com.github.nabezokodaikon.util.BigDecimalSupport._
 import com.github.nabezokodaikon.util.BinaryUtil._
+import com.typesafe.scalalogging.LazyLogging
 import scala.reflect.ClassTag
 
-object UdpDataReader {
+object UdpDataReader extends LazyLogging {
 
   private def readDefineArray[T: ClassTag](func: List[Byte] => (T, List[Byte]), data: List[Byte], dataCount: Int, dataLength: Int): (Array[T], List[Byte]) =
     dataCount * dataLength match {
@@ -492,5 +493,34 @@ object UdpDataReader {
       base,
       classInfo
     )
+  }
+
+  def getJsonText(dataArray: Array[Byte]): String = {
+    import UdpStreamerPacketHandlerType._
+    val dataList = dataArray.toList
+    val (p, _) = readPacketBase(dataList)
+    p.packetType match {
+      case CAR_PHYSICS => readTelemetryData(dataList).toJsonString
+      case RACE_DEFINITION => readRaceData(dataList).toJsonString
+      case PARTICIPANTS => readParticipantsData(dataList).toJsonString
+      case TIMINGS => readTimingsData(dataList).toJsonString
+      case GAME_STATE => readGameStateData(dataList).toJsonString
+      case WEATHER_STATE =>
+        logger.warn("UDP received unused packet type: WEATHER_STATE")
+        ""
+      case VEHICLE_NAMES =>
+        logger.warn("UDP received unused packet type: VEHICLE_NAMES")
+        ""
+      case TIME_STATS => readTimeStatsData(dataList).toJsonString
+      case PARTICIPANT_VEHICLE_NAMES => dataList.length match {
+        case PacketSize.PARTICIPANT_VEHICLE_NAMES_DATA =>
+          readParticipantVehicleNamesData(dataList).toJsonString
+        case PacketSize.VEHICLE_CLASS_NAMES_DATA =>
+          readVehicleClassNamesData(dataList).toJsonString
+      }
+      case _ =>
+        logger.warn(s"UDP received unknown packet type: ${p.packetType}")
+        ""
+    }
   }
 }
