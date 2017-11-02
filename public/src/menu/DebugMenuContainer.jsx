@@ -79,7 +79,8 @@ class DebugMenu extends React.Component {
 
   getContentItems() {
     return [
-      contentNames.TELEMETRY_DATA
+      contentNames.TELEMETRY_DATA,
+      contentNames.TELEMETRY_DATA_VELOCITY
     ].map((v, i) =>
       <li style={this.getLiStyle()} key={i.toString()}>
         <button style={this.getButtonStyle()} onClick={evt => this.handleMenuItemClick(evt, v)}>{v}</button>

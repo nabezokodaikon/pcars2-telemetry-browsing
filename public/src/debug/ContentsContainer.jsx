@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as contentNames from "../common/contentNames.js";
 import TelemetryDataContainer from "./TelemetryDataContainer.jsx";
+import VelocityContainer from "./VelocityContainer.jsx";
 
 class Contents extends React.Component {
   constructor(props) {
@@ -23,6 +24,8 @@ class Contents extends React.Component {
     switch (this.props.currentContent) {
         case contentNames.TELEMETRY_DATA:
           return <TelemetryDataContainer />;
+        case contentNames.TELEMETRY_DATA_VELOCITY:
+          return <VelocityContainer />;
         default:
           return <div></div>;
     }
