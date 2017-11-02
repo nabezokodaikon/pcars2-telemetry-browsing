@@ -2,8 +2,7 @@ package com.github.nabezokodaikon.example.udp
 
 import akka.actor.{ Actor, ActorRef }
 import com.github.nabezokodaikon.{ ActorDone, ClientManager, UdpListener }
-import com.github.nabezokodaikon.pcars1.TelemetryDataConst._
-import com.github.nabezokodaikon.pcars1.TelemetryDataStructFactory._
+import com.github.nabezokodaikon.pcars2.UdpDataReader._
 import com.github.nabezokodaikon.util.FileUtil
 import com.typesafe.scalalogging.LazyLogging
 import java.io.File

@@ -487,11 +487,11 @@ object UdpDataReader extends LazyLogging {
 
   def readVehicleClassNamesData(data1: List[Byte]): VehicleClassNamesData = {
     val (base, data2) = readPacketBase(data1)
-    val (classInfo, nextData) = readDefineArray(readClassInfo, data2, CLASSES_SUPPORTED_PER_PACKET, 24)
+    val (classes, nextData) = readDefineArray(readClassInfo, data2, CLASSES_SUPPORTED_PER_PACKET, 24)
 
     VehicleClassNamesData(
-      base,
-      classInfo
+      base = base,
+      classes = classes
     )
   }
 
@@ -521,9 +521,9 @@ object UdpDataReader extends LazyLogging {
             ""
           case TIME_STATS if length == TIME_STATS_DATA =>
             readTimeStatsData(dataList).toJsonString
-          case PacketSize.PARTICIPANT_VEHICLE_NAMES_DATA if length == PARTICIPANT_VEHICLE_NAMES_DATA =>
+          case PARTICIPANT_VEHICLE_NAMES if length == PARTICIPANT_VEHICLE_NAMES_DATA =>
             readParticipantVehicleNamesData(dataList).toJsonString
-          case PacketSize.VEHICLE_CLASS_NAMES_DATA if length == VEHICLE_CLASS_NAMES_DATA =>
+          case PARTICIPANT_VEHICLE_NAMES if length == VEHICLE_CLASS_NAMES_DATA =>
             readVehicleClassNamesData(dataList).toJsonString
           case _ =>
             logger.warn(s"UDP received unknown packeat. PacketType: ${base.packetType}, DataSize: ${length}")

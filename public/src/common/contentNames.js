@@ -4,7 +4,10 @@ export const TYRE = "TYRE";
 export const OPTIONS = "OPTIONS";
 export const CREDITS = "CREDITS";
 
-// Debug contents.
+// Debug contents.(PCars2)
+export const TELEMETRY_DATA = "TelemetryData";
+
+// Debug contents.(PCars1)
 export const PARTICIPANT_INFO_STRINGS = "ParticipantInfoStrings";
 export const PARTICIPANT_INFO_STRINGS_ADDITIONAL = "ParticipantInfoStringsAdditional";
 export const GAMESTATE_DATA = "GameStateData";
@@ -23,4 +26,3 @@ export const TYRE_UDP_DATA = "TyreUdpData";
 export const OTHER_UDP_DATA = "OtherUdpData";
 export const CAR_DAMAGE_DATA = "CarDamageData";
 export const WEATHER_DATA = "WeatherData";
-

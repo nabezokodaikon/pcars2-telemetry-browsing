@@ -18,7 +18,7 @@ object UsingActor {
   implicit val materializer = ActorMaterializer()
 }
 
-object Main extends /* App with */ LazyLogging {
+object Main extends App with LazyLogging {
   import UsingActor._
 
   def boot(dac: DBAccessor): Unit = {

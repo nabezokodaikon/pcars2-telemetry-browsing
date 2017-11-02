@@ -37,7 +37,7 @@ setInterval(() => {
 
 store.dispatch(requestAllOptions());
 store.dispatch(requestConnectionInfo());
-store.dispatch(currentContent(contentNames.CAR_STATE_DATA));
+store.dispatch(currentContent(contentNames.TELEMETRY_DATA));
 
 render(
   <Provider store={store}>

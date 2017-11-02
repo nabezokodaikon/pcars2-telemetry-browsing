@@ -79,24 +79,7 @@ class DebugMenu extends React.Component {
 
   getContentItems() {
     return [
-      contentNames.PARTICIPANT_INFO_STRINGS,
-      contentNames.PARTICIPANT_INFO_STRINGS_ADDITIONAL,
-      contentNames.GAMESTATE_DATA,
-      contentNames.PARTICIPANT_INFO_DATA,
-      contentNames.PARTICIPANT_INFO,
-      contentNames.UNFILTEREDINPUT_DATA,
-      contentNames.EVENT_INFO_DATA,
-      contentNames.TIMING_INFO_DATA,
-      contentNames.SECTOR_TIME_DATA,
-      contentNames.FLAG_DATA,
-      contentNames.PITINFO_DATA,
-      contentNames.CAR_STATE_DATA,
-      contentNames.CAR_STATE_VECOTRDATA,
-      contentNames.TYRE_DATA,
-      contentNames.OTHER_UDP_DATA,
-      contentNames.CAR_DAMAGE_DATA,
-      contentNames.WEATHER_DATA,
-      contentNames.TIME
+      contentNames.TELEMETRY_DATA
     ].map((v, i) =>
       <li style={this.getLiStyle()} key={i.toString()}>
         <button style={this.getButtonStyle()} onClick={evt => this.handleMenuItemClick(evt, v)}>{v}</button>

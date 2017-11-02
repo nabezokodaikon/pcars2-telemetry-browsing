@@ -35,17 +35,11 @@ function options(state = initialOptions, action) {
         isBar: action.options.isBar
       };
     case actionTypes.CHANGED_TEMP_UNIT:
-      return Object.assign({}, state, {
-        isCelsius: action.isCelsius
-      });
+      return { ...state, isCelsius: action.isCelsius };
     case actionTypes.CHANGED_DISTANCE_UNIT:
-      return Object.assign({}, state, {
-        isMeter: action.isMeter
-      });
+      return { ...state, isMeter: action.isMeter };
     case actionTypes.CHANGED_AIR_PRESSURE_UNIT:
-      return Object.assign({}, state, {
-        isBar: action.isBar
-      });
+      return { ...state, isBar: action.isBar };
     default:
       return state;
   }
@@ -80,57 +74,40 @@ function isWebSocketOpened(state = false, action) {
 }
 
 const initialUdpData = {
-  current: {
-    carPhysics: {},
-    raceDefinition: {},
-    participants: {},
-    timings: {},
-    gameState: {},
-    weatherState: {},
-    vehicleNames: {},
-    participantVehicleNamesData: {},
-    vehicleClassNamesData: {}
-  }
-}
+  telemetryData: {},
+  raceData: {},
+  participantsData: {},
+  timingsData: {},
+  gameStateData: {},
+  weatherState: {},
+  vehicleNames: {},
+  timeStatsData: {},
+  participantVehicleNamesData: {},
+  vehicleClassNamesData: {}
+};
 
-function udpData(state = initialUdpData, action) {
+function currentUdpData(state = initialUdpData, action) {
   switch (action.type) {
     case actionTypes.RECEIVED_CAR_PHYSICS:
-      return Object.assign({}, state.current, {
-        carPhysics: action.nextCarPhysics
-      });
+      return { ...state, telemetryData: action.receivedCarPhysics };
     case actionTypes.RECEIVED_RACE_DEFINITION:
-      return Object.assign({}, state.current, {
-        raceDefinition: action.nextRaceDefinition
-      });
+      return { ...state, raceData: action.receivedRaceDefinition };
     case actionTypes.RECEIVED_PARTICIPANTS:
-      return Object.assign({}, state.current, {
-        participants: action.nextParticipants
-      });
+      return { ...state, participantsData: action.receivedParticipants };
     case actionTypes.RECEIVED_TIMINGS:
-      return Object.assign({}, state.current, {
-        timings: action.nextTimings
-      });
+      return { ...state, timingsData: action.receivedTimings };
     case actionTypes.RECEIVED_GAME_STATE:
-      return Object.assign({}, state.current, {
-        gameState: action.nextGameState
-      });
+      return { ...state, gameStateData: action.receivedGameState };
     case actionTypes.RECEIVED_WEATHER_STATE:
-      return Object.assign({}, state.current, {
-        weatherState: action.nextWeatherState
-      });
+      return { ...state, weatherState: action.receivedWeatherState };
     case actionTypes.RECEIVED_VEHICLE_NAMES:
-      return Object.assign({}, state.current, {
-        vehicleNames: action.nextVehicleNames
-      });
+      return { ...state, vehicleNames: action.receivedVehicleNames };
+    case actionTypes.RECEIVED_TIME_STATS:
+      return { ...state, timeStatsData: action.receivedTimeStats };
     case actionTypes.RECEIVED_PARTICIPANT_VEHICLE_NAMES_DATA:
-      return Object.assign({}, state.current, {
-        participantVehicleNamesData: action.nextParticipantVehicleNamesData
-      });
+      return { ...state, participantVehicleNamesData: action.receivedParticipantVehicleNamesData };
     case actionTypes.RECEIVED_VEHICLE_CLASS_NAMES_DATA:
-      return Object.assign({}, state.current, {
-        vehicleClassNamesData: action.nextVehicleClassNamesData
-      });
+      return { ...state, vehicleClassNamesData: action.receivedVehicleClassNamesData };
     default:
       return state;
   }
@@ -142,7 +119,7 @@ const appReducer = combineReducers({
   options,
   currentContent,
   isMenuVisible,
-  udpData
+  currentUdpData
 });
 
 export default appReducer;

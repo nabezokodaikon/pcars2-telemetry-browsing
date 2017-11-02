@@ -28,66 +28,73 @@ function fetchGet(url) {
   });
 }
 
-export function receivedCarPhysics(nextCarPhysics) {
+export function receivedCarPhysics(receivedCarPhysics) {
   return {
     type: actionTypes.RECEIVED_CAR_PHYSICS,
-    nextCarPhysics
+    receivedCarPhysics
   }
 }
 
-export function receivedRaceDefinition(nextRaceDefinition) {
+export function receivedRaceDefinition(receivedRaceDefinition) {
   return {
     type: actionTypes.RECEIVED_RACE_DEFINITION,
-    nextRaceDefinition
+    receivedRaceDefinition
   }
 }
 
-export function receivedParticipants(nextParticipants) {
+export function receivedParticipants(receivedParticipants) {
   return {
     type: actionTypes.RECEIVED_PARTICIPANTS,
-    nextParticipants
+    receivedParticipants
   }
 }
 
-export function receivedTimings(nextTimings) {
+export function receivedTimings(receivedTimings) {
   return {
     type: actionTypes.RECEIVED_TIMINGS,
-    nextTimings
+    receivedTimings
   }
 }
 
-export function receivedGameState(nextGameState) {
+export function receivedGameState(receivedGameState) {
   return {
     type: actionTypes.RECEIVED_GAME_STATE,
-    nextGameState
+    receivedGameState
   }
 }
 
-export function receivedWeatherState(nextWeatherState) {
+export function receivedWeatherState(receivedWeatherState) {
   return {
     type: actionTypes.RECEIVED_WEATHER_STATE,
-    nextWeatherState
+    receivedWeatherState
   }
 }
 
-export function receivedVehicleNames(nextVehicleNames) {
+export function receivedVehicleNames(receivedVehicleNames) {
   return {
     type: actionTypes.RECEIVED_VEHICLE_NAMES,
-    nextVehicleNames
+    receivedVehicleNames
   }
 }
 
-export function receivedParticipantVehicleNamesData(nextParticipantVehicleNamesData) {
+export function receivedTimeStats(receivedTimeStats) {
+  return {
+    type: actionTypes.RECEIVED_TIME_STATS,
+    receivedTimeStats
+  }
+}
+
+export function receivedParticipantVehicleNamesData(receivedParticipantVehicleNamesData) {
   return {
     type: actionTypes.RECEIVED_PARTICIPANT_VEHICLE_NAMES_DATA,
-    nextParticipantVehicleNamesData
+    receivedParticipantVehicleNamesData
   }
 }
 
-export function receivedVehicleClassNamesData(nextVehicleClassNamesData) {
+export function receivedVehicleClassNamesData(receivedVehicleClassNamesData) {
   return {
     type: actionTypes.RECEIVED_VEHICLE_CLASS_NAMES_DATA,
-    nextVehicleClassNamesData
+    receivedVehicleClassNamesData
   }
 }
 
@@ -308,6 +315,8 @@ export function connectWebSocket(connectionInfo) {
               dispatch(receivedWeatherState(json));
             } else if (isVehicleNames(json)) {
               dispatch(receivedVehicleNames(json));
+            } else if (isTimeStats(json)) {
+              dispatch(receivedTimeStats(json));
             } else if (isParticipantVehicleNamesData(json)) {
               dispatch(receivedParticipantVehicleNamesData(json));
             } else if (isVehicleClassNamesData(json)) {
