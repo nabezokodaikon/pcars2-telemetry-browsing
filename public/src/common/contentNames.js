@@ -6,8 +6,9 @@ export const CREDITS = "CREDITS";
 
 // Debug contents.(PCars2)
 export const TELEMETRY_DATA = "TelemetryData";
-export const TELEMETRY_DATA_VELOCITY = "TelemetryData.velocity"
-export const TELEMETRY_DATA_TYRE = "TelemetryData.tyre"
+export const TELEMETRY_DATA_VELOCITY = "TelemetryData.velocity";
+export const TELEMETRY_DATA_TYRE = "TelemetryData.tyre";
+export const RACE_DATA = "RaceData";
 
 // Debug contents.(PCars1)
 export const PARTICIPANT_INFO_STRINGS = "ParticipantInfoStrings";

@@ -1,5 +1,8 @@
 export function isJson(obj) {
-  return Object.keys(obj).length > 0;
+  return obj !== null 
+    && obj !== undefined 
+    && typeof obj !== "string"
+    && Object.keys(obj).length > 0;
 }
 
 export function isArray(array) {
