@@ -20,33 +20,6 @@ function isMenuVisible(state = false, action) {
   }
 }
 
-function participantInfoStrings(state = {}, action) {
-  switch (action.type) {
-    case actionTypes.RECEIVED_PARTICIPANT_INFO_STRINGS:
-      return action.nextParticipantInfoStrings;
-    default:
-      return state;
-  }
-}
-
-function participantInfoStringsAdditional(state = {}, action) {
-  switch (action.type) {
-    case actionTypes.RECEIVED_PARTICIPANT_INFO_STRINGS_ADDITIONAL:
-      return action.nextParticipantInfoStringsAdditional;
-    default:
-      return state;
-  }
-}
-
-function telemetryData(state = {}, action) {
-  switch (action.type) {
-    case actionTypes.RECEIVED_TELEMETRY_DATA:
-      return action.nextTelemetryData;
-    default:
-      return state;
-  }
-}
-
 const initialOptions = {
   isCelsius: true,
   isMeter: true,
@@ -106,15 +79,70 @@ function isWebSocketOpened(state = false, action) {
   }
 }
 
+const initialUdpData = {
+  current: {
+    carPhysics: {},
+    raceDefinition: {},
+    participants: {},
+    timings: {},
+    gameState: {},
+    weatherState: {},
+    vehicleNames: {},
+    participantVehicleNamesData: {},
+    vehicleClassNamesData: {}
+  }
+}
+
+function udpData(state = initialUdpData, action) {
+  switch (action.type) {
+    case actionTypes.RECEIVED_CAR_PHYSICS:
+      return Object.assign({}, state.current, {
+        carPhysics: action.nextCarPhysics
+      });
+    case actionTypes.RECEIVED_RACE_DEFINITION:
+      return Object.assign({}, state.current, {
+        raceDefinition: action.nextRaceDefinition
+      });
+    case actionTypes.RECEIVED_PARTICIPANTS:
+      return Object.assign({}, state.current, {
+        participants: action.nextParticipants
+      });
+    case actionTypes.RECEIVED_TIMINGS:
+      return Object.assign({}, state.current, {
+        timings: action.nextTimings
+      });
+    case actionTypes.RECEIVED_GAME_STATE:
+      return Object.assign({}, state.current, {
+        gameState: action.nextGameState
+      });
+    case actionTypes.RECEIVED_WEATHER_STATE:
+      return Object.assign({}, state.current, {
+        weatherState: action.nextWeatherState
+      });
+    case actionTypes.RECEIVED_VEHICLE_NAMES:
+      return Object.assign({}, state.current, {
+        vehicleNames: action.nextVehicleNames
+      });
+    case actionTypes.RECEIVED_PARTICIPANT_VEHICLE_NAMES_DATA:
+      return Object.assign({}, state.current, {
+        participantVehicleNamesData: action.nextParticipantVehicleNamesData
+      });
+    case actionTypes.RECEIVED_VEHICLE_CLASS_NAMES_DATA:
+      return Object.assign({}, state.current, {
+        vehicleClassNamesData: action.nextVehicleClassNamesData
+      });
+    default:
+      return state;
+  }
+}
+
 const appReducer = combineReducers({
   connectionInfo,
   isWebSocketOpened,
   options,
   currentContent,
   isMenuVisible,
-  participantInfoStrings,
-  participantInfoStringsAdditional,
-  telemetryData
+  udpData
 });
 
 export default appReducer;

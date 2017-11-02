@@ -28,25 +28,67 @@ function fetchGet(url) {
   });
 }
 
-export function receivedParticipantInfoStrings(nextParticipantInfoStrings) {
+export function receivedCarPhysics(nextCarPhysics) {
   return {
-    type: actionTypes.RECEIVED_PARTICIPANT_INFO_STRINGS, 
-    nextParticipantInfoStrings 
-  };
+    type: actionTypes.RECEIVED_CAR_PHYSICS,
+    nextCarPhysics
+  }
 }
 
-export function receivedParticipantInfoStringsAdditional(nextParticipantInfoStringsAdditional) {
+export function receivedRaceDefinition(nextRaceDefinition) {
   return {
-    type: actionTypes.RECEIVED_PARTICIPANT_INFO_STRINGS_ADDITIONAL, 
-    nextParticipantInfoStringsAdditional 
-  };
+    type: actionTypes.RECEIVED_RACE_DEFINITION,
+    nextRaceDefinition
+  }
 }
 
-export function receivedTelemetryData(nextTelemetryData) {
+export function receivedParticipants(nextParticipants) {
   return {
-    type: actionTypes.RECEIVED_TELEMETRY_DATA, 
-    nextTelemetryData 
-  };
+    type: actionTypes.RECEIVED_PARTICIPANTS,
+    nextParticipants
+  }
+}
+
+export function receivedTimings(nextTimings) {
+  return {
+    type: actionTypes.RECEIVED_TIMINGS,
+    nextTimings
+  }
+}
+
+export function receivedGameState(nextGameState) {
+  return {
+    type: actionTypes.RECEIVED_GAME_STATE,
+    nextGameState
+  }
+}
+
+export function receivedWeatherState(nextWeatherState) {
+  return {
+    type: actionTypes.RECEIVED_WEATHER_STATE,
+    nextWeatherState
+  }
+}
+
+export function receivedVehicleNames(nextVehicleNames) {
+  return {
+    type: actionTypes.RECEIVED_VEHICLE_NAMES,
+    nextVehicleNames
+  }
+}
+
+export function receivedParticipantVehicleNamesData(nextParticipantVehicleNamesData) {
+  return {
+    type: actionTypes.RECEIVED_PARTICIPANT_VEHICLE_NAMES_DATA,
+    nextParticipantVehicleNamesData
+  }
+}
+
+export function receivedVehicleClassNamesData(nextVehicleClassNamesData) {
+  return {
+    type: actionTypes.RECEIVED_VEHICLE_CLASS_NAMES_DATA,
+    nextVehicleClassNamesData
+  }
 }
 
 export function currentContent(selectedContent) {
@@ -252,35 +294,24 @@ export function connectWebSocket(connectionInfo) {
         ws.onmessage = e => {
           try {
             const json = JSON.parse(e.data)
-
-            // if (isTelemetryDataFrameType(json)) {
-              // dispatch(receivedTelemetryData(json));
-            // } else if (isParticipantInfoStringsFrameType) {
-              // dispatch(receivedParticipantInfoStrings(json));
-            // } else if (isParticipantInfoStringsAdditionalFrameType) {
-              // dispatch(receivedParticipantInfoStringsAdditional(json));
-            // } else {
-              // console.log("WebSocket received unknown frame type data.");
-            // }
-
             if (isCarPhysics(json)) {
-              dispatch(receivedCarPhysics(json))
+              dispatch(receivedCarPhysics(json));
             } else if (isRaceDefinition(json)) {
-              dispatch(receivedRaceDefinition(json))
+              dispatch(receivedRaceDefinition(json));
             } else if (isParticipants(json)) {
-              dispatch(receivedParticipants(json))
+              dispatch(receivedParticipants(json));
             } else if (isTimings(json)) {
-              dispatch(receivedTimings(json))
+              dispatch(receivedTimings(json));
             } else if (isGameState(json)) {
-              dispatch(receivedGameState(json))
+              dispatch(receivedGameState(json));
             } else if (isWeatherState(json)) {
-              dispatch(receivedWeatherState(json))
+              dispatch(receivedWeatherState(json));
             } else if (isVehicleNames(json)) {
-              dispatch(receivedVehicleNames(json))
+              dispatch(receivedVehicleNames(json));
             } else if (isParticipantVehicleNamesData(json)) {
-              dispatch(receivedParticipantVehicleNamesData(json))
+              dispatch(receivedParticipantVehicleNamesData(json));
             } else if (isVehicleClassNamesData(json)) {
-              dispatch(receivedVehicleClassNamesData(json))
+              dispatch(receivedVehicleClassNamesData(json));
             } else {
               console.log("WebSocket received unknown packet type data.");
             }
