@@ -4,7 +4,29 @@ import spray.json._
 import DefaultJsonProtocol._
 
 object UDPDataJsonProtocol extends DefaultJsonProtocol {
-  // implicit val participantInfoStringsFormat = jsonFormat8(ParticipantInfoStrings)
+  implicit val packetBaseFormat = jsonFormat6(PacketBase)
+  implicit val telemetryParticipantInfoFormat = jsonFormat1(TelemetryParticipantInfo)
+  implicit val unfilteredInputFormat = jsonFormat4(UnfilteredInput)
+  implicit val carStateFormat = jsonFormat19(CarState)
+  implicit val velocityFormat = jsonFormat7(Velocity)
+  implicit val tyre1Format = jsonFormat22(Tyre1)
+  implicit val tyre2Format = jsonFormat2(Tyre2)
+  implicit val tyre3Format = jsonFormat4(Tyre3)
+  implicit val carDamageFormat = jsonFormat2(CarDamage)
+  implicit val hwStateFormat = jsonFormat3(HWState)
+  implicit val telemetryDataFormat = jsonFormat10(TelemetryData)
+  implicit val raceDataFormat = jsonFormat16(RaceData)
+  implicit val participantsDataFormat = jsonFormat3(ParticipantsData)
+  implicit val participantInfoFormat = jsonFormat12(ParticipantInfo)
+  implicit val timingsDataFormat = jsonFormat8(TimingsData)
+  implicit val gameStateDataFormat = jsonFormat11(GameStateData)
+  implicit val participantStatsInfoFormat = jsonFormat6(ParticipantStatsInfo)
+  implicit val participantsStatsFormat = jsonFormat1(ParticipantsStats)
+  implicit val timeStatsDataFormat = jsonFormat3(TimeStatsData)
+  implicit val vehicleInfoFormat = jsonFormat3(VehicleInfo)
+  implicit val participantVehicleNamesDataFormat = jsonFormat2(ParticipantVehicleNamesData)
+  implicit val classInfoFormat = jsonFormat2(ClassInfo)
+  implicit val vehicleClassNamesDataFormat = jsonFormat2(VehicleClassNamesData)
 }
 
 import UDPDataJsonProtocol._
