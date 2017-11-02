@@ -85,8 +85,8 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
   }
 
   def output2(data: Array[Byte]) = {
-    import com.github.nabezokodaikon.pcars2.UDPStreamerPacketHandlerType._
-    import com.github.nabezokodaikon.pcars2.UDPDataReader.readPacketBase
+    import com.github.nabezokodaikon.pcars2.UdpStreamerPacketHandlerType._
+    import com.github.nabezokodaikon.pcars2.UdpDataReader.readPacketBase
     import com.github.nabezokodaikon.pcars2._
     import com.github.nabezokodaikon.util.FileUtil
     import java.util.Calendar

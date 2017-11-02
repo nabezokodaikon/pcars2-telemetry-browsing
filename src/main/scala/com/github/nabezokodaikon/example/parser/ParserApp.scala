@@ -6,7 +6,7 @@ import com.github.nabezokodaikon.pcars1.Encoding
 import com.github.nabezokodaikon.pcars1.ParticipantInfo
 import com.github.nabezokodaikon.pcars1.TelemetryDataStructFactory._
 import com.github.nabezokodaikon.pcars2._
-import com.github.nabezokodaikon.pcars2.UDPDataReader._
+import com.github.nabezokodaikon.pcars2.UdpDataReader._
 import com.github.nabezokodaikon.util.Loan.runningTime
 import com.github.nabezokodaikon.util.FileUtil
 import com.typesafe.scalalogging.LazyLogging

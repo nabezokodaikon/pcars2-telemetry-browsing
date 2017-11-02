@@ -3,7 +3,7 @@ package com.github.nabezokodaikon.pcars2
 import spray.json._
 import DefaultJsonProtocol._
 
-object UDPDataJsonProtocol extends DefaultJsonProtocol {
+object UdpDataJsonProtocol extends DefaultJsonProtocol {
   implicit val packetBaseFormat = jsonFormat6(PacketBase)
   implicit val telemetryParticipantInfoFormat = jsonFormat1(TelemetryParticipantInfo)
   implicit val unfilteredInputFormat = jsonFormat4(UnfilteredInput)
@@ -29,9 +29,9 @@ object UDPDataJsonProtocol extends DefaultJsonProtocol {
   implicit val vehicleClassNamesDataFormat = jsonFormat2(VehicleClassNamesData)
 }
 
-import UDPDataJsonProtocol._
+import UdpDataJsonProtocol._
 
-object UDPStreamerPacketHandlerType {
+object UdpStreamerPacketHandlerType {
   val CAR_PHYSICS: Byte = 0 // TelemetryData
   val RACE_DEFINITION: Byte = 1 // RaceData
   val PARTICIPANTS: Byte = 2 // ParticipantsData

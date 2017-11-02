@@ -6,7 +6,7 @@ import com.github.nabezokodaikon.util.BigDecimalSupport._
 import com.github.nabezokodaikon.util.BinaryUtil._
 import scala.reflect.ClassTag
 
-object UDPDataReader {
+object UdpDataReader {
 
   private def readDefineArray[T: ClassTag](func: List[Byte] => (T, List[Byte]), data: List[Byte], dataCount: Int, dataLength: Int): (Array[T], List[Byte]) =
     dataCount * dataLength match {
