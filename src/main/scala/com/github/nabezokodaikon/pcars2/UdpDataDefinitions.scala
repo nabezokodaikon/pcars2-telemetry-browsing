@@ -399,7 +399,7 @@ case class VehicleInfo(
 )
 
 // partialPacketNumber = 1 or 2, 3
-// partialPacketIndex From 1 to partialPacketNumber - 1 
+// partialPacketIndex From 1 to partialPacketNumber - 1
 case class ParticipantVehicleNamesData(
     time: Long = System.currentTimeMillis,
     size: Short = PacketSize.PARTICIPANT_VEHICLE_NAMES_DATA,

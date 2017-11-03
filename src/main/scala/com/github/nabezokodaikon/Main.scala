@@ -27,43 +27,43 @@ object Main extends App with LazyLogging {
     val clientManagerProps = Props(classOf[ClientManager])
     val clientManager = system.actorOf(clientManagerProps, "clientManager")
 
-    // val udpProps = Props(classOf[UdpListener], clientManager)
-    // val udpListener = system.actorOf(udpProps, "udpListener")
+    val udpProps = Props(classOf[UdpListener], clientManager)
+    val udpListener = system.actorOf(udpProps, "udpListener")
 
     val server = new Server(clientManager, dac)
 
     // Test code.
-    import com.github.nabezokodaikon.example.udp.UdpTestDataSender
-    val udpSenderProps = Props(classOf[UdpTestDataSender], clientManager)
-    val udpSender = system.actorOf(udpSenderProps, "udpSender")
-    udpSender ! UdpTestDataSender.Received
+    // import com.github.nabezokodaikon.example.udp.UdpTestDataSender
+    // val udpSenderProps = Props(classOf[UdpTestDataSender], clientManager)
+    // val udpSender = system.actorOf(udpSenderProps, "udpSender")
+    // udpSender ! UdpTestDataSender.Received
 
     val ipAddress = config.getString("app.server.ip-address")
     val port = config.getInt("app.server.port")
     server.startServer(ipAddress, port, system)
 
     // Test code.
-    try {
-      logger.info("udpSender stoping")
-      val stopped = gracefulStop(udpSender, 5.seconds, ActorDone)
-      Await.result(stopped, 6.seconds)
-    } catch {
-      case e: AskTimeoutException =>
-        logger.error(e.getMessage)
-    } finally {
-      logger.info("udpSender stoped")
-    }
-
     // try {
-    // logger.info("udpListener stoping")
-    // val stopped = gracefulStop(udpListener, 5.seconds, ActorDone)
+    // logger.info("udpSender stoping")
+    // val stopped = gracefulStop(udpSender, 5.seconds, ActorDone)
     // Await.result(stopped, 6.seconds)
     // } catch {
     // case e: AskTimeoutException =>
     // logger.error(e.getMessage)
     // } finally {
-    // logger.info("udpListener stoped")
+    // logger.info("udpSender stoped")
     // }
+
+    try {
+      logger.info("udpListener stoping")
+      val stopped = gracefulStop(udpListener, 5.seconds, ActorDone)
+      Await.result(stopped, 6.seconds)
+    } catch {
+      case e: AskTimeoutException =>
+        logger.error(e.getMessage)
+    } finally {
+      logger.info("udpListener stoped")
+    }
 
     try {
       logger.info("clientManager stoping")
