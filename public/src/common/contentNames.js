@@ -10,6 +10,7 @@ export const TELEMETRY_DATA_VELOCITY = "TelemetryData.velocity";
 export const TELEMETRY_DATA_TYRE = "TelemetryData.tyre";
 export const RACE_DATA = "RaceData";
 export const PARTICIPANTS_DATA = "ParticipantsData";
+export const TIMINGS_DATA = "TimingsData";
 
 // Debug contents.(PCars1)
 export const PARTICIPANT_INFO_STRINGS = "ParticipantInfoStrings";

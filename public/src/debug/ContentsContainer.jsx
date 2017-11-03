@@ -7,6 +7,7 @@ import VelocityContainer from "./VelocityContainer.jsx";
 import TyreContainer from "./TyreContainer.jsx";
 import RaceDataContainer from "./RaceDataContainer.jsx";
 import ParticipantsDataContainer from "./ParticipantsDataContainer.jsx";
+import TimingsDataContainer from "./TimingsDataContainer.jsx";
 
 class Contents extends React.Component {
   constructor(props) {
@@ -35,6 +36,8 @@ class Contents extends React.Component {
           return <RaceDataContainer />;
         case contentNames.PARTICIPANTS_DATA:
           return <ParticipantsDataContainer />;
+        case contentNames.TIMINGS_DATA:
+          return <TimingsDataContainer />;
         default:
           return <div></div>;
     }

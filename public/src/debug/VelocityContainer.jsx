@@ -39,7 +39,7 @@ class Velocity extends React.Component {
   }
 
   render() {
-    if (!isJson(this.props.velocity)) {
+    if (!isJson(this.props.telemetryData.velocity)) {
       return <div></div>;
     } else {
       return (
