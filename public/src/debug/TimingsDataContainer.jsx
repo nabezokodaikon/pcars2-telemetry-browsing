@@ -89,6 +89,7 @@ class TimingsData extends React.Component {
             <td>partcipants</td>
           </tr>
           <tr>
+            <td>index</td>
             {createHeader()}
           </tr>
           {createRecords()}
