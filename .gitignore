@@ -28,10 +28,6 @@ tags
 # log
 logs/
 
-testdata/
-testdata_bk_private-test/
-screenshot/
-
 # node.js
 node_modules/
 
@@ -40,3 +36,6 @@ public/dist/
 
 # Database
 app.db
+
+# Sample data
+sample/
