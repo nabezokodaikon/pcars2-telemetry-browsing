@@ -29,8 +29,7 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
       val json = getJsonText(dataArray)
       if (json.length > 0) {
         clientManager ! OutgoingValue(getJsonText(dataArray))
-        // output1(dataArray)
-        // output2(dataArray)
+        // output(dataArray)
       }
     case Udp.Unbind =>
       logger.debug("UDP unbind.")
@@ -45,32 +44,7 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
       logger.warn("Received unknown message.")
   }
 
-  def output1(data: Array[Byte]) = {
-    import com.github.nabezokodaikon.util.FileUtil
-    import java.util.Calendar
-    import java.text.SimpleDateFormat
-    import com.github.nabezokodaikon.pcars1._
-
-    val c = Calendar.getInstance()
-    val sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS")
-    val time = sdf.format(c.getTime())
-    val dir = FileUtil.currentDirectory
-
-    val info = TelemetryDataStructFactory.createFrameInfo(data.toList)
-    info.frameType match {
-      case TelemetryDataConst.TELEMETRY_DATA_FRAME_TYPE =>
-        val name = s"${dir}/testdata/pcars1/0_${time}.bin"
-        FileUtil.writeBinary(name, data)
-      case TelemetryDataConst.PARTICIPANT_INFO_STRINGS_FRAME_TYPE =>
-        val name = s"${dir}/testdata/pcars1/1_${time}.bin"
-        FileUtil.writeBinary(name, data)
-      case TelemetryDataConst.PARTICIPANT_INFO_STRINGS_ADDITIONAL_FRAME_TYPE =>
-        val name = s"${dir}/testdata/pcars1/2_${time}.bin"
-        FileUtil.writeBinary(name, data)
-    }
-  }
-
-  def output2(data: Array[Byte]) = {
+  def output(data: Array[Byte]) = {
     import com.github.nabezokodaikon.pcars2.UdpStreamerPacketHandlerType._
     import com.github.nabezokodaikon.pcars2.UdpDataReader.readPacketBase
     import com.github.nabezokodaikon.pcars2._
