@@ -5,7 +5,7 @@ import com.typesafe.scalalogging.LazyLogging
 import org.mapdb.{ DB, DBException, DBMaker, Serializer }
 import scala.util.control.Exception.catching
 
-final class DBAccessor(file: String) extends LazyLogging {
+final class OptionDBAccessor(file: String) extends LazyLogging {
 
   private val db: DB = open()
 
@@ -17,17 +17,17 @@ final class DBAccessor(file: String) extends LazyLogging {
     } match {
       case Left(e) =>
         logger.error(e.getMessage)
-        logger.debug("DBAccessor reopen.")
+        logger.debug("OptionDBAccessor reopen.")
         FileUtil.delete(file)
         DBMaker.fileDB(file).make()
       case Right(db) =>
-        logger.debug("DBAccessor open.")
+        logger.debug("OptionDBAccessor open.")
         db
     }
 
   def close(): Unit = {
     db.close()
-    logger.debug("DBAccessor close.")
+    logger.debug("OptionDBAccessor close.")
   }
 }
 

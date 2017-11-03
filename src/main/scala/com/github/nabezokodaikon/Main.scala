@@ -3,7 +3,7 @@ package com.github.nabezokodaikon
 import akka.actor.{ ActorSystem, PoisonPill, Props }
 import akka.pattern.{ AskTimeoutException, gracefulStop }
 import akka.stream.ActorMaterializer
-import com.github.nabezokodaikon.db.DBAccessor
+import com.github.nabezokodaikon.db.OptionDBAccessor
 import com.github.nabezokodaikon.util.FileUtil
 import com.github.nabezokodaikon.util.Loan.using
 import com.typesafe.config.ConfigFactory
@@ -20,7 +20,7 @@ object UsingActor {
 object Main extends App with LazyLogging {
   import UsingActor._
 
-  def boot(dac: DBAccessor): Unit = {
+  def boot(dac: OptionDBAccessor): Unit = {
     val config = ConfigFactory.load
 
     val clientManagerProps = Props(classOf[ClientManager])
@@ -72,7 +72,7 @@ object Main extends App with LazyLogging {
   logger.debug("Application start")
 
   val file: String = s"${FileUtil.currentDirectory}/app.db"
-  using(new DBAccessor(file)) { dac =>
+  using(new OptionDBAccessor(file)) { dac =>
     boot(dac)
   }
 
