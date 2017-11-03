@@ -26,7 +26,7 @@ object UdpListener {
 
 class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
   import UsingActor._
-  import UdpListener._
+  import UdpListener.OutgoingValue
 
   override def preStart() = {
     logger.debug("UdpListener preStart.");

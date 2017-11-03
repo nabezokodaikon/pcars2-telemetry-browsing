@@ -13,6 +13,7 @@ object UdpTestDataSender {
 
 class UdpTestDataSender(clientManager: ActorRef) extends Actor with LazyLogging {
   import UdpTestDataSender._
+  import UdpListener.OutgoingValue
 
   case class TestData(path: String, dateTime: Long)
 
@@ -51,14 +52,14 @@ class UdpTestDataSender(clientManager: ActorRef) extends Actor with LazyLogging 
         testDataList match {
           case head :: Nil =>
             readUdpData(FileUtil.readBinary(head.path)) match {
-              case Some(_) => clientManager ! _
+              case Some(udpData) => clientManager ! OutgoingValue(udpData.toJsonString)
               case None => Unit
             }
             context.become(ready(srcTestDataList, System.currentTimeMillis))
             self ! Received
           case head :: tail =>
             readUdpData(FileUtil.readBinary(head.path)) match {
-              case Some(_) => clientManager ! _
+              case Some(udpData) => clientManager ! OutgoingValue(udpData.toJsonString)
               case None => Unit
             }
             context.become(ready(tail, System.currentTimeMillis))
