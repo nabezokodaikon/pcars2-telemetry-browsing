@@ -14,6 +14,7 @@ export const TIMINGS_DATA = "TimingsData";
 export const GAMESTATE_DATA = "GameStateData";
 export const TIME_STATS_DATA = "TimeStatsData"
 export const PARTICIPANT_VEHICLE_NAMES_DATA = "ParticipantVehicleNamesData";
+export const VEHICLE_CLASS_NAMES_DATA = "VehicleClassNamesData";
 
 // Debug contents.(PCars1)
 export const PARTICIPANT_INFO_STRINGS = "ParticipantInfoStrings";
