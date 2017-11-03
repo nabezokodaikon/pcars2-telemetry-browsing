@@ -392,6 +392,7 @@ case class VehicleInfo(
     name: String
 )
 
+// Using partialPacketIndex.
 case class ParticipantVehicleNamesData(
     time: Long = System.currentTimeMillis,
     size: Short = PacketSize.PARTICIPANT_VEHICLE_NAMES_DATA,
