@@ -2,7 +2,17 @@ package com.github.nabezokodaikon
 
 import akka.actor.{ Actor, ActorRef }
 import akka.io.{ IO, Udp }
-import com.github.nabezokodaikon.pcars2.UdpDataReader.getJsonText
+import com.github.nabezokodaikon.pcars2.{
+  TelemetryData,
+  RaceData,
+  ParticipantsData,
+  TimingsData,
+  GameStateData,
+  TimeStatsData,
+  ParticipantVehicleNamesData,
+  VehicleClassNamesData
+}
+import com.github.nabezokodaikon.pcars2.UdpDataReader.readUdpData
 import com.typesafe.scalalogging.LazyLogging
 import java.net.InetSocketAddress
 
@@ -25,11 +35,26 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
 
   def ready(socket: ActorRef): Receive = {
     case Udp.Received(data, remote) =>
-      val dataArray = data.toArray
-      val json = getJsonText(dataArray)
-      if (json.length > 0) {
-        clientManager ! OutgoingValue(json)
-        // output(dataArray)
+      readUdpData(data.toArray) match {
+        case Some(d) => d match {
+          case udpData: TelemetryData =>
+            clientManager ! OutgoingValue(udpData.toJsonString)
+          case udpData: RaceData =>
+            clientManager ! OutgoingValue(udpData.toJsonString)
+          case udpData: ParticipantsData =>
+            clientManager ! OutgoingValue(udpData.toJsonString)
+          case udpData: TimingsData =>
+            clientManager ! OutgoingValue(udpData.toJsonString)
+          case udpData: GameStateData =>
+            clientManager ! OutgoingValue(udpData.toJsonString)
+          case udpData: TimeStatsData =>
+            clientManager ! OutgoingValue(udpData.toJsonString)
+          case udpData: ParticipantVehicleNamesData =>
+            clientManager ! OutgoingValue(udpData.toJsonString)
+          case udpData: VehicleClassNamesData =>
+            clientManager ! OutgoingValue(udpData.toJsonString)
+        }
+        case None => Unit
       }
     case Udp.Unbind =>
       logger.debug("UDP unbind.")
@@ -45,12 +70,12 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
   }
 
   def output(data: Array[Byte]) = {
-    import com.github.nabezokodaikon.pcars2.UdpStreamerPacketHandlerType._
+    import com.github.nabezokodaikon.pcars2.PacketSize
     import com.github.nabezokodaikon.pcars2.UdpDataReader.readPacketBase
-    import com.github.nabezokodaikon.pcars2._
+    import com.github.nabezokodaikon.pcars2.UdpStreamerPacketHandlerType._
     import com.github.nabezokodaikon.util.FileUtil
-    import java.util.Calendar
     import java.text.SimpleDateFormat
+    import java.util.Calendar
 
     val c = Calendar.getInstance()
     val sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS")

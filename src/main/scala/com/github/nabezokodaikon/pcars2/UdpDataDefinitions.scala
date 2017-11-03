@@ -67,6 +67,11 @@ object UdpDataConst {
   val CLASSES_SUPPORTED_PER_PACKET: Byte = 60
 }
 
+trait UdpData {
+  val base: PacketBase
+  def toJsonString(): String
+}
+
 /*
  * Each packet holds a base header with identification info to help with UDP unreliability.
  */
@@ -191,7 +196,7 @@ case class TelemetryData(
     tyre3: Tyre3,
     carDamage: CarDamage,
     hwState: HWState
-) {
+) extends UdpData {
   def toJsonString: String = this.toJson.toString
 }
 
@@ -223,7 +228,7 @@ case class RaceData(
     translatedTrackVariation: String,
     lapsTimeInEvent: Int, // contains lap number for lap based session or quantized session duration (number of 5mins) for timed sessions, the top bit is 1 for timed sessions
     enforcedPitStopLap: Byte
-) {
+) extends UdpData {
   def toJsonString: String = this.toJson.toString
 }
 
@@ -244,7 +249,7 @@ case class ParticipantsData(
     base: PacketBase,
     participantsChangedTimestamp: Long,
     name: Array[String]
-) {
+) extends UdpData {
   def toJsonString: String = this.toJson.toString
 }
 
@@ -293,7 +298,7 @@ case class TimingsData(
     splitTimeBehind: Float,
     splitTime: Float,
     partcipants: Array[ParticipantInfo]
-) {
+) extends UdpData {
   def toJsonString: String = this.toJson.toString
 }
 
@@ -342,7 +347,7 @@ case class GameStateData(
     windSpeed: Byte,
     windDirectionX: Byte,
     windDirectionY: Byte // 22 padded to 24
-) {
+) extends UdpData {
   def toJsonString: String = this.toJson.toString
 }
 
@@ -375,7 +380,7 @@ case class TimeStatsData(
     base: PacketBase,
     participantsChangedTimestamp: Long,
     stats: ParticipantsStats
-) {
+) extends UdpData {
   def toJsonString: String = this.toJson.toString
 }
 
@@ -405,7 +410,7 @@ case class ParticipantVehicleNamesData(
     size: Short = PacketSize.PARTICIPANT_VEHICLE_NAMES_DATA,
     base: PacketBase,
     vehicles: Array[VehicleInfo]
-) {
+) extends UdpData {
   def toJsonString: String = this.toJson.toString
 }
 
@@ -420,6 +425,6 @@ case class VehicleClassNamesData(
     size: Short = PacketSize.VEHICLE_CLASS_NAMES_DATA,
     base: PacketBase,
     classes: Array[ClassInfo]
-) {
+) extends UdpData {
   def toJsonString: String = this.toJson.toString
 }

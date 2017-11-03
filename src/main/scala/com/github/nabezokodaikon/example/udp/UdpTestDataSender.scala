@@ -42,11 +42,17 @@ class UdpTestDataSender(clientManager: ActorRef) extends Actor with LazyLogging 
       if (interval > 100) {
         testDataList match {
           case head :: Nil =>
-            clientManager ! UdpListener.OutgoingValue(getJsonText(FileUtil.readBinary(head.path)))
+            readUdpData(FileUtil.readBinary(head.path)) match {
+              case Some(_) => clientManager ! _
+              case None => Unit
+            }
             context.become(ready(srcTestDataList, System.currentTimeMillis))
             self ! Received
           case head :: tail =>
-            clientManager ! UdpListener.OutgoingValue(getJsonText(FileUtil.readBinary(head.path)))
+            readUdpData(FileUtil.readBinary(head.path)) match {
+              case Some(_) => clientManager ! _
+              case None => Unit
+            }
             context.become(ready(tail, System.currentTimeMillis))
             self ! Received
           case _ => ()
