@@ -2,8 +2,8 @@ package com.github.nabezokodaikon.db
 
 import com.github.nabezokodaikon.util.FileUtil
 import com.typesafe.scalalogging.LazyLogging
-import java.util.concurrent.ConcurrentMap
 import org.mapdb.{ DB, DBException, DBMaker, Serializer }
+import scala.util.control.Exception.catching
 
 final class DBAccessor(file: String) extends LazyLogging {
 
@@ -11,16 +11,19 @@ final class DBAccessor(file: String) extends LazyLogging {
 
   val option: OptionMap = new OptionMap(db, "option")
 
-  private def open(): DB = {
-    try {
+  private def open(): DB =
+    catching(classOf[DBException.DataCorruption]).either {
       DBMaker.fileDB(file).make()
-    } catch {
-      case e: DBException.DataCorruption => {
+    } match {
+      case Left(e) =>
+        logger.error(e.getMessage)
+        logger.debug("DBAccessor reopen.")
         FileUtil.delete(file)
         DBMaker.fileDB(file).make()
-      }
+      case Right(db) =>
+        logger.debug("DBAccessor open.")
+        db
     }
-  }
 
   def close(): Unit = {
     db.close()
