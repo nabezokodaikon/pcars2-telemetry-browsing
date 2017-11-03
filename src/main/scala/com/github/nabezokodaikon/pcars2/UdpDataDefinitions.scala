@@ -177,6 +177,7 @@ case class HWState(
     tyreCompound: Array[String]
 )
 
+// partialPacketNumber = 1 Only
 case class TelemetryData(
     time: Long = System.currentTimeMillis,
     size: Short = PacketSize.TELEMETRY_DATA,
@@ -202,6 +203,7 @@ case class TelemetryData(
 //	When it is sent: Counter resets on entering InRace state and again each time any of the values changes
 //
 *******************************************************************************************************************/
+// partialPacketNumber = 1 Only
 case class RaceData(
     time: Long = System.currentTimeMillis,
     size: Short = PacketSize.RACE_DATA,
@@ -235,6 +237,7 @@ case class RaceData(
 //	this information with the rest of the participant related packets
 //
 *******************************************************************************************************************/
+// partialPacketNumber = 1 or 2
 case class ParticipantsData(
     time: Long = System.currentTimeMillis,
     size: Short = PacketSize.PARTICIPANTS_DATA,
@@ -278,6 +281,7 @@ case class ParticipantInfo(
     currentSectorTime: Float
 )
 
+// partialPacketNumber = 1 Only
 case class TimingsData(
     time: Long = System.currentTimeMillis,
     size: Short = PacketSize.TIMINGS_DATA,
@@ -323,6 +327,7 @@ object SessionState {
   val SESSION_TIME_ATTACK = 6
 }
 
+// partialPacketNumber = 1 Only
 case class GameStateData(
     time: Long = System.currentTimeMillis,
     size: Short = PacketSize.GAME_STATE_DATA,
@@ -363,6 +368,7 @@ case class ParticipantsStats(
     participants: Array[ParticipantStatsInfo]
 )
 
+// partialPacketNumber = 1 Only
 case class TimeStatsData(
     time: Long = System.currentTimeMillis,
     size: Short = PacketSize.TIME_STATS_DATA,
@@ -392,7 +398,8 @@ case class VehicleInfo(
     name: String
 )
 
-// Using partialPacketIndex.
+// partialPacketNumber = 1 or 2, 3
+// partialPacketIndex From 1 to partialPacketNumber - 1 
 case class ParticipantVehicleNamesData(
     time: Long = System.currentTimeMillis,
     size: Short = PacketSize.PARTICIPANT_VEHICLE_NAMES_DATA,
@@ -407,6 +414,7 @@ case class ClassInfo(
     name: String
 )
 
+// partialPacketNumber = 1 , 2 or 3
 case class VehicleClassNamesData(
     time: Long = System.currentTimeMillis,
     size: Short = PacketSize.VEHICLE_CLASS_NAMES_DATA,
