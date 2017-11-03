@@ -11,11 +11,11 @@ export const TELEMETRY_DATA_TYRE = "TelemetryData.tyre";
 export const RACE_DATA = "RaceData";
 export const PARTICIPANTS_DATA = "ParticipantsData";
 export const TIMINGS_DATA = "TimingsData";
+export const GAMESTATE_DATA = "GameStateData";
 
 // Debug contents.(PCars1)
 export const PARTICIPANT_INFO_STRINGS = "ParticipantInfoStrings";
 export const PARTICIPANT_INFO_STRINGS_ADDITIONAL = "ParticipantInfoStringsAdditional";
-export const GAMESTATE_DATA = "GameStateData";
 export const PARTICIPANT_INFO_DATA = "ParticipantInfoData";
 export const PARTICIPANT_INFO = "ParticipantInfo";
 export const UNFILTEREDINPUT_DATA = "UnfilteredInputData";

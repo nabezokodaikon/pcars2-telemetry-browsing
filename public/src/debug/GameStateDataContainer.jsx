@@ -9,45 +9,60 @@ class GameStateData extends React.Component {
     super(props)
   }
 
-  getData() {
-    if (!isJson(this.props.telemetryData)) {
-      return <div></div>;
-    }
-
-    const createRecords = () => {
-      const data = this.props.telemetryData.gameStateData;
-      return Object.keys(data).map(key => {
-        const value = data[key];
-        return (
-          <tr key={key}>
-            <td>{key}</td>
-            <td>{value}</td>
-          </tr>
-        );
+  createRecords() {
+    const createGameStateData = () => {
+      const data = this.props.gameStateData;
+      return Object.keys(data).map(valueName => {
+        const value = data[valueName];
+        if (isJson(value)) {
+          return Object.keys(value).map(key => {
+            return (
+              <tr key={key}>
+                <td>{key}</td>
+                <td>{value[key]}</td>
+              </tr>
+            );
+          });
+        } else {
+          return (
+            <tr key={valueName}>
+              <td>{valueName}</td>
+              <td>{value}</td>
+            </tr>
+          );
+        }
       });
     }
 
     return (
       <table>
         <tbody>
-          {createRecords()}
+          {createGameStateData()}
         </tbody>
       </table>
     );
   }
 
   render() {
-    return this.getData();
+    if (!isJson(this.props.gameStateData)) {
+      return <div></div>;
+    } else {
+      return (
+        <div>
+          {this.createRecords()}
+        </div>
+      );
+    }
   }
 }
 
 GameStateData.propTypes = {
-  telemetryData: PropTypes.object.isRequired
+  gameStateData: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
   return {
-    telemetryData: state.telemetryData
+    gameStateData: state.currentUdpData.gameStateData
   };
 };
 
