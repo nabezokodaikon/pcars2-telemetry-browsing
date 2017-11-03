@@ -10,6 +10,19 @@ class TelemetryData extends React.Component {
   }
 
   createRecords() {
+    const createBase = () => {
+      const data = this.props.telemetryData.base;
+      return Object.keys(data).map(key => {
+        const value = data[key];
+        return (
+          <tr key={key}>
+            <td>{key}</td>
+            <td>{value}</td>
+          </tr>
+        );
+      });
+    }
+
     const createTelemetryParticipantInfo = () => {
       const data = this.props.telemetryData.participantinfo;
       return Object.keys(data).map(key => {
@@ -91,6 +104,10 @@ class TelemetryData extends React.Component {
     return (
       <table>
         <tbody>
+          <tr>
+            <td>PacketBase</td>
+          </tr>
+          {createBase()}
           <tr>
             <td>ParticipantInfo</td>
           </tr>
