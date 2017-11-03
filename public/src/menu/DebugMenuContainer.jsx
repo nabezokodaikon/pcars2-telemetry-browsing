@@ -85,7 +85,8 @@ class DebugMenu extends React.Component {
       contentNames.RACE_DATA,
       contentNames.PARTICIPANTS_DATA,
       contentNames.TIMINGS_DATA,
-      contentNames.GAMESTATE_DATA
+      contentNames.GAMESTATE_DATA,
+      contentNames.TIME_STATS_DATA
     ].map((v, i) =>
       <li style={this.getLiStyle()} key={i.toString()}>
         <button style={this.getButtonStyle()} onClick={evt => this.handleMenuItemClick(evt, v)}>{v}</button>

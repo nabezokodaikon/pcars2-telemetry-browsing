@@ -12,6 +12,7 @@ export const RACE_DATA = "RaceData";
 export const PARTICIPANTS_DATA = "ParticipantsData";
 export const TIMINGS_DATA = "TimingsData";
 export const GAMESTATE_DATA = "GameStateData";
+export const TIME_STATS_DATA = "TimeStatsData"
 
 // Debug contents.(PCars1)
 export const PARTICIPANT_INFO_STRINGS = "ParticipantInfoStrings";
