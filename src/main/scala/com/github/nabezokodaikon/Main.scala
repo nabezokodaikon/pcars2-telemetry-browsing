@@ -1,17 +1,16 @@
 package com.github.nabezokodaikon
 
-import akka.actor.{ ActorSystem, Props }
+import akka.actor.{ ActorSystem, PoisonPill, Props }
 import akka.pattern.{ AskTimeoutException, gracefulStop }
 import akka.stream.ActorMaterializer
 import com.github.nabezokodaikon.db.DBAccessor
 import com.github.nabezokodaikon.util.FileUtil
 import com.github.nabezokodaikon.util.Loan.using
-import com.typesafe.config.{ ConfigFactory }
+import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.LazyLogging
 import scala.concurrent.Await
 import scala.concurrent.duration._
-
-object ActorDone
+import scala.util.control.Exception.catching
 
 object UsingActor {
   implicit val system = ActorSystem("pcars2-udp-app")
@@ -34,53 +33,48 @@ object Main extends App with LazyLogging {
 
     // Test code.
     // import com.github.nabezokodaikon.example.udp.UdpTestDataSender
-    // val udpSenderProps = Props(classOf[UdpTestDataSender], clientManager)
-    // val udpSender = system.actorOf(udpSenderProps, "udpSender")
-    // udpSender ! UdpTestDataSender.Received
+    // val udpTestDataSenderProps = Props(classOf[UdpTestDataSender], clientManager)
+    // val udpTestDataSender = system.actorOf(udpTestDataSenderProps, "udpSender")
+    // udpTestDataSender ! UdpTestDataSender.Received
 
     val ipAddress = config.getString("app.server.ip-address")
     val port = config.getInt("app.server.port")
     server.startServer(ipAddress, port, system)
 
     // Test code.
-    // try {
-    // logger.info("udpSender stoping")
-    // val stopped = gracefulStop(udpSender, 5.seconds, ActorDone)
+    // catching(classOf[AskTimeoutException]).either {
+    // val stopped = gracefulStop(udpTestDataSender, 5.seconds, PoisonPill)
     // Await.result(stopped, 6.seconds)
-    // } catch {
-    // case e: AskTimeoutException =>
-    // logger.error(e.getMessage)
-    // } finally {
-    // logger.info("udpSender stoped")
+    // } match {
+    // case Left(e) => logger.error(e.getMessage)
+    // case _ => Unit
     // }
 
-    try {
-      logger.info("udpListener stoping")
-      val stopped = gracefulStop(udpListener, 5.seconds, ActorDone)
+    catching(classOf[AskTimeoutException]).either {
+      val stopped = gracefulStop(udpListener, 5.seconds, PoisonPill)
       Await.result(stopped, 6.seconds)
-    } catch {
-      case e: AskTimeoutException =>
-        logger.error(e.getMessage)
-    } finally {
-      logger.info("udpListener stoped")
+    } match {
+      case Left(e) => logger.error(e.getMessage)
+      case _ => Unit
     }
 
-    try {
-      logger.info("clientManager stoping")
-      val stopped = gracefulStop(clientManager, 5.seconds, ActorDone)
+    catching(classOf[AskTimeoutException]).either {
+      val stopped = gracefulStop(clientManager, 5.seconds, PoisonPill)
       Await.result(stopped, 6.seconds)
-    } catch {
-      case e: AskTimeoutException =>
-        logger.error(e.getMessage)
-    } finally {
-      logger.info("clientManager stoped")
+    } match {
+      case Left(e) => logger.error(e.getMessage)
+      case _ => Unit
     }
 
     system.terminate()
   }
 
+  logger.debug("Application start")
+
   val file: String = s"${FileUtil.currentDirectory}/app.db"
   using(new DBAccessor(file)) { dac =>
     boot(dac)
   }
+
+  logger.debug("Application termination")
 }

@@ -1,10 +1,11 @@
 package com.github.nabezokodaikon.db
 
 import com.github.nabezokodaikon.util.FileUtil
+import com.typesafe.scalalogging.LazyLogging
 import java.util.concurrent.ConcurrentMap
 import org.mapdb.{ DB, DBException, DBMaker, Serializer }
 
-final class DBAccessor(file: String) {
+final class DBAccessor(file: String) extends LazyLogging {
 
   private val db: DB = open()
 
@@ -22,8 +23,8 @@ final class DBAccessor(file: String) {
   }
 
   def close(): Unit = {
-    println("Call close.")
     db.close()
+    logger.debug("DBAccessor close.")
   }
 }
 

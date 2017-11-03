@@ -11,6 +11,14 @@ object ClientManager {
 class ClientManager extends Actor with LazyLogging {
   import ClientManager._
 
+  override def preStart() = {
+    logger.debug("ClientManager preStart.");
+  }
+
+  override def postStop() = {
+    logger.debug("ClientManager postStop.")
+  }
+
   def receive() = processing(List[ActorRef]())
 
   private def processing(clientList: List[ActorRef]): Receive = {
@@ -20,14 +28,7 @@ class ClientManager extends Actor with LazyLogging {
       context.become(processing(clientList.filter(_ != client).toList))
     case value: UdpListener.OutgoingValue =>
       clientList.foreach(_ ! value)
-    case ActorDone =>
-      println("ClientManager Done.")
-      context.stop(self)
     case _ =>
-      logger.warn("Received unknown message.")
-  }
-
-  override def postStop() = {
-    println("ClientManager stop.")
+      logger.warn("ClientManager received unknown message.")
   }
 }

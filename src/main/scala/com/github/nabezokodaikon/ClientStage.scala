@@ -22,24 +22,19 @@ class ClientStage(clientManager: ActorRef)
       })
 
       override def preStart(): Unit = {
-        println("Call preStart.")
         val client = getStageActor(messageHandler).ref
         clientManager ! ClientManager.AddClient(client)
       }
 
       override def postStop(): Unit = {
-        println("Call postStop.")
         val client = stageActor.ref
         clientManager ! ClientManager.RemoveClient(client)
       }
 
       private def messageHandler(receive: (ActorRef, Any)): Unit =
         receive match {
-          case (_, value: UdpListener.OutgoingValue) =>
-            // println("Receive value.")
-            if (isAvailable(out)) {
-              push(out, value)
-            }
+          case (_, value: UdpListener.OutgoingValue) if isAvailable(out) =>
+            push(out, value)
           case _ =>
             logger.warn("ClienteStage received unknown message.")
         }

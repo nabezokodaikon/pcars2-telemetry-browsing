@@ -1,7 +1,7 @@
 package com.github.nabezokodaikon.example.udp
 
 import akka.actor.{ Actor, ActorRef }
-import com.github.nabezokodaikon.{ ActorDone, ClientManager, UdpListener }
+import com.github.nabezokodaikon.{ ClientManager, UdpListener }
 import com.github.nabezokodaikon.pcars2.UdpDataReader._
 import com.github.nabezokodaikon.util.FileUtil
 import com.typesafe.scalalogging.LazyLogging
@@ -27,6 +27,14 @@ class UdpTestDataSender(clientManager: ActorRef) extends Actor with LazyLogging 
     }
     .sortBy(_.dateTime)
     .toList
+
+  override def preStart() = {
+    logger.debug("UdpTestDataSender preStart.");
+  }
+
+  override def postStop() = {
+    logger.debug("UdpTestDataSender postStop.")
+  }
 
   def receive = {
     case Received =>
@@ -62,9 +70,6 @@ class UdpTestDataSender(clientManager: ActorRef) extends Actor with LazyLogging 
         context.become(ready(testDataList, previewTime))
         self ! Received
       }
-    case ActorDone =>
-      println("UdpTestDataSender Done.")
-      context.stop(self)
     case _ =>
       logger.warn("UdpTestDataSender received unknown message.")
   }
