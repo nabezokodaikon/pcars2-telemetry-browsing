@@ -29,25 +29,25 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
   import UsingActor._
   import UdpListener.OutgoingValue
 
+  val participantsDataListener = context.actorOf(
+    Props(classOf[ParticipantsDataListener], clientManager),
+    "ParticipantsDataListener"
+  )
+
+  val participantVehicleNamesDataListener = context.actorOf(
+    Props(classOf[ParticipantVehicleNamesDataListener], clientManager),
+    "ParticipantVehicleNamesDataListener"
+  )
+
+  val vehicleClassNamesDataListener = context.actorOf(
+    Props(classOf[VehicleClassNamesDataListener], clientManager),
+    "VehicleClassNamesDataListener"
+  )
+
   override def preStart() = {
-    logger.debug("UdpListener preStart.");
-
-    context.actorOf(
-      Props(classOf[ParticipantsDataListener], clientManager),
-      "ParticipantsDataListener"
-    )
-
-    context.actorOf(
-      Props(classOf[ParticipantVehicleNamesDataListener], clientManager),
-      "ParticipantVehicleNamesDataListener"
-    )
-
-    context.actorOf(
-      Props(classOf[VehicleClassNamesDataListener], clientManager),
-      "VehicleClassNamesDataListener"
-    )
-
     IO(Udp) ! Udp.Bind(self, new InetSocketAddress("0.0.0.0", 5606))
+
+    logger.debug("UdpListener preStart.");
   }
 
   override def postStop() = {
@@ -80,7 +80,7 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
           case udpData: RaceData =>
             clientManager ! OutgoingValue(udpData.toJsonString)
           case udpData: ParticipantsData =>
-            clientManager ! OutgoingValue(udpData.toJsonString)
+            participantsDataListener ! udpData
           case udpData: TimingsData =>
             clientManager ! OutgoingValue(udpData.toJsonString)
           case udpData: GameStateData =>
@@ -88,9 +88,9 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
           case udpData: TimeStatsData =>
             clientManager ! OutgoingValue(udpData.toJsonString)
           case udpData: ParticipantVehicleNamesData =>
-            clientManager ! OutgoingValue(udpData.toJsonString)
+            participantVehicleNamesDataListener ! udpData
           case udpData: VehicleClassNamesData =>
-            clientManager ! OutgoingValue(udpData.toJsonString)
+            vehicleClassNamesDataListener ! udpData
         }
         case None => Unit
       }

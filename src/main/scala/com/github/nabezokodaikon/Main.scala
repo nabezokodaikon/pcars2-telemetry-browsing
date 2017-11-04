@@ -1,6 +1,7 @@
 package com.github.nabezokodaikon
 
 import akka.actor.{ ActorSystem, PoisonPill, Props }
+import akka.io.Udp
 import akka.pattern.{ AskTimeoutException, gracefulStop }
 import akka.stream.ActorMaterializer
 import com.github.nabezokodaikon.db.OptionDBAccessor
@@ -51,6 +52,7 @@ object Main extends App with LazyLogging {
     // }
 
     catching(classOf[AskTimeoutException]).either {
+      udpListener ! Udp.Unbind
       val stopped = gracefulStop(udpListener, 5.seconds, PoisonPill)
       Await.result(stopped, 6.seconds)
     } match {
