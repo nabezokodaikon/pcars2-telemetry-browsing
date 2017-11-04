@@ -4,6 +4,7 @@ import akka.actor.{ Actor, ActorRef, PoisonPill, Props }
 import akka.io.{ IO, Udp }
 import akka.pattern.{ AskTimeoutException, gracefulStop }
 import com.github.nabezokodaikon.pcars2.{
+  UdpDataMerger,
   TelemetryData,
   RaceData,
   ParticipantsData,
@@ -31,8 +32,20 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
   override def preStart() = {
     logger.debug("UdpListener preStart.");
 
-    context.actorOf(Props[TestActor], name = "myChild")
-    context.actorOf(Props[TestActor2], name = "myChild2")
+    context.actorOf(
+      Props(classOf[ParticipantsDataListener], clientManager),
+      "ParticipantsDataListener"
+    )
+
+    context.actorOf(
+      Props(classOf[ParticipantVehicleNamesDataListener], clientManager),
+      "ParticipantVehicleNamesDataListener"
+    )
+
+    context.actorOf(
+      Props(classOf[VehicleClassNamesDataListener], clientManager),
+      "VehicleClassNamesDataListener"
+    )
 
     IO(Udp) ! Udp.Bind(self, new InetSocketAddress("0.0.0.0", 5606))
   }
@@ -51,7 +64,7 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
     logger.debug("UdpListener postStop.");
   }
 
-  def receive = {
+  def receive(): Receive = {
     case Udp.Bound(local) =>
       context.become(ready(sender()))
     case _ =>
@@ -148,30 +161,99 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
   }
 }
 
-class TestActor extends Actor {
+trait DataListener[T] extends Actor with LazyLogging {
+  import Actor.Receive
+  val emptyList: List[T] = List[T]()
+  def receive(): Receive = processing(List[T]())
+  def processing(dataList: List[T]): Receive
+}
+
+final class ParticipantsDataListener(clientManager: ActorRef)
+  extends DataListener[ParticipantsData] {
+  import UdpListener.OutgoingValue
+
   override def preStart() = {
-    println("TestActor preStart.");
+    logger.debug("ParticipantsDataListener preStart.");
   }
 
   override def postStop() = {
-    println("TestActor postStop.");
+    logger.debug("ParticipantsDataListener postStop.");
   }
 
-  def receive = {
-    case m: String => Unit
+  def processing(dataList: List[ParticipantsData]): Receive = {
+    case data: ParticipantsData =>
+      val number = data.base.partialPacketNumber
+      data.base.partialPacketIndex match {
+        case index if index == number =>
+          val mergeData = UdpDataMerger.merge(dataList :+ data)
+          clientManager ! OutgoingValue(mergeData.toJsonString)
+          context.become(processing(emptyList))
+        case index if index < number =>
+          context.become(processing(dataList :+ data))
+        case _ =>
+          context.become(processing(emptyList))
+      }
+    case _ =>
+      logger.warn("ParticipantsDataListener received unknown message.")
   }
 }
 
-class TestActor2 extends Actor {
+final class ParticipantVehicleNamesDataListener(clientManager: ActorRef)
+  extends DataListener[ParticipantVehicleNamesData] {
+  import UdpListener.OutgoingValue
+
   override def preStart() = {
-    println("TestActor2 preStart.");
+    logger.debug("ParticipantVehicleNamesDataListener preStart.");
   }
 
   override def postStop() = {
-    println("TestActor2 postStop.");
+    logger.debug("ParticipantVehicleNamesDataListener postStop.");
   }
 
-  def receive = {
-    case m: String => Unit
+  def processing(dataList: List[ParticipantVehicleNamesData]): Receive = {
+    case data: ParticipantVehicleNamesData =>
+      val number = data.base.partialPacketNumber - 1
+      data.base.partialPacketIndex match {
+        case index if index == number =>
+          val mergeData = UdpDataMerger.merge(dataList :+ data)
+          clientManager ! OutgoingValue(mergeData.toJsonString)
+          context.become(processing(emptyList))
+        case index if index < number =>
+          context.become(processing(dataList :+ data))
+        case _ =>
+          context.become(processing(emptyList))
+      }
+    case _ =>
+      logger.warn("ParticipantVehicleNamesDataListener received unknown message.")
+  }
+}
+
+final class VehicleClassNamesDataListener(clientManager: ActorRef)
+  extends DataListener[VehicleClassNamesData] {
+  import UdpListener.OutgoingValue
+
+  override def preStart() = {
+    logger.debug("VehicleClassNamesDataListener preStart.");
+  }
+
+  override def postStop() = {
+    logger.debug("VehicleClassNamesDataListener postStop.");
+  }
+
+  def processing(dataList: List[VehicleClassNamesData]): Receive = {
+    case data: VehicleClassNamesData =>
+      val number = data.base.partialPacketNumber
+      data.base.partialPacketIndex match {
+        case index if index == number =>
+          val mergeData = UdpDataMerger.merge(dataList :+ data)
+          clientManager ! OutgoingValue(mergeData.toJsonString)
+          context.become(processing(emptyList))
+        case index if index < number =>
+          context.become(processing(dataList :+ data))
+        case _ =>
+          context.become(processing(emptyList))
+      }
+    case _ =>
+      logger.warn("VehicleClassNamesDataListener received unknown message.")
   }
 }
