@@ -35,6 +35,8 @@ class ClientStage(clientManager: ActorRef)
         receive match {
           case (_, value: UdpListener.OutgoingValue) if isAvailable(out) =>
             push(out, value)
+          case (_, value: UdpListener.OutgoingValue) =>
+            Unit
           case _ =>
             logger.warn("ClienteStage received unknown message.")
         }
