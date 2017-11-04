@@ -154,3 +154,9 @@
   * Display Units
     * Metric
     * Imperial
+
+## 保持情報(storage)
+* RaceData
+* ParticipantsData
+* ParticipantVehicleNamesData
+* VehicleClassNamesData
