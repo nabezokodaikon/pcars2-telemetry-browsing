@@ -40,7 +40,7 @@ class Server(manager: ActorRef, dac: OptionDBAccessor)
   private def createClient() = {
     val sink = Sink.ignore
     val source = Source.fromGraph(new ClientStage(manager))
-      .map((value: UdpListener.OutgoingValue) => TextMessage(value.value))
+      .map(json => TextMessage(json))
     Flow.fromSinkAndSource(sink, source)
   }
 

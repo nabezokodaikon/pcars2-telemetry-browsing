@@ -5,6 +5,7 @@ import akka.io.{ IO, Udp }
 import akka.pattern.{ AskTimeoutException, gracefulStop }
 import com.github.nabezokodaikon.pcars2.{
   UdpDataMerger,
+  UdpData,
   TelemetryData,
   RaceData,
   ParticipantsData,
@@ -21,13 +22,8 @@ import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.util.control.Exception.catching
 
-object UdpListener {
-  case class OutgoingValue(value: String)
-}
-
 class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
   import UsingActor._
-  import UdpListener.OutgoingValue
 
   val participantsDataListener = context.actorOf(
     Props(classOf[ParticipantsDataListener], clientManager),
@@ -76,17 +72,17 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
       readUdpData(data.toArray) match {
         case Some(d) => d match {
           case udpData: TelemetryData =>
-            clientManager ! OutgoingValue(udpData.toJsonString)
+            clientManager ! udpData
           case udpData: RaceData =>
-            clientManager ! OutgoingValue(udpData.toJsonString)
+            clientManager ! udpData
           case udpData: ParticipantsData =>
             participantsDataListener ! udpData
           case udpData: TimingsData =>
-            clientManager ! OutgoingValue(udpData.toJsonString)
+            clientManager ! udpData
           case udpData: GameStateData =>
-            clientManager ! OutgoingValue(udpData.toJsonString)
+            clientManager ! udpData
           case udpData: TimeStatsData =>
-            clientManager ! OutgoingValue(udpData.toJsonString)
+            clientManager ! udpData
           case udpData: ParticipantVehicleNamesData =>
             participantVehicleNamesDataListener ! udpData
           case udpData: VehicleClassNamesData =>
@@ -170,7 +166,6 @@ trait DataListener[T] extends Actor with LazyLogging {
 
 final class ParticipantsDataListener(clientManager: ActorRef)
   extends DataListener[ParticipantsData] {
-  import UdpListener.OutgoingValue
 
   override def preStart() = {
     logger.debug("ParticipantsDataListener preStart.");
@@ -187,7 +182,7 @@ final class ParticipantsDataListener(clientManager: ActorRef)
         case index if index == number =>
           UdpDataMerger.mergeParticipantsData(dataList :+ data) match {
             case Some(mergeData) =>
-              clientManager ! OutgoingValue(mergeData.toJsonString)
+              clientManager ! mergeData
             case None => Unit
           }
           context.become(processing(emptyList))
@@ -203,7 +198,6 @@ final class ParticipantsDataListener(clientManager: ActorRef)
 
 final class ParticipantVehicleNamesDataListener(clientManager: ActorRef)
   extends DataListener[ParticipantVehicleNamesData] {
-  import UdpListener.OutgoingValue
 
   override def preStart() = {
     logger.debug("ParticipantVehicleNamesDataListener preStart.");
@@ -220,7 +214,7 @@ final class ParticipantVehicleNamesDataListener(clientManager: ActorRef)
         case index if index == number =>
           UdpDataMerger.mergeParticipantVehicleNamesData(dataList :+ data) match {
             case Some(mergeData) =>
-              clientManager ! OutgoingValue(mergeData.toJsonString)
+              clientManager ! mergeData
             case None => Unit
           }
           context.become(processing(emptyList))
@@ -236,7 +230,6 @@ final class ParticipantVehicleNamesDataListener(clientManager: ActorRef)
 
 final class VehicleClassNamesDataListener(clientManager: ActorRef)
   extends DataListener[VehicleClassNamesData] {
-  import UdpListener.OutgoingValue
 
   override def preStart() = {
     logger.debug("VehicleClassNamesDataListener preStart.");
@@ -253,7 +246,7 @@ final class VehicleClassNamesDataListener(clientManager: ActorRef)
         case index if index == number =>
           UdpDataMerger.mergeVehicleClassNamesData(dataList :+ data) match {
             case Some(mergeData) =>
-              clientManager ! OutgoingValue(mergeData.toJsonString)
+              clientManager ! mergeData
             case None => Unit
           }
           context.become(processing(emptyList))
