@@ -40,7 +40,6 @@ object UdpDataMerger {
   ): Option[VehicleClassNamesData] =
     dataList.lastOption match {
       case Some(last) =>
-        println(dataList.length)
         val classes = dataList.flatMap(data => data.classes).toArray
         val mergeData = VehicleClassNamesData(
           time = last.time,
