@@ -2,15 +2,53 @@ package com.github.nabezokodaikon.pcars2
 
 object UdpDataMerger {
 
-  def merge(dataList: List[ParticipantsData]): ParticipantsData = {
-    dataList.head
-  }
+  def mergeParticipantsData(
+    dataList: List[ParticipantsData]
+  ): Option[ParticipantsData] =
+    dataList.lastOption match {
+      case Some(last) =>
+        val name = dataList.flatMap(data => data.name).toArray
+        val mergeData = ParticipantsData(
+          time = last.time,
+          size = last.size,
+          base = last.base,
+          participantsChangedTimestamp = last.participantsChangedTimestamp,
+          name = name
+        )
+        Some(mergeData)
+      case None => None
+    }
 
-  def merge(dataList: List[ParticipantVehicleNamesData]): ParticipantVehicleNamesData = {
-    dataList.head
-  }
+  def mergeParticipantVehicleNamesData(
+    dataList: List[ParticipantVehicleNamesData]
+  ): Option[ParticipantVehicleNamesData] =
+    dataList.lastOption match {
+      case Some(last) =>
+        val vehicles = dataList.flatMap(data => data.vehicles).toArray
+        val mergeData = ParticipantVehicleNamesData(
+          time = last.time,
+          size = last.size,
+          base = last.base,
+          vehicles = vehicles
+        )
+        Some(mergeData)
+      case None => None
+    }
 
-  def merge(dataList: List[VehicleClassNamesData]): VehicleClassNamesData = {
-    dataList.head
-  }
+  def mergeVehicleClassNamesData(
+    dataList: List[VehicleClassNamesData]
+  ): Option[VehicleClassNamesData] =
+    dataList.lastOption match {
+      case Some(last) =>
+        println(dataList.length)
+        val classes = dataList.flatMap(data => data.classes).toArray
+        val mergeData = VehicleClassNamesData(
+          time = last.time,
+          size = last.size,
+          base = last.base,
+          classes = classes
+        )
+        Some(mergeData)
+      case None => None
+    }
 }

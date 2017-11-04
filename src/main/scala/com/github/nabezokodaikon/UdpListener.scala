@@ -185,8 +185,11 @@ final class ParticipantsDataListener(clientManager: ActorRef)
       val number = data.base.partialPacketNumber
       data.base.partialPacketIndex match {
         case index if index == number =>
-          val mergeData = UdpDataMerger.merge(dataList :+ data)
-          clientManager ! OutgoingValue(mergeData.toJsonString)
+          UdpDataMerger.mergeParticipantsData(dataList :+ data) match {
+            case Some(mergeData) =>
+              clientManager ! OutgoingValue(mergeData.toJsonString)
+            case None => Unit
+          }
           context.become(processing(emptyList))
         case index if index < number =>
           context.become(processing(dataList :+ data))
@@ -215,8 +218,11 @@ final class ParticipantVehicleNamesDataListener(clientManager: ActorRef)
       val number = data.base.partialPacketNumber - 1
       data.base.partialPacketIndex match {
         case index if index == number =>
-          val mergeData = UdpDataMerger.merge(dataList :+ data)
-          clientManager ! OutgoingValue(mergeData.toJsonString)
+          UdpDataMerger.mergeParticipantVehicleNamesData(dataList :+ data) match {
+            case Some(mergeData) =>
+              clientManager ! OutgoingValue(mergeData.toJsonString)
+            case None => Unit
+          }
           context.become(processing(emptyList))
         case index if index < number =>
           context.become(processing(dataList :+ data))
@@ -245,8 +251,11 @@ final class VehicleClassNamesDataListener(clientManager: ActorRef)
       val number = data.base.partialPacketNumber
       data.base.partialPacketIndex match {
         case index if index == number =>
-          val mergeData = UdpDataMerger.merge(dataList :+ data)
-          clientManager ! OutgoingValue(mergeData.toJsonString)
+          UdpDataMerger.mergeVehicleClassNamesData(dataList :+ data) match {
+            case Some(mergeData) =>
+              clientManager ! OutgoingValue(mergeData.toJsonString)
+            case None => Unit
+          }
           context.become(processing(emptyList))
         case index if index < number =>
           context.become(processing(dataList :+ data))

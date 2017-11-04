@@ -420,6 +420,7 @@ case class ClassInfo(
 )
 
 // partialPacketNumber = 1 , 2 or 3
+// Measurement is impossible because partialPacketIndex and partialPacketNumber are always the same.
 case class VehicleClassNamesData(
     time: Long = System.currentTimeMillis,
     size: Short = PacketSize.VEHICLE_CLASS_NAMES_DATA,
