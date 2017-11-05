@@ -102,28 +102,28 @@ case class TelemetryParticipantInfo(
 )
 
 case class UnfilteredInput(
-    unfilteredThrottle: Short,
-    unfilteredBrake: Short,
-    unfilteredSteering: Byte,
-    unfilteredClutch: Short
+    unfilteredThrottle: Short, // 0 - 255
+    unfilteredBrake: Short, // 0 - 255
+    unfilteredSteering: Byte, // -127(Left) - +127(Right)
+    unfilteredClutch: Short // 0 - 255
 )
 
 case class CarState(
     carFlags: Short,
-    oilTempCelsius: Short,
+    oilTempCelsius: Float, // [ Unit: Celsius ] [ value / 255f ]
     oilPressureKPa: Int,
-    waterTempCelsius: Short,
+    waterTempCelsius: Float, // [ Unit: Celsius ] [ value / 255f ]
     waterPressureKpa: Int,
     fuelPressureKpa: Int,
-    fuelCapacity: Short,
-    brake: Short,
-    throttle: Short,
-    clutch: Short,
+    fuelCapacity: Short, // [ Unit: liter ]
+    brake: Short, // [ 0 - 255 ]
+    throttle: Short, // [ 0 - 255 ]
+    clutch: Short, // [ 0 - 255 ]
     fuelLevel: Float,
-    speed: Float,
+    speed: Float, // [ Unit: KM/H ] [ value * 3.6f ]
     rpm: Int,
     maxRpm: Int,
-    steering: Byte,
+    steering: Byte, // [ -127(Left) - +127(Right) ]
     gear: String,
     numGears: Byte,
     boostAmount: Short,

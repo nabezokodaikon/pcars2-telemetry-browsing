@@ -100,9 +100,9 @@ object UdpDataReader extends LazyLogging {
     (
       CarState(
         carFlags = carFlags,
-        oilTempCelsius = oilTempCelsius,
+        oilTempCelsius = oilTempCelsius / 255f,
         oilPressureKPa = oilPressureKPa,
-        waterTempCelsius = waterTempCelsius,
+        waterTempCelsius = waterTempCelsius / 255f,
         waterPressureKpa = waterPressureKpa,
         fuelPressureKpa = fuelPressureKpa,
         fuelCapacity = fuelCapacity,
@@ -110,7 +110,7 @@ object UdpDataReader extends LazyLogging {
         throttle = throttle,
         clutch = clutch,
         fuelLevel = fuelLevel,
-        speed = speed,
+        speed = speed * 3.6f,
         rpm = rpm,
         maxRpm = maxRpm,
         steering = steering,
