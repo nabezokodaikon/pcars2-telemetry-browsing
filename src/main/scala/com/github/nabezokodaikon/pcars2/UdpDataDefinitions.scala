@@ -216,13 +216,13 @@ case class TelemetryData(
 case class RaceData(
     base: PacketBase,
     worldFastestLapTime: Float,
-    personalFastestLapTime: Float,
-    personalFastestSector1Time: Float,
-    personalFastestSector2Time: Float,
-    personalFastestSector3Time: Float,
-    worldFastestSector1Time: Float,
-    worldFastestSector2Time: Float,
-    worldFastestSector3Time: Float,
+    personalFastestLapTime: Float, // [ Unit: Seconds ]
+    personalFastestSector1Time: Float, // [ Unit: Seconds ]
+    personalFastestSector2Time: Float, // [ Unit: Seconds ]
+    personalFastestSector3Time: Float, // [ Unit: Seconds ]
+    worldFastestSector1Time: Float, // [ Unit: Seconds ]
+    worldFastestSector2Time: Float, // [ Unit: Seconds ]
+    worldFastestSector3Time: Float, // [ Unit: Seconds ]
     trackLength: Float,
     trackLocation: String,
     trackVariation: String,
@@ -285,8 +285,8 @@ case class ParticipantInfo(
     carIndex: Int, // top bit shows if participant is (local or remote) human player or not
     raceState: Short, // race state flags + invalidated lap indication --
     currentLap: Short,
-    currentTime: Float,
-    currentSectorTime: Float
+    currentTime: Float, // [ Unit: Seconds ]
+    currentSectorTime: Float // [ Unit: Seconds ]
 )
 
 // partialPacketNumber = 1 Only
@@ -360,12 +360,12 @@ case class GameStateData(
 //
 *******************************************************************************************************************/
 case class ParticipantStatsInfo(
-    fastestLapTime: Float,
-    lastLapTime: Float,
-    lastSectorTime: Float,
-    fastestSector1Time: Float,
-    fastestSector2Time: Float,
-    fastestSector3Time: Float
+    fastestLapTime: Float, // [ Unit: Seconds ]
+    lastLapTime: Float, // [ Unit: Seconds ]
+    lastSectorTime: Float, // [ Unit: Seconds ]
+    fastestSector1Time: Float, // [ Unit: Seconds ]
+    fastestSector2Time: Float, // [ Unit: Seconds ]
+    fastestSector3Time: Float // [ Unit: Seconds ]
 )
 
 case class ParticipantsStats(
