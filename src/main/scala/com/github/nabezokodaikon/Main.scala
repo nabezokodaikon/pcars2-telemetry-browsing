@@ -9,7 +9,6 @@ import com.github.nabezokodaikon.util.FileUtil
 import com.github.nabezokodaikon.util.Loan.using
 import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.LazyLogging
-import java.io.File
 import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.util.control.Exception.catching
@@ -23,9 +22,7 @@ object Main extends App with LazyLogging {
   import UsingActor._
 
   def boot(dac: OptionDBAccessor): Unit = {
-
-    val configFile = new File(s"${FileUtil.currentDirectory}/application.conf")
-    val config = ConfigFactory.parseFile(configFile)
+    val config = ConfigFactory.load()
 
     val clientManagerProps = Props(classOf[ClientManager])
     val clientManager = system.actorOf(clientManagerProps, "clientManager")
