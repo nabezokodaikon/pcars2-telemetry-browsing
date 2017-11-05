@@ -69,8 +69,8 @@ function createRpmComponent(rpm, maxRpm, width, fontSize, cx, cy, radius) {
 */
 function createClutchComponent(srcValue, width, cx, cy, radius) {
   const degree = 60;
-  const value = srcValue * 100;
-  const unit = degree / 100; 
+  const value = srcValue;
+  const unit = degree / 255; 
   const lBG = 60;
   const rBG = 300;
   const lValue = unit * value + lBG;
@@ -96,8 +96,8 @@ function createClutchComponent(srcValue, width, cx, cy, radius) {
 */
 function createThrottleComponent(srcValue, width, cx, cy, radius) {
   const degree = 150;
-  const value = srcValue * 100;
-  const unit = degree / 100; 
+  const value = srcValue;
+  const unit = degree / 255; 
   const bg = 330;
   const destValue = bg - unit * value;
   const valueShape = createFanShape(cx, cy, radius, destValue, bg, width, GREEN);
@@ -113,8 +113,8 @@ function createThrottleComponent(srcValue, width, cx, cy, radius) {
 */
 function createBrakeComponent(srcValue, width, cx, cy, radius) {
   const degree = 150;
-  const value = srcValue * 100;
-  const unit = degree / 100; 
+  const value = srcValue;
+  const unit = degree / 255; 
   const bg = 30;
   const destValue = unit * value + bg;
   const valueShape = createFanShape(cx, cy, radius, bg, destValue, width, RED);

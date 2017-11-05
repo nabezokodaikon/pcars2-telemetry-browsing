@@ -391,7 +391,7 @@ object UdpDataReader extends LazyLogging {
       base = base,
       numParticipants = numParticipants,
       participantsChangedTimestamp = participantsChangedTimestamp,
-      eventTimeRemaining = eventTimeRemaining,
+      eventTimeRemaining = eventTimeRemaining.toHourFormatFromSeconds,
       splitTimeAhead = splitTimeAhead,
       splitTimeBehind = splitTimeBehind,
       splitTime = splitTime,

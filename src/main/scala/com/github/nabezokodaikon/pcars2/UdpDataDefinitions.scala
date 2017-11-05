@@ -294,7 +294,7 @@ case class TimingsData(
     base: PacketBase,
     numParticipants: Byte,
     participantsChangedTimestamp: Long,
-    eventTimeRemaining: Float, // time remaining, -1 for invalid time,  -1 - laps remaining in lap based races  --
+    eventTimeRemaining: String, // [ Unit: Seconds ] time remaining, -1 for invalid time,  -1 - laps remaining in lap based races  --
     splitTimeAhead: Float,
     splitTimeBehind: Float,
     splitTime: Float,

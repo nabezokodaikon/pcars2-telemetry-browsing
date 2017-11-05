@@ -24,7 +24,7 @@ const enhancer = composeEnhancers(
 
 const store = createStore(appReducer, enhancer);
 
-// For mobile.
+// For product.
 // const store = createStore(appReducer, applyMiddleware(thunkMiddleware));
 
 setInterval(() => {

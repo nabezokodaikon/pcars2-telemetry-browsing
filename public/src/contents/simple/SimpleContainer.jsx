@@ -31,7 +31,7 @@ class SimpleContent extends React.Component {
       height: "100%",
       display: "flex",
       flexDirection: "column",
-      justifyContent: "space-around"
+      justifyContent: "center"
     };
   }
 
@@ -42,6 +42,7 @@ class SimpleContent extends React.Component {
       borderStyle: "solid",
       borderWidth: "0.1rem",
       borderColor: "#899ba9",
+      marginBottom: "1rem",
       transform: "skewX(-12deg)",
       display: "flex",
       flexDirection: "row",
@@ -97,19 +98,24 @@ class SimpleContent extends React.Component {
   }
 
   createGear() {
-    const carStateData = this.props.telemetryData.carStateData; 
+    const telemetryData = this.props.telemetryData;
+    if (!isJson(telemetryData)) {
+      return <div></div>;
+    }
+
+    const carState = telemetryData.carState; 
 
     const gearHUDComponent = createGearHUDComponent({
       cx: 50,
       cy: 50,
       radius: 50,
-      gear: carStateData.gear,
-      speed: carStateData.speed,
-      rpm: carStateData.rpm,
-      maxRpm: carStateData.maxRpm,
-      throttle: carStateData.throttle,
-      brake: carStateData.brake,
-      clutch: carStateData.clutch,
+      gear: carState.gear,
+      speed: carState.speed,
+      rpm: carState.rpm,
+      maxRpm: carState.maxRpm,
+      throttle: carState.throttle,
+      brake: carState.brake,
+      clutch: carState.clutch,
       isMeter: this.props.isMeter
     });
 
@@ -121,10 +127,24 @@ class SimpleContent extends React.Component {
   }
 
   createData() {
-    const data = this.props.telemetryData;
-    const eventInfoData = data.eventInfoData;
-    const participantInfo = data.participantInfo;
-    const firstParticipantInfo = participantInfo[0];
+    const telemetryData = this.props.telemetryData;
+    const timingsData = this.props.timingsData;
+    const raceData = this.props.raceData;
+    if (!isJson(telemetryData) || !isJson(timingsData)) {
+      return <div></div>;
+    }
+
+    const carState = telemetryData.carState; 
+    const partcipant = timingsData.partcipants[telemetryData.participantinfo.viewedParticipantIndex];
+
+    const eventTimeRemaining = timingsData.eventTimeRemaining;
+    const isTimedSessions = (eventTimeRemaining !== "--:--:--.---"); 
+    const lapsInEvent = (isJson(raceData) ? raceData.lapsInEvent : 1); 
+    const sessionText = (isTimedSessions)
+      ? eventTimeRemaining
+      : partcipant.currentLap + "/" + lapsInEvent
+
+    const fuel = (carState.fuelCapacity * carState.fuelLevel).toFixed(1);
     
     return (
       <div style={this.getDataStyle()}>
@@ -134,7 +154,7 @@ class SimpleContent extends React.Component {
             <img style={this.getDataIconStyle()} src={rankIcon} />
           </div>
           <div style={this.getDataValueContainerStyle()}>
-            <span style={this.getDataValueStyle()}>{firstParticipantInfo.racePosition}/{eventInfoData.participantsCount}</span>
+            <span style={this.getDataValueStyle()}>{partcipant.racePosition}/{timingsData.numParticipants}</span>
           </div>
         </div>
 
@@ -143,7 +163,7 @@ class SimpleContent extends React.Component {
             <img style={this.getDataIconStyle()} src={lapIcon} />
           </div>
           <div style={this.getDataValueContainerStyle()}>
-            <span style={this.getDataValueStyle()}>{firstParticipantInfo.currentLap}/{eventInfoData.lapsInEvent}</span>
+            <span style={this.getDataValueStyle()}>{sessionText}</span>
           </div>
         </div>
         
@@ -152,7 +172,7 @@ class SimpleContent extends React.Component {
             <img style={this.getDataIconStyle()} src={timeIcon} />
           </div>
           <div style={this.getDataValueContainerStyle()}>
-            <span style={this.getDataValueStyle()}>{data.timingInfoData.currentTime}</span>
+            <span style={this.getDataValueStyle()}>{partcipant.currentTime}</span>
           </div>
         </div>
 
@@ -161,7 +181,7 @@ class SimpleContent extends React.Component {
             <img style={this.getDataIconStyle()} src={fuelIcon} />
           </div>
           <div style={this.getDataValueContainerStyle()}>
-            <span style={this.getDataValueStyle()}>{data.carStateData.fuelLevel}L</span>
+            <span style={this.getDataValueStyle()}>{fuel}L</span>
           </div>
         </div>
 
@@ -170,16 +190,12 @@ class SimpleContent extends React.Component {
   }
 
   render() {
-    if (!isJson(this.props.telemetryData)) {
-      return <div></div>;
-    } else {
-      return (
-        <div style={this.getContentStyle()}>
-          {this.createGear()}
-          {this.createData()}
-        </div>
-      );
-    }
+    return (
+      <div style={this.getContentStyle()}>
+        {this.createGear()}
+        {this.createData()}
+      </div>
+    );
   }
 }
 
@@ -189,8 +205,11 @@ SimpleContent.propTypes = {
 };
 
 const mapStateToProps = state => {
+  const data = state.currentUdpData
   return {
-    telemetryData: state.telemetryData,
+    telemetryData: data.telemetryData,
+    timingsData: data.timingsData,
+    raceData: data.raceData,
     isMeter: state.options.isMeter
   };
 };
