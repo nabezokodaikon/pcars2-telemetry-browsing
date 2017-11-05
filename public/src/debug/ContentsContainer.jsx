@@ -22,9 +22,10 @@ class Contents extends React.Component {
     return {
       zIndex: 0,
       position: "absolute",
+      top: 0,
+      left: 0,
       width: "100vw",
-      height: "100vh",
-      backgroundColor: "#EEEEEE"
+      height: "100vh"
     };
   }
 
