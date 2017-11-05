@@ -40,6 +40,10 @@ class CreditsContent extends React.Component {
     return (
       <div style={this.getCreditsStyle()}>
         <div style={this.getCreditStyle()}>
+          <h3>PROJECT CARS 2</h3>
+          <p>{"https://www.projectcarsgame.com/"}</p>
+        </div>
+        <div style={this.getCreditStyle()}>
           <h3>Project CARS Official Forum</h3>
           <p>{"http://forum.projectcarsgame.com/forum.php"}</p>
         </div>

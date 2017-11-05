@@ -27,38 +27,38 @@ object Main extends App with LazyLogging {
     val clientManagerProps = Props(classOf[ClientManager])
     val clientManager = system.actorOf(clientManagerProps, "clientManager")
 
-    // val udpProps = Props(classOf[UdpListener], clientManager)
-    // val udpListener = system.actorOf(udpProps, "udpListener")
+    val udpProps = Props(classOf[UdpListener], clientManager)
+    val udpListener = system.actorOf(udpProps, "udpListener")
 
     val server = new Server(clientManager, dac)
 
     // Test code.
-    import com.github.nabezokodaikon.example.udp.UdpTestDataSender
-    val udpTestDataSenderProps = Props(classOf[UdpTestDataSender], clientManager)
-    val udpTestDataSender = system.actorOf(udpTestDataSenderProps, "udpSender")
-    udpTestDataSender ! UdpTestDataSender.Received
+    // import com.github.nabezokodaikon.example.udp.UdpTestDataSender
+    // val udpTestDataSenderProps = Props(classOf[UdpTestDataSender], clientManager)
+    // val udpTestDataSender = system.actorOf(udpTestDataSenderProps, "udpSender")
+    // udpTestDataSender ! UdpTestDataSender.Received
 
     val ipAddress = config.getString("app.server.ip-address")
     val port = config.getInt("app.server.port")
     server.startServer(ipAddress, port, system)
 
     // Test code.
-    catching(classOf[AskTimeoutException]).either {
-      val stopped = gracefulStop(udpTestDataSender, 5.seconds, PoisonPill)
-      Await.result(stopped, 6.seconds)
-    } match {
-      case Left(e) => logger.error(e.getMessage)
-      case _ => Unit
-    }
-
     // catching(classOf[AskTimeoutException]).either {
-    // udpListener ! Udp.Unbind
-    // val stopped = gracefulStop(udpListener, 5.seconds, PoisonPill)
+    // val stopped = gracefulStop(udpTestDataSender, 5.seconds, PoisonPill)
     // Await.result(stopped, 6.seconds)
     // } match {
     // case Left(e) => logger.error(e.getMessage)
     // case _ => Unit
     // }
+
+    catching(classOf[AskTimeoutException]).either {
+      udpListener ! Udp.Unbind
+      val stopped = gracefulStop(udpListener, 5.seconds, PoisonPill)
+      Await.result(stopped, 6.seconds)
+    } match {
+      case Left(e) => logger.error(e.getMessage)
+      case _ => Unit
+    }
 
     catching(classOf[AskTimeoutException]).either {
       val stopped = gracefulStop(clientManager, 5.seconds, PoisonPill)

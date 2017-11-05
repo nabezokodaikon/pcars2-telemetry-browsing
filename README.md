@@ -19,6 +19,8 @@
 
 
 ## CREDITS
+### PROJECT CARS 2
+* <https://www.projectcarsgame.com/>
 ### Project CARS Official Forum 
 * <http://forum.projectcarsgame.com/forum.php>
 ### CrewChief
