@@ -38,4 +38,5 @@ public/dist/
 app.db
 
 # Sample data
-sample/
+sample/screenshot/
+sample/testdata/
