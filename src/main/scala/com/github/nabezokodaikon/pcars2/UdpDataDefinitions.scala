@@ -15,7 +15,7 @@ object UdpDataJsonProtocol extends DefaultJsonProtocol {
   implicit val carDamageFormat = jsonFormat2(CarDamage)
   implicit val hwStateFormat = jsonFormat3(HWState)
   implicit val telemetryDataFormat = jsonFormat10(TelemetryData)
-  implicit val raceDataFormat = jsonFormat16(RaceData)
+  implicit val raceDataFormat = jsonFormat18(RaceData)
   implicit val participantsDataFormat = jsonFormat3(ParticipantsData)
   implicit val participantInfoFormat = jsonFormat13(ParticipantInfo)
   implicit val timingsDataFormat = jsonFormat8(TimingsData)
@@ -224,7 +224,9 @@ case class RaceData(
     trackVariation: String,
     translatedTrackLocation: String,
     translatedTrackVariation: String,
-    lapsTimeInEvent: Int, // contains lap number for lap based session or quantized session duration (number of 5mins) for timed sessions, the top bit is 1 for timed sessions
+    lapsTimeInEvent: Int, // contains lap number for lap based session or quantized session duration (number of 5mins) for timed sessions, the top bit is 1 for timed sessions TODO: セッション時間の場合、常に値が 65535 になる。
+    lapsInEvent: Int,
+    sessionLengthTimeInEvent: Int,
     enforcedPitStopLap: Byte
 ) extends UdpData {
   def toJsonString: String = this.toJson.toString
@@ -272,7 +274,7 @@ case class ParticipantInfo(
     orientation: Array[Short], // Quantized heading (-PI .. +PI) , Quantized pitch (-PI / 2 .. +PI / 2),  Quantized bank (-PI .. +PI).
     currentLapDistance: Int,
     racePosition: Short, // holds the race position, + top bit shows if the participant is active or not
-    isParticipantActive: Boolean,
+    isActive: Boolean,
     sector: Short, // sector + extra precision bits for x/z position
     highestFlag: Short,
     pitModeSchedule: Short,

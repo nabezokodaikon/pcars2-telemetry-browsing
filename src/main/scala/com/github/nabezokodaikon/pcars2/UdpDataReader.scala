@@ -292,6 +292,13 @@ object UdpDataReader extends LazyLogging {
     val (lapsTimeInEvent, data16) = readUShort(data15)
     val (enforcedPitStopLap, nextData) = readByte(data16)
 
+    val isTimedSessions = (lapsTimeInEvent >> 15) == 1
+    val sessionLength = (lapsTimeInEvent & 32767)
+    val (lapsInEvent, sessionLengthTimeInEvent) = isTimedSessions match {
+      case true => (0, sessionLength * 300)
+      case false => (sessionLength, 0)
+    }
+
     RaceData(
       base = base,
       worldFastestLapTime = worldFastestLapTime,
@@ -308,6 +315,8 @@ object UdpDataReader extends LazyLogging {
       translatedTrackLocation = translatedTrackLocation,
       translatedTrackVariation = translatedTrackVariation,
       lapsTimeInEvent = lapsTimeInEvent,
+      lapsInEvent = lapsInEvent,
+      sessionLengthTimeInEvent = sessionLengthTimeInEvent,
       enforcedPitStopLap = enforcedPitStopLap
     )
   }
@@ -344,8 +353,8 @@ object UdpDataReader extends LazyLogging {
         orientation = orientation,
         currentLapDistance = currentLapDistance,
         racePosition = (racePosition & 127).toShort,
-        isParticipantActive = ((racePosition >> 7) == 1),
-        sector = sector,
+        isActive = ((racePosition >> 7) == 1),
+        sector = ((sector & 7) + 1).toShort,
         highestFlag = highestFlag,
         pitModeSchedule = pitModeSchedule,
         carIndex = carIndex,
