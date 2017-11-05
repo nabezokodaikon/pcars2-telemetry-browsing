@@ -83,7 +83,7 @@ class SimpleContent extends React.Component {
   getDataValueStyle() {
     return {
       margin: "0.5rem",
-      fontSize: "4.25rem",
+      fontSize: "3.25rem",
       fontFamily: "'Inconsolata', monospace",
       transform: "skewX(12deg)"
     };
