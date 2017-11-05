@@ -311,14 +311,14 @@ object UdpDataReader extends LazyLogging {
 
     RaceData(
       base = base,
-      worldFastestLapTime = worldFastestLapTime,
-      personalFastestLapTime = personalFastestLapTime,
-      personalFastestSector1Time = personalFastestSector1Time,
-      personalFastestSector2Time = personalFastestSector2Time,
-      personalFastestSector3Time = personalFastestSector3Time,
-      worldFastestSector1Time = worldFastestSector1Time,
-      worldFastestSector2Time = worldFastestSector2Time,
-      worldFastestSector3Time = worldFastestSector3Time,
+      worldFastestLapTime = worldFastestLapTime.toMinuteFormatFromSeconds,
+      personalFastestLapTime = personalFastestLapTime.toMinuteFormatFromSeconds,
+      personalFastestSector1Time = personalFastestSector1Time.toMinuteFormatFromSeconds,
+      personalFastestSector2Time = personalFastestSector2Time.toMinuteFormatFromSeconds,
+      personalFastestSector3Time = personalFastestSector3Time.toMinuteFormatFromSeconds,
+      worldFastestSector1Time = worldFastestSector1Time.toMinuteFormatFromSeconds,
+      worldFastestSector2Time = worldFastestSector2Time.toMinuteFormatFromSeconds,
+      worldFastestSector3Time = worldFastestSector3Time.toMinuteFormatFromSeconds,
       trackLength = trackLength,
       trackLocation = trackLocation,
       trackVariation = trackVariation,
@@ -370,8 +370,8 @@ object UdpDataReader extends LazyLogging {
         carIndex = carIndex,
         raceState = raceState,
         currentLap = currentLap,
-        currentTime = currentTime,
-        currentSectorTime = currentSectorTime
+        currentTime = currentTime.toMinuteFormatFromSeconds,
+        currentSectorTime = currentSectorTime.toMinuteFormatFromSeconds
       ),
       nextData
     )
@@ -436,12 +436,12 @@ object UdpDataReader extends LazyLogging {
 
     (
       ParticipantStatsInfo(
-        fastestLapTime = fastestLapTime,
-        lastLapTime = lastLapTime,
-        lastSectorTime = lastSectorTime,
-        fastestSector1Time = fastestSector1Time,
-        fastestSector2Time = fastestSector2Time,
-        fastestSector3Time = fastestSector3Time
+        fastestLapTime = fastestLapTime.toMinuteFormatFromSeconds,
+        lastLapTime = lastLapTime.toMinuteFormatFromSeconds,
+        lastSectorTime = lastSectorTime.toMinuteFormatFromSeconds,
+        fastestSector1Time = fastestSector1Time.toMinuteFormatFromSeconds,
+        fastestSector2Time = fastestSector2Time.toMinuteFormatFromSeconds,
+        fastestSector3Time = fastestSector3Time.toMinuteFormatFromSeconds
       ),
       nextData
     )

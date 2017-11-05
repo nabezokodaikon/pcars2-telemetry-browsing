@@ -18,6 +18,7 @@ object BigDecimalSupport {
     def toHourFormatFromMilliseconds(): String = {
       value.compareTo(BigDecimal.ZERO) match {
         case -1 => "--:--:--.---"
+        case 0 => "--:--:--.---"
         case _ =>
           value.divideAndRemainder(divisor1000) match {
             case Array(srcSeconds, milliseconds) =>
@@ -35,6 +36,7 @@ object BigDecimalSupport {
     def toHourFormatFromSeconds(): String = {
       value.compareTo(BigDecimal.ZERO) match {
         case -1 => "--:--:--.---"
+        case 0 => "--:--:--.---"
         case _ =>
           value.divideAndRemainder(divisor60) match {
             case Array(srcMinutes, seconds) =>
@@ -50,6 +52,7 @@ object BigDecimalSupport {
     def toMinuteFormatFromMilliseconds(): String = {
       value.compareTo(BigDecimal.ZERO) match {
         case -1 => "--:--.---"
+        case 0 => "--:--.---"
         case _ =>
           value.divideAndRemainder(divisor1000) match {
             case Array(srcSeconds, milliseconds) =>
@@ -64,6 +67,7 @@ object BigDecimalSupport {
     def toMinuteFormatFromSeconds(): String = {
       value.compareTo(BigDecimal.ZERO) match {
         case -1 => "--:--.---"
+        case 0 => "--:--.---"
         case _ =>
           value.divideAndRemainder(divisor60) match {
             case Array(minutes, seconds) =>

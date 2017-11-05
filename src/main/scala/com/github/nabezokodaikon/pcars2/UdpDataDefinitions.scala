@@ -215,14 +215,14 @@ case class TelemetryData(
 // partialPacketNumber = 1 Only
 case class RaceData(
     base: PacketBase,
-    worldFastestLapTime: Float,
-    personalFastestLapTime: Float, // [ Unit: Seconds ]
-    personalFastestSector1Time: Float, // [ Unit: Seconds ]
-    personalFastestSector2Time: Float, // [ Unit: Seconds ]
-    personalFastestSector3Time: Float, // [ Unit: Seconds ]
-    worldFastestSector1Time: Float, // [ Unit: Seconds ]
-    worldFastestSector2Time: Float, // [ Unit: Seconds ]
-    worldFastestSector3Time: Float, // [ Unit: Seconds ]
+    worldFastestLapTime: String, // [ Unit: Seconds ]
+    personalFastestLapTime: String, // [ Unit: Seconds ]
+    personalFastestSector1Time: String, // [ Unit: Seconds ]
+    personalFastestSector2Time: String, // [ Unit: Seconds ]
+    personalFastestSector3Time: String, // [ Unit: Seconds ]
+    worldFastestSector1Time: String, // [ Unit: Seconds ]
+    worldFastestSector2Time: String, // [ Unit: Seconds ]
+    worldFastestSector3Time: String, // [ Unit: Seconds ]
     trackLength: Float,
     trackLocation: String,
     trackVariation: String,
@@ -285,8 +285,8 @@ case class ParticipantInfo(
     carIndex: Int, // top bit shows if participant is (local or remote) human player or not
     raceState: Short, // race state flags + invalidated lap indication --
     currentLap: Short,
-    currentTime: Float, // [ Unit: Seconds ]
-    currentSectorTime: Float // [ Unit: Seconds ]
+    currentTime: String, // [ Unit: Seconds ]
+    currentSectorTime: String // [ Unit: Seconds ]
 )
 
 // partialPacketNumber = 1 Only
@@ -360,12 +360,12 @@ case class GameStateData(
 //
 *******************************************************************************************************************/
 case class ParticipantStatsInfo(
-    fastestLapTime: Float, // [ Unit: Seconds ]
-    lastLapTime: Float, // [ Unit: Seconds ]
-    lastSectorTime: Float, // [ Unit: Seconds ]
-    fastestSector1Time: Float, // [ Unit: Seconds ]
-    fastestSector2Time: Float, // [ Unit: Seconds ]
-    fastestSector3Time: Float // [ Unit: Seconds ]
+    fastestLapTime: String, // [ Unit: Seconds ]
+    lastLapTime: String, // [ Unit: Seconds ]
+    lastSectorTime: String, // [ Unit: Seconds ]
+    fastestSector1Time: String, // [ Unit: Seconds ]
+    fastestSector2Time: String, // [ Unit: Seconds ]
+    fastestSector3Time: String // [ Unit: Seconds ]
 )
 
 case class ParticipantsStats(
