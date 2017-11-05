@@ -17,7 +17,7 @@ object UdpDataJsonProtocol extends DefaultJsonProtocol {
   implicit val telemetryDataFormat = jsonFormat10(TelemetryData)
   implicit val raceDataFormat = jsonFormat16(RaceData)
   implicit val participantsDataFormat = jsonFormat3(ParticipantsData)
-  implicit val participantInfoFormat = jsonFormat12(ParticipantInfo)
+  implicit val participantInfoFormat = jsonFormat13(ParticipantInfo)
   implicit val timingsDataFormat = jsonFormat8(TimingsData)
   implicit val gameStateDataFormat = jsonFormat11(GameStateData)
   implicit val participantStatsInfoFormat = jsonFormat6(ParticipantStatsInfo)
@@ -272,6 +272,7 @@ case class ParticipantInfo(
     orientation: Array[Short], // Quantized heading (-PI .. +PI) , Quantized pitch (-PI / 2 .. +PI / 2),  Quantized bank (-PI .. +PI).
     currentLapDistance: Int,
     racePosition: Short, // holds the race position, + top bit shows if the participant is active or not
+    isParticipantActive: Boolean,
     sector: Short, // sector + extra precision bits for x/z position
     highestFlag: Short,
     pitModeSchedule: Short,

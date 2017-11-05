@@ -74,7 +74,7 @@ class TimingsData extends React.Component {
           );
         });
       } else {
-        return <td key={key}>{value}</td>;
+        return <td key={key}>{value.toString()}</td>;
       }
     };
 
