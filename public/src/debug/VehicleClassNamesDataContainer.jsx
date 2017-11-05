@@ -10,9 +10,22 @@ class VehicleClassNamesData extends React.Component {
   }
 
   createRecords() {
+    const createBase = () => {
+      const data = this.props.vehicleClassNamesData.base;
+      return Object.keys(data).map(key => {
+        const value = data[key];
+        return (
+          <tr key={key}>
+            <td>{key}</td>
+            <td>{value}</td>
+          </tr>
+        );
+      });
+    }
+
     const createVehicleClassNamesData = () => {
       const data = this.props.vehicleClassNamesData;
-      return Object.keys(data).filter(key => !isArray(data[key])).map(key => {
+      return Object.keys(data).filter(key => key !== "base" && !isArray(data[key])).map(key => {
         const value = data[key];
         if (isJson(value)) {
           return Object.keys(value).map(key => {
@@ -54,6 +67,10 @@ class VehicleClassNamesData extends React.Component {
     return (
       <table>
         <tbody>
+          <tr>
+            <td>PacketBase</td>
+          </tr>
+          {createBase()}
           <tr>
             <td>VehicleClassNamesData</td>
           </tr>

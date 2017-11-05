@@ -10,9 +10,22 @@ class RaceData extends React.Component {
   }
 
   createRecords() {
+    const createBase = () => {
+      const data = this.props.raceData.base;
+      return Object.keys(data).map(key => {
+        const value = data[key];
+        return (
+          <tr key={key}>
+            <td>{key}</td>
+            <td>{value}</td>
+          </tr>
+        );
+      });
+    }
+
     const createRaceData = () => {
       const data = this.props.raceData;
-      return Object.keys(data).map(valueName => {
+      return Object.keys(data).filter(key => key !== "base").map(valueName => {
         const value = data[valueName];
         if (isJson(value)) {
           return Object.keys(value).map(key => {
@@ -37,6 +50,10 @@ class RaceData extends React.Component {
     return (
       <table>
         <tbody>
+          <tr>
+            <td>PacketBase</td>
+          </tr>
+          {createBase()}
           <tr>
             <td>RaceData</td>
           </tr>

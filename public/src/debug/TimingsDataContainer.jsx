@@ -10,9 +10,22 @@ class TimingsData extends React.Component {
   }
 
   createRecords() {
+    const createBase = () => {
+      const data = this.props.timingsData.base;
+      return Object.keys(data).map(key => {
+        const value = data[key];
+        return (
+          <tr key={key}>
+            <td>{key}</td>
+            <td>{value}</td>
+          </tr>
+        );
+      });
+    }
+
     const createTimingsData = () => {
       const data = this.props.timingsData;
-      return Object.keys(data).filter(valueName => !isArray(data[valueName])).map(valueName => {
+      return Object.keys(data).filter(valueName => valueName !== "base" && !isArray(data[valueName])).map(valueName => {
         const value = data[valueName];
         if (isJson(value)) {
           return Object.keys(value).map(key => {
@@ -81,6 +94,10 @@ class TimingsData extends React.Component {
     return (
       <table>
         <tbody>
+          <tr>
+            <td>PacketBase</td>
+          </tr>
+          {createBase()}
           <tr>
             <td>TimingsData</td>
           </tr>

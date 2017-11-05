@@ -31,7 +31,9 @@ object UdpDataReader extends LazyLogging {
         partialPacketIndex = partialPacketIndex,
         partialPacketNumber = partialPackatNumber,
         packetType = packetType,
-        packetVersion = packetVersion
+        packetVersion = packetVersion,
+        dataTimestamp = System.currentTimeMillis,
+        dataSize = data1.length.toShort
       ),
       nextData
     )

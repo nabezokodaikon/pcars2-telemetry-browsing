@@ -4,7 +4,7 @@ import spray.json._
 import DefaultJsonProtocol._
 
 object UdpDataJsonProtocol extends DefaultJsonProtocol {
-  implicit val packetBaseFormat = jsonFormat6(PacketBase)
+  implicit val packetBaseFormat = jsonFormat8(PacketBase)
   implicit val telemetryParticipantInfoFormat = jsonFormat1(TelemetryParticipantInfo)
   implicit val unfilteredInputFormat = jsonFormat4(UnfilteredInput)
   implicit val carStateFormat = jsonFormat19(CarState)
@@ -14,19 +14,19 @@ object UdpDataJsonProtocol extends DefaultJsonProtocol {
   implicit val tyre3Format = jsonFormat4(Tyre3)
   implicit val carDamageFormat = jsonFormat2(CarDamage)
   implicit val hwStateFormat = jsonFormat3(HWState)
-  implicit val telemetryDataFormat = jsonFormat12(TelemetryData)
-  implicit val raceDataFormat = jsonFormat18(RaceData)
-  implicit val participantsDataFormat = jsonFormat5(ParticipantsData)
+  implicit val telemetryDataFormat = jsonFormat10(TelemetryData)
+  implicit val raceDataFormat = jsonFormat16(RaceData)
+  implicit val participantsDataFormat = jsonFormat3(ParticipantsData)
   implicit val participantInfoFormat = jsonFormat12(ParticipantInfo)
-  implicit val timingsDataFormat = jsonFormat10(TimingsData)
-  implicit val gameStateDataFormat = jsonFormat13(GameStateData)
+  implicit val timingsDataFormat = jsonFormat8(TimingsData)
+  implicit val gameStateDataFormat = jsonFormat11(GameStateData)
   implicit val participantStatsInfoFormat = jsonFormat6(ParticipantStatsInfo)
   implicit val participantsStatsFormat = jsonFormat1(ParticipantsStats)
-  implicit val timeStatsDataFormat = jsonFormat5(TimeStatsData)
+  implicit val timeStatsDataFormat = jsonFormat3(TimeStatsData)
   implicit val vehicleInfoFormat = jsonFormat3(VehicleInfo)
-  implicit val participantVehicleNamesDataFormat = jsonFormat4(ParticipantVehicleNamesData)
+  implicit val participantVehicleNamesDataFormat = jsonFormat2(ParticipantVehicleNamesData)
   implicit val classInfoFormat = jsonFormat2(ClassInfo)
-  implicit val vehicleClassNamesDataFormat = jsonFormat4(VehicleClassNamesData)
+  implicit val vehicleClassNamesDataFormat = jsonFormat2(VehicleClassNamesData)
 }
 
 import UdpDataJsonProtocol._
@@ -81,7 +81,9 @@ case class PacketBase(
     partialPacketIndex: Short, // 8 If the data from this class had to be sent in several packets, the index number
     partialPacketNumber: Short, // 9 If the data from this class had to be sent in several packets, the total number
     packetType: Short, // 10 what is the type of this packet (see EUDPStreamerPacketHanlderType for details)
-    packetVersion: Short // 11 what is the version of protocol for this handler, to be bumped with data structure change
+    packetVersion: Short, // 11 what is the version of protocol for this handler, to be bumped with data structure change
+    dataTimestamp: Long,
+    dataSize: Short
 )
 
 /*******************************************************************************************************************
@@ -184,8 +186,6 @@ case class HWState(
 
 // partialPacketNumber = 1 Only
 case class TelemetryData(
-    time: Long = System.currentTimeMillis,
-    size: Short = PacketSize.TELEMETRY_DATA,
     base: PacketBase,
     participantinfo: TelemetryParticipantInfo,
     unfilteredInput: UnfilteredInput,
@@ -210,8 +210,6 @@ case class TelemetryData(
 *******************************************************************************************************************/
 // partialPacketNumber = 1 Only
 case class RaceData(
-    time: Long = System.currentTimeMillis,
-    size: Short = PacketSize.RACE_DATA,
     base: PacketBase,
     worldFastestLapTime: Float,
     personalFastestLapTime: Float,
@@ -244,8 +242,6 @@ case class RaceData(
 *******************************************************************************************************************/
 // partialPacketNumber = 1 or 2
 case class ParticipantsData(
-    time: Long = System.currentTimeMillis,
-    size: Short = PacketSize.PARTICIPANTS_DATA,
     base: PacketBase,
     participantsChangedTimestamp: Long,
     name: Array[String]
@@ -288,8 +284,6 @@ case class ParticipantInfo(
 
 // partialPacketNumber = 1 Only
 case class TimingsData(
-    time: Long = System.currentTimeMillis,
-    size: Short = PacketSize.TIMINGS_DATA,
     base: PacketBase,
     numParticipants: Byte,
     participantsChangedTimestamp: Long,
@@ -334,8 +328,6 @@ object SessionState {
 
 // partialPacketNumber = 1 Only
 case class GameStateData(
-    time: Long = System.currentTimeMillis,
-    size: Short = PacketSize.GAME_STATE_DATA,
     base: PacketBase,
     buildVersionNumber: Int,
     gameState: Byte, // first 3 bits are used for game state enum, second 3 bits for session state enum See shared memory example file for the enums
@@ -375,8 +367,6 @@ case class ParticipantsStats(
 
 // partialPacketNumber = 1 Only
 case class TimeStatsData(
-    time: Long = System.currentTimeMillis,
-    size: Short = PacketSize.TIME_STATS_DATA,
     base: PacketBase,
     participantsChangedTimestamp: Long,
     stats: ParticipantsStats
@@ -406,8 +396,6 @@ case class VehicleInfo(
 // partialPacketNumber = 1 or 2, 3
 // partialPacketIndex From 1 to partialPacketNumber - 1
 case class ParticipantVehicleNamesData(
-    time: Long = System.currentTimeMillis,
-    size: Short = PacketSize.PARTICIPANT_VEHICLE_NAMES_DATA,
     base: PacketBase,
     vehicles: Array[VehicleInfo]
 ) extends UdpData {
@@ -422,8 +410,6 @@ case class ClassInfo(
 // partialPacketNumber = 1 , 2 or 3
 // Measurement is impossible because partialPacketIndex and partialPacketNumber are always the same.
 case class VehicleClassNamesData(
-    time: Long = System.currentTimeMillis,
-    size: Short = PacketSize.VEHICLE_CLASS_NAMES_DATA,
     base: PacketBase,
     classes: Array[ClassInfo]
 ) extends UdpData {

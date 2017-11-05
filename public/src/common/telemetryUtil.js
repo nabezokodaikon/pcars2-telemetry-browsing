@@ -53,16 +53,14 @@ export function isParticipantVehicleNamesData(json) {
   return isJson(json)
     && existsKey(json, "base")
     && json.base.packetType == telemetryConst.PARTICIPANT_VEHICLE_NAMES
-    && existsKey(json, "size")
-    && json.size == telemetryConst.PARTICIPANT_VEHICLE_NAMES_DATA 
+    && json.base.dataSize == telemetryConst.PARTICIPANT_VEHICLE_NAMES_DATA 
 }
 
 export function isVehicleClassNamesData(json) {
   return isJson(json)
     && existsKey(json, "base")
     && json.base.packetType == telemetryConst.PARTICIPANT_VEHICLE_NAMES
-    && existsKey(json, "size")
-    && json.size == telemetryConst.VEHICLE_CLASS_NAMES_DATA 
+    && json.base.dataSize == telemetryConst.VEHICLE_CLASS_NAMES_DATA 
 }
 
 export function kmhToMIH(kmh) {

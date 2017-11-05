@@ -9,8 +9,6 @@ object UdpDataMerger {
       case Some(last) =>
         val name = dataList.flatMap(data => data.name).toArray
         val mergeData = ParticipantsData(
-          time = last.time,
-          size = last.size,
           base = last.base,
           participantsChangedTimestamp = last.participantsChangedTimestamp,
           name = name
@@ -26,8 +24,6 @@ object UdpDataMerger {
       case Some(last) =>
         val vehicles = dataList.flatMap(data => data.vehicles).toArray
         val mergeData = ParticipantVehicleNamesData(
-          time = last.time,
-          size = last.size,
           base = last.base,
           vehicles = vehicles
         )
@@ -42,8 +38,6 @@ object UdpDataMerger {
       case Some(last) =>
         val classes = dataList.flatMap(data => data.classes).toArray
         val mergeData = VehicleClassNamesData(
-          time = last.time,
-          size = last.size,
           base = last.base,
           classes = classes
         )
