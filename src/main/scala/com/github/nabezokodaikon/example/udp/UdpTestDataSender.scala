@@ -21,10 +21,11 @@ class UdpTestDataSender(clientManager: ActorRef) extends Actor with LazyLogging 
     .map {
       f =>
         f.getName match {
-          case regex(_, _, dateTime, ex) if ex == ".bin" => TestData(f.getAbsolutePath, dateTime.toLong)
+          case regex(kind, _, dateTime, ex) if ex == ".bin" /* && kind == "3" */ => TestData(f.getAbsolutePath, dateTime.toLong)
           case _ => TestData("", 0L)
         }
     }
+    .filter(_.path.length > 0)
     .sortBy(_.dateTime)
     .toList
 
