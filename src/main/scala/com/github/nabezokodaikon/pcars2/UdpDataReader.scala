@@ -344,7 +344,7 @@ object UdpDataReader extends LazyLogging {
         orientation = orientation,
         currentLapDistance = currentLapDistance,
         racePosition = (racePosition & 127).toShort,
-        isParticipantActive = (((racePosition & 128) >> 7) == 1),
+        isParticipantActive = ((racePosition >> 7) == 1),
         sector = sector,
         highestFlag = highestFlag,
         pitModeSchedule = pitModeSchedule,
