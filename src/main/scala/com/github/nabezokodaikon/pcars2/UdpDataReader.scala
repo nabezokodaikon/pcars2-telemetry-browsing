@@ -16,6 +16,15 @@ object UdpDataReader extends LazyLogging {
       case _ => (Array[T](), List[Byte]())
     }
 
+  private def toGearString(gearNumGears: Int): String = {
+    val gear = (gearNumGears & 15)
+    gear match {
+      case 15 => GEAR_REVERS
+      case 0 => GEAR_NEUTRAL
+      case _ => gear.toString
+    }
+  }
+
   def readPacketBase(data1: List[Byte]): (PacketBase, List[Byte]) = {
     val (packetNumber, data2) = readUInt(data1)
     val (categoryPacketNumber, data3) = readUInt(data2)
@@ -105,12 +114,13 @@ object UdpDataReader extends LazyLogging {
         rpm = rpm,
         maxRpm = maxRpm,
         steering = steering,
-        gearNumGears = gearNumGears,
+        gear = toGearString(gearNumGears),
+        numGears = (gearNumGears >> 4).toByte,
         boostAmount = boostAmount,
         crashState = crashState,
         odometerKM = odometerKM
       ),
-      nextData
+        nextData
     )
   }
 

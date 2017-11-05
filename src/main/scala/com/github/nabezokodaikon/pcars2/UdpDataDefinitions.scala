@@ -7,7 +7,7 @@ object UdpDataJsonProtocol extends DefaultJsonProtocol {
   implicit val packetBaseFormat = jsonFormat8(PacketBase)
   implicit val telemetryParticipantInfoFormat = jsonFormat1(TelemetryParticipantInfo)
   implicit val unfilteredInputFormat = jsonFormat4(UnfilteredInput)
-  implicit val carStateFormat = jsonFormat19(CarState)
+  implicit val carStateFormat = jsonFormat20(CarState)
   implicit val velocityFormat = jsonFormat7(Velocity)
   implicit val tyre1Format = jsonFormat22(Tyre1)
   implicit val tyre2Format = jsonFormat2(Tyre2)
@@ -65,6 +65,9 @@ object UdpDataConst {
   val VEHICLES_PER_PACKET: Byte = 16
   val CLASS_NAME_LENGTH_MAX: Byte = 20
   val CLASSES_SUPPORTED_PER_PACKET: Byte = 60
+
+  val GEAR_NEUTRAL: String = "N"
+  val GEAR_REVERS: String = "R"
 }
 
 trait UdpData {
@@ -121,7 +124,8 @@ case class CarState(
     rpm: Int,
     maxRpm: Int,
     steering: Byte,
-    gearNumGears: Short,
+    gear: String,
+    numGears: Byte,
     boostAmount: Short,
     crashState: Short,
     odometerKM: Float
