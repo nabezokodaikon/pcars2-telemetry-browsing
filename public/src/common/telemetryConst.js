@@ -34,3 +34,24 @@ export const TYRE_REAR_RIGHT = 3;
 export const VEC_X = 0;
 export const VEC_Y = 1;
 export const VEC_Z = 2;
+
+// Game state
+// gameState.gameState
+export const GAME_EXITED = 0;
+export const GAME_FRONT_END = 1;
+export const GAME_INGAME_PLAYING = 2;
+export const GAME_INGAME_PAUSED = 3;
+export const GAME_INGAME_INMENU_TIME_TICKING = 4;
+export const GAME_INGAME_RESTARTING = 5;
+export const GAME_INGAME_REPLAY = 6;
+export const GAME_FRONT_END_REPLAY = 7;
+
+// Session state
+// gameState.sessionState
+export const SESSION_INVALID = 0;
+export const SESSION_PRACTICE = 1
+export const SESSION_TEST = 2;
+export const SESSION_QUALIFY = 3;
+export const SESSION_FORMATION_LAP = 4;
+export const SESSION_RACE = 5;
+export const SESSION_TIME_ATTACK = 6;
