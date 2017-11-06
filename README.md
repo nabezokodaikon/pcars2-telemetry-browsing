@@ -1,5 +1,10 @@
 # pcars2 udp app
 ## Overview
+This application is a server that converts UDP data sent by PROJECT CARS 2 to HTTP.
+
+By accessing this server with WebBrowser, you can browse the telemetry etc of PROJECT CARS 2.
+
+This application can only be accessed within the same LAN as the UDP data being transmitted by PROJECT CARS 2.
 
 
 ## Install
@@ -9,6 +14,23 @@
 
 
 ## Usage
+### Settings
+#### Application setting
+* Edit the following items in `application.conf`
+  * Change `ip-address` to the IP address of the PC running this application.
+  * Change to the free port number of the PC that will run `port`.(Please change when it does not work with the default `9000`.)
+#### PROJECT CARS 2 setting
+1. Select `OPTIONS > SYSTEM`
+1. Set as follows.
+  * Shared Memory: No
+  * UDP Frequency: 4
+  * UDP Protocol Version: Project CARS 2
+
+### Run
+#### For Windows
+1. Please run `start-for-windows.bat`.
+1. Please execute `start-for- windows.bat` and access to the displayed address by WebBrowser of PC, smart phone or tablet in LAN.
+
 ### iPhone Web page to Home short cut
 * From the status bar of Safari, tap Add to Home Screen to create a shortcut on the home screen and display it in full screen.
 
