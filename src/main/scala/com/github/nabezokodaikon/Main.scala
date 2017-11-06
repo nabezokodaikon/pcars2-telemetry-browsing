@@ -74,7 +74,7 @@ object Main extends App with LazyLogging {
 
   logger.debug("Application start")
 
-  val file: String = s"${FileUtil.currentDirectory}/app.db"
+  val file: String = s"${FileUtil.currentDirectory}/option.db"
   using(new OptionDBAccessor(file)) { dac =>
     boot(dac)
   }
