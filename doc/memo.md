@@ -171,6 +171,7 @@
 
 ### sTelemetryDataのsTyreCompoundが、空文字(全て0値)で送信されている。
 * 報告済み。
+* まれに正しく取得できる。
 
 ### sRaceDataのsLapsTimeInEventでtimed sessionの場合に、時間の値が常に32767になっている。
 * 報告済み。
