@@ -133,6 +133,30 @@
   * NM
   * 小数点以下切り捨て
 
+### モーテック
+#### 1
+* Water Temp
+* Water Press
+* Oil Temp
+* Oil Press
+* RPM
+* Speed
+* Fuel
+* (Current) Lap Time
+#### 2
+* Fuel(Current)小数点第一位
+* Fuel Average
+* Fuel Last
+* Lap Time
+* Best Lap Time
+* Split Time
+* Race poticon(pos)
+* Laps
+#### 3
+* Tire Temp
+* Brace Temp
+* Brake % F (?)
+
 ### Detail view
 ### Tyre state chart
 ### Tyre state chart
