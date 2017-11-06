@@ -160,3 +160,17 @@
 * ParticipantsData
 * ParticipantVehicleNamesData
 * VehicleClassNamesData
+
+
+## Bug
+### sParticipantVehicleNamesDataのPacketBaseのmPartialPacketIndexがmPartialPacketNumberの値まで送信されていない。
+* 報告済み。
+
+### sVehicleClassNamesDataのPacketBaseのmPartialPacketIndexとmPartialPacketNumberが、常に同じ値で送信されており、データの結合ができない。
+* 報告済み。
+
+### sTelemetryDataのsTyreCompoundが、空文字(全て0値)で送信されている。
+* 報告済み。
+
+### sRaceDataのsLapsTimeInEventでtimed sessionの場合に、時間の値が常に32767になっている。
+* 報告済み。
