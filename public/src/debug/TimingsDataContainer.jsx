@@ -48,7 +48,7 @@ class TimingsData extends React.Component {
     }
 
     const createHeader = () => {
-      const data = this.props.timingsData.partcipants;
+      const data = this.props.timingsData.formatPartcipants;
       const firstData = data[0];
       return Object.keys(firstData).map(key => {
         const value = firstData[key];
@@ -79,7 +79,7 @@ class TimingsData extends React.Component {
     };
 
     const createRecords = () => {
-      const data = this.props.timingsData.partcipants;
+      const data = this.props.timingsData.formatPartcipants;
       return data.map((value, index) => {
         return (
           <tr key={index}>

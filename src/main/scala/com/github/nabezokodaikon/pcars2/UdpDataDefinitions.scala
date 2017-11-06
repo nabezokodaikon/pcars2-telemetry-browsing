@@ -18,10 +18,12 @@ object UdpDataJsonProtocol extends DefaultJsonProtocol {
   implicit val raceDataFormat = jsonFormat18(RaceData)
   implicit val participantsDataFormat = jsonFormat3(ParticipantsData)
   implicit val participantInfoFormat = jsonFormat13(ParticipantInfo)
-  implicit val timingsDataFormat = jsonFormat8(TimingsData)
+  implicit val formatParticipantInfoFormat = jsonFormat13(FormatParticipantInfo)
+  implicit val timingsDataFormat = jsonFormat9(TimingsData)
   implicit val gameStateDataFormat = jsonFormat11(GameStateData)
   implicit val participantStatsInfoFormat = jsonFormat6(ParticipantStatsInfo)
-  implicit val participantsStatsFormat = jsonFormat1(ParticipantsStats)
+  implicit val formatParticipantStatsInfoFormat = jsonFormat6(FormatParticipantStatsInfo)
+  implicit val participantsStatsFormat = jsonFormat2(ParticipantsStats)
   implicit val timeStatsDataFormat = jsonFormat3(TimeStatsData)
   implicit val vehicleInfoFormat = jsonFormat3(VehicleInfo)
   implicit val participantVehicleNamesDataFormat = jsonFormat2(ParticipantVehicleNamesData)
@@ -273,7 +275,7 @@ object RaceState {
   val RACESTATE_DNF = 6
 }
 
-case class ParticipantInfo(
+case class FormatParticipantInfo(
     worldPosition: Array[Short],
     orientation: Array[Short], // Quantized heading (-PI .. +PI) , Quantized pitch (-PI / 2 .. +PI / 2),  Quantized bank (-PI .. +PI).
     currentLapDistance: Int,
@@ -289,6 +291,22 @@ case class ParticipantInfo(
     currentSectorTime: String // [ Unit: Seconds ]
 )
 
+case class ParticipantInfo(
+    worldPosition: Array[Short],
+    orientation: Array[Short], // Quantized heading (-PI .. +PI) , Quantized pitch (-PI / 2 .. +PI / 2),  Quantized bank (-PI .. +PI).
+    currentLapDistance: Int,
+    racePosition: Short, // holds the race position, + top bit shows if the participant is active or not
+    isActive: Boolean,
+    sector: Short, // sector + extra precision bits for x/z position
+    highestFlag: Short,
+    pitModeSchedule: Short,
+    carIndex: Int, // top bit shows if participant is (local or remote) human player or not
+    raceState: Short, // race state flags + invalidated lap indication --
+    currentLap: Short,
+    currentTime: Float, // [ Unit: Seconds ]
+    currentSectorTime: Float // [ Unit: Seconds ]
+)
+
 // partialPacketNumber = 1 Only
 case class TimingsData(
     base: PacketBase,
@@ -298,7 +316,8 @@ case class TimingsData(
     splitTimeAhead: Float,
     splitTimeBehind: Float,
     splitTime: Float,
-    partcipants: Array[ParticipantInfo]
+    partcipants: Array[ParticipantInfo],
+    formatPartcipants: Array[FormatParticipantInfo]
 ) extends UdpData {
   def toJsonString: String = this.toJson.toString
 }
@@ -359,7 +378,7 @@ case class GameStateData(
 //	When it is sent: In Race
 //
 *******************************************************************************************************************/
-case class ParticipantStatsInfo(
+case class FormatParticipantStatsInfo(
     fastestLapTime: String, // [ Unit: Seconds ]
     lastLapTime: String, // [ Unit: Seconds ]
     lastSectorTime: String, // [ Unit: Seconds ]
@@ -368,8 +387,18 @@ case class ParticipantStatsInfo(
     fastestSector3Time: String // [ Unit: Seconds ]
 )
 
+case class ParticipantStatsInfo(
+    fastestLapTime: Float, // [ Unit: Seconds ]
+    lastLapTime: Float, // [ Unit: Seconds ]
+    lastSectorTime: Float, // [ Unit: Seconds ]
+    fastestSector1Time: Float, // [ Unit: Seconds ]
+    fastestSector2Time: Float, // [ Unit: Seconds ]
+    fastestSector3Time: Float // [ Unit: Seconds ]
+)
+
 case class ParticipantsStats(
-    participants: Array[ParticipantStatsInfo]
+    participants: Array[ParticipantStatsInfo],
+    formatParticipants: Array[FormatParticipantStatsInfo]
 )
 
 // partialPacketNumber = 1 Only

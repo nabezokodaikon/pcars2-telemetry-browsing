@@ -16,6 +16,13 @@ object UdpDataReader extends LazyLogging {
       case _ => (Array[T](), List[Byte]())
     }
 
+  private def readTupleDefineArray[T: ClassTag, U: ClassTag](func: List[Byte] => ((T, U), List[Byte]), data: List[Byte], dataCount: Int, dataLength: Int): (Array[(T, U)], List[Byte]) =
+    dataCount * dataLength match {
+      case len if len <= data.length =>
+        (data.take(len).grouped(dataLength).map(d => func(d)._1).toArray, data.drop(len))
+      case _ => (Array[(T, U)](), List[Byte]())
+    }
+
   private def toGearString(gearNumGears: Int): String = {
     val gear = (gearNumGears & 15)
     gear match {
@@ -343,7 +350,7 @@ object UdpDataReader extends LazyLogging {
     )
   }
 
-  private def readParticipantInfo(data1: List[Byte]): (ParticipantInfo, List[Byte]) = {
+  private def readParticipantInfo(data1: List[Byte]): ((ParticipantInfo, FormatParticipantInfo), List[Byte]) = {
     val (worldPosition, data2) = readShortArray(data1, 3)
     val (orientation, data3) = readShortArray(data2, 3)
     val (currentLapDistance, data4) = readUShort(data3)
@@ -357,22 +364,40 @@ object UdpDataReader extends LazyLogging {
     val (currentTime, data12) = readFloat(data11)
     val (currentSectorTime, nextData) = readFloat(data12)
 
+    val participantInfo = ParticipantInfo(
+      worldPosition = worldPosition,
+      orientation = orientation,
+      currentLapDistance = currentLapDistance,
+      racePosition = (racePosition & 127).toShort,
+      isActive = ((racePosition >> 7) == 1),
+      sector = ((sector & 7) + 1).toShort,
+      highestFlag = highestFlag,
+      pitModeSchedule = pitModeSchedule,
+      carIndex = carIndex,
+      raceState = raceState,
+      currentLap = currentLap,
+      currentTime = currentTime,
+      currentSectorTime = currentSectorTime
+    )
+
+    val formatParticipantInfo = FormatParticipantInfo(
+      worldPosition = participantInfo.worldPosition,
+      orientation = participantInfo.orientation,
+      currentLapDistance = participantInfo.currentLapDistance,
+      racePosition = participantInfo.racePosition,
+      isActive = participantInfo.isActive,
+      sector = participantInfo.sector,
+      highestFlag = participantInfo.highestFlag,
+      pitModeSchedule = participantInfo.pitModeSchedule,
+      carIndex = participantInfo.carIndex,
+      raceState = participantInfo.raceState,
+      currentLap = participantInfo.currentLap,
+      currentTime = participantInfo.currentTime.toMinuteFormatFromSeconds,
+      currentSectorTime = participantInfo.currentSectorTime.toMinuteFormatFromSeconds
+    )
+
     (
-      ParticipantInfo(
-        worldPosition = worldPosition,
-        orientation = orientation,
-        currentLapDistance = currentLapDistance,
-        racePosition = (racePosition & 127).toShort,
-        isActive = ((racePosition >> 7) == 1),
-        sector = ((sector & 7) + 1).toShort,
-        highestFlag = highestFlag,
-        pitModeSchedule = pitModeSchedule,
-        carIndex = carIndex,
-        raceState = raceState,
-        currentLap = currentLap,
-        currentTime = currentTime.toMinuteFormatFromSeconds,
-        currentSectorTime = currentSectorTime.toMinuteFormatFromSeconds
-      ),
+      (participantInfo, formatParticipantInfo),
       nextData
     )
   }
@@ -385,7 +410,7 @@ object UdpDataReader extends LazyLogging {
     val (splitTimeAhead, data6) = readFloat(data5)
     val (splitTimeBehind, data7) = readFloat(data6)
     val (splitTime, data8) = readFloat(data7)
-    val (partcipants, nextData) = readDefineArray(readParticipantInfo, data8, UDP_STREAMER_PARTICIPANTS_SUPPORTED, 30)
+    val (partcipants, nextData) = readTupleDefineArray(readParticipantInfo, data8, UDP_STREAMER_PARTICIPANTS_SUPPORTED, 30)
 
     TimingsData(
       base = base,
@@ -395,7 +420,8 @@ object UdpDataReader extends LazyLogging {
       splitTimeAhead = splitTimeAhead,
       splitTimeBehind = splitTimeBehind,
       splitTime = splitTime,
-      partcipants = partcipants
+      partcipants = partcipants.map(_._1),
+      formatPartcipants = partcipants.map(_._2)
     )
   }
 
@@ -426,7 +452,7 @@ object UdpDataReader extends LazyLogging {
     )
   }
 
-  def readParticipantStatsInfo(data1: List[Byte]): (ParticipantStatsInfo, List[Byte]) = {
+  def readParticipantStatsInfo(data1: List[Byte]): ((ParticipantStatsInfo, FormatParticipantStatsInfo), List[Byte]) = {
     val (fastestLapTime, data2) = readFloat(data1)
     val (lastLapTime, data3) = readFloat(data2)
     val (lastSectorTime, data4) = readFloat(data3)
@@ -434,27 +460,39 @@ object UdpDataReader extends LazyLogging {
     val (fastestSector2Time, data6) = readFloat(data5)
     val (fastestSector3Time, nextData) = readFloat(data6)
 
+    val participantStatsInfo = ParticipantStatsInfo(
+      fastestLapTime = fastestLapTime,
+      lastLapTime = lastLapTime,
+      lastSectorTime = lastSectorTime,
+      fastestSector1Time = fastestSector1Time,
+      fastestSector2Time = fastestSector2Time,
+      fastestSector3Time = fastestSector3Time
+    )
+
+    val formatParticipantStatsInfo = FormatParticipantStatsInfo(
+      fastestLapTime = participantStatsInfo.fastestLapTime.toMinuteFormatFromSeconds,
+      lastLapTime = participantStatsInfo.lastLapTime.toMinuteFormatFromSeconds,
+      lastSectorTime = participantStatsInfo.lastSectorTime.toMinuteFormatFromSeconds,
+      fastestSector1Time = participantStatsInfo.fastestSector1Time.toMinuteFormatFromSeconds,
+      fastestSector2Time = participantStatsInfo.fastestSector2Time.toMinuteFormatFromSeconds,
+      fastestSector3Time = participantStatsInfo.fastestSector3Time.toMinuteFormatFromSeconds
+    )
+
     (
-      ParticipantStatsInfo(
-        fastestLapTime = fastestLapTime.toMinuteFormatFromSeconds,
-        lastLapTime = lastLapTime.toMinuteFormatFromSeconds,
-        lastSectorTime = lastSectorTime.toMinuteFormatFromSeconds,
-        fastestSector1Time = fastestSector1Time.toMinuteFormatFromSeconds,
-        fastestSector2Time = fastestSector2Time.toMinuteFormatFromSeconds,
-        fastestSector3Time = fastestSector3Time.toMinuteFormatFromSeconds
-      ),
+      (participantStatsInfo, formatParticipantStatsInfo),
       nextData
     )
   }
 
   private def readParticipantsStats(data1: List[Byte]): (ParticipantsStats, List[Byte]) = {
-    val (participants, nextData) = readDefineArray(readParticipantStatsInfo, data1, UDP_STREAMER_PARTICIPANTS_SUPPORTED, 24)
+    val (participants, nextData) = readTupleDefineArray(readParticipantStatsInfo, data1, UDP_STREAMER_PARTICIPANTS_SUPPORTED, 24)
 
     (
       ParticipantsStats(
-        participants = participants
+        participants = participants.map(_._1),
+        formatParticipants = participants.map(_._2)
       ),
-      nextData
+        nextData
     )
   }
 

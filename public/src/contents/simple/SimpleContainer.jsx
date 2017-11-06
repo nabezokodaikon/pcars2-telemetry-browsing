@@ -135,7 +135,7 @@ class SimpleContent extends React.Component {
     }
 
     const carState = telemetryData.carState; 
-    const partcipant = timingsData.partcipants[telemetryData.participantinfo.viewedParticipantIndex];
+    const partcipant = timingsData.formatPartcipants[telemetryData.participantinfo.viewedParticipantIndex];
 
     const eventTimeRemaining = timingsData.eventTimeRemaining;
     const isTimedSessions = (eventTimeRemaining !== "--:--:--.---"); 
