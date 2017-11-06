@@ -40,6 +40,7 @@ object Main extends App with LazyLogging {
 
     val ipAddress = config.getString("app.server.ip-address")
     val port = config.getInt("app.server.port")
+    println(s"Please access 'http://${ipAddress}:${port}' on the Web browser.")
     server.startServer(ipAddress, port, system)
 
     // Test code.
