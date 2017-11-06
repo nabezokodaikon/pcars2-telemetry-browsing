@@ -90,50 +90,71 @@
 * タイヤ横の走行距離
   * TyreUdpData.suspensionTravel
       
-### Tyre(Telemetry)
+### Tyre
 #### 中央
 * タイヤの摩耗
-  * tyreData.tyreWear
-  * 0.00が摩耗無し - 1.00?
+  * telemetryData.tyre1.tyreWear
+  * 現在は値がよくわからない。
   * 緑のメーターが上から縮んでいく。
-  * メーターは0.4でなくなるようにする。
 #### 上
 * タイヤ温度
-  * tyreData.tyreTemp
+  * telemetryData.tyre1.tyreTempLeft
+  * telemetryData.tyre1.tyreTempCenter
+  * telemetryData.tyre1.tyreTempRight
 #### 下
 * 空気圧
-  * tyreData.airPressure
+  * telemetryData.tyre2.airPressure の100分の1
   * bar
 #### 左
 * BUMP
 * TRAEL
-  * tyreData.suspensionTravel
+  * telemetryData.tyre1.suspensionTravel (メートル単位)
   * cm
 * HEIGHT
-  * tyreData.rideHeight
+  * telemetryData.tyre1.rideHeight (メートル単位)
   * cm
 #### 右
 * ブレーキ温度
-  * tyreData.brakeTempCelsius
+  * telemetryData.tyre1.brakeTempCelsius / 255
   * 摂氏
 ### 他
 * 単位はケルビンと思われる。
-  * tyreData.tyreRimTemp
-  * tyreData.tyreCarcaseTemp
-  * tyreData.tyreLayerTemp
+  * telemetryData.tyre1.tyreRimTemp
+  * telemetryData.tyre1.tyreCarcaseTemp
+  * telemetryData.tyre1.tyreLayerTemp
 * タイヤ内部空気温度
-  * tyreData.tyreInternalAirTemp
-  * tyreData.tyreTreadTemp
+  * telemetryData.tyre1.tyreInternalAirTemp
+  * telemetryData.tyre1.tyreTreadTemp
 
 ### 画面右下
 * Speed
 * POWER
 * TORQUE
-  * otherUdpData.engineToque
+  * telemetryData.tyre3.engineToque
   * NM
   * 小数点以下切り捨て
 
-### モーテック
+
+## Time
+* GAP(1位マシンとの差)(1位の場合は空白)
+* Fastest lap
+  * BestLAPTimeとの差(BESTLAP DELTA +00:00.000)
+  * timeStatsData.participants[0].fastestLapTime(きれいに走らないと記録されない。)
+* splitTime
+  * timingsData.splitTime
+* LAP
+  * timeStatsData.participants[0].lastLapTime
+  * timingsData.particpants[0].currentTime
+  * timingsData.particpants[0].currentLap
+* S1, S2, S3
+  * timeStatsData.participants[0].lastSectorTime
+  * timingsData.particpants[0].currentSectorTime
+  * timingsData.particpants[0].sector
+* current情報のsectorとlapを監視して、timeStatsDataが来たときにsectorとlapを変更する。
+* 複数周保持したい。
+
+
+## Motec LCD
 #### 1
 * Water Temp
 * Water Press
