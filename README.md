@@ -8,9 +8,11 @@ This application can only be accessed within the same LAN as the UDP data being 
 
 
 ## Install
+TODO
 
 
 ## Uninstall
+TODO
 
 
 ## Usage
