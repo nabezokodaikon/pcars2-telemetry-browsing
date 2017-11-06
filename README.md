@@ -1,4 +1,6 @@
-# pcars2 udp app
+# Telemetry browsing for Project Cars 2
+[Source code](https://github.com/nabezokodaikon/pcars2-telemetry-browsing)
+
 ## Overview
 This application is a server that converts UDP data sent by PROJECT CARS 2 to HTTP.
 
