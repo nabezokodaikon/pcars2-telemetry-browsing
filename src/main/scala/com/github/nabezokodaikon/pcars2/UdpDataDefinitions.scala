@@ -151,23 +151,23 @@ case class Tyre1(
     tyreWear: Array[Short],
     brakeDamage: Array[Short],
     suspensionDamage: Array[Short],
-    brakeTempCelsius: Array[Short],
+    brakeTempCelsius: Array[Short], // [ Unit: Celsius ] [ Convert: value / 255 ]
     tyreTreadTemp: Array[Int],
     tyreLayerTemp: Array[Int],
     tyreCarcassTemp: Array[Int],
     tyreRimTemp: Array[Int],
     tyreInternalAirTemp: Array[Int],
-    tyreTempLeft: Array[Int],
-    tyreTempCenter: Array[Int],
-    tyreTempRight: Array[Int],
+    tyreTempLeft: Array[Int], // [ Unit: Celsius ]
+    tyreTempCenter: Array[Int], // [ Unit: Celsius ]
+    tyreTempRight: Array[Int], // [ Unit: Celsius ]
     wheelLocalPositionY: Array[Float],
-    rideHeight: Array[Float],
-    suspensionTravel: Array[Float],
+    rideHeight: Array[Float], // [ Unit: Metric ]
+    suspensionTravel: Array[Float], // [ Unit: Metric ]
     suspensionVelocity: Array[Float]
 )
 case class Tyre2(
     suspensionRideHeight: Array[Int],
-    airPressure: Array[Int]
+    airPressure: Array[Int] // [ Unit: bar ] [ Convert: value / 10 ]
 )
 
 case class Tyre3(
