@@ -174,3 +174,21 @@
 
 ### sRaceDataのsLapsTimeInEventでtimed sessionの場合に、時間の値が常に32767になっている。
 * 報告済み。
+
+### Tire data of sTelemetryData
+* 報告済み。
+#### FrontLeft
+* sTyreTempRight = Fixed 0
+* sTyreTempCenter = Fixed 0
+* sTyreTempLeft = Fixed 0
+* sAirPressure = Fixed 65467
+* sBrakeTempCelsius = Unknown value 
+* sTyreWear = Unknown value
+* sRideHeight = Unknown value
+* sSuspensionRideHeight = Unknown value
+### FrontRight
+* sTyreWear = Increasing or decreasing
+### RearLeft
+* sTyreWear = It is unknown whether the value is correct when compared with RearRight.
+### RearRight
+* sTyreWear = It is unknown whether the value is correct when compared with RearLeft.
