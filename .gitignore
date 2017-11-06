@@ -40,3 +40,6 @@ public/dist/
 # Sample data
 sample/screenshot/
 sample/testdata/
+
+# publish
+publish/

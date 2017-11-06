@@ -1,6 +1,6 @@
 lazy val commonSettings = Seq(
   organization := "com.github.nabezokodaikon",
-  name := "pcars2-udp-app",
+  name := "pcars2-telemetry-browsing",
   version := "0.0.1",
   scalaVersion := "2.12.4",
   scalacOptions ++= Seq(
