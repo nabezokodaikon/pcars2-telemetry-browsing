@@ -13,7 +13,9 @@ import com.typesafe.scalalogging.LazyLogging
 
 case class CurrentData(
     currentLap: Short,
-    sector: Short
+    sector: Short,
+    currentTime: Float,
+    currentSectorTime: Float
 )
 
 case class LapData(
@@ -43,6 +45,7 @@ case class LapData(
 
 case class History(
     viewedParticipantIndex: Byte,
+    currentView: Option[LapData],
     currentData: Option[CurrentData],
     currentLapData: Option[LapData],
     lapDataList: List[LapData]
@@ -65,12 +68,62 @@ final class TimeDetailsStorage(clientManager: ClientManager)
   }
 
   private def createHistory(viewedParticipantIndex: Byte) = {
-    History(viewedParticipantIndex, None, None, List[LapData]())
+    History(viewedParticipantIndex, None, None, None, List[LapData]())
   }
 
   private def mergeHistory(history: History, currentData: CurrentData): History = {
+    val currentView = history.currentLapData match {
+      case Some(currentLapData) => currentData.sector match {
+        case 1 =>
+          Some(LapData(
+            currentData.currentLap,
+            Some(currentData.currentSectorTime), None, None,
+            Some(currentData.currentTime)
+          ))
+        case 2 =>
+          Some(LapData(
+            currentData.currentLap,
+            currentLapData.sector1, Some(currentData.currentSectorTime), None,
+            Some(currentData.currentTime)
+          ))
+        case 3 =>
+          Some(LapData(
+            currentData.currentLap,
+            currentLapData.sector1, currentLapData.sector2, Some(currentData.currentSectorTime),
+            Some(currentData.currentTime)
+          ))
+        case _ =>
+          logger.warn(s"Received unknown sector: ${currentData.sector}")
+          None
+      }
+      case None => currentData.sector match {
+        case 1 =>
+          Some(LapData(
+            currentData.currentLap,
+            Some(currentData.currentSectorTime), None, None,
+            Some(currentData.currentTime)
+          ))
+        case 2 =>
+          Some(LapData(
+            currentData.currentLap,
+            None, Some(currentData.currentSectorTime), None,
+            Some(currentData.currentTime)
+          ))
+        case 3 =>
+          Some(LapData(
+            currentData.currentLap,
+            None, None, Some(currentData.currentSectorTime),
+            Some(currentData.currentTime)
+          ))
+        case _ =>
+          logger.warn(s"Received unknown sector: ${currentData.sector}")
+          None
+      }
+    }
+
     History(
       history.viewedParticipantIndex,
+      currentView,
       Some(currentData),
       history.currentLapData,
       history.lapDataList
@@ -80,6 +133,7 @@ final class TimeDetailsStorage(clientManager: ClientManager)
   private def mergeHistory(history: History, currentLapData: LapData): History = {
     History(
       history.viewedParticipantIndex,
+      history.currentView,
       history.currentData,
       Some(currentLapData),
       history.lapDataList
@@ -89,6 +143,7 @@ final class TimeDetailsStorage(clientManager: ClientManager)
   private def addHistory(history: History, currentLapData: LapData): History = {
     History(
       history.viewedParticipantIndex,
+      history.currentView,
       history.currentData,
       None,
       history.lapDataList :+ currentLapData
@@ -111,13 +166,19 @@ final class TimeDetailsStorage(clientManager: ClientManager)
           val participant = udpData.partcipants(history.viewedParticipantIndex)
           if (participant.currentLap != currentData.currentLap
             || participant.sector != currentData.sector) {
-            val newCurrentData = CurrentData(participant.currentLap, participant.sector)
+            val newCurrentData = CurrentData(
+              participant.currentLap, participant.sector,
+              participant.currentTime, participant.currentSectorTime
+            )
             val nextHistory = mergeHistory(history, newCurrentData)
             context.become(processing(nextHistory))
           }
         case None =>
           val participant = udpData.partcipants(history.viewedParticipantIndex)
-          val newCurrentData = CurrentData(participant.currentLap, participant.sector)
+          val newCurrentData = CurrentData(
+            participant.currentLap, participant.sector,
+            participant.currentTime, participant.currentSectorTime
+          )
           val nextHistory = mergeHistory(history, newCurrentData)
           context.become(processing(nextHistory))
       }
