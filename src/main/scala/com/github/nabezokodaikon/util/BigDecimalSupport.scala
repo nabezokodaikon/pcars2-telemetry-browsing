@@ -76,6 +76,24 @@ object BigDecimalSupport {
           }
       }
     }
+
+    def toMinuteFormatFromSecondsWithSigned(): String = {
+      value.compareTo(BigDecimal.ZERO) match {
+        case -1 =>
+          value.abs.divideAndRemainder(divisor60) match {
+            case Array(minutes, seconds) =>
+              val milliseconds = seconds.multiply(divisor1000).remainder(divisor1000)
+              s"-${"%02d".format(minutes.intValue)}:${"%02d".format(seconds.intValue)}.${"%03d".format(milliseconds.intValue)}"
+          }
+        case 1 =>
+          value.divideAndRemainder(divisor60) match {
+            case Array(minutes, seconds) =>
+              val milliseconds = seconds.multiply(divisor1000).remainder(divisor1000)
+              s"+${"%02d".format(minutes.intValue)}:${"%02d".format(seconds.intValue)}.${"%03d".format(milliseconds.intValue)}"
+          }
+        case _ => "00:00.000"
+      }
+    }
   }
 
   trait RoundingSupport extends BigDecimalSupport {
