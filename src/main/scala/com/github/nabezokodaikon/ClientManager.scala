@@ -4,10 +4,15 @@ import akka.actor.{ Actor, ActorRef, PoisonPill, Props }
 import akka.pattern.{ AskTimeoutException, gracefulStop }
 import com.github.nabezokodaikon.pcars2.{
   UdpData,
+  TelemetryData,
   RaceData,
   ParticipantsData,
   ParticipantVehicleNamesData,
-  VehicleClassNamesData
+  VehicleClassNamesData,
+  TimingsData,
+  TimeStatsData,
+  TimeDetails,
+  LapTimeDetails
 }
 import com.typesafe.scalalogging.LazyLogging
 import scala.concurrent.Await

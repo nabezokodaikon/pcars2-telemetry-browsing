@@ -29,6 +29,9 @@ object UdpDataJsonProtocol extends DefaultJsonProtocol {
   implicit val participantVehicleNamesDataFormat = jsonFormat2(ParticipantVehicleNamesData)
   implicit val classInfoFormat = jsonFormat2(ClassInfo)
   implicit val vehicleClassNamesDataFormat = jsonFormat2(VehicleClassNamesData)
+
+  implicit val lapTimeDetailsFormat = jsonFormat5(LapTimeDetails)
+  implicit val timeDetailsFormat = jsonFormat8(TimeDetails)
 }
 
 import UdpDataJsonProtocol._
@@ -448,6 +451,30 @@ case class ClassInfo(
 case class VehicleClassNamesData(
     base: PacketBase,
     classes: Array[ClassInfo]
+) extends UdpData {
+  def toJsonString: String = this.toJson.toString
+}
+
+/*
+ * Time Data
+ */
+case class LapTimeDetails(
+    lap: Int,
+    sector1: String,
+    sector2: String,
+    sector3: String,
+    lapTime: String
+)
+
+case class TimeDetails(
+    base: PacketBase,
+    current: LapTimeDetails,
+    delta: LapTimeDetails,
+    fastest: LapTimeDetails,
+    average: LapTimeDetails,
+    history1: LapTimeDetails,
+    history2: LapTimeDetails,
+    history3: LapTimeDetails
 ) extends UdpData {
   def toJsonString: String = this.toJson.toString
 }
