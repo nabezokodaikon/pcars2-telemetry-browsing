@@ -11,14 +11,14 @@ import com.github.nabezokodaikon.pcars2.{
 }
 import com.typesafe.scalalogging.LazyLogging
 
-case class CurrentData(
+final case class CurrentData(
     currentLap: Short,
     sector: Short,
     currentTime: Float,
     currentSectorTime: Float
 )
 
-case class LapData(
+final case class LapData(
     lap: Short,
     sector1: Option[Float],
     sector2: Option[Float],
@@ -43,7 +43,7 @@ case class LapData(
   }
 }
 
-case class History(
+final case class History(
     viewedParticipantIndex: Byte,
     currentView: Option[LapData],
     currentData: Option[CurrentData],
@@ -73,7 +73,7 @@ final class TimeDetailsStorage(clientManager: ClientManager)
     case _ => Unit
   }
 
-  def processing(history: History): Receive = {
+  private def processing(history: History): Receive = {
     case udpData: TelemetryData if udpData.participantinfo.viewedParticipantIndex != history.viewedParticipantIndex =>
       val nextHistory = createHistory(udpData.participantinfo.viewedParticipantIndex)
       context.become(processing(nextHistory))
@@ -91,11 +91,10 @@ final class TimeDetailsStorage(clientManager: ClientManager)
       }
   }
 
-  private def createHistory(viewedParticipantIndex: Byte): History = {
+  private def createHistory(viewedParticipantIndex: Byte): History =
     History(viewedParticipantIndex, None, None, None, List[LapData]())
-  }
 
-  def createHistory(udpData: TimingsData, history: History): Option[History] = {
+  private def createHistory(udpData: TimingsData, history: History): Option[History] =
     history.currentData match {
       case Some(currentData) =>
         val participant = udpData.partcipants(history.viewedParticipantIndex)
@@ -117,9 +116,8 @@ final class TimeDetailsStorage(clientManager: ClientManager)
         )
         Some(mergeHistory(history, newCurrentData))
     }
-  }
 
-  def createHistory(udpData: TimeStatsData, history: History): Option[History] = {
+  private def createHistory(udpData: TimeStatsData, history: History): Option[History] =
     (history.currentData, history.currentLapData) match {
       case (Some(currentData), Some(currentLapData)) =>
         currentData.currentLap match {
@@ -185,7 +183,6 @@ final class TimeDetailsStorage(clientManager: ClientManager)
         }
       case _ => None
     }
-  }
 
   private def mergeHistory(history: History, currentData: CurrentData): History = {
     val currentView = history.currentLapData match {
@@ -246,7 +243,7 @@ final class TimeDetailsStorage(clientManager: ClientManager)
     )
   }
 
-  private def mergeHistory(history: History, currentLapData: LapData): History = {
+  private def mergeHistory(history: History, currentLapData: LapData): History =
     History(
       history.viewedParticipantIndex,
       history.currentView,
@@ -254,9 +251,8 @@ final class TimeDetailsStorage(clientManager: ClientManager)
       Some(currentLapData),
       history.lapDataList
     )
-  }
 
-  private def addHistory(history: History, currentLapData: LapData): History = {
+  private def addHistory(history: History, currentLapData: LapData): History =
     History(
       history.viewedParticipantIndex,
       history.currentView,
@@ -264,5 +260,4 @@ final class TimeDetailsStorage(clientManager: ClientManager)
       None,
       history.lapDataList :+ currentLapData
     )
-  }
 }
