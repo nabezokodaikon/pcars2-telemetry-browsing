@@ -32,7 +32,7 @@ class RaceData extends React.Component {
             return (
               <tr key={key}>
                 <td>{key}</td>
-                <td>{value[key]}</td>
+                <td>{value[key].toString()}</td>
               </tr>
             );
           });
@@ -40,7 +40,7 @@ class RaceData extends React.Component {
           return (
             <tr key={valueName}>
               <td>{valueName}</td>
-              <td>{value}</td>
+              <td>{value.toString()}</td>
             </tr>
           );
         }

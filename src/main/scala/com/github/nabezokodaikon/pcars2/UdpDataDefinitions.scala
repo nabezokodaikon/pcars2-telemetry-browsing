@@ -15,7 +15,7 @@ object UdpDataJsonProtocol extends DefaultJsonProtocol {
   implicit val carDamageFormat = jsonFormat2(CarDamage)
   implicit val hwStateFormat = jsonFormat3(HWState)
   implicit val telemetryDataFormat = jsonFormat10(TelemetryData)
-  implicit val raceDataFormat = jsonFormat18(RaceData)
+  implicit val raceDataFormat = jsonFormat19(RaceData)
   implicit val participantsDataFormat = jsonFormat3(ParticipantsData)
   implicit val participantInfoFormat = jsonFormat13(ParticipantInfo)
   implicit val formatParticipantInfoFormat = jsonFormat13(FormatParticipantInfo)
@@ -31,7 +31,7 @@ object UdpDataJsonProtocol extends DefaultJsonProtocol {
   implicit val vehicleClassNamesDataFormat = jsonFormat2(VehicleClassNamesData)
 
   implicit val lapTimeFormat = jsonFormat5(LapTime)
-  implicit val lapTimeDetailsFormat = jsonFormat5(LapTimeDetails)
+  implicit val lapTimeDetailsFormat = jsonFormat7(LapTimeDetails)
 }
 
 import UdpDataJsonProtocol._
@@ -239,6 +239,7 @@ case class RaceData(
     translatedTrackLocation: String,
     translatedTrackVariation: String,
     lapsTimeInEvent: Int, // contains lap number for lap based session or quantized session duration (number of 5mins) for timed sessions, the top bit is 1 for timed sessions TODO: セッション時間の場合、常に値が 65535 になる。
+    isTimedSessions: Boolean,
     lapsInEvent: Int,
     sessionLengthTimeInEvent: Int,
     enforcedPitStopLap: Byte
@@ -473,6 +474,8 @@ case class LapTime(
 
 case class LapTimeDetails(
     base: PacketBase,
+    isTimedSessions: Boolean,
+    lapsInEvent: Int,
     current: LapTime,
     fastest: LapTime,
     average: LapTime,

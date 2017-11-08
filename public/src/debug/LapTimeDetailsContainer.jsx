@@ -61,6 +61,17 @@ class LapTimeDetails extends React.Component {
           </tr>
           {createBase()}
           <tr>
+            <td>RaceData</td>
+          </tr>
+          <tr>
+            <td>isTimedSessions</td>
+            <td>{this.props.lapTimeDetails.isTimedSessions.toString()}</td>
+          </tr>
+          <tr>
+            <td>lapsInEvent</td>
+            <td>{this.props.lapTimeDetails.lapsInEvent}</td>
+          </tr>
+          <tr>
             <td>LapTimeDetails</td>
           </tr>
           {createHeader()}

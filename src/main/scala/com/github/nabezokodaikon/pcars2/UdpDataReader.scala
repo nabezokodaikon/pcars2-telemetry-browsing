@@ -332,6 +332,7 @@ object UdpDataReader extends LazyLogging {
       translatedTrackLocation = translatedTrackLocation,
       translatedTrackVariation = translatedTrackVariation,
       lapsTimeInEvent = lapsTimeInEvent,
+      isTimedSessions = isTimedSessions,
       lapsInEvent = lapsInEvent,
       sessionLengthTimeInEvent = sessionLengthTimeInEvent,
       enforcedPitStopLap = enforcedPitStopLap

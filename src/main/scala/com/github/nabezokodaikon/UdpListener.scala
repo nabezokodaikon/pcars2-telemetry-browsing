@@ -88,6 +88,7 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
             lapTimeDetailsListener ! udpData
           case udpData: GameStateData =>
             clientManager ! udpData
+            lapTimeDetailsListener ! udpData
           case udpData: TimeStatsData =>
             clientManager ! udpData
             lapTimeDetailsListener ! udpData
