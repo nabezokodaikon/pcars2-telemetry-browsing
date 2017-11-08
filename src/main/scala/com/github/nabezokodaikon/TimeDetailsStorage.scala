@@ -3,11 +3,13 @@ package com.github.nabezokodaikon
 import akka.actor.{ Actor }
 import com.github.nabezokodaikon.util.BigDecimalSupport._
 import com.github.nabezokodaikon.pcars2.{
+  UdpStreamerPacketHandlerType,
+  PacketBase,
   TelemetryData,
   TimingsData,
   TimeStatsData,
-  LapTimeDetails,
-  TimeDetails
+  LapTime,
+  LapTimeDetails
 }
 import com.typesafe.scalalogging.LazyLogging
 
@@ -25,9 +27,9 @@ final case class LapData(
     sector3: Option[Float],
     lapTime: Option[Float]
 ) {
-  def toLapTimeDetails(): LapTimeDetails = {
-    LapTimeDetails(
-      lap = lap,
+  def toLapTime(): LapTime = {
+    LapTime(
+      lap = s"${"%03d".format(lap)}",
       sector1 = toTimeString(sector1),
       sector2 = toTimeString(sector2),
       sector3 = toTimeString(sector3),
@@ -50,9 +52,74 @@ final case class History(
     currentLapData: Option[LapData],
     lapDataList: List[LapData]
 ) {
-  // TODO
-  // def toTimeDetails(): TimeDetails = {
-  // }
+  private val emptyLap = "---"
+  private val emptyTime = "--:--.---"
+  private val emptyLapTime = LapTime(
+    emptyLap,
+    emptyTime,
+    emptyTime,
+    emptyTime,
+    emptyTime
+  )
+
+  private val base = PacketBase(
+    packetNumber = 0,
+    categoryPacketNumber = 0,
+    partialPacketIndex = 0,
+    partialPacketNumber = 0,
+    packetType = UdpStreamerPacketHandlerType.TIME_DETAILS,
+    packetVersion = 0,
+    dataTimestamp = System.currentTimeMillis,
+    dataSize = 0
+  )
+
+  def toTimeDetails(): LapTimeDetails = {
+    val current = currentLapData match {
+      case Some(v) => v.toLapTime
+      case None => emptyLapTime
+    }
+
+    lapDataList.length match {
+      case 0 =>
+        LapTimeDetails(
+          base = base,
+          current = current,
+          fastest = emptyLapTime,
+          average = emptyLapTime,
+          history = List[LapTime]()
+        )
+      case _ =>
+        val fastestLapTime = lapDataList.flatMap(_.lapTime).min
+        val fastest = lapDataList.find(lapData => lapData.lapTime match {
+          case Some(lapTime) if lapTime == fastestLapTime => true
+          case None => false
+        }) match {
+          case Some(lapData) => lapData.toLapTime
+          case None => emptyLapTime
+        }
+
+        val historyLength = lapDataList.length.toFloat
+        val averageSector1 = lapDataList.flatMap(_.sector1).sum / historyLength
+        val averageSector2 = lapDataList.flatMap(_.sector2).sum / historyLength
+        val averageSector3 = lapDataList.flatMap(_.sector3).sum / historyLength
+        val averageLapTime = lapDataList.flatMap(_.lapTime).sum / historyLength
+        val average = LapTime(
+          emptyLap,
+          sector1 = averageSector1.toMinuteFormatFromSeconds,
+          sector2 = averageSector2.toMinuteFormatFromSeconds,
+          sector3 = averageSector3.toMinuteFormatFromSeconds,
+          lapTime = averageLapTime.toMinuteFormatFromSeconds
+        )
+
+        LapTimeDetails(
+          base = base,
+          current = current,
+          fastest = fastest,
+          average = average,
+          lapDataList.drop(4).take(3).map(_.toLapTime)
+        )
+    }
+  }
 }
 
 final class TimeDetailsStorage(clientManager: ClientManager)

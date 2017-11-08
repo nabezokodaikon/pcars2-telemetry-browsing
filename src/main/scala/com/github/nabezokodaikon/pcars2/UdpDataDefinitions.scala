@@ -30,8 +30,8 @@ object UdpDataJsonProtocol extends DefaultJsonProtocol {
   implicit val classInfoFormat = jsonFormat2(ClassInfo)
   implicit val vehicleClassNamesDataFormat = jsonFormat2(VehicleClassNamesData)
 
+  implicit val lapTimeFormat = jsonFormat5(LapTime)
   implicit val lapTimeDetailsFormat = jsonFormat5(LapTimeDetails)
-  implicit val timeDetailsFormat = jsonFormat8(TimeDetails)
 }
 
 import UdpDataJsonProtocol._
@@ -46,6 +46,11 @@ object UdpStreamerPacketHandlerType {
   val VEHICLE_NAMES: Byte = 6 // not sent at the moment
   val TIME_STATS: Byte = 7 // TimeStatsData
   val PARTICIPANT_VEHICLE_NAMES: Byte = 8 // ParticipantVehicleNamesData or VehicleClassNamesData
+
+  /*
+   * Original data
+   */
+  val TIME_DETAILS: Byte = 64
 }
 
 object PacketSize {
@@ -458,23 +463,20 @@ case class VehicleClassNamesData(
 /*
  * Time Data
  */
-case class LapTimeDetails(
-    lap: Int,
+case class LapTime(
+    lap: String,
     sector1: String,
     sector2: String,
     sector3: String,
     lapTime: String
 )
 
-case class TimeDetails(
+case class LapTimeDetails(
     base: PacketBase,
-    current: LapTimeDetails,
-    delta: LapTimeDetails,
-    fastest: LapTimeDetails,
-    average: LapTimeDetails,
-    history1: LapTimeDetails,
-    history2: LapTimeDetails,
-    history3: LapTimeDetails
+    current: LapTime,
+    fastest: LapTime,
+    average: LapTime,
+    history: List[LapTime]
 ) extends UdpData {
   def toJsonString: String = this.toJson.toString
 }

@@ -11,7 +11,6 @@ import com.github.nabezokodaikon.pcars2.{
   VehicleClassNamesData,
   TimingsData,
   TimeStatsData,
-  TimeDetails,
   LapTimeDetails
 }
 import com.typesafe.scalalogging.LazyLogging
