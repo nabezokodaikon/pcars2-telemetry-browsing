@@ -1,11 +1,12 @@
 package com.github.nabezokodaikon
 
-import akka.actor.{ Actor }
+import akka.actor.{ Actor, ActorRef }
 import com.github.nabezokodaikon.util.BigDecimalSupport._
 import com.github.nabezokodaikon.pcars2.{
   UdpStreamerPacketHandlerType,
   PacketBase,
   TelemetryData,
+  RaceData,
   TimingsData,
   TimeStatsData,
   LapTime,
@@ -122,7 +123,7 @@ final case class History(
   }
 }
 
-final class TimeDetailsStorage(clientManager: ClientManager)
+final class TimeDetailsListener(clientManager: ActorRef)
   extends Actor
   with LazyLogging {
 
@@ -153,9 +154,13 @@ final class TimeDetailsStorage(clientManager: ClientManager)
     case udpData: TimeStatsData =>
       createHistory(udpData, history) match {
         case Some(nextHistory) =>
+          val timeDetails = nextHistory.toTimeDetails
+          clientManager ! timeDetails
           context.become(processing(nextHistory))
         case None => Unit
       }
+    case _ =>
+      logger.warn("TimeDetailsListener received unknown message.")
   }
 
   private def createHistory(viewedParticipantIndex: Byte): History =

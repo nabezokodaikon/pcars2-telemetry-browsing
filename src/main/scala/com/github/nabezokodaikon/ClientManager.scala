@@ -39,6 +39,9 @@ class ClientManager extends Actor with LazyLogging {
   val vehicleClassNamesDataStorage = context.actorOf(
     Props(classOf[VehicleClassNamesDataStorage]), "VehicleClassNamesDataStorage"
   )
+  val lapTimeDetailsStorage = context.actorOf(
+    Props(classOf[LapTimeDetailsStorage], "LapTimeDetailsStorage")
+  )
 
   override def preStart() = {
     logger.debug("ClientManager preStart.");
@@ -78,6 +81,8 @@ class ClientManager extends Actor with LazyLogging {
           participantVehicleNamesDataStorage ! udpData
         case udpData: VehicleClassNamesData =>
           vehicleClassNamesDataStorage ! udpData
+        case udpData: LapTimeDetails =>
+          lapTimeDetailsStorage ! udpData
         case _ => Unit
       }
     case _ =>
@@ -125,3 +130,5 @@ final class ParticipantVehicleNamesDataStorage
   extends UdpDataStorage[ParticipantVehicleNamesData]("ParticipantVehicleNamesDataStorage")
 final class VehicleClassNamesDataStorage
   extends UdpDataStorage[VehicleClassNamesData]("VehicleClassNamesDataStorage")
+final class LapTimeDetailsStorage
+  extends UdpDataStorage[LapTimeDetails]("LapTimeDetailsStorage")
