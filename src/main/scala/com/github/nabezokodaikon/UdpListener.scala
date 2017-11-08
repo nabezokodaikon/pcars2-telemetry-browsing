@@ -39,9 +39,9 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
     "VehicleClassNamesDataListener"
   )
 
-  val timeDetailsListener = context.actorOf(
-    Props(classOf[TimeDetailsListener], clientManager),
-    "TimeDetailsListener"
+  val lapTimeDetailsListener = context.actorOf(
+    Props(classOf[LapTimeDetailsListener], clientManager),
+    "LapTimeDetailsListener"
   )
 
   override def preStart() = {
@@ -77,19 +77,20 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
         case Some(d) => d match {
           case udpData: TelemetryData =>
             clientManager ! udpData
-            timeDetailsListener ! udpData
+            lapTimeDetailsListener ! udpData
           case udpData: RaceData =>
             clientManager ! udpData
+            lapTimeDetailsListener ! udpData
           case udpData: ParticipantsData =>
             participantsDataListener ! udpData
           case udpData: TimingsData =>
             clientManager ! udpData
-            timeDetailsListener ! udpData
+            lapTimeDetailsListener ! udpData
           case udpData: GameStateData =>
             clientManager ! udpData
           case udpData: TimeStatsData =>
             clientManager ! udpData
-            timeDetailsListener ! udpData
+            lapTimeDetailsListener ! udpData
           case udpData: ParticipantVehicleNamesData =>
             participantVehicleNamesDataListener ! udpData
           case udpData: VehicleClassNamesData =>

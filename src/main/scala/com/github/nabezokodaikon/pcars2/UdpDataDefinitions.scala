@@ -50,7 +50,7 @@ object UdpStreamerPacketHandlerType {
   /*
    * Original data
    */
-  val TIME_DETAILS: Byte = 64
+  val LAP_TIME_DETAILS: Byte = 64
 }
 
 object PacketSize {

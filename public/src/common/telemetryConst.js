@@ -13,6 +13,7 @@ export const WEATHER_STATE = 5
 export const VEHICLE_NAMES = 6
 export const TIME_STATS = 7
 export const PARTICIPANT_VEHICLE_NAMES = 8
+export const LAP_TIME_DETAILS = 64
 
 // PacketSize
 export const TELEMETRY_DATA = 538

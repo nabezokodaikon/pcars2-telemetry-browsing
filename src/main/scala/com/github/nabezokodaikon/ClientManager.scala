@@ -40,7 +40,7 @@ class ClientManager extends Actor with LazyLogging {
     Props(classOf[VehicleClassNamesDataStorage]), "VehicleClassNamesDataStorage"
   )
   val lapTimeDetailsStorage = context.actorOf(
-    Props(classOf[LapTimeDetailsStorage], "LapTimeDetailsStorage")
+    Props(classOf[LapTimeDetailsStorage]), "LapTimeDetailsStorage"
   )
 
   override def preStart() = {

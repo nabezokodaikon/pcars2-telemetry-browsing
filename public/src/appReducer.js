@@ -83,7 +83,8 @@ const initialUdpData = {
   vehicleNames: {},
   timeStatsData: {},
   participantVehicleNamesData: {},
-  vehicleClassNamesData: {}
+  vehicleClassNamesData: {},
+  lapTimeDetails: {}
 };
 
 function currentUdpData(state = initialUdpData, action) {
@@ -108,6 +109,8 @@ function currentUdpData(state = initialUdpData, action) {
       return { ...state, participantVehicleNamesData: action.receivedParticipantVehicleNamesData };
     case actionTypes.RECEIVED_VEHICLE_CLASS_NAMES_DATA:
       return { ...state, vehicleClassNamesData: action.receivedVehicleClassNamesData };
+    case actionTypes.RECEIVED_LAP_TIME_DETAILS:
+      return { ...state, lapTimeDetails: action.receivedLapTimeDetails };
     default:
       return state;
   }

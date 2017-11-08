@@ -30,7 +30,7 @@ final case class LapData(
 ) {
   def toLapTime(): LapTime = {
     LapTime(
-      lap = s"${"%03d".format(lap)}",
+      lap = s"${lap}",
       sector1 = toTimeString(sector1),
       sector2 = toTimeString(sector2),
       sector3 = toTimeString(sector3),
@@ -53,7 +53,7 @@ final case class History(
     currentLapData: Option[LapData],
     lapDataList: List[LapData]
 ) {
-  private val emptyLap = "---"
+  private val emptyLap = "-"
   private val emptyTime = "--:--.---"
   private val emptyLapTime = LapTime(
     emptyLap,
@@ -68,16 +68,16 @@ final case class History(
     categoryPacketNumber = 0,
     partialPacketIndex = 0,
     partialPacketNumber = 0,
-    packetType = UdpStreamerPacketHandlerType.TIME_DETAILS,
+    packetType = UdpStreamerPacketHandlerType.LAP_TIME_DETAILS,
     packetVersion = 0,
     dataTimestamp = System.currentTimeMillis,
     dataSize = 0
   )
 
-  def toTimeDetails(): LapTimeDetails = {
-    val current = currentLapData match {
-      case Some(v) => v.toLapTime
-      case None => emptyLapTime
+  def toLapTimeDetails(): LapTimeDetails = {
+    val (current, lap) = currentLapData match {
+      case Some(v) => (v.toLapTime, v.lap)
+      case None => (emptyLapTime, 0.toShort)
     }
 
     lapDataList.length match {
@@ -90,14 +90,17 @@ final case class History(
           history = List[LapTime]()
         )
       case _ =>
-        val fastestLapTime = lapDataList.flatMap(_.lapTime).min
-        val fastest = lapDataList.find(lapData => lapData.lapTime match {
-          case Some(lapTime) if lapTime == fastestLapTime => true
-          case None => false
-        }) match {
-          case Some(lapData) => lapData.toLapTime
-          case None => emptyLapTime
-        }
+        val fastest = lapDataList.reduceLeft((a, b) => {
+          val lapTimeA = a.lapTime match {
+            case Some(lapTime) => lapTime
+            case None => Int.MaxValue
+          }
+          val lapTimeB = b.lapTime match {
+            case Some(lapTime) => lapTime
+            case None => Int.MaxValue
+          }
+          if (lapTimeA < lapTimeB) a else b
+        }).toLapTime
 
         val historyLength = lapDataList.length.toFloat
         val averageSector1 = lapDataList.flatMap(_.sector1).sum / historyLength
@@ -117,34 +120,36 @@ final case class History(
           current = current,
           fastest = fastest,
           average = average,
-          lapDataList.drop(4).take(3).map(_.toLapTime)
+          lapDataList.drop(lap - 4).take(3).map(_.toLapTime)
         )
     }
   }
 }
 
-final class TimeDetailsListener(clientManager: ActorRef)
+final class LapTimeDetailsListener(clientManager: ActorRef)
   extends Actor
   with LazyLogging {
 
   override def preStart() = {
-    logger.debug("TimeDetailsStorage preStart.");
+    logger.debug("LapTimeDetailsListener preStart.");
   }
 
   override def postStop() = {
-    logger.debug("TimeDetailsStorage postStop.")
+    logger.debug("LapTimeDetailsListener postStop.")
   }
 
   def receive(): Receive = {
-    case udpData: TelemetryData =>
-      context.become(processing(createHistory(udpData.participantinfo.viewedParticipantIndex)))
+    case udpData: RaceData =>
+      context.become(processing(createHistory(0)))
     case _ => Unit
   }
 
   private def processing(history: History): Receive = {
-    case udpData: TelemetryData if udpData.participantinfo.viewedParticipantIndex != history.viewedParticipantIndex =>
-      val nextHistory = createHistory(udpData.participantinfo.viewedParticipantIndex)
-      context.become(processing(nextHistory))
+    case udpData: TelemetryData =>
+      if (udpData.participantinfo.viewedParticipantIndex != history.viewedParticipantIndex) {
+        val nextHistory = createHistory(udpData.participantinfo.viewedParticipantIndex)
+        context.become(processing(nextHistory))
+      }
     case udpData: TimingsData =>
       createHistory(udpData, history) match {
         case Some(nextHistory) =>
@@ -154,13 +159,18 @@ final class TimeDetailsListener(clientManager: ActorRef)
     case udpData: TimeStatsData =>
       createHistory(udpData, history) match {
         case Some(nextHistory) =>
-          val timeDetails = nextHistory.toTimeDetails
-          clientManager ! timeDetails
+          val lapTimeDetails = nextHistory.toLapTimeDetails
+          clientManager ! lapTimeDetails
           context.become(processing(nextHistory))
         case None => Unit
       }
+    case udpData: RaceData =>
+      val nextHistory = createHistory(0)
+      val lapTimeDetails = nextHistory.toLapTimeDetails
+      clientManager ! lapTimeDetails
+      context.become(processing(nextHistory))
     case _ =>
-      logger.warn("TimeDetailsListener received unknown message.")
+      logger.warn("LapTimeDetailsListener received unknown message.")
   }
 
   private def createHistory(viewedParticipantIndex: Byte): History =

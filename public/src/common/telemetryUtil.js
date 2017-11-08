@@ -63,6 +63,12 @@ export function isVehicleClassNamesData(json) {
     && json.base.dataSize == telemetryConst.VEHICLE_CLASS_NAMES_DATA 
 }
 
+export function isLapTimeDetails(json) {
+  return isJson(json)
+    && existsKey(json, "base")
+    && json.base.packetType == telemetryConst.LAP_TIME_DETAILS;
+}
+
 export function kmhToMIH(kmh) {
   return Math.floor(kmh * 0.625);
 }

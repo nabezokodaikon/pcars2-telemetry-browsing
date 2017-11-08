@@ -12,6 +12,7 @@ import GameStateDataContainer from "./GameStateDataContainer.jsx";
 import TimeStatsDataContainer from "./TimeStatsDataContainer.jsx";
 import ParticipantVehicleNamesDataContainer from "./ParticipantVehicleNamesDataContainer.jsx";
 import VehicleClassNamesDataContainer from "./VehicleClassNamesDataContainer.jsx";
+import LapTimeDetailsContainer from "./LapTimeDetailsContainer.jsx";
 
 class Contents extends React.Component {
   constructor(props) {
@@ -51,6 +52,8 @@ class Contents extends React.Component {
           return <ParticipantVehicleNamesDataContainer />;
         case contentNames.VEHICLE_CLASS_NAMES_DATA:
           return <VehicleClassNamesDataContainer />;
+        case contentNames.LAP_TIME_DETAILS:
+          return <LapTimeDetailsContainer />;
         default:
           return <div></div>;
     }
