@@ -32,6 +32,35 @@ object UdpDataReader extends LazyLogging {
     }
   }
 
+  private def getGameState(value: Byte): GameState =
+    value match {
+      case GameStateDefine.GAME_EXITED => GameStateDefineValue.GAME_EXITED
+      case GameStateDefine.GAME_FRONT_END => GameStateDefineValue.GAME_FRONT_END
+      case GameStateDefine.GAME_INGAME_PLAYING => GameStateDefineValue.GAME_INGAME_PLAYING
+      case GameStateDefine.GAME_INGAME_PAUSED => GameStateDefineValue.GAME_INGAME_PAUSED
+      case GameStateDefine.GAME_INGAME_INMENU_TIME_TICKING => GameStateDefineValue.GAME_INGAME_INMENU_TIME_TICKING
+      case GameStateDefine.GAME_INGAME_RESTARTING => GameStateDefineValue.GAME_INGAME_RESTARTING
+      case GameStateDefine.GAME_INGAME_REPLAY => GameStateDefineValue.GAME_INGAME_REPLAY
+      case GameStateDefine.GAME_FRONT_END_REPLAY => GameStateDefineValue.GAME_FRONT_END_REPLAY
+      case _ =>
+        logger.warn("Received unknown game state.")
+        GameStateDefineValue.GAME_UNKNOWN
+    }
+
+  private def getSessionState(value: Byte): SessionState =
+    value match {
+      case SessionStateDefine.SESSION_INVALID => SessionStateDefineValue.SESSION_INVALID
+      case SessionStateDefine.SESSION_PRACTICE => SessionStateDefineValue.SESSION_PRACTICE
+      case SessionStateDefine.SESSION_TEST => SessionStateDefineValue.SESSION_TEST
+      case SessionStateDefine.SESSION_QUALIFY => SessionStateDefineValue.SESSION_QUALIFY
+      case SessionStateDefine.SESSION_FORMATION_LAP => SessionStateDefineValue.SESSION_FORMATION_LAP
+      case SessionStateDefine.SESSION_RACE => SessionStateDefineValue.SESSION_RACE
+      case SessionStateDefine.SESSION_TIME_ATTACK => SessionStateDefineValue.SESSION_TIME_ATTACK
+      case _ =>
+        logger.warn("Received unknown session state.")
+        SessionStateDefineValue.SESSION_UNKNOWN
+    }
+
   def readPacketBase(data1: List[Byte]): (PacketBase, List[Byte]) = {
     val (packetNumber, data2) = readUInt(data1)
     val (categoryPacketNumber, data3) = readUInt(data2)
@@ -441,8 +470,8 @@ object UdpDataReader extends LazyLogging {
     GameStateData(
       base = base,
       buildVersionNumber = buildVersionNumber,
-      gameState = (gameState & 7).toByte,
-      sessionState = (gameState >> 4).toByte,
+      gameState = getGameState((gameState & 7).toByte),
+      sessionState = getSessionState((gameState >> 4).toByte),
       ambientTemperature = ambientTemperature,
       trackTemperature = trackTemperature,
       rainDensity = rainDensity,

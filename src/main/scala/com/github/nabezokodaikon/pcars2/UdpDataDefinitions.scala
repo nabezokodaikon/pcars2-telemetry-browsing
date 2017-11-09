@@ -20,6 +20,8 @@ object UdpDataJsonProtocol extends DefaultJsonProtocol {
   implicit val participantInfoFormat = jsonFormat13(ParticipantInfo)
   implicit val formatParticipantInfoFormat = jsonFormat13(FormatParticipantInfo)
   implicit val timingsDataFormat = jsonFormat9(TimingsData)
+  implicit val gameStateFormat = jsonFormat2(GameState)
+  implicit val gameSessionStateFormat = jsonFormat2(SessionState)
   implicit val gameStateDataFormat = jsonFormat11(GameStateData)
   implicit val participantStatsInfoFormat = jsonFormat6(ParticipantStatsInfo)
   implicit val formatParticipantStatsInfoFormat = jsonFormat6(FormatParticipantStatsInfo)
@@ -340,33 +342,61 @@ case class TimingsData(
 //	When it is sent: Always
 //
 *******************************************************************************************************************/
-object GameState {
-  val GAME_EXITED = 0
-  val GAME_FRONT_END = 1
-  val GAME_INGAME_PLAYING = 2
-  val GAME_INGAME_PAUSED = 3
-  val GAME_INGAME_INMENU_TIME_TICKING = 4
-  val GAME_INGAME_RESTARTING = 5
-  val GAME_INGAME_REPLAY = 6
-  val GAME_FRONT_END_REPLAY = 7
+object GameStateDefine {
+  val GAME_EXITED: Byte = 0
+  val GAME_FRONT_END: Byte = 1
+  val GAME_INGAME_PLAYING: Byte = 2
+  val GAME_INGAME_PAUSED: Byte = 3
+  val GAME_INGAME_INMENU_TIME_TICKING: Byte = 4
+  val GAME_INGAME_RESTARTING: Byte = 5
+  val GAME_INGAME_REPLAY: Byte = 6
+  val GAME_FRONT_END_REPLAY: Byte = 7
+  val GAME_UNKNOWN: Byte = 127
 }
 
-object SessionState {
-  val SESSION_INVALID = 0
-  val SESSION_PRACTICE = 1
-  val SESSION_TEST = 2
-  val SESSION_QUALIFY = 3
-  val SESSION_FORMATION_LAP = 4
-  val SESSION_RACE = 5
-  val SESSION_TIME_ATTACK = 6
+object GameStateDefineValue {
+  val GAME_EXITED = GameState(GameStateDefine.GAME_EXITED, "GAME_EXITED")
+  val GAME_FRONT_END = GameState(GameStateDefine.GAME_FRONT_END, "GAME_FRONT_END")
+  val GAME_INGAME_PLAYING = GameState(GameStateDefine.GAME_INGAME_PLAYING, "GAME_INGAME_PLAYING")
+  val GAME_INGAME_PAUSED = GameState(GameStateDefine.GAME_INGAME_PAUSED, "GAME_INGAME_PAUSED")
+  val GAME_INGAME_INMENU_TIME_TICKING = GameState(GameStateDefine.GAME_INGAME_INMENU_TIME_TICKING, "GAME_INGAME_INMENU_TIME_TICKING")
+  val GAME_INGAME_RESTARTING = GameState(GameStateDefine.GAME_INGAME_RESTARTING, "GAME_INGAME_RESTARTING")
+  val GAME_INGAME_REPLAY = GameState(GameStateDefine.GAME_INGAME_REPLAY, "GAME_INGAME_REPLAY")
+  val GAME_FRONT_END_REPLAY = GameState(GameStateDefine.GAME_FRONT_END_REPLAY, "GAME_FRONT_END_REPLAY")
+  val GAME_UNKNOWN = GameState(GameStateDefine.GAME_UNKNOWN, "Unknown")
 }
+
+object SessionStateDefine {
+  val SESSION_INVALID: Byte = 0
+  val SESSION_PRACTICE: Byte = 1
+  val SESSION_TEST: Byte = 2
+  val SESSION_QUALIFY: Byte = 3
+  val SESSION_FORMATION_LAP: Byte = 4
+  val SESSION_RACE: Byte = 5
+  val SESSION_TIME_ATTACK: Byte = 6
+  val SESSION_UNKNOWN: Byte = 127
+}
+
+object SessionStateDefineValue {
+  val SESSION_INVALID = SessionState(SessionStateDefine.SESSION_INVALID, "SESSION_INVALID")
+  val SESSION_PRACTICE = SessionState(SessionStateDefine.SESSION_PRACTICE, "SESSION_PRACTICE")
+  val SESSION_TEST = SessionState(SessionStateDefine.SESSION_TEST, "SESSION_TEST")
+  val SESSION_QUALIFY = SessionState(SessionStateDefine.SESSION_QUALIFY, "SESSION_QUALIFY")
+  val SESSION_FORMATION_LAP = SessionState(SessionStateDefine.SESSION_FORMATION_LAP, "SESSION_FORMATION_LAP")
+  val SESSION_RACE = SessionState(SessionStateDefine.SESSION_RACE, "SESSION_RACE")
+  val SESSION_TIME_ATTACK = SessionState(SessionStateDefine.SESSION_TIME_ATTACK, "SESSION_TIME_ATTACK")
+  val SESSION_UNKNOWN = SessionState(SessionStateDefine.SESSION_UNKNOWN, "Unknown")
+}
+
+case class GameState(value: Byte, text: String)
+case class SessionState(value: Byte, text: String)
 
 // partialPacketNumber = 1 Only
 case class GameStateData(
     base: PacketBase,
     buildVersionNumber: Int,
-    gameState: Byte, // first 3 bits are used for game state enum, second 3 bits for session state enum See shared memory example file for the enums
-    sessionState: Byte,
+    gameState: GameState, // first 3 bits are used for game state enum, second 3 bits for session state enum See shared memory example file for the enums
+    sessionState: SessionState,
     ambientTemperature: Byte,
     trackTemperature: Byte,
     rainDensity: Short,
