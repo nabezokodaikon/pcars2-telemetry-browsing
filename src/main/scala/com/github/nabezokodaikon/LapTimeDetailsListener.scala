@@ -160,16 +160,16 @@ final class LapTimeDetailsListener(clientManager: ActorRef)
 
   private def processing(history: History): Receive = {
     case udpData: GameStateData =>
-      val nextHistory = resetHistoryGameState(history, udpData)
+      val nextHistory = resetHistoryByGameStateData(history, udpData)
       context.become(processing(nextHistory))
     case udpData: RaceData if (history.isMenu) =>
-      val nextHistory = resetHistoryRaceInfo(history, udpData)
+      val nextHistory = resetHistoryByRaceData(history, udpData)
       val lapTimeDetails = nextHistory.toLapTimeDetails
       clientManager ! lapTimeDetails
       context.become(processing(nextHistory))
     case udpData: TelemetryData if (history.isPlaying) =>
       if (udpData.participantinfo.viewedParticipantIndex != history.viewedParticipantIndex) {
-        val nextHistory = resetHistory(history, udpData.participantinfo.viewedParticipantIndex)
+        val nextHistory = resetHistoryByViewedParticipantIndex(history, udpData.participantinfo.viewedParticipantIndex)
         context.become(processing(nextHistory))
       }
     case udpData: TimingsData if (history.isMenu && history.currentData != None) =>
@@ -225,7 +225,7 @@ final class LapTimeDetailsListener(clientManager: ActorRef)
       lapDataList = List[LapData]()
     )
 
-  private def resetHistoryGameState(history: History, gameStateData: GameStateData): History =
+  private def resetHistoryByGameStateData(history: History, gameStateData: GameStateData): History =
     History(
       isMenu = (gameStateData.gameState == GameStateDefineValue.GAME_FRONT_END),
       isPlaying = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_PLAYING
@@ -240,7 +240,7 @@ final class LapTimeDetailsListener(clientManager: ActorRef)
       lapDataList = history.lapDataList
     )
 
-  private def resetHistoryRaceInfo(history: History, raceData: RaceData): History =
+  private def resetHistoryByRaceData(history: History, raceData: RaceData): History =
     History(
       isMenu = history.isMenu,
       isPlaying = history.isPlaying,
@@ -254,7 +254,7 @@ final class LapTimeDetailsListener(clientManager: ActorRef)
       lapDataList = List[LapData]()
     )
 
-  private def resetHistory(history: History, viewedParticipantIndex: Byte): History =
+  private def resetHistoryByViewedParticipantIndex(history: History, viewedParticipantIndex: Byte): History =
     History(
       isMenu = history.isMenu,
       isPlaying = history.isPlaying,
