@@ -34,6 +34,7 @@ object UdpDataJsonProtocol extends DefaultJsonProtocol {
 
   implicit val lapTimeFormat = jsonFormat5(LapTime)
   implicit val lapTimeDetailsFormat = jsonFormat7(LapTimeDetails)
+  implicit val aggregateTimeFormat = jsonFormat3(AggregateTime)
 }
 
 import UdpDataJsonProtocol._
@@ -53,6 +54,7 @@ object UdpStreamerPacketHandlerType {
    * Original data
    */
   val LAP_TIME_DETAILS: Byte = 64
+  val AGGREGATE_TIME: Byte = 65
 }
 
 object PacketSize {
@@ -510,6 +512,17 @@ case class LapTimeDetails(
     fastest: LapTime,
     average: LapTime,
     history: List[LapTime]
+) extends UdpData {
+  def toJsonString: String = this.toJson.toString
+}
+
+/*
+ * Aggregate time
+ */
+case class AggregateTime(
+    base: PacketBase,
+    totalTime: String,
+    gapTime: String
 ) extends UdpData {
   def toJsonString: String = this.toJson.toString
 }

@@ -44,6 +44,11 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
     "LapTimeDetailsListener"
   )
 
+  // val aggregateTimeListener = context.actorOf(
+  // Props(classOf[AggregateTimeListener], clientManager),
+  // "AggregateTimeListener"
+  // )
+
   override def preStart() = {
     IO(Udp) ! Udp.Bind(self, new InetSocketAddress("0.0.0.0", 5606))
 
@@ -78,20 +83,25 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
           case udpData: TelemetryData =>
             clientManager ! udpData
             lapTimeDetailsListener ! udpData
+          // aggregateTimeListener ! udpData
           case udpData: RaceData =>
             clientManager ! udpData
             lapTimeDetailsListener ! udpData
+          // aggregateTimeListener ! udpData
           case udpData: ParticipantsData =>
             participantsDataListener ! udpData
           case udpData: TimingsData =>
             clientManager ! udpData
             lapTimeDetailsListener ! udpData
+          // aggregateTimeListener ! udpData
           case udpData: GameStateData =>
             clientManager ! udpData
             lapTimeDetailsListener ! udpData
+          // aggregateTimeListener ! udpData
           case udpData: TimeStatsData =>
             clientManager ! udpData
             lapTimeDetailsListener ! udpData
+          // aggregateTimeListener ! udpData
           case udpData: ParticipantVehicleNamesData =>
             participantVehicleNamesDataListener ! udpData
           case udpData: VehicleClassNamesData =>

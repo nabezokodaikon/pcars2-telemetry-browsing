@@ -11,7 +11,8 @@ import com.github.nabezokodaikon.pcars2.{
   VehicleClassNamesData,
   TimingsData,
   TimeStatsData,
-  LapTimeDetails
+  LapTimeDetails,
+  AggregateTime
 }
 import com.typesafe.scalalogging.LazyLogging
 import scala.concurrent.Await
@@ -42,6 +43,9 @@ class ClientManager extends Actor with LazyLogging {
   val lapTimeDetailsStorage = context.actorOf(
     Props(classOf[LapTimeDetailsStorage]), "LapTimeDetailsStorage"
   )
+  // val aggregateTimeStorage = context.actorOf(
+  // Props(classOf[AggregateTimeStorage]), "AggregateTimeStorage"
+  // )
 
   override def preStart() = {
     logger.debug("ClientManager preStart.");
@@ -83,6 +87,8 @@ class ClientManager extends Actor with LazyLogging {
           vehicleClassNamesDataStorage ! udpData
         case udpData: LapTimeDetails =>
           lapTimeDetailsStorage ! udpData
+        // case udpdata: aggregatetime =>
+        // aggregatetimestorage ! udpdata
         case _ => Unit
       }
     case _ =>
@@ -132,3 +138,5 @@ final class VehicleClassNamesDataStorage
   extends UdpDataStorage[VehicleClassNamesData]("VehicleClassNamesDataStorage")
 final class LapTimeDetailsStorage
   extends UdpDataStorage[LapTimeDetails]("LapTimeDetailsStorage")
+// final class AggregateTimeStorage
+// extends UdpDataStorage[AggregateTime]("AggregateTimeStorage")

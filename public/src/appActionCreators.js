@@ -9,7 +9,8 @@ import {
   isTimeStats,
   isParticipantVehicleNamesData,
   isVehicleClassNamesData,
-  isLapTimeDetails
+  isLapTimeDetails,
+  isAggregateTime
 } from "./common/telemetryUtil.js";
 import * as actionTypes from "./appActionTypes.js";
 
@@ -103,6 +104,13 @@ export function receivedLapTimeDetails(receivedLapTimeDetails) {
   return {
     type: actionTypes.RECEIVED_LAP_TIME_DETAILS,
     receivedLapTimeDetails
+  }
+}
+
+export function receivedAggregateTime(receivedAggregateTime) {
+  return {
+    type: actionTypes.RECEIVED_AGGREGATE_TIME,
+    receivedAggregateTime
   }
 }
 
@@ -331,6 +339,8 @@ export function connectWebSocket(connectionInfo) {
               dispatch(receivedVehicleClassNamesData(json));
             } else if (isLapTimeDetails(json)) {
               dispatch(receivedLapTimeDetails(json));
+            } else if (isAggregateTime(json)) {
+              dispatch(receivedAggregateTime(json));
             } else {
               console.log("WebSocket received unknown packet type data.");
             }

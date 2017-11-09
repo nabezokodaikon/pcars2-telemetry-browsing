@@ -69,6 +69,12 @@ export function isLapTimeDetails(json) {
     && json.base.packetType == telemetryConst.LAP_TIME_DETAILS;
 }
 
+export function isAggregateTime(json) {
+  return isJson(json)
+    && existsKey(json, "base")
+    && json.base.packetType == telemetryConst.AGGREGATE_TIME;
+}
+
 export function kmhToMIH(kmh) {
   return Math.floor(kmh * 0.625);
 }

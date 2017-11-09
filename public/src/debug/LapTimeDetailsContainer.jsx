@@ -98,12 +98,14 @@ class LapTimeDetails extends React.Component {
 }
 
 LapTimeDetails.propTypes = {
-  lapTimeDetails: PropTypes.object.isRequired
+  lapTimeDetails: PropTypes.object.isRequired,
+  aggregateTime: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
   return {
-    lapTimeDetails: state.currentUdpData.lapTimeDetails
+    lapTimeDetails: state.currentUdpData.lapTimeDetails,
+    aggregateTime: state.currentUdpData.aggregateTime
   };
 };
 
