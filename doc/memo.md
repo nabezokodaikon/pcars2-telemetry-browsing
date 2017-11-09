@@ -206,6 +206,14 @@
 * ParticipantVehicleNamesData
 * VehicleClassNamesData
 
+# GameState
+* ピットボックス
+  * `GAME_INGAME_INMENU_TIME_TICKING`
+* 走行中
+  * `GAME_INGAME_PLAYING`
+* リプレイ
+  * `GAME_INGAME_REPLAY`
+
 
 ## Bug
 ### sParticipantVehicleNamesDataのPacketBaseのmPartialPacketIndexがmPartialPacketNumberの値まで送信されていない。
