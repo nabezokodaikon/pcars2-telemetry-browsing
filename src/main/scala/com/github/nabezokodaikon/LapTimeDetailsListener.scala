@@ -48,6 +48,29 @@ final case class LapData(
   }
 }
 
+final object History {
+  val emptyLap = "-"
+  val emptyTime = "--:--.---"
+  val emptyLapTime = LapTime(
+    emptyLap,
+    emptyTime,
+    emptyTime,
+    emptyTime,
+    emptyTime
+  )
+
+  val base = PacketBase(
+    packetNumber = 0,
+    categoryPacketNumber = 0,
+    partialPacketIndex = 0,
+    partialPacketNumber = 0,
+    packetType = UdpStreamerPacketHandlerType.LAP_TIME_DETAILS,
+    packetVersion = 0,
+    dataTimestamp = System.currentTimeMillis,
+    dataSize = 0
+  )
+}
+
 final case class History(
     isMenu: Boolean,
     isPlaying: Boolean,
@@ -60,26 +83,7 @@ final case class History(
     currentLapData: Option[LapData],
     lapDataList: List[LapData]
 ) {
-  private val emptyLap = "-"
-  private val emptyTime = "--:--.---"
-  private val emptyLapTime = LapTime(
-    emptyLap,
-    emptyTime,
-    emptyTime,
-    emptyTime,
-    emptyTime
-  )
-
-  private val base = PacketBase(
-    packetNumber = 0,
-    categoryPacketNumber = 0,
-    partialPacketIndex = 0,
-    partialPacketNumber = 0,
-    packetType = UdpStreamerPacketHandlerType.LAP_TIME_DETAILS,
-    packetVersion = 0,
-    dataTimestamp = System.currentTimeMillis,
-    dataSize = 0
-  )
+  import History._
 
   def toLapTimeDetails(): LapTimeDetails = {
     val (current, lap) = currentLapData match {
