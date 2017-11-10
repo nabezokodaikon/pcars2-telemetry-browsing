@@ -146,6 +146,7 @@ object UdpDataReader extends LazyLogging {
         throttle = throttle,
         clutch = clutch,
         fuelLevel = fuelLevel,
+        fuelRemaining = fuelCapacity.multiply(fuelLevel, 1),
         speed = speed * 3.6f,
         rpm = rpm,
         maxRpm = maxRpm,

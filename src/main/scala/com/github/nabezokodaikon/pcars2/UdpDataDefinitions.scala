@@ -7,7 +7,7 @@ object UdpDataJsonProtocol extends DefaultJsonProtocol {
   implicit val packetBaseFormat = jsonFormat8(PacketBase)
   implicit val telemetryParticipantInfoFormat = jsonFormat1(TelemetryParticipantInfo)
   implicit val unfilteredInputFormat = jsonFormat4(UnfilteredInput)
-  implicit val carStateFormat = jsonFormat20(CarState)
+  implicit val carStateFormat = jsonFormat21(CarState)
   implicit val velocityFormat = jsonFormat7(Velocity)
   implicit val tyre1Format = jsonFormat22(Tyre1)
   implicit val tyre2Format = jsonFormat2(Tyre2)
@@ -35,6 +35,7 @@ object UdpDataJsonProtocol extends DefaultJsonProtocol {
   implicit val lapTimeFormat = jsonFormat5(LapTime)
   implicit val lapTimeDetailsFormat = jsonFormat7(LapTimeDetails)
   implicit val aggregateTimeFormat = jsonFormat3(AggregateTime)
+  implicit val fuelDataFormat = jsonFormat3(FuelData)
 }
 
 import UdpDataJsonProtocol._
@@ -55,6 +56,7 @@ object UdpStreamerPacketHandlerType {
    */
   val LAP_TIME_DETAILS: Byte = 64
   val AGGREGATE_TIME: Byte = 65
+  val FUEL_DATA: Byte = 66
 }
 
 object PacketSize {
@@ -134,6 +136,7 @@ case class CarState(
     throttle: Short, // [ 0 - 255 ]
     clutch: Short, // [ 0 - 255 ]
     fuelLevel: Float,
+    fuelRemaining: String,
     speed: Float, // [ Unit: KM/H ] [ value * 3.6f ]
     rpm: Int,
     maxRpm: Int,
@@ -523,6 +526,17 @@ case class AggregateTime(
     base: PacketBase,
     totalTime: String,
     gapTime: String
+) extends UdpData {
+  def toJsonString: String = this.toJson.toString
+}
+
+/*
+ * Fuel data
+ */
+case class FuelData(
+    base: PacketBase,
+    lastConsumption: String,
+    averageConsumption: String
 ) extends UdpData {
   def toJsonString: String = this.toJson.toString
 }

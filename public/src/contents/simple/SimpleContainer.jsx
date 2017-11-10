@@ -144,8 +144,6 @@ class SimpleContent extends React.Component {
       ? eventTimeRemaining
       : partcipant.currentLap + "/" + lapsInEvent
 
-    const fuel = (carState.fuelCapacity * carState.fuelLevel).toFixed(1);
-    
     return (
       <div style={this.getDataStyle()}>
 
@@ -181,7 +179,7 @@ class SimpleContent extends React.Component {
             <img style={this.getDataIconStyle()} src={fuelIcon} />
           </div>
           <div style={this.getDataValueContainerStyle()}>
-            <span style={this.getDataValueStyle()}>{fuel}L</span>
+            <span style={this.getDataValueStyle()}>{carState.fuelRemaining}L</span>
           </div>
         </div>
 
