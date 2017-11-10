@@ -97,7 +97,9 @@ final class AggregateTimeListener(clientManager: ActorRef)
       context.become(processing(nextStorage))
     case udpData: TelemetryData if (storage.isPlaying) =>
       if (udpData.participantinfo.viewedParticipantIndex != storage.viewedParticipantIndex) {
-        val nextStorage = mergeViewedParticipantIndex(storage, udpData.participantinfo.viewedParticipantIndex)
+        val nextStorage = mergeViewedParticipantIndex(
+          storage, udpData.participantinfo.viewedParticipantIndex
+        )
         context.become(processing(nextStorage))
       }
     case udpData: TimingsData if (storage.isPlaying) =>
@@ -133,7 +135,9 @@ final class AggregateTimeListener(clientManager: ActorRef)
       totalTimes = TotalTime.emptyArray
     )
 
-  private def resetStorage(storage: TotalTimeStorage, gameStateData: GameStateData): TotalTimeStorage =
+  private def resetStorage(
+    storage: TotalTimeStorage, gameStateData: GameStateData
+  ): TotalTimeStorage =
     TotalTimeStorage(
       isMenu = (gameStateData.gameState == GameStateDefineValue.GAME_FRONT_END),
       isPlaying = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_PLAYING
@@ -152,16 +156,20 @@ final class AggregateTimeListener(clientManager: ActorRef)
       totalTimes = TotalTime.emptyArray
     )
 
-  private def mergeViewedParticipantIndex(storage: TotalTimeStorage, viewedParticipantIndex: Byte): TotalTimeStorage =
+  private def mergeViewedParticipantIndex(
+    storage: TotalTimeStorage, viewedParticipantIndex: Byte
+  ): TotalTimeStorage =
     TotalTimeStorage(
       isMenu = storage.isMenu,
       isPlaying = storage.isPlaying,
       isRestart = storage.isRestart,
       viewedParticipantIndex = viewedParticipantIndex,
-      totalTimes = storage.totalTimes
+      totalTimes = TotalTime.emptyArray
     )
 
-  private def mergeStorage(storage: TotalTimeStorage, timingsData: TimingsData): Option[TotalTimeStorage] = {
+  private def mergeStorage(
+    storage: TotalTimeStorage, timingsData: TimingsData
+  ): Option[TotalTimeStorage] = {
     if (storage.totalTimes.length < 32 || timingsData.partcipants.length < 32) {
       return None
     }
@@ -180,7 +188,9 @@ final class AggregateTimeListener(clientManager: ActorRef)
     ))
   }
 
-  private def mergeTotalTime(totalTime: TotalTime, participantInfo: ParticipantInfo): TotalTime =
+  private def mergeTotalTime(
+    totalTime: TotalTime, participantInfo: ParticipantInfo
+  ): TotalTime =
     TotalTime(
       sector = participantInfo.sector,
       lastSector =
@@ -190,7 +200,9 @@ final class AggregateTimeListener(clientManager: ActorRef)
       cumulativeTime = totalTime.cumulativeTime
     )
 
-  private def mergeStorage(storage: TotalTimeStorage, timeStatsData: TimeStatsData): Option[TotalTimeStorage] = {
+  private def mergeStorage(
+    storage: TotalTimeStorage, timeStatsData: TimeStatsData
+  ): Option[TotalTimeStorage] = {
     if (storage.totalTimes.length < 32 || timeStatsData.stats.participants.length < 32) {
       return None
     }
@@ -209,7 +221,9 @@ final class AggregateTimeListener(clientManager: ActorRef)
     ))
   }
 
-  private def mergeTotalTime(totalTime: TotalTime, participantInfo: ParticipantStatsInfo): TotalTime = {
+  private def mergeTotalTime(
+    totalTime: TotalTime, participantInfo: ParticipantStatsInfo
+  ): TotalTime = {
     if (totalTime.sector == totalTime.lastSector) {
       return totalTime
     }
