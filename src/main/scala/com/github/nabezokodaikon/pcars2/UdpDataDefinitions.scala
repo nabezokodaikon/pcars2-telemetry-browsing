@@ -17,8 +17,8 @@ object UdpDataJsonProtocol extends DefaultJsonProtocol {
   implicit val telemetryDataFormat = jsonFormat10(TelemetryData)
   implicit val raceDataFormat = jsonFormat19(RaceData)
   implicit val participantsDataFormat = jsonFormat3(ParticipantsData)
-  implicit val participantInfoFormat = jsonFormat13(ParticipantInfo)
-  implicit val formatParticipantInfoFormat = jsonFormat13(FormatParticipantInfo)
+  implicit val participantInfoFormat = jsonFormat14(ParticipantInfo)
+  implicit val formatParticipantInfoFormat = jsonFormat16(FormatParticipantInfo)
   implicit val timingsDataFormat = jsonFormat9(TimingsData)
   implicit val gameStateFormat = jsonFormat2(GameState)
   implicit val gameSessionStateFormat = jsonFormat2(SessionState)
@@ -291,6 +291,26 @@ object RaceState {
   val RACESTATE_DNF = 6
 }
 
+object PitMode {
+  val PIT_MODE_NONE: Byte = 0
+  val PIT_MODE_DRIVING_INTO_PITS: Byte = 1
+  val PIT_MODE_IN_PIT: Byte = 2
+  val PIT_MODE_DRIVING_OUT_OF_PITS: Byte = 3
+  val PIT_MODE_IN_GARAGE: Byte = 4
+  val PIT_MODE_DRIVING_OUT_OF_GARAGE: Byte = 5
+}
+
+object PitSchedule {
+  val PIT_SCHEDULE_NONE: Byte = 0 // Nothing scheduled
+  val PIT_SCHEDULE_PLAYER_REQUESTED: Byte = 1 // Used for standard pit sequence - requested by player
+  val PIT_SCHEDULE_ENGINEER_REQUESTED: Byte = 2 // Used for standard pit sequence - requested by engineer
+  val PIT_SCHEDULE_DAMAGE_REQUESTED: Byte = 3 // Used for standard pit sequence - requested by engineer for damage
+  val PIT_SCHEDULE_MANDATORY: Byte = 4 // Used for standard pit sequence - requested by engineer from career enforced lap number
+  val PIT_SCHEDULE_DRIVE_THROUGH: Byte = 5 // Used for drive-through penalty
+  val PIT_SCHEDULE_STOP_GO: Byte = 6 // Used for stop-go penalty
+  val PIT_SCHEDULE_PITSPOT_OCCUPIED: Byte = 7 // Used for drive-through when pitspot is occupied
+}
+
 case class FormatParticipantInfo(
     worldPosition: Array[Short],
     orientation: Array[Short], // Quantized heading (-PI .. +PI) , Quantized pitch (-PI / 2 .. +PI / 2),  Quantized bank (-PI .. +PI).
@@ -299,7 +319,10 @@ case class FormatParticipantInfo(
     isActive: Boolean,
     sector: Short, // sector + extra precision bits for x/z position
     highestFlag: Short,
-    pitModeSchedule: Short,
+    pitMode: Byte,
+    pitModeString: String,
+    pitSchedule: Byte,
+    pitScheduleString: String,
     carIndex: Int, // top bit shows if participant is (local or remote) human player or not
     raceState: Short, // race state flags + invalidated lap indication --
     currentLap: Short,
@@ -315,7 +338,8 @@ case class ParticipantInfo(
     isActive: Boolean,
     sector: Short, // sector + extra precision bits for x/z position
     highestFlag: Short,
-    pitModeSchedule: Short,
+    pitMode: Byte,
+    pitSchedule: Byte,
     carIndex: Int, // top bit shows if participant is (local or remote) human player or not
     raceState: Short, // race state flags + invalidated lap indication --
     currentLap: Short,

@@ -75,6 +75,12 @@ export function isAggregateTime(json) {
     && json.base.packetType == telemetryConst.AGGREGATE_TIME;
 }
 
+export function isFuelData(json) {
+  return isJson(json)
+    && existsKey(json, "base")
+    && json.base.packetType == telemetryConst.FUEL_DATA;
+}
+
 export function kmhToMIH(kmh) {
   return Math.floor(kmh * 0.625);
 }

@@ -80,6 +80,14 @@ class LapTimeDetails extends React.Component {
             <td>this.props.aggregateTime.gapTime</td>
           </tr>
           <tr>
+            <td>lastConsumption</td>
+            <td>{this.props.fuelData.lastConsumption}</td>
+          </tr>
+          <tr>
+            <td>averageConsumption</td>
+            <td>{this.props.fuelData.averageConsumption}</td>
+          </tr>
+          <tr>
             <td>LapTimeDetails</td>
           </tr>
           {createHeader()}
@@ -93,7 +101,9 @@ class LapTimeDetails extends React.Component {
   }
 
   render() {
-    if (!isJson(this.props.lapTimeDetails) /* && !isJson(this.props.aggregateTime) */) {
+    if (!isJson(this.props.lapTimeDetails)
+    /* && !isJson(this.props.aggregateTime) */
+    && !isJson(this.props.fuelData)) {
       return <div></div>;
     } else {
       return (
@@ -107,13 +117,15 @@ class LapTimeDetails extends React.Component {
 
 LapTimeDetails.propTypes = {
   lapTimeDetails: PropTypes.object.isRequired,
-  aggregateTime: PropTypes.object.isRequired
+  aggregateTime: PropTypes.object.isRequired,
+  fuelData: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
   return {
     lapTimeDetails: state.currentUdpData.lapTimeDetails,
-    aggregateTime: state.currentUdpData.aggregateTime
+    aggregateTime: state.currentUdpData.aggregateTime,
+    fuelData: state.currentUdpData.fuelData
   };
 };
 
