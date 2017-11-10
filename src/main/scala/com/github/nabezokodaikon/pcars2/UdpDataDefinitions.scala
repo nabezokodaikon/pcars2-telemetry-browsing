@@ -332,8 +332,8 @@ case class TimingsData(
     splitTimeAhead: Float,
     splitTimeBehind: Float,
     splitTime: Float,
-    partcipants: Array[ParticipantInfo],
-    formatPartcipants: Array[FormatParticipantInfo]
+    participants: Array[ParticipantInfo],
+    formatParticipants: Array[FormatParticipantInfo]
 ) extends UdpData {
   def toJsonString: String = this.toJson.toString
 }

@@ -282,10 +282,14 @@ final class LapTimeDetailsListener(clientManager: ActorRef)
       lapDataList = List[LapData]()
     )
 
-  private def createHistory(history: History, timingsData: TimingsData): Option[History] =
+  private def createHistory(history: History, timingsData: TimingsData): Option[History] = {
+    val participant = timingsData.participants(history.viewedParticipantIndex)
+    if (participant.currentTime < 0) {
+      return None
+    }
+
     history.currentData match {
       case Some(currentData) =>
-        val participant = timingsData.partcipants(history.viewedParticipantIndex)
         if (participant.currentLap != currentData.currentLap
           || participant.sector != currentData.sector) {
           val newCurrentData = CurrentData(
@@ -297,13 +301,13 @@ final class LapTimeDetailsListener(clientManager: ActorRef)
           None
         }
       case None =>
-        val participant = timingsData.partcipants(history.viewedParticipantIndex)
         val newCurrentData = CurrentData(
           participant.currentLap, participant.sector,
           participant.currentTime, participant.currentSectorTime
         )
         Some(mergeHistory(history, newCurrentData))
     }
+  }
 
   private def createHistory(history: History, timeStatsData: TimeStatsData): Option[History] =
     (history.currentData, history.currentLapData) match {

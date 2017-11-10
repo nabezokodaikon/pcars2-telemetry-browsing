@@ -170,14 +170,19 @@ final class AggregateTimeListener(clientManager: ActorRef)
   private def mergeStorage(
     storage: TotalTimeStorage, timingsData: TimingsData
   ): Option[TotalTimeStorage] = {
-    if (storage.totalTimes.length < 32 || timingsData.partcipants.length < 32) {
+    if (storage.totalTimes.length < 32 || timingsData.participants.length < 32) {
+      return None
+    }
+
+    val participant = timingsData.participants(storage.viewedParticipantIndex)
+    if (participant.currentTime < 0) {
       return None
     }
 
     val totalTimes =
       for (
         i <- 0 to 31
-      ) yield mergeTotalTime(storage.totalTimes(i), timingsData.partcipants(i))
+      ) yield mergeTotalTime(storage.totalTimes(i), timingsData.participants(i))
 
     Some(TotalTimeStorage(
       isMenu = storage.isMenu,

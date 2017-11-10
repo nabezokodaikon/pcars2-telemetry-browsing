@@ -135,14 +135,14 @@ class SimpleContent extends React.Component {
     }
 
     const carState = telemetryData.carState; 
-    const partcipant = timingsData.formatPartcipants[telemetryData.participantinfo.viewedParticipantIndex];
+    const participant = timingsData.formatParticipants[telemetryData.participantinfo.viewedParticipantIndex];
 
     const eventTimeRemaining = timingsData.eventTimeRemaining;
     const isTimedSessions = (eventTimeRemaining !== "--:--:--.---"); 
     const lapsInEvent = (isJson(raceData) ? raceData.lapsInEvent : 1); 
     const sessionText = (isTimedSessions)
       ? eventTimeRemaining
-      : partcipant.currentLap + "/" + lapsInEvent
+      : participant.currentLap + "/" + lapsInEvent
 
     return (
       <div style={this.getDataStyle()}>
@@ -152,7 +152,7 @@ class SimpleContent extends React.Component {
             <img style={this.getDataIconStyle()} src={rankIcon} />
           </div>
           <div style={this.getDataValueContainerStyle()}>
-            <span style={this.getDataValueStyle()}>{partcipant.racePosition}/{timingsData.numParticipants}</span>
+            <span style={this.getDataValueStyle()}>{participant.racePosition}/{timingsData.numParticipants}</span>
           </div>
         </div>
 
@@ -170,7 +170,7 @@ class SimpleContent extends React.Component {
             <img style={this.getDataIconStyle()} src={timeIcon} />
           </div>
           <div style={this.getDataValueContainerStyle()}>
-            <span style={this.getDataValueStyle()}>{partcipant.currentTime}</span>
+            <span style={this.getDataValueStyle()}>{participant.currentTime}</span>
           </div>
         </div>
 

@@ -52,10 +52,10 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
     "LapTimeDetailsListener"
   )
 
-  val aggregateTimeListener = context.actorOf(
-    Props(classOf[AggregateTimeListener], clientManager),
-    "AggregateTimeListener"
-  )
+  // val aggregateTimeListener = context.actorOf(
+  // Props(classOf[AggregateTimeListener], clientManager),
+  // "AggregateTimeListener"
+  // )
 
   val fuelDataListener = context.actorOf(
     Props(classOf[FuelDataListener], clientManager),

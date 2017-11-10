@@ -441,7 +441,7 @@ object UdpDataReader extends LazyLogging {
     val (splitTimeAhead, data6) = readFloat(data5)
     val (splitTimeBehind, data7) = readFloat(data6)
     val (splitTime, data8) = readFloat(data7)
-    val (partcipants, nextData) = readTupleDefineArray(readParticipantInfo, data8, UDP_STREAMER_PARTICIPANTS_SUPPORTED, 30)
+    val (participants, nextData) = readTupleDefineArray(readParticipantInfo, data8, UDP_STREAMER_PARTICIPANTS_SUPPORTED, 30)
 
     TimingsData(
       base = base,
@@ -451,8 +451,8 @@ object UdpDataReader extends LazyLogging {
       splitTimeAhead = splitTimeAhead,
       splitTimeBehind = splitTimeBehind,
       splitTime = splitTime,
-      partcipants = partcipants.map(_._1),
-      formatPartcipants = partcipants.map(_._2)
+      participants = participants.map(_._1),
+      formatParticipants = participants.map(_._2)
     )
   }
 

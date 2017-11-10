@@ -72,6 +72,14 @@ class LapTimeDetails extends React.Component {
             <td>{this.props.lapTimeDetails.lapsInEvent}</td>
           </tr>
           <tr>
+            <td>totalTime</td>
+            <td>this.props.aggregateTime.totalTime</td>
+          </tr>
+          <tr>
+            <td>gapTime</td>
+            <td>this.props.aggregateTime.gapTime</td>
+          </tr>
+          <tr>
             <td>LapTimeDetails</td>
           </tr>
           {createHeader()}
@@ -85,7 +93,7 @@ class LapTimeDetails extends React.Component {
   }
 
   render() {
-    if (!isJson(this.props.lapTimeDetails)) {
+    if (!isJson(this.props.lapTimeDetails) /* && !isJson(this.props.aggregateTime) */) {
       return <div></div>;
     } else {
       return (

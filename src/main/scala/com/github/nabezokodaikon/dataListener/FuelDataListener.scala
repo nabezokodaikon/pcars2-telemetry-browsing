@@ -169,8 +169,12 @@ final class FuelDataListener(clientManager: ActorRef)
   private def mergeTimingsData(
     data: FuelAccumulationData, timingsData: TimingsData
   ): Option[FuelAccumulationData] = {
-    val partcipant = timingsData.partcipants(data.viewedParticipantIndex)
-    partcipant.currentLap match {
+    val participant = timingsData.participants(data.viewedParticipantIndex)
+    if (participant.currentTime < 0) {
+      return None
+    }
+
+    participant.currentLap match {
       case currentLap if (currentLap == 1) =>
         Some(FuelAccumulationData(
           isMenu = data.isMenu,

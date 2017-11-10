@@ -42,7 +42,7 @@ object ParserApp extends /* App with */ LazyLogging {
   val timingsDataName = s"${dir}/testdata/3_20171102053850824.bin"
   var timingsDataBuffer = FileUtil.readBinary(timingsDataName).toList
   val timingsData = readTimingsData(timingsDataBuffer)
-  println(timingsData.partcipants.length)
+  println(timingsData.participants.length)
 
   println("// GameState")
   val gameStateDataName = s"${dir}/testdata/4_20171102053558168.bin"

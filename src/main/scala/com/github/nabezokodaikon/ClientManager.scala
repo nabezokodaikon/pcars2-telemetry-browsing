@@ -87,8 +87,8 @@ class ClientManager extends Actor with LazyLogging {
           vehicleClassNamesDataStorage ! udpData
         case udpData: LapTimeDetails =>
           lapTimeDetailsStorage ! udpData
-        // case udpdata: aggregatetime =>
-        // aggregatetimestorage ! udpdata
+        // case udpData: AggregateTime =>
+        // aggregateTimeStorage ! udpData
         case _ => Unit
       }
     case _ =>
