@@ -3,6 +3,14 @@ package com.github.nabezokodaikon
 import akka.actor.{ Actor, ActorRef, PoisonPill, Props }
 import akka.io.{ IO, Udp }
 import akka.pattern.{ AskTimeoutException, gracefulStop }
+import com.github.nabezokodaikon.dataListener.{
+  ParticipantsDataListener,
+  ParticipantVehicleNamesDataListener,
+  VehicleClassNamesDataListener,
+  LapTimeDetailsListener,
+  AggregateTimeListener,
+  FuelDataListener
+}
 import com.github.nabezokodaikon.pcars2.{
   UdpData,
   TelemetryData,
@@ -44,10 +52,15 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
     "LapTimeDetailsListener"
   )
 
-  // val aggregateTimeListener = context.actorOf(
-  // Props(classOf[AggregateTimeListener], clientManager),
-  // "AggregateTimeListener"
-  // )
+  val aggregateTimeListener = context.actorOf(
+    Props(classOf[AggregateTimeListener], clientManager),
+    "AggregateTimeListener"
+  )
+
+  val fuelDataListener = context.actorOf(
+    Props(classOf[FuelDataListener], clientManager),
+    "FuelDataListener"
+  )
 
   override def preStart() = {
     IO(Udp) ! Udp.Bind(self, new InetSocketAddress("0.0.0.0", 5606))
