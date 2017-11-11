@@ -168,8 +168,8 @@ final class LapTimeDetailsListener(clientManager: ActorRef)
       clientManager ! lapTimeDetails
       context.become(processing(nextHistory))
     case udpData: TelemetryData if (history.isPlaying) =>
-      if (udpData.participantinfo.viewedParticipantIndex != history.viewedParticipantIndex) {
-        val nextHistory = resetHistoryByViewedParticipantIndex(history, udpData.participantinfo.viewedParticipantIndex)
+      if (udpData.participantInfo.viewedParticipantIndex != history.viewedParticipantIndex) {
+        val nextHistory = resetHistoryByViewedParticipantIndex(history, udpData.participantInfo.viewedParticipantIndex)
         context.become(processing(nextHistory))
       }
     case udpData: TimingsData if (history.isMenu && history.currentData != None) =>

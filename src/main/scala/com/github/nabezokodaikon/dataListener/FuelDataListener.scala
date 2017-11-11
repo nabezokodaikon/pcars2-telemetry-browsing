@@ -173,7 +173,7 @@ final class FuelDataListener(clientManager: ActorRef)
   private def mergeTelemetryData(
     data: FuelAccumulationData, telemetryData: TelemetryData
   ): Option[FuelAccumulationData] =
-    telemetryData.participantinfo.viewedParticipantIndex match {
+    telemetryData.participantInfo.viewedParticipantIndex match {
       case index if (index == data.viewedParticipantIndex) =>
         (data.initialFuelLevel, data.currentSector) match {
           case (initialFuelLevel, sector) if (initialFuelLevel == 0f && sector == 1) =>
@@ -232,7 +232,7 @@ final class FuelDataListener(clientManager: ActorRef)
           isMenu = data.isMenu,
           isPlaying = data.isPlaying,
           isRestart = data.isRestart,
-          viewedParticipantIndex = telemetryData.participantinfo.viewedParticipantIndex,
+          viewedParticipantIndex = telemetryData.participantInfo.viewedParticipantIndex,
           fuelCapacity = 0,
           initialFuelLevel = 0f,
           currentFuelLevel = 0f,

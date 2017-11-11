@@ -208,7 +208,7 @@ case class HWState(
 // partialPacketNumber = 1 Only
 case class TelemetryData(
     base: PacketBase,
-    participantinfo: TelemetryParticipantInfo,
+    participantInfo: TelemetryParticipantInfo,
     unfilteredInput: UnfilteredInput,
     carState: CarState,
     velocity: Velocity,
@@ -218,7 +218,7 @@ case class TelemetryData(
     carDamage: CarDamage,
     hwState: HWState
 ) extends UdpData {
-  def toJsonString: String = this.toJson.toString
+  def toJsonString(): String = this.toJson.toString
 }
 
 /*******************************************************************************************************************
@@ -251,7 +251,7 @@ case class RaceData(
     sessionLengthTimeInEvent: Int,
     enforcedPitStopLap: Byte
 ) extends UdpData {
-  def toJsonString: String = this.toJson.toString
+  def toJsonString(): String = this.toJson.toString
 }
 
 /*******************************************************************************************************************
@@ -270,7 +270,7 @@ case class ParticipantsData(
     participantsChangedTimestamp: Long,
     name: Array[String]
 ) extends UdpData {
-  def toJsonString: String = this.toJson.toString
+  def toJsonString(): String = this.toJson.toString
 }
 
 /*******************************************************************************************************************
@@ -384,7 +384,7 @@ case class TimingsData(
     participants: Array[ParticipantInfo],
     formatParticipants: Array[FormatParticipantInfo]
 ) extends UdpData {
-  def toJsonString: String = this.toJson.toString
+  def toJsonString(): String = this.toJson.toString
 }
 
 /*******************************************************************************************************************
@@ -459,7 +459,7 @@ case class GameStateData(
     windDirectionX: Byte,
     windDirectionY: Byte // 22 padded to 24
 ) extends UdpData {
-  def toJsonString: String = this.toJson.toString
+  def toJsonString(): String = this.toJson.toString
 }
 
 /*******************************************************************************************************************
@@ -500,7 +500,7 @@ case class TimeStatsData(
     participantsChangedTimestamp: Long,
     stats: ParticipantsStats
 ) extends UdpData {
-  def toJsonString: String = this.toJson.toString
+  def toJsonString(): String = this.toJson.toString
 }
 
 /*******************************************************************************************************************
@@ -528,7 +528,7 @@ case class ParticipantVehicleNamesData(
     base: PacketBase,
     vehicles: Array[VehicleInfo]
 ) extends UdpData {
-  def toJsonString: String = this.toJson.toString
+  def toJsonString(): String = this.toJson.toString
 }
 
 case class ClassInfo(
@@ -542,7 +542,7 @@ case class VehicleClassNamesData(
     base: PacketBase,
     classes: Array[ClassInfo]
 ) extends UdpData {
-  def toJsonString: String = this.toJson.toString
+  def toJsonString(): String = this.toJson.toString
 }
 
 /*
@@ -565,7 +565,7 @@ case class LapTimeDetails(
     average: LapTime,
     history: List[LapTime]
 ) extends UdpData {
-  def toJsonString: String = this.toJson.toString
+  def toJsonString(): String = this.toJson.toString
 }
 
 /*
@@ -576,7 +576,7 @@ case class AggregateTime(
     totalTime: String,
     gapTime: String
 ) extends UdpData {
-  def toJsonString: String = this.toJson.toString
+  def toJsonString(): String = this.toJson.toString
 }
 
 /*
@@ -587,5 +587,5 @@ case class FuelData(
     lastConsumption: String,
     averageConsumption: String
 ) extends UdpData {
-  def toJsonString: String = this.toJson.toString
+  def toJsonString(): String = this.toJson.toString
 }

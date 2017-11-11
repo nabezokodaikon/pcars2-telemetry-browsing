@@ -96,9 +96,9 @@ final class AggregateTimeListener(clientManager: ActorRef)
       clientManager ! nextStorage.toTotalTimeData()
       context.become(processing(nextStorage))
     case udpData: TelemetryData if (storage.isPlaying) =>
-      if (udpData.participantinfo.viewedParticipantIndex != storage.viewedParticipantIndex) {
+      if (udpData.participantInfo.viewedParticipantIndex != storage.viewedParticipantIndex) {
         val nextStorage = mergeViewedParticipantIndex(
-          storage, udpData.participantinfo.viewedParticipantIndex
+          storage, udpData.participantInfo.viewedParticipantIndex
         )
         context.become(processing(nextStorage))
       }

@@ -24,7 +24,7 @@ class TelemetryData extends React.Component {
     }
 
     const createTelemetryParticipantInfo = () => {
-      const data = this.props.telemetryData.participantinfo;
+      const data = this.props.telemetryData.participantInfo;
       return Object.keys(data).map(key => {
         const value = data[key];
         return (

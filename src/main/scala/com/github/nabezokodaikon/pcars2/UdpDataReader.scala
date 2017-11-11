@@ -45,9 +45,9 @@ object UdpDataReader extends LazyLogging {
     }
   }
 
-  def toPitSchedule(pitSchedule: Byte): PitSchedule = {
+  def toPitSchedule(value: Byte): PitSchedule = {
     import PitScheduleDefine._
-    pitSchedule match {
+    value match {
       case PIT_SCHEDULE_NONE => PitScheduleDefineValue.PIT_SCHEDULE_NONE
       case PIT_SCHEDULE_PLAYER_REQUESTED => PitScheduleDefineValue.PIT_SCHEDULE_PLAYER_REQUESTED
       case PIT_SCHEDULE_ENGINEER_REQUESTED => PitScheduleDefineValue.PIT_SCHEDULE_ENGINEER_REQUESTED
@@ -60,20 +60,22 @@ object UdpDataReader extends LazyLogging {
     }
   }
 
-  def toGameState(value: Byte): GameState =
+  def toGameState(value: Byte): GameState = {
+    import GameStateDefine._
     value match {
-      case GameStateDefine.GAME_EXITED => GameStateDefineValue.GAME_EXITED
-      case GameStateDefine.GAME_FRONT_END => GameStateDefineValue.GAME_FRONT_END
-      case GameStateDefine.GAME_INGAME_PLAYING => GameStateDefineValue.GAME_INGAME_PLAYING
-      case GameStateDefine.GAME_INGAME_PAUSED => GameStateDefineValue.GAME_INGAME_PAUSED
-      case GameStateDefine.GAME_INGAME_INMENU_TIME_TICKING => GameStateDefineValue.GAME_INGAME_INMENU_TIME_TICKING
-      case GameStateDefine.GAME_INGAME_RESTARTING => GameStateDefineValue.GAME_INGAME_RESTARTING
-      case GameStateDefine.GAME_INGAME_REPLAY => GameStateDefineValue.GAME_INGAME_REPLAY
-      case GameStateDefine.GAME_FRONT_END_REPLAY => GameStateDefineValue.GAME_FRONT_END_REPLAY
+      case GAME_EXITED => GameStateDefineValue.GAME_EXITED
+      case GAME_FRONT_END => GameStateDefineValue.GAME_FRONT_END
+      case GAME_INGAME_PLAYING => GameStateDefineValue.GAME_INGAME_PLAYING
+      case GAME_INGAME_PAUSED => GameStateDefineValue.GAME_INGAME_PAUSED
+      case GAME_INGAME_INMENU_TIME_TICKING => GameStateDefineValue.GAME_INGAME_INMENU_TIME_TICKING
+      case GAME_INGAME_RESTARTING => GameStateDefineValue.GAME_INGAME_RESTARTING
+      case GAME_INGAME_REPLAY => GameStateDefineValue.GAME_INGAME_REPLAY
+      case GAME_FRONT_END_REPLAY => GameStateDefineValue.GAME_FRONT_END_REPLAY
       case _ =>
         logger.warn("Received unknown game state.")
         GameStateDefineValue.GAME_UNKNOWN
     }
+  }
 
   def toSessionState(value: Byte): SessionState =
     value match {
@@ -325,7 +327,7 @@ object UdpDataReader extends LazyLogging {
 
   def readTelemetryData(data1: List[Byte]): TelemetryData = {
     val (base, data2) = readPacketBase(data1)
-    val (participantinfo, data3) = readTelemetryParticipantInfo(data2)
+    val (participantInfo, data3) = readTelemetryParticipantInfo(data2)
     val (unfilteredInput, data4) = readUnfilteredInput(data3)
     val (carState, data5) = readCarState(data4)
     val (velocity, data6) = readVelocity(data5)
@@ -337,7 +339,7 @@ object UdpDataReader extends LazyLogging {
 
     TelemetryData(
       base = base,
-      participantinfo = participantinfo,
+      participantInfo = participantInfo,
       unfilteredInput = unfilteredInput,
       carState = carState,
       velocity = velocity,
