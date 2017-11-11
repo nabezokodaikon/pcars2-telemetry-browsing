@@ -23,7 +23,7 @@ object UdpDataReader extends LazyLogging {
       case _ => (Array[(T, U)](), List[Byte]())
     }
 
-  private def toGearString(gearNumGears: Int): String = {
+  def toGearString(gearNumGears: Int): String = {
     val gear = (gearNumGears & 15)
     gear match {
       case 15 => GEAR_REVERS
@@ -32,7 +32,7 @@ object UdpDataReader extends LazyLogging {
     }
   }
 
-  private def toPitMode(pitMode: Byte): PitMode = {
+  def toPitMode(pitMode: Byte): PitMode = {
     import PitModeDefine._
     pitMode match {
       case PIT_MODE_NONE => PitModeDefineValue.PIT_MODE_NONE
@@ -45,7 +45,7 @@ object UdpDataReader extends LazyLogging {
     }
   }
 
-  private def toPitSchedule(pitSchedule: Byte): PitSchedule = {
+  def toPitSchedule(pitSchedule: Byte): PitSchedule = {
     import PitScheduleDefine._
     pitSchedule match {
       case PIT_SCHEDULE_NONE => PitScheduleDefineValue.PIT_SCHEDULE_NONE
@@ -60,7 +60,7 @@ object UdpDataReader extends LazyLogging {
     }
   }
 
-  private def toGameState(value: Byte): GameState =
+  def toGameState(value: Byte): GameState =
     value match {
       case GameStateDefine.GAME_EXITED => GameStateDefineValue.GAME_EXITED
       case GameStateDefine.GAME_FRONT_END => GameStateDefineValue.GAME_FRONT_END
@@ -75,7 +75,7 @@ object UdpDataReader extends LazyLogging {
         GameStateDefineValue.GAME_UNKNOWN
     }
 
-  private def toSessionState(value: Byte): SessionState =
+  def toSessionState(value: Byte): SessionState =
     value match {
       case SessionStateDefine.SESSION_INVALID => SessionStateDefineValue.SESSION_INVALID
       case SessionStateDefine.SESSION_PRACTICE => SessionStateDefineValue.SESSION_PRACTICE
