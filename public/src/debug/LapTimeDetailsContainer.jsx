@@ -102,8 +102,8 @@ class LapTimeDetails extends React.Component {
 
   render() {
     if (!isJson(this.props.lapTimeDetails)
-    /* && !isJson(this.props.aggregateTime) */
-    && !isJson(this.props.fuelData)) {
+    /* || !isJson(this.props.aggregateTime) */
+    || !isJson(this.props.fuelData)) {
       return <div></div>;
     } else {
       return (
