@@ -32,35 +32,35 @@ object UdpDataReader extends LazyLogging {
     }
   }
 
-  private def toPitModeString(pitMode: Byte): String = {
-    import PitMode._
+  private def toPitMode(pitMode: Byte): PitMode = {
+    import PitModeDefine._
     pitMode match {
-      case PIT_MODE_NONE => "PIT_MODE_NONE"
-      case PIT_MODE_DRIVING_INTO_PITS => "PIT_MODE_DRIVING_INTO_PITS"
-      case PIT_MODE_IN_PIT => "PIT_MODE_IN_PIT"
-      case PIT_MODE_DRIVING_OUT_OF_PITS => "PIT_MODE_DRIVING_OUT_OF_PITS"
-      case PIT_MODE_IN_GARAGE => "PIT_MODE_IN_GARAGE"
-      case PIT_MODE_DRIVING_OUT_OF_GARAGE => "PIT_MODE_DRIVING_OUT_OF_GARAGE"
-      case _ => ""
+      case PIT_MODE_NONE => PitModeDefineValue.PIT_MODE_NONE
+      case PIT_MODE_DRIVING_INTO_PITS => PitModeDefineValue.PIT_MODE_DRIVING_INTO_PITS
+      case PIT_MODE_IN_PIT => PitModeDefineValue.PIT_MODE_IN_PIT
+      case PIT_MODE_DRIVING_OUT_OF_PITS => PitModeDefineValue.PIT_MODE_DRIVING_OUT_OF_PITS
+      case PIT_MODE_IN_GARAGE => PitModeDefineValue.PIT_MODE_IN_GARAGE
+      case PIT_MODE_DRIVING_OUT_OF_GARAGE => PitModeDefineValue.PIT_MODE_DRIVING_OUT_OF_GARAGE
+      case _ => PitModeDefineValue.PIT_MODE_UNKNOWN
     }
   }
 
-  private def toPitScheduleString(pitSchedule: Byte): String = {
-    import PitSchedule._
+  private def toPitSchedule(pitSchedule: Byte): PitSchedule = {
+    import PitScheduleDefine._
     pitSchedule match {
-      case PIT_SCHEDULE_NONE => "PIT_SCHEDULE_NONE"
-      case PIT_SCHEDULE_PLAYER_REQUESTED => "PIT_SCHEDULE_PLAYER_REQUESTED"
-      case PIT_SCHEDULE_ENGINEER_REQUESTED => "PIT_SCHEDULE_ENGINEER_REQUESTED"
-      case PIT_SCHEDULE_DAMAGE_REQUESTED => "PIT_SCHEDULE_DAMAGE_REQUESTED"
-      case PIT_SCHEDULE_MANDATORY => "PIT_SCHEDULE_MANDATORY"
-      case PIT_SCHEDULE_DRIVE_THROUGH => "PIT_SCHEDULE_DRIVE_THROUGH"
-      case PIT_SCHEDULE_STOP_GO => "PIT_SCHEDULE_STOP_GO"
-      case PIT_SCHEDULE_PITSPOT_OCCUPIED => "PIT_SCHEDULE_PITSPOT_OCCUPIED"
-      case _ => ""
+      case PIT_SCHEDULE_NONE => PitScheduleDefineValue.PIT_SCHEDULE_NONE
+      case PIT_SCHEDULE_PLAYER_REQUESTED => PitScheduleDefineValue.PIT_SCHEDULE_PLAYER_REQUESTED
+      case PIT_SCHEDULE_ENGINEER_REQUESTED => PitScheduleDefineValue.PIT_SCHEDULE_ENGINEER_REQUESTED
+      case PIT_SCHEDULE_DAMAGE_REQUESTED => PitScheduleDefineValue.PIT_SCHEDULE_DAMAGE_REQUESTED
+      case PIT_SCHEDULE_MANDATORY => PitScheduleDefineValue.PIT_SCHEDULE_MANDATORY
+      case PIT_SCHEDULE_DRIVE_THROUGH => PitScheduleDefineValue.PIT_SCHEDULE_DRIVE_THROUGH
+      case PIT_SCHEDULE_STOP_GO => PitScheduleDefineValue.PIT_SCHEDULE_STOP_GO
+      case PIT_SCHEDULE_PITSPOT_OCCUPIED => PitScheduleDefineValue.PIT_SCHEDULE_PITSPOT_OCCUPIED
+      case _ => PitScheduleDefineValue.PIT_SCHEDULE_UNKNOWN
     }
   }
 
-  private def getGameState(value: Byte): GameState =
+  private def toGameState(value: Byte): GameState =
     value match {
       case GameStateDefine.GAME_EXITED => GameStateDefineValue.GAME_EXITED
       case GameStateDefine.GAME_FRONT_END => GameStateDefineValue.GAME_FRONT_END
@@ -75,7 +75,7 @@ object UdpDataReader extends LazyLogging {
         GameStateDefineValue.GAME_UNKNOWN
     }
 
-  private def getSessionState(value: Byte): SessionState =
+  private def toSessionState(value: Byte): SessionState =
     value match {
       case SessionStateDefine.SESSION_INVALID => SessionStateDefineValue.SESSION_INVALID
       case SessionStateDefine.SESSION_PRACTICE => SessionStateDefineValue.SESSION_PRACTICE
@@ -423,8 +423,8 @@ object UdpDataReader extends LazyLogging {
     val (currentTime, data12) = readFloat(data11)
     val (currentSectorTime, nextData) = readFloat(data12)
 
-    val pitMode = (pitModeSchedule & 7).toByte
-    val pitSchedule = (pitModeSchedule >> 3 & 3).toByte
+    val pitMode = toPitMode((pitModeSchedule & 7).toByte)
+    val pitSchedule = toPitSchedule((pitModeSchedule >> 3 & 3).toByte)
 
     val participantInfo = ParticipantInfo(
       worldPosition = worldPosition,
@@ -434,8 +434,8 @@ object UdpDataReader extends LazyLogging {
       isActive = ((racePosition >> 7) == 1),
       sector = ((sector & 7) + 1).toShort,
       highestFlag = highestFlag,
-      pitMode = pitMode,
-      pitSchedule = pitSchedule,
+      pitMode = pitMode.value,
+      pitSchedule = pitSchedule.value,
       carIndex = carIndex,
       raceState = raceState,
       currentLap = currentLap,
@@ -451,10 +451,10 @@ object UdpDataReader extends LazyLogging {
       isActive = participantInfo.isActive,
       sector = participantInfo.sector,
       highestFlag = participantInfo.highestFlag,
-      pitMode = pitMode,
-      pitModeString = toPitModeString(pitMode),
-      pitSchedule = pitSchedule,
-      pitScheduleString = toPitScheduleString(pitSchedule),
+      pitMode = pitMode.value,
+      pitModeString = pitMode.text,
+      pitSchedule = pitSchedule.value,
+      pitScheduleString = pitSchedule.text,
       carIndex = participantInfo.carIndex,
       raceState = participantInfo.raceState,
       currentLap = participantInfo.currentLap,
@@ -506,8 +506,8 @@ object UdpDataReader extends LazyLogging {
     GameStateData(
       base = base,
       buildVersionNumber = buildVersionNumber,
-      gameState = getGameState((gameState & 7).toByte),
-      sessionState = getSessionState((gameState >> 4).toByte),
+      gameState = toGameState((gameState & 7).toByte),
+      sessionState = toSessionState((gameState >> 4).toByte),
       ambientTemperature = ambientTemperature,
       trackTemperature = trackTemperature,
       rainDensity = rainDensity,

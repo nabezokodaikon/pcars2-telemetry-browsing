@@ -291,7 +291,7 @@ object RaceState {
   val RACESTATE_DNF = 6
 }
 
-object PitMode {
+object PitModeDefine {
   val PIT_MODE_NONE: Byte = 0
   val PIT_MODE_DRIVING_INTO_PITS: Byte = 1
   val PIT_MODE_IN_PIT: Byte = 2
@@ -300,7 +300,7 @@ object PitMode {
   val PIT_MODE_DRIVING_OUT_OF_GARAGE: Byte = 5
 }
 
-object PitSchedule {
+object PitScheduleDefine {
   val PIT_SCHEDULE_NONE: Byte = 0 // Nothing scheduled
   val PIT_SCHEDULE_PLAYER_REQUESTED: Byte = 1 // Used for standard pit sequence - requested by player
   val PIT_SCHEDULE_ENGINEER_REQUESTED: Byte = 2 // Used for standard pit sequence - requested by engineer
@@ -309,6 +309,31 @@ object PitSchedule {
   val PIT_SCHEDULE_DRIVE_THROUGH: Byte = 5 // Used for drive-through penalty
   val PIT_SCHEDULE_STOP_GO: Byte = 6 // Used for stop-go penalty
   val PIT_SCHEDULE_PITSPOT_OCCUPIED: Byte = 7 // Used for drive-through when pitspot is occupied
+}
+
+case class PitMode(value: Byte, text: String)
+case class PitSchedule(value: Byte, text: String)
+
+object PitModeDefineValue {
+  val PIT_MODE_NONE: PitMode = PitMode(0, "PPIT_MODE_NONE")
+  val PIT_MODE_DRIVING_INTO_PITS: PitMode = PitMode(1, "PIT_MODE_DRIVING_INTO_PITS")
+  val PIT_MODE_IN_PIT: PitMode = PitMode(2, "PIT_MODE_IN_PIT")
+  val PIT_MODE_DRIVING_OUT_OF_PITS: PitMode = PitMode(3, "PIT_MODE_DRIVING_OUT_OF_PITS")
+  val PIT_MODE_IN_GARAGE: PitMode = PitMode(4, "PIT_MODE_IN_GARAGE")
+  val PIT_MODE_DRIVING_OUT_OF_GARAGE: PitMode = PitMode(5, "PIT_MODE_DRIVING_OUT_OF_GARAGE")
+  val PIT_MODE_UNKNOWN: PitMode = PitMode(127, "PIT_MODE_UNKNOWN")
+}
+
+object PitScheduleDefineValue {
+  val PIT_SCHEDULE_NONE: PitSchedule = PitSchedule(0, "PIT_SCHEDULE_NONE")
+  val PIT_SCHEDULE_PLAYER_REQUESTED: PitSchedule = PitSchedule(1, "PIT_SCHEDULE_PLAYER_REQUESTED")
+  val PIT_SCHEDULE_ENGINEER_REQUESTED: PitSchedule = PitSchedule(2, "PIT_SCHEDULE_ENGINEER_REQUESTED")
+  val PIT_SCHEDULE_DAMAGE_REQUESTED: PitSchedule = PitSchedule(3, "PIT_SCHEDULE_DAMAGE_REQUESTED")
+  val PIT_SCHEDULE_MANDATORY: PitSchedule = PitSchedule(4, "PIT_SCHEDULE_MANDATORY")
+  val PIT_SCHEDULE_DRIVE_THROUGH: PitSchedule = PitSchedule(5, "PIT_SCHEDULE_DRIVE_THROUGH")
+  val PIT_SCHEDULE_STOP_GO: PitSchedule = PitSchedule(6, "PIT_SCHEDULE_STOP_GO")
+  val PIT_SCHEDULE_PITSPOT_OCCUPIED: PitSchedule = PitSchedule(7, "PIT_SCHEDULE_PITSPOT_OCCUPIED")
+  val PIT_SCHEDULE_UNKNOWN: PitSchedule = PitSchedule(127, "PIT_SCHEDULE_UNKNOWN")
 }
 
 case class FormatParticipantInfo(
