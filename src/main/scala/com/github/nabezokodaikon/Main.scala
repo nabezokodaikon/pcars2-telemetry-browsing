@@ -21,9 +21,41 @@ object UsingActor {
 object Main extends App with LazyLogging {
   import UsingActor._
 
-  def boot(dac: OptionDBAccessor): Unit = {
-    val config = ConfigFactory.load()
+  def debug(dac: OptionDBAccessor): Unit = {
+    val clientManagerProps = Props(classOf[ClientManager])
+    val clientManager = system.actorOf(clientManagerProps, "clientManager")
+    val server = new Server(clientManager, dac)
 
+    import com.github.nabezokodaikon.example.udp.UdpTestDataSender
+    val udpTestDataSenderProps = Props(classOf[UdpTestDataSender], clientManager)
+    val udpTestDataSender = system.actorOf(udpTestDataSenderProps, "udpSender")
+    udpTestDataSender ! UdpTestDataSender.Received
+
+    val ipAddress = config.getString("app.server.ip-address")
+    val port = config.getInt("app.server.port")
+    println(s"Please access 'http://${ipAddress}:${port}' on the Web browser.")
+    server.startServer(ipAddress, port, system)
+
+    catching(classOf[AskTimeoutException]).either {
+      val stopped = gracefulStop(udpTestDataSender, 5.seconds, PoisonPill)
+      Await.result(stopped, 6.seconds)
+    } match {
+      case Left(e) => logger.error(e.getMessage)
+      case _ => Unit
+    }
+
+    catching(classOf[AskTimeoutException]).either {
+      val stopped = gracefulStop(clientManager, 5.seconds, PoisonPill)
+      Await.result(stopped, 6.seconds)
+    } match {
+      case Left(e) => logger.error(e.getMessage)
+      case _ => Unit
+    }
+
+    system.terminate()
+  }
+
+  def boot(dac: OptionDBAccessor): Unit = {
     val clientManagerProps = Props(classOf[ClientManager])
     val clientManager = system.actorOf(clientManagerProps, "clientManager")
 
@@ -32,25 +64,10 @@ object Main extends App with LazyLogging {
 
     val server = new Server(clientManager, dac)
 
-    // Test code.
-    // import com.github.nabezokodaikon.example.udp.UdpTestDataSender
-    // val udpTestDataSenderProps = Props(classOf[UdpTestDataSender], clientManager)
-    // val udpTestDataSender = system.actorOf(udpTestDataSenderProps, "udpSender")
-    // udpTestDataSender ! UdpTestDataSender.Received
-
     val ipAddress = config.getString("app.server.ip-address")
     val port = config.getInt("app.server.port")
     println(s"Please access 'http://${ipAddress}:${port}' on the Web browser.")
     server.startServer(ipAddress, port, system)
-
-    // Test code.
-    // catching(classOf[AskTimeoutException]).either {
-    // val stopped = gracefulStop(udpTestDataSender, 5.seconds, PoisonPill)
-    // Await.result(stopped, 6.seconds)
-    // } match {
-    // case Left(e) => logger.error(e.getMessage)
-    // case _ => Unit
-    // }
 
     catching(classOf[AskTimeoutException]).either {
       udpListener ! Udp.Unbind
@@ -74,9 +91,15 @@ object Main extends App with LazyLogging {
 
   logger.debug("Application start")
 
+  val config = ConfigFactory.load()
+  val product = config.getString("app.product").toBoolean
   val file: String = s"${FileUtil.currentDirectory}/option.db"
   using(new OptionDBAccessor(file)) { dac =>
-    boot(dac)
+    if (product) {
+      boot(dac)
+    } else {
+      debug(dac)
+    }
   }
 
   logger.debug("Application termination")

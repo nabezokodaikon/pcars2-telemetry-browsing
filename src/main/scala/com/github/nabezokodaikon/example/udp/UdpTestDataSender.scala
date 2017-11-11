@@ -1,11 +1,33 @@
 package com.github.nabezokodaikon.example.udp
 
-import akka.actor.{ Actor, ActorRef }
+import akka.actor.{ Actor, ActorRef, PoisonPill, Props }
+import akka.pattern.{ AskTimeoutException, gracefulStop }
 import com.github.nabezokodaikon.{ ClientManager, UdpListener }
-import com.github.nabezokodaikon.pcars2.UdpDataReader._
+import com.github.nabezokodaikon.dataListener.{
+  ParticipantsDataListener,
+  ParticipantVehicleNamesDataListener,
+  VehicleClassNamesDataListener,
+  LapTimeDetailsListener,
+  FuelDataListener
+}
+import com.github.nabezokodaikon.pcars2.{
+  UdpData,
+  TelemetryData,
+  RaceData,
+  ParticipantsData,
+  TimingsData,
+  GameStateData,
+  TimeStatsData,
+  ParticipantVehicleNamesData,
+  VehicleClassNamesData
+}
+import com.github.nabezokodaikon.pcars2.UdpDataReader.readUdpData
 import com.github.nabezokodaikon.util.FileUtil
 import com.typesafe.scalalogging.LazyLogging
 import java.io.File
+import scala.concurrent.Await
+import scala.concurrent.duration._
+import scala.util.control.Exception.catching
 
 object UdpTestDataSender {
   object Received
@@ -29,11 +51,46 @@ class UdpTestDataSender(clientManager: ActorRef) extends Actor with LazyLogging 
     .sortBy(_.dateTime)
     .toList
 
+  val participantsDataListener = context.actorOf(
+    Props(classOf[ParticipantsDataListener], clientManager),
+    "ParticipantsDataListener"
+  )
+
+  val participantVehicleNamesDataListener = context.actorOf(
+    Props(classOf[ParticipantVehicleNamesDataListener], clientManager),
+    "ParticipantVehicleNamesDataListener"
+  )
+
+  val vehicleClassNamesDataListener = context.actorOf(
+    Props(classOf[VehicleClassNamesDataListener], clientManager),
+    "VehicleClassNamesDataListener"
+  )
+
+  val lapTimeDetailsListener = context.actorOf(
+    Props(classOf[LapTimeDetailsListener], clientManager),
+    "LapTimeDetailsListener"
+  )
+
+  val fuelDataListener = context.actorOf(
+    Props(classOf[FuelDataListener], clientManager),
+    "FuelDataListener"
+  )
+
   override def preStart() = {
     logger.debug("UdpTestDataSender preStart.");
   }
 
   override def postStop() = {
+    context.children.foreach { child =>
+      catching(classOf[AskTimeoutException]).either {
+        val stopped = gracefulStop(child, 5.seconds, PoisonPill)
+        Await.result(stopped, 6.seconds)
+      } match {
+        case Left(e) => logger.error(e.getMessage)
+        case _ => Unit
+      }
+    }
+
     logger.debug("UdpTestDataSender postStop.")
   }
 
@@ -51,20 +108,14 @@ class UdpTestDataSender(clientManager: ActorRef) extends Actor with LazyLogging 
       if (interval > 100) {
         testDataList match {
           case head :: Nil =>
-            readUdpData(FileUtil.readBinary(head.path)) match {
-              case Some(udpData) => clientManager ! udpData
-              case None => Unit
-            }
+            for (udpData <- readUdpData(FileUtil.readBinary(head.path))) sendData(udpData)
             context.become(ready(srcTestDataList, System.currentTimeMillis))
             self ! Received
           case head :: tail =>
-            readUdpData(FileUtil.readBinary(head.path)) match {
-              case Some(udpData) => clientManager ! udpData
-              case None => Unit
-            }
+            for (udpData <- readUdpData(FileUtil.readBinary(head.path))) sendData(udpData)
             context.become(ready(tail, System.currentTimeMillis))
             self ! Received
-          case _ => ()
+          case _ => Unit
         }
       } else {
         Thread.sleep(10)
@@ -73,5 +124,41 @@ class UdpTestDataSender(clientManager: ActorRef) extends Actor with LazyLogging 
       }
     case _ =>
       logger.warn("UdpTestDataSender received unknown message.")
+  }
+
+  def sendData(udpData: UdpData): Unit = {
+    udpData match {
+      case udpData: TelemetryData =>
+        clientManager ! udpData
+        lapTimeDetailsListener ! udpData
+        fuelDataListener ! udpData
+      // aggregateTimeListener ! udpData
+      case udpData: RaceData =>
+        clientManager ! udpData
+        lapTimeDetailsListener ! udpData
+        fuelDataListener ! udpData
+      // aggregateTimeListener ! udpData
+      case udpData: ParticipantsData =>
+        participantsDataListener ! udpData
+      case udpData: TimingsData =>
+        clientManager ! udpData
+        lapTimeDetailsListener ! udpData
+        fuelDataListener ! udpData
+      // aggregateTimeListener ! udpData
+      case udpData: GameStateData =>
+        clientManager ! udpData
+        lapTimeDetailsListener ! udpData
+        fuelDataListener ! udpData
+      // aggregateTimeListener ! udpData
+      case udpData: TimeStatsData =>
+        clientManager ! udpData
+        lapTimeDetailsListener ! udpData
+      // aggregateTimeListener ! udpData
+      case udpData: ParticipantVehicleNamesData =>
+        participantVehicleNamesDataListener ! udpData
+      case udpData: VehicleClassNamesData =>
+        vehicleClassNamesDataListener ! udpData
+      case _ => Unit
+    }
   }
 }
