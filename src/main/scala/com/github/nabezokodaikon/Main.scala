@@ -92,10 +92,10 @@ object Main extends App with LazyLogging {
   logger.debug("Application start")
 
   val config = ConfigFactory.load()
-  val product = config.getString("app.product").toBoolean
+  val debug = config.getString("app.debug").toBoolean
   val file: String = s"${FileUtil.currentDirectory}/option.db"
   using(new OptionDBAccessor(file)) { dac =>
-    if (product) {
+    if (!debug) {
       boot(dac)
     } else {
       debug(dac)
