@@ -29,8 +29,7 @@ body {
   position: fixed;
   width: 100%;
   height: 100%;
-  color: #FFFFFF;
-  background-color: #17202b; 
+  /* background-color: #17202b;  */
 }
 
 .table {
@@ -62,6 +61,7 @@ body {
 }
 
 .headerColumn > div > div > span {
+  font-color: ##565656;
   font-family: 'Oswald', sans-serif;
   font-size: 1.3rem;
 }

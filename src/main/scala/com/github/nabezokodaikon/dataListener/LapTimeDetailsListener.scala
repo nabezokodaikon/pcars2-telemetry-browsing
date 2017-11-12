@@ -49,7 +49,7 @@ final case class LapData(
 }
 
 final object History {
-  val emptyLap = "-"
+  val emptyLap = "---"
   val emptyTime = "--:--.---"
   val emptyLapTime = LapTime(
     emptyLap,

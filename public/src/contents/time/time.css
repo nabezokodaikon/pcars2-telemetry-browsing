@@ -1,38 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Oswald');
 @import url('https://fonts.googleapis.com/css?family=Inconsolata');
 
-* {
-  margin: 0;
-  padding: 0;
-  border-width: 0;
-  color: #565656;
-  font-size: 100%;
-  font-family: 'Open Sans', sans-serif;
-}
-
-*:focus {
-  outline: none;
-}
-
-* {
-  cursor: "pointer"
-}
-
-html,
-body {
-  width: 100vw;
-  height: 100vh;
-}
-
-.contents {
-  z-index: 0;
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  color: #FFFFFF;
-  background-color: #17202b; 
-}
-
 .table {
   width: 80%;
   margin: 2rem;
@@ -62,6 +30,7 @@ body {
 }
 
 .headerColumn > div > div > span {
+  font-color: ##565656;
   font-family: 'Oswald', sans-serif;
   font-size: 1.3rem;
 }
@@ -101,6 +70,7 @@ body {
 }
 
 .headerCell > div > span {
+  color: #565656;
   font-family: 'Oswald', sans-serif;
   font-size: 1.3rem;
 }
