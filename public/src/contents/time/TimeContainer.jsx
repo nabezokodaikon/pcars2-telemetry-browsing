@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import createHeaderComponent from "./headerComponent.jsx"
+import HeaderRecordComponent from "./HeaderRecordComponent.jsx"
 
 
 class TimeContent extends React.Component {
@@ -32,7 +32,7 @@ class TimeContent extends React.Component {
   createTimeTable() {
     return (
     <div style={this.getTimeTableStyle()}>
-      {createHeaderComponent()}
+      <HeaderRecordComponent />
     </div>
     );
   }
