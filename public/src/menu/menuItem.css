@@ -8,7 +8,7 @@
 }
 
 .activeMenuItem > p {
-  font-size: 0.8rem;
+  font-size: 1.5rem;
   text-align: center;
   color: #0f192a;
   transform: skewX(12deg);
@@ -23,7 +23,7 @@
 }
 
 .inactiveMenuItem > p {
-  font-size: 0.8rem;
+  font-size: 1.5rem;
   text-align: center;
   transform: skewX(12deg);
 }
