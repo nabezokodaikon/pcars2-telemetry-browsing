@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css?family=Oswald');
+@import url('https://fonts.googleapis.com/css?family=Inconsolata');
+
 * {
   margin: 0;
   padding: 0;
@@ -28,4 +31,102 @@ body {
   height: 100%;
   color: #FFFFFF;
   background-color: #17202b; 
+}
+
+.table {
+  width: 80%;
+  margin: 2rem;
+}
+
+.column {
+  margin-bottom: 0.2rem;
+  display: flex;
+  flex-direction: row;
+}
+
+.column > div {
+  transform: skewX(-12deg);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.column > div > div {
+  height: 4rem;
+  transform: skewX(12deg);
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.headerCell {
+  background-color: #C1D9F0;
+}
+
+.headerCell > div {
+  width: 5rem;
+  margin-left: -1rem;
+  margin-right: 1rem;
+  background-color: #C1D9F0;
+}
+
+.headerCell > div > span {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.3rem;
+}
+
+.lapCountCell {
+  background-color: #30CDFF;
+}
+
+.lapCountCell > div {
+  width: 4rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  text-align: right;
+}
+
+.lapCountCell > div > span {
+  color: #063B4B;
+  font-family: 'Inconsolata', monospace;
+  font-size: 2.25rem;
+}
+
+.sectorCell {
+  background-color: #53524F;
+  margin-right: 0.1rem
+}
+
+.sectorCell > div {
+  width: 11rem;
+  margin-left: 0.5rem;
+  text-align: center;
+}
+
+.sectorCell > div > span {
+  width: 100%;
+  color: #E3E4E5;
+  font-family: 'Inconsolata', monospace;
+  font-size: 2.25rem;
+}
+
+.lapTimeCell {
+  background-color: #75726D;
+}
+
+.lapTimeCell > div {
+  width: 11rem;
+  background-color: #75726D;
+  margin-left: 0.5rem;
+  margin-right: -0.5rem;
+  text-align: center;
+}
+
+.lapTimeCell > div > span {
+  width: 100%;
+  color: #E3E4E5;
+  font-family: 'Inconsolata', monospace;
+  font-size: 2.25rem;
 }
