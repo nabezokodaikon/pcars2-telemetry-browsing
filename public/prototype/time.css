@@ -38,13 +38,13 @@ body {
   margin: 2rem;
 }
 
-.column {
+.headerColumn {
   margin-bottom: 0.2rem;
   display: flex;
   flex-direction: row;
 }
 
-.column > div {
+.headerColumn > div {
   transform: skewX(-12deg);
   display: flex;
   flex-direction: row;
@@ -52,8 +52,36 @@ body {
   align-items: center;
 }
 
-.column > div > div {
-  height: 4rem;
+.headerColumn > div > div {
+  height: 3rem;
+  transform: skewX(12deg);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.headerColumn > div > div > span {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.3rem;
+}
+
+.bodyColumn {
+  margin-bottom: 0.2rem;
+  display: flex;
+  flex-direction: row;
+}
+
+.bodyColumn > div {
+  transform: skewX(-12deg);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.bodyColumn > div > div {
+  height: 3rem;
   transform: skewX(12deg);
   display: flex;
   flex-direction: row;
