@@ -39,6 +39,11 @@ export default class HeaderRecordComponent extends React.Component {
             <span>LAP TIME</span>
           </div>
         </div>
+        <div className={timeStyle.deltaTimeCell}>
+          <div>
+            <span>DELTA</span>
+          </div>
+        </div>
       </div>
     );
   }

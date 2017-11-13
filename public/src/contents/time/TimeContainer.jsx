@@ -44,7 +44,8 @@ class TimeContent extends React.Component {
       sector1: "--:--.---",
       sector2: "--:--.---",
       sector3: "--:--.---",
-      lapTime: "--:--.---"
+      lapTime: "--:--.---",
+      delta: "--:--.---"
     }
   }
 
@@ -82,7 +83,8 @@ class TimeContent extends React.Component {
             sector1: participant.currentSectorTime,
             sector2: "--:--.---",
             sector3: "--:--.---",
-            lapTime: participant.currentTime
+            lapTime: participant.currentTime,
+            delta: "--:--.---"
           }
         case 2:
           return {
@@ -90,7 +92,8 @@ class TimeContent extends React.Component {
             sector1: "--:--.---",
             sector2: participant.currentSectorTime,
             sector3: "--:--.---",
-            lapTime: participant.currentTime
+            lapTime: participant.currentTime,
+            delta: "--:--.---"
           }
         case 3:
           return {
@@ -98,7 +101,8 @@ class TimeContent extends React.Component {
             sector1: "--:--.---",
             sector2: "--:--.---",
             sector3: participant.currentSectorTime,
-            lapTime: participant.currentTime
+            lapTime: participant.currentTime,
+            delta: "--:--.---"
           }
         default:
           return {
@@ -106,7 +110,8 @@ class TimeContent extends React.Component {
             sector1: "--:--.---",
             sector2: "--:--.---",
             sector3: "--:--.---",
-            lapTime: participant.currentTime
+            lapTime: participant.currentTime,
+            delta: "--:--.---"
           }
       }
     };
@@ -122,7 +127,8 @@ class TimeContent extends React.Component {
               sector1: participant.currentSectorTime,
               sector2: "--:--.---",
               sector3: "--:--.---",
-              lapTime: participant.currentTime
+              lapTime: participant.currentTime,
+              delta: "--:--.---"
             }
           case 2:
             return {
@@ -130,7 +136,8 @@ class TimeContent extends React.Component {
               sector1: current.sector1,
               sector2: participant.currentSectorTime,
               sector3: "--:--.---",
-              lapTime: participant.currentTime
+              lapTime: participant.currentTime,
+              delta: "--:--.---"
             }
           case 3:
             return {
@@ -138,7 +145,8 @@ class TimeContent extends React.Component {
               sector1: current.sector1,
               sector2: current.sector2,
               sector3: participant.currentSectorTime,
-              lapTime: participant.currentTime
+              lapTime: participant.currentTime,
+              delta: "--:--.---"
             }
           default:
             return {
@@ -146,7 +154,8 @@ class TimeContent extends React.Component {
               sector1: "--:--.---",
               sector2: "--:--.---",
               sector3: "--:--.---",
-              lapTime: participant.currentTime
+              lapTime: participant.currentTime,
+              delta: "--:--.---"
             }
         }
       } else {
@@ -202,14 +211,16 @@ class TimeContent extends React.Component {
   createTimeTable() {
     if (isJson(this.props.lapTimeDetails)) {
       const lapTimeDetails = this.props.lapTimeDetails;
+      const history = lapTimeDetails.history;
+      const historyLength = history.length;
       return (
       <div style={this.getTimeTableStyle()}>
         <HeaderRecordComponent />
         <BodyRecordComponent name={"CURRENT"} record={this.getCurrentRecord()} />
-        <BodyRecordComponent name={"LOG 1"} record={this.getRecord(lapTimeDetails.history[0])} />
-        <BodyRecordComponent name={"LOG 2"} record={this.getRecord(lapTimeDetails.history[1])} />
-        <BodyRecordComponent name={"LOG 3"} record={this.getRecord(lapTimeDetails.history[2])} />
-        <BodyRecordComponent name={"LOG 4"} record={this.getRecord(lapTimeDetails.history[3])} />
+        <BodyRecordComponent name={"LOG 1"} record={this.getRecord(history[historyLength - 1])} />
+        <BodyRecordComponent name={"LOG 2"} record={this.getRecord(history[historyLength - 2])} />
+        <BodyRecordComponent name={"LOG 3"} record={this.getRecord(history[historyLength - 3])} />
+        <BodyRecordComponent name={"LOG 4"} record={this.getRecord(history[historyLength - 4])} />
         <BodyRecordComponent name={"BEST"} record={this.getRecord(lapTimeDetails.fastest)} />
         <BodyRecordComponent name={"AVERAGE"} record={this.getRecord(lapTimeDetails.average)} />
       </div>

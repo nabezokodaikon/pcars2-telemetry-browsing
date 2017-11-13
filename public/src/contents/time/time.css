@@ -20,7 +20,7 @@
 }
 
 .headerColumn > div > div {
-  height: 3rem;
+  height: 2.5rem;
   transform: skewX(12deg);
   display: flex;
   flex-direction: row;
@@ -31,7 +31,7 @@
 .headerColumn > div > div > span {
   font-color: ##565656;
   font-family: 'Oswald', sans-serif;
-  font-size: 1.3rem;
+  font-size: 1rem;
 }
 
 .bodyColumn {
@@ -49,7 +49,7 @@
 }
 
 .bodyColumn > div > div {
-  height: 3rem;
+  height: 2.5rem;
   transform: skewX(12deg);
   display: flex;
   flex-direction: row;
@@ -62,7 +62,7 @@
 }
 
 .headerCell > div {
-  width: 5rem;
+  width: 4rem;
   margin-left: -1rem;
   margin-right: 1rem;
   background-color: #C1D9F0;
@@ -71,7 +71,7 @@
 .headerCell > div > span {
   color: #565656;
   font-family: 'Oswald', sans-serif;
-  font-size: 1.3rem;
+  font-size: 1rem;
 }
 
 .lapCountCell {
@@ -79,7 +79,7 @@
 }
 
 .lapCountCell > div {
-  width: 4rem;
+  width: 3rem;
   margin-left: 0.5rem;
   margin-right: 0.5rem;
   text-align: right;
@@ -88,7 +88,7 @@
 .lapCountCell > div > span {
   color: #063B4B;
   font-family: 'Inconsolata', monospace;
-  font-size: 2.25rem;
+  font-size: 1.5rem;
 }
 
 .sectorCell {
@@ -97,7 +97,7 @@
 }
 
 .sectorCell > div {
-  width: 11rem;
+  width: 9rem;
   margin-left: 0.5rem;
   text-align: center;
 }
@@ -106,18 +106,17 @@
   width: 100%;
   color: #E3E4E5;
   font-family: 'Inconsolata', monospace;
-  font-size: 2.25rem;
+  font-size: 1.5rem;
 }
 
 .lapTimeCell {
   background-color: #75726D;
+  margin-right: 0.1rem
 }
 
 .lapTimeCell > div {
-  width: 11rem;
-  background-color: #75726D;
+  width: 9rem;
   margin-left: 0.5rem;
-  margin-right: -0.5rem;
   text-align: center;
 }
 
@@ -125,5 +124,24 @@
   width: 100%;
   color: #E3E4E5;
   font-family: 'Inconsolata', monospace;
-  font-size: 2.25rem;
+  font-size: 1.5rem;
+}
+
+.deltaTimeCell {
+  background-color: #53524F;
+}
+
+.deltaTimeCell > div {
+  width: 10rem;
+  background-color: #53524F;
+  margin-left: 0.5rem;
+  margin-right: -0.5rem;
+  text-align: center;
+}
+
+.deltaTimeCell > div > span {
+  width: 100%;
+  color: #E3E4E5;
+  font-family: 'Inconsolata', monospace;
+  font-size: 1.5rem;
 }

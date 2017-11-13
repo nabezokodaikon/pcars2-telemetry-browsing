@@ -40,6 +40,11 @@ export default class BodyRecordComponent extends React.Component {
             <span>{this.props.record.lapTime}</span>
           </div>
         </div>
+        <div className={timeStyle.deltaTimeCell}>
+          <div>
+            <span>{this.props.record.delta}</span>
+          </div>
+        </div>
       </div>
     );
   }

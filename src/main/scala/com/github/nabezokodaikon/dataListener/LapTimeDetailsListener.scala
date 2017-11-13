@@ -55,14 +55,14 @@ final case class LapData(
   private def toTimeString(value: Option[Float]): String = {
     value match {
       case Some(v) => v.toMinuteFormatFromSeconds
-      case None => "--:--.---"
+      case None => History.emptyTime
     }
   }
 
   private def toTimeWithSignedString(value: Option[Float]): String = {
     value match {
       case Some(v) => v.toMinuteFormatFromSecondsWithSigned
-      case None => "--:--.---"
+      case None => History.emptyTime
     }
   }
 }
@@ -141,12 +141,12 @@ final case class History(
         val averageSector3 = lapDataList.flatMap(_.sector3).sum / historyLength
         val averageLapTime = lapDataList.flatMap(_.lapTime).sum / historyLength
         val average = LapTime(
-          emptyLap,
+          lap = History.emptyLap,
           sector1 = averageSector1.toMinuteFormatFromSeconds,
           sector2 = averageSector2.toMinuteFormatFromSeconds,
           sector3 = averageSector3.toMinuteFormatFromSeconds,
           lapTime = averageLapTime.toMinuteFormatFromSeconds,
-          delta = History.emptyTime
+          delta = emptyTime
         )
 
         val history = for (i <- 1 to 3) yield {
@@ -175,7 +175,7 @@ final case class History(
             .toList
             .flatMap(i => i)
             .reverse
-            .takeRight(3.min(lapDataList.length))
+            .takeRight(4.min(lapDataList.length))
         )
     }
   }
