@@ -16,11 +16,17 @@ class TimeContent extends React.Component {
       width: "100%",
       height: "100%",
       display: "flex",
-      flexDirection: "row",
-      flexWrap: "wrap",
+      flexDirection: "column",
       justifyContent: "center",
-      alignItems: "center",
-      alignContent: "spaceAround"
+      alignItems: "center"
+    };
+  }
+
+  getHeaderStyle() {
+    return {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "spaceAround"
     };
   }
 
@@ -184,6 +190,15 @@ class TimeContent extends React.Component {
     );
   }
 
+  createHeader() {
+    return (
+      <div style={this.getHeaderStyle()}>
+        {this.createGear()}
+        {this.createFuel()}
+      </div>
+    );
+  }
+
   createTimeTable() {
     if (isJson(this.props.lapTimeDetails)) {
       const lapTimeDetails = this.props.lapTimeDetails;
@@ -194,6 +209,7 @@ class TimeContent extends React.Component {
         <BodyRecordComponent name={"LOG 1"} record={this.getRecord(lapTimeDetails.history[0])} />
         <BodyRecordComponent name={"LOG 2"} record={this.getRecord(lapTimeDetails.history[1])} />
         <BodyRecordComponent name={"LOG 3"} record={this.getRecord(lapTimeDetails.history[2])} />
+        <BodyRecordComponent name={"LOG 4"} record={this.getRecord(lapTimeDetails.history[3])} />
         <BodyRecordComponent name={"BEST"} record={this.getRecord(lapTimeDetails.fastest)} />
         <BodyRecordComponent name={"AVERAGE"} record={this.getRecord(lapTimeDetails.average)} />
       </div>
@@ -206,8 +222,7 @@ class TimeContent extends React.Component {
   render() {
     return (
       <div style={this.getContentStyle()}>
-        {this.createGear()}
-        {this.createFuel()}
+        {this.createHeader()}
         {this.createTimeTable()}
       </div>
     );

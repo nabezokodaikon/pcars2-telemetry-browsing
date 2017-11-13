@@ -135,7 +135,7 @@ final case class History(
           current = current,
           fastest = fastest,
           average = average,
-          lapDataList.takeRight(3).map(_.toLapTime)
+          lapDataList.takeRight(4).map(_.toLapTime).reverse
         )
     }
   }
@@ -179,14 +179,11 @@ final class LapTimeDetailsListener(clientManager: ActorRef)
       val nextHistory = resetHistory(history)
       context.become(processing(nextHistory))
     case udpData: TimingsData if (history.isPlaying) =>
-      // TODO: 時間制限のレースでセッション時間のバグがなくなったら、最終ラップを現在のラップのままにする。
-      if (history.isTimedSessions || history.lapsInEvent > history.lapDataList.length) {
-        createHistory(history, udpData) match {
-          case Some(nextHistory) =>
-            val lapTimeDetails = nextHistory.toLapTimeDetails
-            context.become(processing(nextHistory))
-          case None => Unit
-        }
+      createHistory(history, udpData) match {
+        case Some(nextHistory) =>
+          val lapTimeDetails = nextHistory.toLapTimeDetails
+          context.become(processing(nextHistory))
+        case None => Unit
       }
     case udpData: TimeStatsData if (history.isMenu) =>
       val nextHistory = resetHistory(history)
@@ -199,15 +196,12 @@ final class LapTimeDetailsListener(clientManager: ActorRef)
       clientManager ! lapTimeDetails
       context.become(processing(nextHistory))
     case udpData: TimeStatsData if (history.isPlaying) =>
-      // TODO: 時間制限のレースでセッション時間のバグがなくなったら、最終ラップを現在のラップのままにする。
-      if (history.isTimedSessions || history.lapsInEvent > history.lapDataList.length) {
-        createHistory(history, udpData) match {
-          case Some(nextHistory) =>
-            val lapTimeDetails = nextHistory.toLapTimeDetails
-            clientManager ! lapTimeDetails
-            context.become(processing(nextHistory))
-          case None => Unit
-        }
+      createHistory(history, udpData) match {
+        case Some(nextHistory) =>
+          val lapTimeDetails = nextHistory.toLapTimeDetails
+          clientManager ! lapTimeDetails
+          context.become(processing(nextHistory))
+        case None => Unit
       }
   }
 
@@ -459,8 +453,9 @@ final class LapTimeDetailsListener(clientManager: ActorRef)
     )
 
   private def addHistory(history: History, currentLapData: LapData): History =
-    history.isTimedSessions match {
-      case true =>
+    (history.isTimedSessions, history.lapsInEvent) match {
+      case (isTimedSessions, lapsInEvent) if (isTimedSessions) =>
+        // Time session.
         History(
           isMenu = history.isMenu,
           isPlaying = history.isPlaying,
@@ -473,7 +468,8 @@ final class LapTimeDetailsListener(clientManager: ActorRef)
           currentLapData = None,
           lapDataList = history.lapDataList :+ currentLapData
         )
-      case false if ((history.lapsInEvent - 1) > history.lapDataList.length) =>
+      case (isTimedSessions, lapsInEvent) if (!isTimedSessions && lapsInEvent == 0) =>
+        // Practice.
         History(
           isMenu = history.isMenu,
           isPlaying = history.isPlaying,
@@ -486,7 +482,8 @@ final class LapTimeDetailsListener(clientManager: ActorRef)
           currentLapData = None,
           lapDataList = history.lapDataList :+ currentLapData
         )
-      case false if (history.lapsInEvent > history.lapDataList.length) =>
+      case (isTimedSessions, lapsInEvent) if (!isTimedSessions && lapsInEvent >= history.lapDataList.length) =>
+        // Laps session.
         History(
           isMenu = history.isMenu,
           isPlaying = history.isPlaying,
@@ -496,8 +493,8 @@ final class LapTimeDetailsListener(clientManager: ActorRef)
           viewedParticipantIndex = history.viewedParticipantIndex,
           currentView = history.currentView,
           currentData = history.currentData,
-          currentLapData = Some(currentLapData),
-          lapDataList = history.lapDataList
+          currentLapData = None,
+          lapDataList = history.lapDataList :+ currentLapData
         )
       case _ =>
         history
