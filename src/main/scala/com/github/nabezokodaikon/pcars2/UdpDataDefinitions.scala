@@ -32,7 +32,7 @@ object UdpDataJsonProtocol extends DefaultJsonProtocol {
   implicit val classInfoFormat = jsonFormat2(ClassInfo)
   implicit val vehicleClassNamesDataFormat = jsonFormat2(VehicleClassNamesData)
 
-  implicit val lapTimeFormat = jsonFormat5(LapTime)
+  implicit val lapTimeFormat = jsonFormat6(LapTime)
   implicit val lapTimeDetailsFormat = jsonFormat7(LapTimeDetails)
   implicit val aggregateTimeFormat = jsonFormat3(AggregateTime)
   implicit val fuelDataFormat = jsonFormat3(FuelData)
@@ -553,7 +553,8 @@ case class LapTime(
     sector1: String,
     sector2: String,
     sector3: String,
-    lapTime: String
+    lapTime: String,
+    delta: String
 )
 
 case class LapTimeDetails(

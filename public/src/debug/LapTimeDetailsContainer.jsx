@@ -32,6 +32,7 @@ class LapTimeDetails extends React.Component {
           <td>Sector2</td>
           <td>Sector3</td>
           <td>LapTime</td>
+          <td>Delta</td>
         </tr>
       );
     };
@@ -45,6 +46,7 @@ class LapTimeDetails extends React.Component {
           <td key="4">{data.sector2}</td>
           <td key="5">{data.sector3}</td>
           <td key="6">{data.lapTime}</td>
+          <td key="7">{data.delta}</td>
         </tr>
       );
     };

@@ -36,7 +36,19 @@ final case class LapData(
       sector1 = toTimeString(sector1),
       sector2 = toTimeString(sector2),
       sector3 = toTimeString(sector3),
-      lapTime = toTimeString(lapTime)
+      lapTime = toTimeString(lapTime),
+      delta = History.emptyTime
+    )
+  }
+
+  def toLapTime(delta: Float): LapTime = {
+    LapTime(
+      lap = s"${lap}",
+      sector1 = toTimeString(sector1),
+      sector2 = toTimeString(sector2),
+      sector3 = toTimeString(sector3),
+      lapTime = toTimeString(lapTime),
+      delta = delta.toMinuteFormatFromSecondsWithSigned
     )
   }
 
@@ -46,17 +58,25 @@ final case class LapData(
       case None => "--:--.---"
     }
   }
+
+  private def toTimeWithSignedString(value: Option[Float]): String = {
+    value match {
+      case Some(v) => v.toMinuteFormatFromSecondsWithSigned
+      case None => "--:--.---"
+    }
+  }
 }
 
 final object History {
   val emptyLap = "---"
   val emptyTime = "--:--.---"
   val emptyLapTime = LapTime(
-    emptyLap,
-    emptyTime,
-    emptyTime,
-    emptyTime,
-    emptyTime
+    lap = emptyLap,
+    sector1 = emptyTime,
+    sector2 = emptyTime,
+    sector3 = emptyTime,
+    lapTime = emptyTime,
+    delta = emptyTime
   )
 
   val base = PacketBase(
@@ -86,9 +106,9 @@ final case class History(
   import History._
 
   def toLapTimeDetails(): LapTimeDetails = {
-    val (current, lap) = currentLapData match {
-      case Some(v) => (v.toLapTime, v.lap)
-      case None => (emptyLapTime, 0.toShort)
+    val current = currentLapData match {
+      case Some(a) => a.toLapTime
+      case None => emptyLapTime
     }
 
     lapDataList.length match {
@@ -125,8 +145,24 @@ final case class History(
           sector1 = averageSector1.toMinuteFormatFromSeconds,
           sector2 = averageSector2.toMinuteFormatFromSeconds,
           sector3 = averageSector3.toMinuteFormatFromSeconds,
-          lapTime = averageLapTime.toMinuteFormatFromSeconds
+          lapTime = averageLapTime.toMinuteFormatFromSeconds,
+          delta = History.emptyTime
         )
+
+        val history = for (i <- 1 to 3) yield {
+          (lapDataList.takeRight(i), lapDataList.takeRight(i + 1)) match {
+            case ((lapData1 :: Nil), (_ :: Nil)) => Some(lapData1.toLapTime)
+            case ((lapData1 :: _), (lapData2 :: _)) if (lapData1.lap > lapData2.lap) =>
+              (lapData1.lapTime, lapData2.lapTime) match {
+                case (Some(lapTime1), Some(lapTime2)) =>
+                  val delta = lapTime1 - lapTime2
+                  Some(lapData1.toLapTime(delta))
+                case _ => Some(lapData1.toLapTime)
+              }
+            case ((lapData1 :: _), _) => Some(lapData1.toLapTime)
+            case _ => None
+          }
+        }
 
         LapTimeDetails(
           base = base,
@@ -135,7 +171,11 @@ final case class History(
           current = current,
           fastest = fastest,
           average = average,
-          lapDataList.takeRight(4).map(_.toLapTime).reverse
+          history = history
+            .toList
+            .flatMap(i => i)
+            .reverse
+            .takeRight(3.min(lapDataList.length))
         )
     }
   }
