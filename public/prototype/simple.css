@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css?family=Inconsolata');
+
+* {
+  margin: 0;
+  padding: 0;
+  border-width: 0;
+  color: #565656;
+  font-size: 100%;
+  font-family: 'Open Sans', sans-serif;
+}
+
+*:focus {
+  outline: none;
+}
+
+* {
+  cursor: "pointer"
+}
+
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background-color: #222222;
+}
+
+
+
+
+
+
+.table {
+  margin: 2rem;
+}
+
+.record {
+  margin-bottom: 0.2rem;
+  display: flex;
+  flex-direction: row;
+}
+
+.record > div {
+  transform: skewX(-12deg);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.record > div > div {
+  height: 2.5rem;
+  transform: skewX(12deg);
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.iconCell {
+  background-color: #C1D9F0;
+}
+
+.iconCell > div {
+  width: 3rem;
+  margin-left: -1rem;
+  margin-right: 1rem;
+  background-color: #C1D9F0;
+}
+
+.iconCell > div > span {
+  color: #565656;
+  font-size: 1rem;
+}
+
+.valueCell {
+  background-color: #53524F;
+}
+
+.valueCell > div {
+  width: 10rem;
+  background-color: #53524F;
+  margin-left: 0.5rem;
+  margin-right: -0.5rem;
+  text-align: center;
+}
+
+.valueCell > div > span {
+  width: 100%;
+  color: #E3E4E5;
+  font-family: 'Inconsolata', monospace;
+  font-size: 1.5rem;
+}
