@@ -149,7 +149,7 @@ final case class History(
           delta = emptyTime
         )
 
-        val history = for (i <- 1 to 3) yield {
+        val history = for (i <- 1 to 4) yield {
           (lapDataList.takeRight(i), lapDataList.takeRight(i + 1)) match {
             case ((lapData1 :: Nil), (_ :: Nil)) => Some(lapData1.toLapTime)
             case ((lapData1 :: _), (lapData2 :: _)) if (lapData1.lap > lapData2.lap) =>

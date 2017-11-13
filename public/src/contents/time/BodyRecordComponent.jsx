@@ -7,42 +7,65 @@ export default class BodyRecordComponent extends React.Component {
     super(props);
   }
 
+  getDeltaFontColor(delta) {
+    const prefix = delta.charAt(0);
+    const length = delta.length;
+    if (length == 10) {
+      if (prefix == "+") {
+        return {
+          color: "#C14544"
+        };
+      } else {
+        return {
+          color: "#90C143"
+        };
+      }
+    } else {
+      return {
+        color: "#E3E4E5"
+      };
+    }
+  }
+
   render() {
+    const props = this.props;
+    const record = props.record;
+    const delta = record.delta;
     return (
       <div className={timeStyle.bodyColumn}>
         <div className={timeStyle.headerCell}>
           <div>
-            <span>{this.props.name}</span>
+            <span>{props.name}</span>
           </div>
         </div>
         <div className={timeStyle.lapCountCell}>
           <div>
-            <span>{this.props.record.lap}</span>
+            <span>{record.lap}</span>
           </div>
         </div>
         <div className={timeStyle.sectorCell}>
           <div>
-            <span>{this.props.record.sector1}</span>
+            <span>{record.sector1}</span>
           </div>
         </div>
         <div className={timeStyle.sectorCell}>
           <div>
-            <span>{this.props.record.sector2}</span>
+            <span>{record.sector2}</span>
           </div>
         </div>
         <div className={timeStyle.sectorCell}>
           <div>
-            <span>{this.props.record.sector3}</span>
+            <span>{record.sector3}</span>
           </div>
         </div>
         <div className={timeStyle.lapTimeCell}>
           <div>
-            <span>{this.props.record.lapTime}</span>
+            <span>{record.lapTime}</span>
           </div>
         </div>
         <div className={timeStyle.deltaTimeCell}>
           <div>
-            <span>{this.props.record.delta}</span>
+            <span style={this.getDeltaFontColor(delta)}>{delta}</span>
           </div>
         </div>
       </div>
