@@ -155,9 +155,8 @@ class TimeContent extends React.Component {
     }
 
     const style = {
-      width: "16rem",
-      height: "4rem",
-      marginRight: "4rem"
+      width: "100%",
+      height: "8rem"
     };
 
     const carState = telemetryData.carState; 
@@ -171,7 +170,7 @@ class TimeContent extends React.Component {
     });
 
     return (
-      <svg style={style} preserveAspectRatio="xMidYMid meet" viewBox="0 0 100 100">
+      <svg style={style} preserveAspectRatio="xMinYMin meet" viewBox="0 0 100 100">
         {miniHUDComponent}
       </svg>
     );
@@ -197,10 +196,10 @@ class TimeContent extends React.Component {
       <div style={style}>
         <HeaderRecordComponent />
         <BodyRecordComponent name={"CURRENT"} record={this.getCurrentRecord()} />
-        <BodyRecordComponent name={"LOG 1"} record={this.getRecord(history[historyLength - 1])} />
-        <BodyRecordComponent name={"LOG 2"} record={this.getRecord(history[historyLength - 2])} />
-        <BodyRecordComponent name={"LOG 3"} record={this.getRecord(history[historyLength - 3])} />
-        <BodyRecordComponent name={"LOG 4"} record={this.getRecord(history[historyLength - 4])} />
+        <BodyRecordComponent name={""} record={this.getRecord(history[historyLength - 1])} />
+        <BodyRecordComponent name={""} record={this.getRecord(history[historyLength - 2])} />
+        <BodyRecordComponent name={""} record={this.getRecord(history[historyLength - 3])} />
+        <BodyRecordComponent name={""} record={this.getRecord(history[historyLength - 4])} />
         <BodyRecordComponent name={"BEST"} record={this.getRecord(lapTimeDetails.fastest)} />
         <BodyRecordComponent name={"AVERAGE"} record={this.getRecord(lapTimeDetails.average)} />
       </div>
