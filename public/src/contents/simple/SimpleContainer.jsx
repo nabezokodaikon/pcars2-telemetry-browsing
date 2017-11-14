@@ -134,17 +134,19 @@ class SimpleContent extends React.Component {
 }
 
 SimpleContent.propTypes = {
+  isMeter: PropTypes.bool.isRequired,
   telemetryData: PropTypes.object.isRequired,
-  isMeter: PropTypes.bool.isRequired
+  timingsData: PropTypes.object.isRequired,
+  raceData: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
   const data = state.currentUdpData
   return {
+    isMeter: state.options.isMeter,
     telemetryData: data.telemetryData,
     timingsData: data.timingsData,
-    raceData: data.raceData,
-    isMeter: state.options.isMeter
+    raceData: data.raceData
   };
 };
 
