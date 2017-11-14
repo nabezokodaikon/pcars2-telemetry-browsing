@@ -4,10 +4,10 @@ import webpack from "webpack";
 
 module.exports = {
   entry: {
-    index: ["babel-polyfill", "whatwg-fetch", "./public/src/index.jsx"]
+    index: ["babel-polyfill", "whatwg-fetch", "./public/src/indexProduct.jsx"]
   },
   output: {
-    filename: "[name].bundle.js",
+    filename: "index.bundle.js",
     path: path.resolve(__dirname, "public/dist")
   },
   module: {

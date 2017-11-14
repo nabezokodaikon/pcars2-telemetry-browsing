@@ -3,14 +3,14 @@ import CleanWebpackPlugin from "clean-webpack-plugin";
 import webpack from "webpack";
 
 module.exports = {
-  entry: {
-    index: ["babel-polyfill", "whatwg-fetch", "./public/src/index.jsx"],
-    debug: ["babel-polyfill", "whatwg-fetch", "./public/src/debug.jsx"]
-  },
   devtool: 'inline-source-map',
+  entry: {
+    index: ["babel-polyfill", "whatwg-fetch", "./public/src/indexDebug.jsx"],
+    indexDevelop: ["babel-polyfill", "whatwg-fetch", "./public/src/indexDevelop.jsx"]
+  },
   output: {
-    filename: "[name].bundle.js",
-    path: path.resolve(__dirname, "public/dist")
+      filename: "[name].bundle.js",
+      path: path.resolve(__dirname, "public/dist")
   },
   module: {
     rules: [

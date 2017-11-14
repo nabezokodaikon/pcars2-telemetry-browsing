@@ -53,9 +53,9 @@ class Server(manager: ActorRef, dac: OptionDBAccessor)
         complete(HttpEntity(contentType, text))
       }
     } ~
-      path("debug") {
+      path("develop") {
         get {
-          val file = s"${contentsDirectory}/debug.html"
+          val file = s"${contentsDirectory}/indexDevelop.html"
           val contentType = FileUtil.getContentType(file)
           val text = FileUtil.readBinary(file)
           complete(HttpEntity(contentType, text))

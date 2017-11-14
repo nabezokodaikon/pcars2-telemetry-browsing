@@ -7,25 +7,12 @@ import appReducer from "./appReducer.js"
 import {
   connectWebSocket,
   requestAllOptions,
-  requestConnectionInfo,
-  currentContent
+  requestConnectionInfo
 } from "./appActionCreators.js"
-import DebugMenuContainer from "./menu/DebugMenuContainer.jsx";
-import ContentsContainer from "./debug/ContentsContainer.jsx";
-import * as contentNames from "./common/contentNames.js";
+import MenuContainer from "./menu/MenuContainer.jsx";
+import ContentsContainer from "./contents/ContentsContainer.jsx";
 
-const composeEnhancers =
-  typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({}) : compose;
-
-const enhancer = composeEnhancers(
-  applyMiddleware(thunkMiddleware)
-);
-
-const store = createStore(appReducer, enhancer);
-
-// For product.
-// const store = createStore(appReducer, applyMiddleware(thunkMiddleware));
+const store = createStore(appReducer, applyMiddleware(thunkMiddleware));
 
 setInterval(() => {
   const state = store.getState();
@@ -37,13 +24,12 @@ setInterval(() => {
 
 store.dispatch(requestAllOptions());
 store.dispatch(requestConnectionInfo());
-store.dispatch(currentContent(contentNames.TELEMETRY_DATA));
 
 render(
   <Provider store={store}>
     <div>
-      <DebugMenuContainer />
-      <ContentsContainer /> 
+      <MenuContainer />
+      <ContentsContainer />
     </div>
   </Provider>,
   document.getElementById("root")

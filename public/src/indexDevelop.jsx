@@ -7,10 +7,12 @@ import appReducer from "./appReducer.js"
 import {
   connectWebSocket,
   requestAllOptions,
-  requestConnectionInfo
+  requestConnectionInfo,
+  currentContent
 } from "./appActionCreators.js"
-import MenuContainer from "./menu/MenuContainer.jsx";
-import ContentsContainer from "./contents/ContentsContainer.jsx";
+import DebugMenuContainer from "./menu/DebugMenuContainer.jsx";
+import ContentsContainer from "./debug/ContentsContainer.jsx";
+import * as contentNames from "./common/contentNames.js";
 
 const composeEnhancers =
   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -22,9 +24,6 @@ const enhancer = composeEnhancers(
 
 const store = createStore(appReducer, enhancer);
 
-// For product.
-// const store = createStore(appReducer, applyMiddleware(thunkMiddleware));
-
 setInterval(() => {
   const state = store.getState();
   if (state.connectionInfo.isGot && !state.isWebSocketOpened) {
@@ -35,12 +34,13 @@ setInterval(() => {
 
 store.dispatch(requestAllOptions());
 store.dispatch(requestConnectionInfo());
+store.dispatch(currentContent(contentNames.TELEMETRY_DATA));
 
 render(
   <Provider store={store}>
     <div>
-      <MenuContainer />
-      <ContentsContainer />
+      <DebugMenuContainer />
+      <ContentsContainer /> 
     </div>
   </Provider>,
   document.getElementById("root")
