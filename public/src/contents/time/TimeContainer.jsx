@@ -2,77 +2,49 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { isArray, isJson } from "../../common/jsUtil.js";
+import { createMiniHUDComponent } from "../../common/miniHUDComponent.jsx"
 import HeaderRecordComponent from "./HeaderRecordComponent.jsx";
 import BodyRecordComponent from "./BodyRecordComponent.jsx";
+
+const emptyRecord = {
+  lap: "---",
+  sector1: "--:--.---",
+  sector2: "--:--.---",
+  sector3: "--:--.---",
+  lapTime: "--:--.---",
+  delta: "--:--.---"
+}
+
 
 class TimeContent extends React.Component {
   constructor(props) {
     super(props)
   }
 
-  getContentStyle() {
-    return {
-      position: "fixed",
-      width: "100%",
-      height: "100%",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center"
-    };
-  }
-
-  getHeaderStyle() {
-    return {
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "spaceAround"
-    };
-  }
-
-  getTimeTableStyle() {
-    return {
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center"
-    };
-  }
-
-  getEmptyRecord() {
-    return {
-      lap: "---",
-      sector1: "--:--.---",
-      sector2: "--:--.---",
-      sector3: "--:--.---",
-      lapTime: "--:--.---",
-      delta: "--:--.---"
-    }
-  }
-
   getCurrentRecord() {
     const telemetryData = this.props.telemetryData;
     if (!isJson(telemetryData)) {
-      return this.getEmptyRecord();
+      return emptyRecord;
     }
 
     const participantInfo = this.props.telemetryData.participantInfo;
     if (!isJson(participantInfo)) {
-      return this.getEmptyRecord();
+      return emptyRecord;
     }
 
     const timingsData = this.props.timingsData;
     if (!isJson(timingsData)) {
-      return this.getEmptyRecord();
+      return emptyRecord;
     }
 
     const participants = timingsData.formatParticipants;
     if (!isArray(participants)) {
-      return this.getEmptyRecord();
+      return emptyRecord;
     }
 
     const participant = participants[participantInfo.viewedParticipantIndex];
     if (!isJson(participant)) {
-      return this.getEmptyRecord();
+      return emptyRecord;
     }
 
     const getCurrentWidthoutLapTime = () => {
@@ -170,51 +142,59 @@ class TimeContent extends React.Component {
     if (isJson(record)) {
       return record;
     } else {
-      return this.getEmptyRecord();
+      return emptyRecord;
     }
   }
 
-  createGear() {
-    const style = {
-      width: "6rem",
-      height: "4rem",
-      marginRight: "4rem",
-      backgroundColor: "#FFFF00"
-    };
-
-    return (
-      <div style={style}></div>
-    );
-  }
-
-  createFuel() {
-    const style = {
-      width: "8rem",
-      height: "2rem",
-      backgroundColor: "#FF0000"
-    };
-
-    return (
-      <div style={style}></div>
-    );
-  }
-
   createHeader() {
+    const telemetryData = this.props.telemetryData;
+    if (!isJson(telemetryData)) {
+      return (
+        <div></div>
+      );
+    }
+
+    const style = {
+      width: "16rem",
+      height: "4rem",
+      marginRight: "4rem"
+    };
+
+    const carState = telemetryData.carState; 
+    const miniHUDComponent = createMiniHUDComponent({
+      gear: carState.gear,
+      speed: carState.speed,
+      rpm: carState.rpm,
+      maxRpm: carState.maxRpm,
+      fuelRemaining: carState.fuelRemaining,
+      isMeter: this.props.isMeter
+    });
+
     return (
-      <div style={this.getHeaderStyle()}>
-        {this.createGear()}
-        {this.createFuel()}
-      </div>
+      <svg style={style} preserveAspectRatio="xMidYMid meet" viewBox="0 0 100 100">
+        {miniHUDComponent}
+      </svg>
     );
   }
 
   createTimeTable() {
-    if (isJson(this.props.lapTimeDetails)) {
-      const lapTimeDetails = this.props.lapTimeDetails;
-      const history = lapTimeDetails.history;
-      const historyLength = history.length;
+    const lapTimeDetails = this.props.lapTimeDetails;
+    if (!isJson(lapTimeDetails)) {
       return (
-      <div style={this.getTimeTableStyle()}>
+        <div></div>
+      );
+    }
+
+    const style = {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center"
+    };
+
+    const history = lapTimeDetails.history;
+    const historyLength = history.length;
+    return (
+      <div style={style}>
         <HeaderRecordComponent />
         <BodyRecordComponent name={"CURRENT"} record={this.getCurrentRecord()} />
         <BodyRecordComponent name={"LOG 1"} record={this.getRecord(history[historyLength - 1])} />
@@ -224,15 +204,22 @@ class TimeContent extends React.Component {
         <BodyRecordComponent name={"BEST"} record={this.getRecord(lapTimeDetails.fastest)} />
         <BodyRecordComponent name={"AVERAGE"} record={this.getRecord(lapTimeDetails.average)} />
       </div>
-      );
-    } else {
-      <div></div>
-    }
+    );
   }
 
   render() {
+    const style = {
+      position: "fixed",
+      width: "100%",
+      height: "100%",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center"
+    };
+
     return (
-      <div style={this.getContentStyle()}>
+      <div style={style}>
         {this.createHeader()}
         {this.createTimeTable()}
       </div>
@@ -241,6 +228,7 @@ class TimeContent extends React.Component {
 }
 
 TimeContent.propTypes = {
+  isMeter: PropTypes.bool.isRequired,
   telemetryData: PropTypes.object.isRequired,
   timingsData: PropTypes.object.isRequired,
   lapTimeDetails: PropTypes.object.isRequired
@@ -249,6 +237,7 @@ TimeContent.propTypes = {
 const mapStateToProps = state => {
   const data = state.currentUdpData;
   return {
+    isMeter: state.options.isMeter,
     telemetryData: data.telemetryData,
     timingsData: data.timingsData,
     lapTimeDetails: data.lapTimeDetails
