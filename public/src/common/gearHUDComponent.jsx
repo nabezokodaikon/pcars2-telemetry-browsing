@@ -221,13 +221,13 @@ function createGearComponent(
  * cx: 円の中心のx座標
  * cy: 円の中心のy座標
  * radius: 半径
- * gear: carStateData.gear
- * speed: carStateData.speed
- * rpm: carStateData.rpm
- * maxRpm: carStateData.maxRpm
- * throttle: carStateData.throttle
- * brake: carStateData.brake
- * clutch: carStateData.clutch
+ * gear: carState.gear
+ * speed: carState.speed
+ * rpm: carState.rpm
+ * maxRpm: carState.maxRpm
+ * throttle: carState.throttle
+ * brake: carState.brake
+ * clutch: carState.clutch
  * isMeter: 距離の単位がメートル法かそうでないか
 */
 export function createGearHUDComponent(param) {
