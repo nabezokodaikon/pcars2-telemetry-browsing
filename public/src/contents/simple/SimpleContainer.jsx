@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { isJson } from "../../common/jsUtil.js";
 import { createGearHUDComponent } from "../../common/gearHUDComponent.jsx";
+import simpleStyle from "./simple.css";
 import rankIcon from "../../image/rank.png";
 import lapIcon from "../../image/lap.png";
 import timeIcon from "../../image/time.png";
@@ -12,89 +13,6 @@ import fuelIcon from "../../image/fuel.png";
 class SimpleContent extends React.Component {
   constructor(props) {
     super(props)
-  }
-
-  getGearStyle() {
-    return {
-      position: "fixed",
-      left: "1rem",
-      width: "45%",
-      height: "100%"
-    };
-  }
-
-  getDataStyle() {
-    return {
-      position: "fixed",
-      left: "50%",
-      width: "50%",
-      height: "100%",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center"
-    };
-  }
-
-  getDataItemStyle() {
-    return {
-      width: "95%",
-      height: "6rem",
-      borderStyle: "solid",
-      borderWidth: "0.1rem",
-      borderColor: "#899ba9",
-      marginBottom: "1rem",
-      transform: "skewX(-12deg)",
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "flex-start",
-      alignItems: "center"
-    };
-  }
-
-  getDataIconContainerStyle() {
-    return {
-      width: "6rem",
-      height: "6rem",
-      backgroundColor: "#80adfd",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center"
-    };
-  }
-
-  getDataIconStyle() {
-    return {
-      width: "80%",
-      height: "80%",
-      transform: "skewX(12deg)"
-    };
-  }
-
-  getDataValueContainerStyle() {
-    return {
-      flexGrow: 1,
-      height: "6rem",
-      display: "flex",
-      justifyContent: "flex-end",
-      alignItems: "center"
-    };
-  }
-
-  getDataValueStyle() {
-    return {
-      margin: "0.5rem",
-      fontSize: "3.25rem",
-      fontFamily: "'Inconsolata', monospace",
-      transform: "skewX(12deg)"
-    };
-  }
-
-  getContentStyle() {
-    return {
-      position: "fixed",
-      width: "100%",
-      height: "100%"
-    };
   }
 
   createGear() {
@@ -120,7 +38,7 @@ class SimpleContent extends React.Component {
     });
 
     return (
-      <svg style={this.getGearStyle()} preserveAspectRatio="xMidYMid meet" viewBox="0 0 100 100">
+      <svg className={simpleStyle.gear} preserveAspectRatio="xMidYMid meet" viewBox="0 0 100 100">
         {gearHUDComponent}
       </svg>
     );
@@ -130,7 +48,7 @@ class SimpleContent extends React.Component {
     const telemetryData = this.props.telemetryData;
     const timingsData = this.props.timingsData;
     const raceData = this.props.raceData;
-    if (!isJson(telemetryData) || !isJson(timingsData)) {
+    if (!isJson(telemetryData) || !isJson(timingsData) || !isJson(raceData)) {
       return <div></div>;
     }
 
@@ -139,57 +57,75 @@ class SimpleContent extends React.Component {
 
     const eventTimeRemaining = timingsData.eventTimeRemaining;
     const isTimedSessions = (eventTimeRemaining !== "--:--:--.---"); 
-    const lapsInEvent = (isJson(raceData) ? raceData.lapsInEvent : 1); 
+    const lapsInEvent = (raceData.lapsInEvent > 0)
+      ? participant.currentLap + "/" + raceData.lapsInEvent
+      : participant.currentLap; 
     const sessionText = (isTimedSessions)
       ? eventTimeRemaining
-      : participant.currentLap + "/" + lapsInEvent
+      : lapsInEvent
 
     return (
-      <div style={this.getDataStyle()}>
-
-        <div style={this.getDataItemStyle()}>
-          <div style={this.getDataIconContainerStyle()}>
-            <img style={this.getDataIconStyle()} src={rankIcon} />
+      <div className={simpleStyle.table}>
+        <div className={simpleStyle.record}>
+          <div className={simpleStyle.iconCell}>
+            <div>
+              <img src={rankIcon} />
+            </div>
           </div>
-          <div style={this.getDataValueContainerStyle()}>
-            <span style={this.getDataValueStyle()}>{participant.racePosition}/{timingsData.numParticipants}</span>
-          </div>
-        </div>
-
-        <div style={this.getDataItemStyle()}>
-          <div style={this.getDataIconContainerStyle()}>
-            <img style={this.getDataIconStyle()} src={lapIcon} />
-          </div>
-          <div style={this.getDataValueContainerStyle()}>
-            <span style={this.getDataValueStyle()}>{sessionText}</span>
+          <div className={simpleStyle.valueCell}>
+            <div>
+              <span>{participant.racePosition}/{timingsData.numParticipants}</span>
+            </div>
           </div>
         </div>
-        
-        <div style={this.getDataItemStyle()}>
-          <div style={this.getDataIconContainerStyle()}>
-            <img style={this.getDataIconStyle()} src={timeIcon} />
+        <div className={simpleStyle.record}>
+          <div className={simpleStyle.iconCell}>
+            <div>
+              <img src={lapIcon} />
+            </div>
           </div>
-          <div style={this.getDataValueContainerStyle()}>
-            <span style={this.getDataValueStyle()}>{participant.currentTime}</span>
-          </div>
-        </div>
-
-        <div style={this.getDataItemStyle()}>
-          <div style={this.getDataIconContainerStyle()}>
-            <img style={this.getDataIconStyle()} src={fuelIcon} />
-          </div>
-          <div style={this.getDataValueContainerStyle()}>
-            <span style={this.getDataValueStyle()}>{carState.fuelRemaining}L</span>
+          <div className={simpleStyle.valueCell}>
+            <div>
+              <span>{sessionText}</span>
+            </div>
           </div>
         </div>
-
+        <div className={simpleStyle.record}>
+          <div className={simpleStyle.iconCell}>
+            <div>
+              <img src={timeIcon} />
+            </div>
+          </div>
+          <div className={simpleStyle.currentLap}>
+            <div>
+              <span>{participant.currentLap}</span>
+            </div>
+          </div>
+          <div className={simpleStyle.currentTime}>
+            <div>
+              <span>{participant.currentTime}</span>
+            </div>
+          </div>
+        </div>
+        <div className={simpleStyle.record}>
+          <div className={simpleStyle.iconCell}>
+            <div>
+              <img src={fuelIcon} />
+            </div>
+          </div>
+          <div className={simpleStyle.valueCell}>
+            <div>
+              <span>{carState.fuelRemaining}L</span>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 
   render() {
     return (
-      <div style={this.getContentStyle()}>
+      <div className={simpleStyle.content}>
         {this.createGear()}
         {this.createData()}
       </div>
