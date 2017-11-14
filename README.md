@@ -9,14 +9,6 @@ By accessing this server with WebBrowser, you can browse the telemetry etc of PR
 This application can only be accessed within the same LAN as the UDP data being transmitted by PROJECT CARS 2.
 
 
-## Install
-TODO
-
-
-## Uninstall
-TODO
-
-
 ## Usage
 ### Settings
 #### Application setting
@@ -30,18 +22,28 @@ TODO
   * UDP Frequency: 4
   * UDP Protocol Version: Project CARS 2
 
+
+## Install
+* Expand `pcars2-telemetry-browsing.zip` file.
+
+
+## Uninstall
+* Delete `pcars2-telemetry-browsing` directory.
+
+
 ### Run
 #### For Windows
-1. Please run `start-for-windows.bat`.
-1. Please execute `start-for- windows.bat` and access to the displayed address by WebBrowser of PC, smart phone or tablet in LAN.
+* Please run `start-for-windows.bat` and access to the displayed address by WebBrowser of PC, smart phone or tablet in LAN.
 
 ### iPhone Web page to Home short cut
 * From the status bar of Safari, tap Add to Home Screen to create a shortcut on the home screen and display it in full screen.
 
 
 ## Troubleshooting
-* If you are using an older iPhone, Safari may be heavy. In that case, using Google Chrome may improve it.
-* If you can not connect to the server, check the PC's network interface.  Project Cars uses the first network interface found on the PC.
+* If you are using an older iPhone, Safari may be heavy. 
+In that case, using Google Chrome may improve it.
+* If you can not connect to the server, check the PC's network interface.  
+PROECT CARS2 connects to the network interface found at the beginning of the PC in the LAN.
 
 
 ## CREDITS
