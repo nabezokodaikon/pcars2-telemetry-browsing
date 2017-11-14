@@ -137,7 +137,7 @@ function createGearComponent(
   gear, rpm, maxRpm, srcSpeed, isMeter, gearValueFontSize, width, cx, cy, radius) {
   const speed = getSpeed(srcSpeed, isMeter); 
   const speedUnit = getSpeedUnit(isMeter);
-  const gearColor = (rpm > maxRpm * 0.99 ? RED : WHITE);
+  const gearColor = (rpm > maxRpm * 0.97 ? RED : WHITE);
   const rpmValueFontSize = gearValueFontSize * 0.3;
   const rpmUnitFontSize = gearValueFontSize * 0.2;
   const speedFontSize = gearValueFontSize * 0.75;

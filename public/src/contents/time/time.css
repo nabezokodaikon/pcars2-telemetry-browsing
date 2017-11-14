@@ -92,7 +92,7 @@
 }
 
 .sectorCell {
-  background-color: #53524F;
+  background-color: #3D3935;
   margin-right: 0.1rem
 }
 
@@ -110,7 +110,7 @@
 }
 
 .lapTimeCell {
-  background-color: #75726D;
+  background-color: #524D47;
   margin-right: 0.1rem;
 }
 
@@ -128,12 +128,12 @@
 }
 
 .deltaTimeCell {
-  background-color: #53524F;
+  background-color: #3D3935;
 }
 
 .deltaTimeCell > div {
   width: 10rem;
-  background-color: #53524F;
+  background-color: #3D3935;
   margin-left: 0.5rem;
   margin-right: -0.5rem;
   text-align: center;

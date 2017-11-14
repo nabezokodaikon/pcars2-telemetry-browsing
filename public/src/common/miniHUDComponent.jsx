@@ -8,6 +8,7 @@ import {
   getSpeedUnit,
   kmhToMIH
 } from "./telemetryUtil.js";
+import fuelIcon from "../image/fuel-blue.png";
 
 const WHITE = "#FFFFFF";
 const BLACK = "#1B1B1B";
@@ -83,12 +84,13 @@ function createGearComponent(x, y, width, height, fontSize, gear, rpm, maxRpm) {
 
   const maxRpmShape = createFanShape(cx, cy, radius, 30, maxRpmValue, rpmBarWidth * 0.9, BLACK);
   const rpmShape = createFanShape(cx, cy, radius, 30, rpmValue, rpmBarWidth, WHITE);
+  const gearTextColor = (rpm > maxRpm * 0.97 ? RED : WHITE);
 
   const gearText =
     <text
       x={cx}
       y={textY}
-      fill={WHITE}
+      fill={gearTextColor}
       style={{fontSize: fontSize, fontFamily: "'Inconsolata', monospace"}}
       textAnchor="middle"
       dominantBaseline="middle"
@@ -106,7 +108,41 @@ function createGearComponent(x, y, width, height, fontSize, gear, rpm, maxRpm) {
   );
 }
 
-function createFuelComponent(fuelRemaining) {
+function createFuelComponent(x, y, width, height, fontSize, fuelRemaining) {
+  const radius = height / 2 * 0.9;
+  const fuelTextX = x + radius * 1.1;
+  const fuelTextY = y + radius * 1.1;
+  const iconSize = height * 0.5;
+  const iconX = fuelTextX + iconSize * 1.1;
+  const iconY = y + height * 0.2;
+
+  const fuelText =
+    <text
+      x={fuelTextX}
+      y={fuelTextY}
+      fill={WHITE}
+      style={{fontSize: fontSize, fontFamily: "'Inconsolata', monospace"}}
+      textAnchor="middle"
+      dominantBaseline="middle"
+    >
+      {fuelRemaining}
+    </text>;
+
+  const icon =
+    <image
+      x={iconX}
+      y={iconY}
+      width={iconSize}
+      height={iconSize}
+      xlinkHref={fuelIcon}
+    />;
+
+  return (
+    <g>
+      {fuelText}
+      {icon}
+    </g>
+  );
 }
 
 /*
@@ -118,7 +154,7 @@ function createFuelComponent(fuelRemaining) {
  * isMeter: 距離の単位がメートル法かそうでないか
  */
 export function createMiniHUDComponent(param) {
-  const speedX = 40;
+  const speedX = 80;
   const speedY = 10;
   const speedWidth = 125;
   const speedHeight = 80;
@@ -130,6 +166,12 @@ export function createMiniHUDComponent(param) {
   const gearHeight = speedHeight;
   const gearFontSize = 40; 
 
+  const fuelX = gearX + gearWidth + 80;
+  const fuelY = speedY;
+  const fuelWidth = 160;
+  const fuelHeight = speedHeight;
+  const fuelFontSize = 40; 
+
   const speedComponent = createSpeedComponent(
     speedX, speedY, speedWidth, speedHeight, speedFontSize,
     param.speed, param.isMeter);
@@ -138,12 +180,16 @@ export function createMiniHUDComponent(param) {
     gearX, gearY, gearWidth, gearHeight, gearFontSize,
     param.gear, param.rpm, param.maxRpm);
 
+  const fuelComponent = createFuelComponent(
+    fuelX, fuelY, fuelWidth, fuelHeight, fuelFontSize,
+    param.fuelRemaining
+  )
+
   return (
     <g>
-      <rect x="0" y="0" width="2000" height="100" fill="blue" fillOpacity="0.5" /> 
       {speedComponent}
       {gearComponent}
+      {fuelComponent}
     </g>
   );
-
 }
