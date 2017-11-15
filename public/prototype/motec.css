@@ -64,7 +64,8 @@ body {
   align-items: center;
 }
 
-.iconCell {
+.iconCell,
+.iconCell > div {
   background-color: #C1D9F0;
 }
 
@@ -73,31 +74,28 @@ body {
   height: 6rem;
   margin-left: -1rem;
   margin-right: 1rem;
-  background-color: #C1D9F0;
 }
 
 .iconCell > div > img {
   width: 80%;
   height: 80%;
-  color: #565656;
 }
 
-.valueCell {
-  background-color: #53524F;
-}
-
-.valueCell > div {
+.valueCell,
+.valueCell > div,
+.fuelDetailsTable {
   background-color: #53524F;
 }
 
 .valueCell > div > span {
   color: #E3E4E5;
   font-family: 'Inconsolata', monospace;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   text-align: right;
 }
 
-.value1Cell {
+.value1Cell,
+.value2Cell {
   width: 11rem;
   margin-left: 0.1rem;
 }
@@ -108,20 +106,12 @@ body {
   margin-right: 0.5rem;
 }
 
-.value2Cell {
-  width: 11rem;
-  margin-left: 0.1rem;
-}
-
 .value2Cell > div {
   width: 10rem;
   margin-right: -2.25rem;
 }
 
 .value2Cell > div > span {
-  color: #E3E4E5;
-  font-family: 'Inconsolata', monospace;
-  font-size: 1.5rem;
   margin-right: 1rem;
 }
 
@@ -143,7 +133,6 @@ body {
 .fuelRecord > .iconCell > div,
 .fuelRecord > .fuelValueCell > div {
   transform: skewX(12deg);
-  height: 6rem;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -151,7 +140,6 @@ body {
 }
 
 .fuelValueCell {
-  width: 8rem;
   margin-left: 0.1rem;
 }
 
@@ -163,14 +151,14 @@ body {
 
 .fuelDetailsTable {
   margin-left: 2.75rem;
-  background-color: #53524F;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.fuelDetailsTable > div {
+.fuelDetailsRecord1,
+.fuelDetailsRecord2 {
   width: 12rem;
   display: flex;
   flex-direction: row;
@@ -178,12 +166,27 @@ body {
   align-items: center;
 }
 
-.fuelDetailsTable > div > div {
+.fuelDetailsRecord2 {
+  margin-left: -1.25rem;
+}
+
+.fuelDetailsRecord2 > .fuelDetailsValueCell > div > span {
+  margin-left: 1.25rem;
+}
+
+.fuelDetailsHeaderCell {
+  margin-left: -4.5rem;
+  background-color: #C1D9F0;
+}
+
+.fuelDetailsHeaderCell,
+.fuelDetailsValueCell {
   width: 50%;
   transform: skewX(-12deg);
 }
 
-.fuelDetailsTable > div > div > div {
+.fuelDetailsHeaderCell > div,
+.fuelDetailsValueCell > div {
   height: 3rem;
   transform: skewX(12deg);
   margin-left: 4rem;
@@ -193,26 +196,6 @@ body {
   align-items: center;
 }
 
-.fuelDetailsRecord2 {
-  margin-left: -1.2675rem;
-}
-
-.fuelDetailsHeaderCell {
-  background-color: #C1D9F0;
-}
-
-.fuelDetailsRecord1 > .fuelDetailsHeaderCell > div > span {
+.fuelDetailsHeaderCell > div > span {
   margin-left: -3.25rem;
-}
-
-.fuelDetailsRecord2 > .fuelDetailsHeaderCell > div > span {
-  margin-left: -3rem;
-}
-
-.fuelDetailsRecord2 > .fuelDetailsValueCell > div > span {
-  margin-left: 1.25rem;
-}
-
-.fuelDetailsHeaderCell {
-  margin-left: -4.5rem;
 }
