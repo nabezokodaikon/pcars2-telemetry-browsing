@@ -198,7 +198,7 @@ class TimeContent extends React.Component {
         <BodyRecordComponent name={"CURRENT"} record={this.getCurrentRecord()} />
         <BodyRecordComponent name={"BEST"} record={this.getRecord(lapTimeDetails.fastest)} />
         <BodyRecordComponent name={"AVERAGE"} record={this.getRecord(lapTimeDetails.average)} />
-        <BodyRecordComponent name={""} record={this.getRecord(history[historyLength - 1])} />
+        <BodyRecordComponent name={"LATEST"} record={this.getRecord(history[historyLength - 1])} />
         <BodyRecordComponent name={""} record={this.getRecord(history[historyLength - 2])} />
         <BodyRecordComponent name={""} record={this.getRecord(history[historyLength - 3])} />
         <BodyRecordComponent name={""} record={this.getRecord(history[historyLength - 4])} />
