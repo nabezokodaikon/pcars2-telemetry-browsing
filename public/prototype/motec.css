@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css?family=Oswald');
+@import url('https://fonts.googleapis.com/css?family=Inconsolata');
+
+* {
+  margin: 0;
+  padding: 0;
+  border-width: 0;
+  color: #565656;
+  font-size: 100%;
+  font-family: 'Open Sans', sans-serif;
+}
+
+*:focus {
+  outline: none;
+}
+
+* {
+  cursor: "pointer"
+}
+
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+}
+
+.contents {
+  z-index: 0;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  /* background-color: #17202b;  */
+}
+
+.table {
+  width: 80%;
+  margin: 2rem;
+}
+
+.headerColumn {
+  margin-bottom: 0.2rem;
+  display: flex;
+  flex-direction: row;
+}
+
+.headerColumn > div {
+  transform: skewX(-12deg);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.headerColumn > div > div {
+  height: 3rem;
+  transform: skewX(12deg);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.headerColumn > div > div > span {
+  font-color: ##565656;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.3rem;
+}
+
+.bodyColumn {
+  margin-bottom: 0.2rem;
+  display: flex;
+  flex-direction: row;
+}
+
+.bodyColumn > div {
+  transform: skewX(-12deg);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.bodyColumn > div > div {
+  height: 3rem;
+  transform: skewX(12deg);
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.headerCell {
+  background-color: #C1D9F0;
+}
+
+.headerCell > div {
+  width: 5rem;
+  margin-left: -1rem;
+  margin-right: 1rem;
+  background-color: #C1D9F0;
+}
+
+.headerCell > div > span {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.3rem;
+}
+
+.lapCountCell {
+  background-color: #30CDFF;
+}
+
+.lapCountCell > div {
+  width: 4rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  text-align: right;
+}
+
+.lapCountCell > div > span {
+  color: #063B4B;
+  font-family: 'Inconsolata', monospace;
+  font-size: 2.25rem;
+}
+
+.sectorCell {
+  background-color: #53524F;
+  margin-right: 0.1rem
+}
+
+.sectorCell > div {
+  width: 11rem;
+  margin-left: 0.5rem;
+  text-align: center;
+}
+
+.sectorCell > div > span {
+  width: 100%;
+  color: #E3E4E5;
+  font-family: 'Inconsolata', monospace;
+  font-size: 2.25rem;
+}
+
+.lapTimeCell {
+  background-color: #75726D;
+}
+
+.lapTimeCell > div {
+  width: 11rem;
+  background-color: #75726D;
+  margin-left: 0.5rem;
+  margin-right: -0.5rem;
+  text-align: center;
+}
+
+.lapTimeCell > div > span {
+  width: 100%;
+  color: #E3E4E5;
+  font-family: 'Inconsolata', monospace;
+  font-size: 2.25rem;
+}
