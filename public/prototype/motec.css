@@ -29,13 +29,166 @@ body {
   position: fixed;
   width: 100%;
   height: 100%;
-  /* background-color: #17202b;  */
+  background-color: #17202b; /*  後で消す。 */
 }
 
 .table {
-  width: 80%;
-  margin: 2rem;
+  position: fixed;
+  left: 50%;
+  width: 28.5rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
+
+.record {
+  margin-bottom: 0.2rem;
+  display: flex;
+  flex-direction: row;
+}
+
+.record > div {
+  transform: skewX(-12deg);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.record > div > div {
+  height: 6rem;
+  transform: skewX(12deg);
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.iconCell {
+  background-color: #C1D9F0;
+}
+
+.iconCell > div {
+  width: 6rem;
+  height: 6rem;
+  margin-left: -1rem;
+  margin-right: 1rem;
+  background-color: #C1D9F0;
+}
+
+.iconCell > div > img {
+  width: 80%;
+  height: 80%;
+  color: #565656;
+}
+
+.valueCell {
+  background-color: #53524F;
+}
+
+.valueCell > div {
+  text-align: right;
+  background-color: #995555;
+}
+
+.valueCell > div > span {
+  color: #E3E4E5;
+  font-family: 'Inconsolata', monospace;
+  font-size: 1.5rem;
+  text-align: right;
+}
+
+.value1Cell {
+  width: 11rem;
+  margin-left: 0.1rem;
+  text-align: right;
+}
+
+.value1Cell > div {
+  width: 9rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.value1Cell > div > span {
+  width: 100%;
+}
+
+.value2Cell {
+  width: 11rem;
+  margin-left: 0.1rem;
+}
+
+.value2Cell > div {
+  width: 10rem;
+  margin-right: -2.25rem;
+  text-align: center;
+}
+
+.value2Cell > div > span {
+  width: 100%;
+  color: #E3E4E5;
+  font-family: 'Inconsolata', monospace;
+  font-size: 1.5rem;
+  margin-right: 1rem;
+}
+
+.value2Cell > div > span {
+}
+
+.lastValueCell {
+}
+
+.fuelValueCell {
+}
+
+.fuelOherHeaderCell {
+}
+
+.fuelOherValue1Cell {
+}
+
+.fuelOherValue2Cell {
+}
+
+
+
+
+
+/* .value2Cell { */
+  /* background-color: #53524F; */
+  /* width: 22.5rem; */
+  /* margin-left: 1rem; */
+/* } */
+
+/* .value2Cell > div { */
+  /* width: 100%; */
+  /* height: 6rem; */
+  /* background-color: #53524F; */
+  /* margin-left: 1rem; */
+  /* margin-right: -1rem; */
+  /* text-align: right; */
+/* } */
+
+/* .value2Cell > div > span { */
+  /* width: 100%; */
+  /* color: #E3E4E5; */
+  /* font-family: 'Inconsolata', monospace; */
+  /* font-size: 3rem; */
+  /* margin-right: 1rem; */
+/* } */
+
+
+
+
+
+
+
+/* .table { */
+  /* width: 80%; */
+  /* margin: 2rem; */
+/* } */
 
 .headerColumn {
   margin-bottom: 0.2rem;
