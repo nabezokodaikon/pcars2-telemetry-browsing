@@ -188,9 +188,29 @@ object BigDecimalSupport {
       calcMultiply(value, new BigDecimal(multiplicand), scale)
   }
 
+  class DoubleSupport(srcValue: Double)
+    extends RoundingSupport
+    with TimeToStringSupport {
+
+    val value = new BigDecimal(srcValue)
+
+    def multiply(multiplicand: Byte, scale: Int): String =
+      calcMultiply(value, new BigDecimal(multiplicand), scale)
+
+    def multiply(multiplicand: Short, scale: Int): String =
+      calcMultiply(value, new BigDecimal(multiplicand), scale)
+
+    def multiply(multiplicand: Int, scale: Int): String =
+      calcMultiply(value, new BigDecimal(multiplicand), scale)
+
+    def multiply(multiplicand: Long, scale: Int): String =
+      calcMultiply(value, new BigDecimal(multiplicand), scale)
+  }
+
   implicit def toBigDecimal(value: Byte) = new ByteSupport(value)
   implicit def toBigDecimal(value: Short) = new ShortSupport(value)
   implicit def toBigDecimal(value: Int) = new IntSupport(value)
   implicit def toBigDecimal(value: Long) = new LongSupport(value)
   implicit def toBigDecimal(value: Float) = new FloatSupport(value)
+  implicit def toBigDecimal(value: Double) = new DoubleSupport(value)
 }
