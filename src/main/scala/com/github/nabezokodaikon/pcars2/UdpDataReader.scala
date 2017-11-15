@@ -5,6 +5,7 @@ import com.github.nabezokodaikon.pcars2.UdpDataConst._
 import com.github.nabezokodaikon.util.BigDecimalSupport._
 import com.github.nabezokodaikon.util.BinaryUtil._
 import com.typesafe.scalalogging.LazyLogging
+import java.lang.Math
 import scala.reflect.ClassTag
 
 object UdpDataReader extends LazyLogging {
@@ -166,9 +167,9 @@ object UdpDataReader extends LazyLogging {
     (
       CarState(
         carFlags = carFlags,
-        oilTempCelsius = oilTempCelsius / 255f,
+        oilTempCelsius = (oilTempCelsius / 255f).toRound(0),
         oilPressureKPa = oilPressureKPa,
-        waterTempCelsius = waterTempCelsius / 255f,
+        waterTempCelsius = (waterTempCelsius / 255f).toRound(0),
         waterPressureKpa = waterPressureKpa,
         fuelPressureKpa = fuelPressureKpa,
         fuelCapacity = fuelCapacity,
@@ -280,20 +281,23 @@ object UdpDataReader extends LazyLogging {
     )
   }
 
-  private def readTyre3(data1: List[Byte]): (Tyre3, List[Byte]) = {
+  private def readTyre3(data1: List[Byte], rpm: Int): (Tyre3, List[Byte]) = {
     val (engineSpeed, data2) = readFloat(data1)
     val (engineTorque, data3) = readFloat(data2)
     val (wings, data4) = readUByteArray(data3, 2)
     val (handBrake, nextData) = readUByte(data4)
 
+    val enginePower = engineTorque * Math.PI * 2 * (rpm / 60.0) / 745.69987
+
     (
       Tyre3(
         engineSpeed = engineSpeed,
-        engineTorque = engineTorque,
+        engineTorque = engineTorque.toRound(0),
+        enginePower = enginePower.toRound(0),
         wings = wings,
         handBrake = handBrake
       ),
-      nextData
+        nextData
     )
   }
 
@@ -333,7 +337,7 @@ object UdpDataReader extends LazyLogging {
     val (velocity, data6) = readVelocity(data5)
     val (tyre1, data7) = readTyre1(data6)
     val (tyre2, data8) = readTyre2(data7)
-    val (tyre3, data9) = readTyre3(data8)
+    val (tyre3, data9) = readTyre3(data8, carState.rpm)
     val (carDamage, data10) = readCarDamage(data9)
     val (hWState, nextData) = readHWState(data10)
 

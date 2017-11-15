@@ -11,7 +11,7 @@ object UdpDataJsonProtocol extends DefaultJsonProtocol {
   implicit val velocityFormat = jsonFormat7(Velocity)
   implicit val tyre1Format = jsonFormat22(Tyre1)
   implicit val tyre2Format = jsonFormat2(Tyre2)
-  implicit val tyre3Format = jsonFormat4(Tyre3)
+  implicit val tyre3Format = jsonFormat5(Tyre3)
   implicit val carDamageFormat = jsonFormat2(CarDamage)
   implicit val hwStateFormat = jsonFormat3(HWState)
   implicit val telemetryDataFormat = jsonFormat10(TelemetryData)
@@ -126,9 +126,9 @@ case class UnfilteredInput(
 
 case class CarState(
     carFlags: Short,
-    oilTempCelsius: Float, // [ Unit: Celsius ] [ value / 255f ]
+    oilTempCelsius: String, // [ Unit: Celsius ] [ value / 255f ]
     oilPressureKPa: Int,
-    waterTempCelsius: Float, // [ Unit: Celsius ] [ value / 255f ]
+    waterTempCelsius: String, // [ Unit: Celsius ] [ value / 255f ]
     waterPressureKpa: Int,
     fuelPressureKpa: Int,
     fuelCapacity: Short, // [ Unit: liter ]
@@ -189,7 +189,8 @@ case class Tyre2(
 
 case class Tyre3(
     engineSpeed: Float,
-    engineTorque: Float,
+    engineTorque: String,
+    enginePower: String,
     wings: Array[Short],
     handBrake: Short
 )
