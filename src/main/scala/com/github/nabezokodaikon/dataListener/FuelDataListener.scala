@@ -40,7 +40,7 @@ final case class FuelAccumulationData(
         val lastConsumption = allHistory.last.toRound(2)
         val averageConsumption = allHistory.sum.divide(length, 2)
         (lastConsumption, averageConsumption)
-      case _ => ("-.--", "-.--")
+      case _ => ("--.--", "--.--")
     }
 
     FuelData(

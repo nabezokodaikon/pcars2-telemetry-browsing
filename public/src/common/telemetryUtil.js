@@ -108,3 +108,7 @@ export function getAirPressureUnit(isBar) {
 export function getSpeed(speed, isMeter) {
   return (isMeter ? Math.floor(speed) : kmhToMIH(speed))
 }
+
+export function getTemp(temp, isCelsius) {
+  return (isCelsius ? Math.floor(temp) : celsiusToFahrenheit(temp))
+}

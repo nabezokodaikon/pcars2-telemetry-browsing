@@ -1,32 +1,16 @@
 @import url('https://fonts.googleapis.com/css?family=Oswald');
 @import url('https://fonts.googleapis.com/css?family=Inconsolata');
 
-* {
-  margin: 0;
-  padding: 0;
-  border-width: 0;
-  color: #565656;
-  font-size: 100%;
-}
-
-*:focus {
-  outline: none;
-}
-
-* {
-  cursor: "pointer"
-}
-
-html,
-body {
-  width: 100vw;
-  height: 100vh;
-}
-
-.contents {
-  z-index: 0;
+.content {
   position: fixed;
   width: 100%;
+  height: 100%;
+}
+
+.gear {
+  position: fixed;
+  left: 1rem;
+  width: 45%;
   height: 100%;
 }
 
@@ -142,7 +126,7 @@ body {
 }
 
 .fuelValueCell > div {
-  width: 6rem;
+  width: 7rem;
   margin-left: 1rem;
   margin-right: 1rem;
 }
@@ -157,7 +141,7 @@ body {
 
 .fuelDetailsRecord1,
 .fuelDetailsRecord2 {
-  width: 12rem;
+  width: 11rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -196,24 +180,40 @@ body {
 
 .fuelDetailsHeaderCell > div > span {
   margin-left: -3.25rem;
+  color: #565656;
   font-family: 'Oswald', sans-serif;
 }
 
 .fuelValueCell > div > span {
-  font-size: 2rem;
+  font-size: 2.5rem;
   margin-right: -0.5rem;
 }
 
 .fuelDetailsHeaderCell > div > span {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
+}
+
+.fuelDetailsRecord1 > .fuelDetailsValueCell > div {
+  width: 3.5rem;
+}
+
+.fuelDetailsRecord2 > .fuelDetailsValueCell > div {
+  width: 4rem;
+}
+
+.fuelDetailsRecord1 > .fuelDetailsValueCell > div > span {
+  margin-left: -1.75rem;
+}
+
+.fuelDetailsRecord2 > .fuelDetailsValueCell > div > span {
+  margin-left: -1rem;
 }
 
 .fuelDetailsValueCell > div > span {
-  font-size: 2rem;
-  margin-right: 1rem;
+  font-size: 1.5rem;
 }
 
-.value1Cell,
-.value2Cell {
+.value1Cell > div > span,
+.value2Cell > div > span {
   font-size: 2.5rem;
 }
