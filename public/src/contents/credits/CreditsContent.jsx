@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDom from "react-dom";
 import { connect } from "react-redux";
 
 class CreditsContent extends React.Component {

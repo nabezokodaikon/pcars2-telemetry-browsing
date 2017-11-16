@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDom from "react-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { isJson } from "../../common/jsUtil.js";
