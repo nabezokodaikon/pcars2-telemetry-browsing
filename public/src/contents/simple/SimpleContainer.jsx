@@ -1,7 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { currentContent } from "../../appActionCreators.js";
 import { isJson } from "../../common/jsUtil.js";
+import * as contentNames from "../../common/contentNames.js";
 import { createGearHUDComponent } from "../../common/gearHUDComponent.jsx";
 import simpleStyle from "./simple.css";
 import rankIcon from "../../image/rank.png";
@@ -124,7 +126,7 @@ class SimpleContent extends React.Component {
 
   render() {
     return (
-      <div className={simpleStyle.content}>
+      <div className={simpleStyle.content} onClick={this.props.onContentsClick}>
         {this.createGear()}
         {this.createData()}
       </div>
@@ -136,7 +138,8 @@ SimpleContent.propTypes = {
   isMeter: PropTypes.bool.isRequired,
   telemetryData: PropTypes.object.isRequired,
   timingsData: PropTypes.object.isRequired,
-  raceData: PropTypes.object.isRequired
+  raceData: PropTypes.object.isRequired,
+  onContentsClick: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -149,8 +152,17 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    onContentsClick: () => {
+      dispatch(currentContent(contentNames.MOTEC))
+    }
+  };
+};
+
 const SimpleContainer = connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(SimpleContent);
 
 export default SimpleContainer;

@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { currentContent } from "../../appActionCreators.js";
+import * as contentNames from "../../common/contentNames.js";
 import { isArray, isJson } from "../../common/jsUtil.js";
 import { createMiniHUDComponent } from "../../common/miniHUDComponent.jsx"
 import HeaderRecordComponent from "./HeaderRecordComponent.jsx";
@@ -218,7 +220,7 @@ class TimeContent extends React.Component {
     };
 
     return (
-      <div style={style}>
+      <div style={style}  onClick={this.props.onContentsClick}>
         {this.createHeader()}
         {this.createTimeTable()}
       </div>
@@ -230,7 +232,8 @@ TimeContent.propTypes = {
   isMeter: PropTypes.bool.isRequired,
   telemetryData: PropTypes.object.isRequired,
   timingsData: PropTypes.object.isRequired,
-  lapTimeDetails: PropTypes.object.isRequired
+  lapTimeDetails: PropTypes.object.isRequired,
+  onContentsClick: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -243,8 +246,17 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    onContentsClick: () => {
+      dispatch(currentContent(contentNames.SIMPLE))
+    }
+  };
+};
+
 const TimeContainer = connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(TimeContent);
 
 export default TimeContainer;

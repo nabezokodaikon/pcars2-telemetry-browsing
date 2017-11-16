@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { currentContent } from "../../appActionCreators.js";
+import * as contentNames from "../../common/contentNames.js";
 import { isJson } from "../../common/jsUtil.js";
 import { createGearHUDComponent } from "../../common/gearHUDComponent.jsx";
 import motecStyle from "./motec.css";
@@ -153,7 +155,7 @@ class MotecContent extends React.Component {
     }
     
     return (
-      <div className={motecStyle.content}>
+      <div className={motecStyle.content} onClick={this.props.onContentsClick}>
         {this.createGear()}
         {this.createData()}
       </div>
@@ -164,7 +166,8 @@ class MotecContent extends React.Component {
 MotecContent.propTypes = {
   isCelsius: PropTypes.bool.isRequired,
   telemetryData: PropTypes.object.isRequired,
-  fuelData: PropTypes.object.isRequired
+  fuelData: PropTypes.object.isRequired,
+  onContentsClick: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -176,8 +179,17 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    onContentsClick: () => {
+      dispatch(currentContent(contentNames.TIME))
+    }
+  };
+};
+
 const MotecContainer = connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(MotecContent);
 
 export default MotecContainer;
