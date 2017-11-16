@@ -9,6 +9,23 @@ By accessing this server with WebBrowser, you can browse the telemetry etc of PR
 This application can only be accessed within the same LAN as the UDP data being transmitted by PROJECT CARS 2.
 
 
+## Screen shot
+### SIMPLE
+![SIMPLE](./screenshot/simple.png)
+
+### MOTEC
+![MOTEC](./screenshot/motec.png)
+
+### TIME
+![TIME](./screenshot/time.png)
+
+### RANK
+TODO
+
+### TYRE
+TODO
+
+
 ## Usage
 ### Settings
 #### Application setting
