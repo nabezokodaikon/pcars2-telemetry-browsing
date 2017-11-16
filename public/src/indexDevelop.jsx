@@ -10,8 +10,8 @@ import {
   requestConnectionInfo,
   currentContent
 } from "./appActionCreators.js"
-import DebugMenuContainer from "./menu/DebugMenuContainer.jsx";
-import ContentsContainer from "./debug/ContentsContainer.jsx";
+import DevelopMenuContainer from "./menu/DevelopMenuContainer.jsx";
+import DevelopContentsContainer from "./develop/DevelopContentsContainer.jsx";
 import * as contentNames from "./common/contentNames.js";
 
 const composeEnhancers =
@@ -39,8 +39,8 @@ store.dispatch(currentContent(contentNames.TELEMETRY_DATA));
 render(
   <Provider store={store}>
     <div>
-      <DebugMenuContainer />
-      <ContentsContainer /> 
+      <DevelopMenuContainer />
+      <DevelopContentsContainer /> 
     </div>
   </Provider>,
   document.getElementById("root")

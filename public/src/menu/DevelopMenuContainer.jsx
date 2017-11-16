@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import * as contentNames from "../common/contentNames.js";
 import { currentContent, toggleMenu } from "../appActionCreators.js";
 
-class DebugMenu extends React.Component {
+class DevelopMenu extends React.Component {
   constructor(props) {
     super(props);
     this.handleMenuClick = this.handleMenuClick.bind(this);
@@ -140,7 +140,7 @@ class DebugMenu extends React.Component {
   }
 }
 
-DebugMenu.propTypes = {
+DevelopMenu.propTypes = {
   isMenuVisible: PropTypes.bool.isRequired,
   onMenuClick: PropTypes.func.isRequired,
   onMenuItemClick: PropTypes.func.isRequired,
@@ -168,9 +168,9 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const DebugMenuContainer = connect(
+const DevelopMenuContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(DebugMenu);
+)(DevelopMenu);
 
-export default DebugMenuContainer;
+export default DevelopMenuContainer;

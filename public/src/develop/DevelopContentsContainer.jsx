@@ -14,7 +14,7 @@ import ParticipantVehicleNamesDataContainer from "./ParticipantVehicleNamesDataC
 import VehicleClassNamesDataContainer from "./VehicleClassNamesDataContainer.jsx";
 import LapTimeDetailsContainer from "./LapTimeDetailsContainer.jsx";
 
-class Contents extends React.Component {
+class DevelopContents extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -68,7 +68,7 @@ class Contents extends React.Component {
   }
 }
 
-Contents.propTypes = {
+DevelopContents.propTypes = {
   currentContent: PropTypes.string.isRequired,
 }
 
@@ -78,8 +78,8 @@ const mapStateToProps = state => {
   };
 };
 
-const ContentsContainer = connect(
+const DevelopContentsContainer = connect(
   mapStateToProps
-)(Contents);
+)(DevelopContents);
 
-export default ContentsContainer;
+export default DevelopContentsContainer;
