@@ -134,8 +134,9 @@ class Menu extends React.Component {
     return [
       contentNames.SIMPLE,
       contentNames.MOTEC,
-      contentNames.TIME,
       contentNames.TYRE,
+      contentNames.TIME,
+      contentNames.RANK,
       contentNames.OPTIONS,
       contentNames.CREDITS
     ].map((v, i) => {

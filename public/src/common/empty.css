@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css?family=Oswald');
+
+.empty {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty > span {
+  color: #555555;
+  font-size: 4rem;
+  font-family: 'Oswald', sans-serif;
+}

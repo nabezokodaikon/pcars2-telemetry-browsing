@@ -4,8 +4,9 @@ import { connect } from "react-redux";
 import * as contentNames from "../common/contentNames.js";
 import SimpleContainer from "../contents/simple/SimpleContainer.jsx";
 import MotecContainer from "../contents/motec/MotecContainer.jsx";
-import TimeContainer from "../contents/time/TimeContainer.jsx";
 import TyreContainer from "../contents/tyre/TyreContainer.jsx";
+import TimeContainer from "../contents/time/TimeContainer.jsx";
+import RankContainer from "../contents/rank/RankContainer.jsx";
 import OptionsContainer from "../contents/options/OptionsContainer.jsx";
 import CreditsContent from "../contents/credits/CreditsContent.jsx";
 
@@ -30,10 +31,12 @@ class Contents extends React.Component {
         return <SimpleContainer />;
       case contentNames.MOTEC:
         return <MotecContainer />;
-      case contentNames.TIME:
-        return <TimeContainer />;
       case contentNames.TYRE:
         return <TyreContainer />;
+      case contentNames.TIME:
+        return <TimeContainer />;
+      case contentNames.RANK:
+        return <RankContainer />;
       case contentNames.OPTIONS:
         return <OptionsContainer />;
       case contentNames.CREDITS:

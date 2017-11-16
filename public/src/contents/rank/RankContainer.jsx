@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { isJson } from "../../common/jsUtil.js";
 import emptyStyle from "../../common/empty.css";
 
-class TyreContent extends React.Component {
+class RankContent extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -18,7 +18,7 @@ class TyreContent extends React.Component {
   }
 }
 
-TyreContent.propTypes = {
+RankContent.propTypes = {
 };
 
 const mapStateToProps = state => {
@@ -26,8 +26,8 @@ const mapStateToProps = state => {
   };
 };
 
-const TyreContainer = connect(
+const RankContainer = connect(
   mapStateToProps
-)(TyreContent);
+)(RankContent);
 
-export default TyreContainer;
+export default RankContainer;
