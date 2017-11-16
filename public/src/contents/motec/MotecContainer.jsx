@@ -165,6 +165,7 @@ class MotecContent extends React.Component {
 
 MotecContent.propTypes = {
   isCelsius: PropTypes.bool.isRequired,
+  isMeter: PropTypes.bool.isRequired,
   telemetryData: PropTypes.object.isRequired,
   fuelData: PropTypes.object.isRequired,
   onContentsClick: PropTypes.func.isRequired
@@ -174,6 +175,7 @@ const mapStateToProps = state => {
   const data = state.currentUdpData
   return {
     isCelsius: state.options.isCelsius,
+    isMeter: state.options.isMeter,
     telemetryData: data.telemetryData,
     fuelData: data.fuelData
   };
