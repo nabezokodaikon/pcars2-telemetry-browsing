@@ -28,11 +28,21 @@ body {
   position: fixed;
   width: 100%;
   height: 100%;
-
   display: flex;
   flex-direction: column;
+}
 
-  background-color: #FFFFFF;
+/*
+ * common
+ */
+.header > span {
+  color: #C1D9F0;
+  font-family: 'Oswald', sans-serif;
+}
+
+.value > span {
+  color: #FFFFFF;
+  font-family: 'Inconsolata', monospace;
 }
 
 /********************************
@@ -51,18 +61,14 @@ body {
 .leftContents {
   width: 100%;
   height: 100%;
-
+  background-color: #000000;
   display: flex;
   flex-direction: column;
-
-  background-color: #CCFFFF;
 }
 
 .gear {
   width: 100%;
   height: 100%;
-
-  background-color: #88FFFF;
 }
 
 /********************************
@@ -72,7 +78,6 @@ body {
   width: 100%;
   height: 100%;
   background-color: #000000;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -81,16 +86,6 @@ body {
 /*
  * common
  */
-.header > span {
-  color: #C1D9F0;
-  font-family: 'Oswald', sans-serif;
-}
-
-.value > span {
-  color: #FFFFFF;
-  font-family: 'Inconsolata', monospace;
-}
-
 .lap > span {
   color: #FFFFFF;
   font-family: 'Inconsolata', monospace;
@@ -120,14 +115,12 @@ body {
   border-top-width: 0.2rem;
   border-top-style: solid;
   border-top-color: #777777;
-  background-color: #000000;
 }
 
 /*
  * session
  */
 .session {
-  background-color: #000000;
   display: flex;
   align-items: center;
 }
@@ -181,7 +174,6 @@ body {
  * current
  */
 .current {
-  background-color: #000000;
   display: flex;
 }
 
@@ -220,7 +212,6 @@ body {
   border-top-width: 0.1rem;
   border-top-style: solid;
   border-top-color: #777777;
-  background-color: #000000;
   display: flex;
   flex-direction: column;
 }
@@ -229,7 +220,6 @@ body {
   border-top-width: 0.1rem;
   border-top-style: solid;
   border-top-color: #777777;
-  background-color: #000000;
   height: 2.5rem;
   display: flex;
 }
@@ -271,7 +261,6 @@ body {
  * otherTime 
  */
 .otherTime {
-  background-color: #000000;
   display: flex;
   align-items: center;
 }
@@ -318,6 +307,59 @@ body {
 .bottomContents {
   width: 100%;
   height: 6rem;
+  display: flex;
+}
 
-  background-color: #FFCCFF;
+/*
+ * fuel
+ */
+.fuel {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background-color: #000000;
+}
+
+.fuel > img {
+  width: 4rem;
+  height: 4rem;
+}
+
+.fuel > img,
+.fuel > div {
+  margin-left: 0.5rem;
+}
+
+.fuel > div > span {
+  font-size: 3rem;
+}
+
+.fuelDetails {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.fuelDetails > div {
+  display: flex;
+}
+
+.fuelDetailsHeader {
+  width: 6rem;
+  margin-right: 0.2rem;
+  font-size: 1.75rem;
+}
+
+.fuelDetailsValue {
+  font-size: 1.75rem;
+}
+
+/*
+ * tyre
+ */
+.tyre {
+  width: 100%;
+  height: 100%;
+  background-color: #222222;
 }
