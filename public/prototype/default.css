@@ -324,18 +324,21 @@ body {
 .fuel > img {
   width: 4rem;
   height: 4rem;
-}
-
-.fuel > img,
-.fuel > div {
   margin-left: 0.5rem;
 }
 
-.fuel > div > span {
+.fuelValue {
+  width: 10.5rem;
+  margin-left: 0.25rem;
+  text-align: right;
+}
+
+.fuelValue > span {
   font-size: 3rem;
 }
 
 .fuelDetails {
+  margin-left: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -343,15 +346,18 @@ body {
 
 .fuelDetails > div {
   display: flex;
+  align-items: center;
 }
 
 .fuelDetailsHeader {
   width: 6rem;
-  margin-right: 0.2rem;
   font-size: 1.75rem;
 }
 
 .fuelDetailsValue {
+  width: 6rem;
+  margin-left: 0.25rem;
+  text-align: right;
   font-size: 1.75rem;
 }
 
