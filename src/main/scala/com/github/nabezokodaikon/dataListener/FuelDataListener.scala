@@ -22,6 +22,7 @@ final case class FuelAccumulationData(
     isRestart: Boolean,
     viewedParticipantIndex: Byte,
     fuelCapacity: Short,
+    prevInitialFuelLevel: Float,
     initialFuelLevel: Float,
     currentFuelLevel: Float,
     currentLap: Short,
@@ -123,6 +124,7 @@ final class FuelDataListener(clientManager: ActorRef)
       isRestart = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_RESTARTING),
       viewedParticipantIndex = 0,
       fuelCapacity = 0,
+      prevInitialFuelLevel = 0f,
       initialFuelLevel = 0f,
       currentFuelLevel = 0f,
       currentLap = 0,
@@ -143,6 +145,7 @@ final class FuelDataListener(clientManager: ActorRef)
       isRestart = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_RESTARTING),
       viewedParticipantIndex = data.viewedParticipantIndex,
       fuelCapacity = data.fuelCapacity,
+      prevInitialFuelLevel = data.prevInitialFuelLevel,
       initialFuelLevel = data.initialFuelLevel,
       currentFuelLevel = data.currentFuelLevel,
       currentLap = data.currentLap,
@@ -160,6 +163,7 @@ final class FuelDataListener(clientManager: ActorRef)
       isRestart = data.isRestart,
       viewedParticipantIndex = data.viewedParticipantIndex,
       fuelCapacity = 0,
+      prevInitialFuelLevel = 0f,
       initialFuelLevel = 0f,
       currentFuelLevel = 0f,
       currentLap = 0,
@@ -183,6 +187,7 @@ final class FuelDataListener(clientManager: ActorRef)
               isRestart = data.isRestart,
               viewedParticipantIndex = data.viewedParticipantIndex,
               fuelCapacity = telemetryData.carState.fuelCapacity,
+              prevInitialFuelLevel = telemetryData.carState.fuelLevel,
               initialFuelLevel = telemetryData.carState.fuelLevel,
               currentFuelLevel = telemetryData.carState.fuelLevel,
               currentLap = data.currentLap,
@@ -201,6 +206,7 @@ final class FuelDataListener(clientManager: ActorRef)
               isRestart = data.isRestart,
               viewedParticipantIndex = data.viewedParticipantIndex,
               fuelCapacity = data.fuelCapacity,
+              prevInitialFuelLevel = data.initialFuelLevel,
               initialFuelLevel = telemetryData.carState.fuelLevel,
               currentFuelLevel = telemetryData.carState.fuelLevel,
               currentLap = data.currentLap,
@@ -217,6 +223,7 @@ final class FuelDataListener(clientManager: ActorRef)
               isRestart = data.isRestart,
               viewedParticipantIndex = data.viewedParticipantIndex,
               fuelCapacity = data.fuelCapacity,
+              prevInitialFuelLevel = data.prevInitialFuelLevel,
               initialFuelLevel = data.initialFuelLevel,
               currentFuelLevel = telemetryData.carState.fuelLevel,
               currentLap = data.currentLap,
@@ -234,6 +241,7 @@ final class FuelDataListener(clientManager: ActorRef)
           isRestart = data.isRestart,
           viewedParticipantIndex = telemetryData.participantInfo.viewedParticipantIndex,
           fuelCapacity = 0,
+          prevInitialFuelLevel = 0f,
           initialFuelLevel = 0f,
           currentFuelLevel = 0f,
           currentLap = 0,
@@ -248,6 +256,7 @@ final class FuelDataListener(clientManager: ActorRef)
   private def mergeTimingsData(
     data: FuelAccumulationData, timingsData: TimingsData
   ): Option[FuelAccumulationData] = {
+    import PitModeDefineValue._
     val participant = timingsData.participants(data.viewedParticipantIndex)
     if (participant.currentTime < 0) return None
     (participant.currentLap, participant.sector, toPitMode(participant.pitMode), data.consumptionUntilPitIn) match {
@@ -258,6 +267,7 @@ final class FuelDataListener(clientManager: ActorRef)
           isRestart = data.isRestart,
           viewedParticipantIndex = data.viewedParticipantIndex,
           fuelCapacity = data.fuelCapacity,
+          prevInitialFuelLevel = data.prevInitialFuelLevel,
           initialFuelLevel = data.initialFuelLevel,
           currentFuelLevel = data.currentFuelLevel,
           currentLap = currentLap,
@@ -267,7 +277,7 @@ final class FuelDataListener(clientManager: ActorRef)
           history = List[FuelConsumption](),
           totalHistory = List[List[FuelConsumption]]()
         ))
-      case (currentLap, sector, PitModeDefineValue.PIT_MODE_NONE, None) if (currentLap == data.currentLap + 1 && sector == 1) =>
+      case (currentLap, sector, pitMode, None) if (currentLap == data.currentLap + 1 && sector == 1 && (pitMode == PIT_MODE_NONE || pitMode == PIT_MODE_DRIVING_INTO_PITS)) =>
         val initialRemaining = data.fuelCapacity * data.initialFuelLevel
         val currentRemaining = data.fuelCapacity * data.currentFuelLevel
         val totalConsumption = data.history.map(_.value).sum
@@ -278,6 +288,7 @@ final class FuelDataListener(clientManager: ActorRef)
           isRestart = data.isRestart,
           viewedParticipantIndex = data.viewedParticipantIndex,
           fuelCapacity = data.fuelCapacity,
+          prevInitialFuelLevel = data.prevInitialFuelLevel,
           initialFuelLevel = data.initialFuelLevel,
           currentFuelLevel = data.currentFuelLevel,
           currentLap = currentLap,
@@ -289,22 +300,43 @@ final class FuelDataListener(clientManager: ActorRef)
         ))
       case (currentLap, sector, _, Some(consumptionUntilPitIn)) if (currentLap == data.currentLap + 1) =>
         val consumption = FuelConsumption(data.currentLap, consumptionUntilPitIn)
-        Some(FuelAccumulationData(
-          isMenu = data.isMenu,
-          isPlaying = data.isPlaying,
-          isRestart = data.isRestart,
-          viewedParticipantIndex = data.viewedParticipantIndex,
-          fuelCapacity = data.fuelCapacity,
-          initialFuelLevel = data.initialFuelLevel,
-          currentFuelLevel = data.currentFuelLevel,
-          currentLap = currentLap,
-          currentSector = sector,
-          lastLap = data.currentLap,
-          consumptionUntilPitIn = None,
-          history = List[FuelConsumption](),
-          totalHistory = data.totalHistory :+ (data.history :+ consumption)
-        ))
-      case (_, _, PitModeDefineValue.PIT_MODE_DRIVING_INTO_PITS, None) =>
+        (data.prevInitialFuelLevel == data.initialFuelLevel) match {
+          case true =>
+            Some(FuelAccumulationData(
+              isMenu = data.isMenu,
+              isPlaying = data.isPlaying,
+              isRestart = data.isRestart,
+              viewedParticipantIndex = data.viewedParticipantIndex,
+              fuelCapacity = data.fuelCapacity,
+              prevInitialFuelLevel = data.prevInitialFuelLevel,
+              initialFuelLevel = data.initialFuelLevel,
+              currentFuelLevel = data.currentFuelLevel,
+              currentLap = currentLap,
+              currentSector = sector,
+              lastLap = data.currentLap,
+              consumptionUntilPitIn = None,
+              history = data.history :+ consumption,
+              totalHistory = data.totalHistory
+            ))
+          case _ =>
+            Some(FuelAccumulationData(
+              isMenu = data.isMenu,
+              isPlaying = data.isPlaying,
+              isRestart = data.isRestart,
+              viewedParticipantIndex = data.viewedParticipantIndex,
+              fuelCapacity = data.fuelCapacity,
+              prevInitialFuelLevel = data.prevInitialFuelLevel,
+              initialFuelLevel = data.initialFuelLevel,
+              currentFuelLevel = data.currentFuelLevel,
+              currentLap = currentLap,
+              currentSector = sector,
+              lastLap = data.currentLap,
+              consumptionUntilPitIn = None,
+              history = List[FuelConsumption](),
+              totalHistory = data.totalHistory :+ (data.history :+ consumption)
+            ))
+        }
+      case (_, _, PIT_MODE_IN_PIT, None) =>
         val initialRemaining = data.fuelCapacity * data.initialFuelLevel
         val currentRemaining = data.fuelCapacity * data.currentFuelLevel
         val totalConsumption = data.history.map(_.value).sum
@@ -315,6 +347,7 @@ final class FuelDataListener(clientManager: ActorRef)
           isRestart = data.isRestart,
           viewedParticipantIndex = data.viewedParticipantIndex,
           fuelCapacity = data.fuelCapacity,
+          prevInitialFuelLevel = data.prevInitialFuelLevel,
           initialFuelLevel = data.initialFuelLevel,
           currentFuelLevel = data.currentFuelLevel,
           currentLap = data.currentLap,
