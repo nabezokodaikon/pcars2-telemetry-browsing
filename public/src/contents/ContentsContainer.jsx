@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as contentNames from "../common/contentNames.js";
+import DefaultContainer from "../contents/default/DefaultContainer.jsx";
 import SimpleContainer from "../contents/simple/SimpleContainer.jsx";
 import MotecContainer from "../contents/motec/MotecContainer.jsx";
 import TyreContainer from "../contents/tyre/TyreContainer.jsx";
@@ -27,6 +28,8 @@ class Contents extends React.Component {
 
   createCurrentContents() {
     switch (this.props.currentContent) {
+      case contentNames.DEFAULT:
+        return <DefaultContainer />;
       case contentNames.SIMPLE:
         return <SimpleContainer />;
       case contentNames.MOTEC:

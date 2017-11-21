@@ -132,6 +132,7 @@ class Menu extends React.Component {
 
   createMenuItems() {
     return [
+      contentNames.DEFAULT,
       contentNames.SIMPLE,
       contentNames.MOTEC,
       contentNames.TYRE,

@@ -1,5 +1,6 @@
 // Product contents.
 export const SIMPLE = "SIMPLE";
+export const DEFAULT = "DEFAULT";
 export const MOTEC = "MOTEC";
 export const TYRE = "TYRE";
 export const TIME = "TIME";
