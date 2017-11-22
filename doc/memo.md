@@ -246,3 +246,17 @@
 * sTyreWear = It is unknown whether the value is correct when compared with RearRight.
 ### RearRight
 * sTyreWear = It is unknown whether the value is correct when compared with RearLeft.
+
+## TODO
+* 共有をshareにする。
+  * commonは通信名とかぶるため。
+* 共通cssを分離する。
+* 右コンテンツを上に詰める。
+  * 他の画面でも同じ位置にするため。
+* ボトムコンテンツの高さをもう少し上げる。
+  * 後のタイヤ摩耗のため。
+* ハンドブレーキをメーターに追加する。
+  * クラッチの右側をハンドブレーキにする。
+* engineSpeed
+  * rad/s（毎秒で何ラジアンか）の角速度
+  * rpm * (3.14 * 20)
