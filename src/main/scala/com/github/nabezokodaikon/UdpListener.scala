@@ -94,30 +94,30 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
       readUdpData(data.toArray) match {
         case Some(d) => d match {
           case udpData: TelemetryData =>
-            clientManager ! udpData
             lapTimeDetailsListener ! udpData
             fuelDataListener ! udpData
+            clientManager ! udpData
           // aggregateTimeListener ! udpData
           case udpData: RaceData =>
-            clientManager ! udpData
             lapTimeDetailsListener ! udpData
             fuelDataListener ! udpData
+            clientManager ! udpData
           // aggregateTimeListener ! udpData
           case udpData: ParticipantsData =>
             participantsDataListener ! udpData
           case udpData: TimingsData =>
-            clientManager ! udpData
             lapTimeDetailsListener ! udpData
             fuelDataListener ! udpData
+            clientManager ! udpData
           // aggregateTimeListener ! udpData
           case udpData: GameStateData =>
-            clientManager ! udpData
             lapTimeDetailsListener ! udpData
             fuelDataListener ! udpData
+            clientManager ! udpData
           // aggregateTimeListener ! udpData
           case udpData: TimeStatsData =>
-            clientManager ! udpData
             lapTimeDetailsListener ! udpData
+            clientManager ! udpData
           // aggregateTimeListener ! udpData
           case udpData: ParticipantVehicleNamesData =>
             participantVehicleNamesDataListener ! udpData
