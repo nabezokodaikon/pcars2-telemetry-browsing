@@ -27,6 +27,9 @@ TODO
 
 
 ## Usage
+### Dependencies
+* Install Java Runtime Environment(JRE) to your PC.
+
 ### Settings
 #### Application setting
 * Edit the following items in `application.conf`
@@ -36,7 +39,7 @@ TODO
 1. Select `OPTIONS > SYSTEM`
 1. Set as follows.
   * Shared Memory: No
-  * UDP Frequency: 4
+  * UDP Frequency: 4 (Around 4 to 6 is appropriate.)
   * UDP Protocol Version: Project CARS 2
 
 
