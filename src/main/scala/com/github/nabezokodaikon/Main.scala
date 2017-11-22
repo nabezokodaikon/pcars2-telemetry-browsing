@@ -1,10 +1,11 @@
 package com.github.nabezokodaikon
 
-import akka.actor.{ ActorSystem, PoisonPill, Props }
+import akka.actor.{ PoisonPill, Props }
 import akka.io.Udp
 import akka.pattern.{ AskTimeoutException, gracefulStop }
-import akka.stream.ActorMaterializer
+import com.github.nabezokodaikon.UsingActor._
 import com.github.nabezokodaikon.db.OptionDBAccessor
+import com.github.nabezokodaikon.udpListener.UdpListener
 import com.github.nabezokodaikon.util.FileUtil
 import com.github.nabezokodaikon.util.Loan.using
 import com.typesafe.config.ConfigFactory
@@ -13,13 +14,7 @@ import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.util.control.Exception.catching
 
-object UsingActor {
-  implicit val system = ActorSystem("pcars2-udp-app")
-  implicit val materializer = ActorMaterializer()
-}
-
 object Main extends App with LazyLogging {
-  import UsingActor._
 
   def debug(dac: OptionDBAccessor): Unit = {
     val clientManagerProps = Props(classOf[ClientManager])

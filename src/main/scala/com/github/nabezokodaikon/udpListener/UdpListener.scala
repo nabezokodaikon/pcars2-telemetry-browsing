@@ -1,8 +1,9 @@
-package com.github.nabezokodaikon
+package com.github.nabezokodaikon.udpListener
 
 import akka.actor.{ Actor, ActorRef, PoisonPill, Props }
 import akka.io.{ IO, Udp }
 import akka.pattern.{ AskTimeoutException, gracefulStop }
+import com.github.nabezokodaikon.UsingActor._
 import com.github.nabezokodaikon.dataListener.{
   ParticipantsDataListener,
   ParticipantVehicleNamesDataListener,
@@ -11,18 +12,7 @@ import com.github.nabezokodaikon.dataListener.{
   AggregateTimeListener,
   FuelDataListener
 }
-import com.github.nabezokodaikon.pcars2.{
-  UdpData,
-  TelemetryData,
-  RaceData,
-  ParticipantsData,
-  TimingsData,
-  GameStateData,
-  TimeStatsData,
-  ParticipantVehicleNamesData,
-  VehicleClassNamesData
-}
-import com.github.nabezokodaikon.pcars2.UdpDataReader.readUdpData
+import com.github.nabezokodaikon.udpListener.UdpDataReader.readUdpData
 import com.typesafe.scalalogging.LazyLogging
 import java.net.InetSocketAddress
 import scala.concurrent.Await
@@ -30,7 +20,6 @@ import scala.concurrent.duration._
 import scala.util.control.Exception.catching
 
 class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
-  import UsingActor._
 
   val participantsDataListener = context.actorOf(
     Props(classOf[ParticipantsDataListener], clientManager),
@@ -141,9 +130,9 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
    * Create test data method.
    */
   def createTestData(data: Array[Byte]) = {
-    import com.github.nabezokodaikon.pcars2.PacketSize
-    import com.github.nabezokodaikon.pcars2.UdpDataReader.readPacketBase
-    import com.github.nabezokodaikon.pcars2.UdpStreamerPacketHandlerType._
+    import com.github.nabezokodaikon.udpListener.PacketSize
+    import com.github.nabezokodaikon.udpListener.UdpDataReader.readPacketBase
+    import com.github.nabezokodaikon.udpListener.UdpStreamerPacketHandlerType._
     import com.github.nabezokodaikon.util.FileUtil
     import java.text.SimpleDateFormat
     import java.util.Calendar

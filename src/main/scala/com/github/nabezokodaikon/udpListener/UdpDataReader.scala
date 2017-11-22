@@ -1,7 +1,7 @@
-package com.github.nabezokodaikon.pcars2
+package com.github.nabezokodaikon.udpListener
 
-import com.github.nabezokodaikon.pcars2._
-import com.github.nabezokodaikon.pcars2.UdpDataConst._
+import com.github.nabezokodaikon.udpListener._
+import com.github.nabezokodaikon.udpListener.UdpDataConst._
 import com.github.nabezokodaikon.util.BigDecimalSupport._
 import com.github.nabezokodaikon.util.BinaryUtil._
 import com.typesafe.scalalogging.LazyLogging

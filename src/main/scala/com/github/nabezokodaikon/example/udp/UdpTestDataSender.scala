@@ -2,7 +2,7 @@ package com.github.nabezokodaikon.example.udp
 
 import akka.actor.{ Actor, ActorRef, PoisonPill, Props }
 import akka.pattern.{ AskTimeoutException, gracefulStop }
-import com.github.nabezokodaikon.{ ClientManager, UdpListener }
+import com.github.nabezokodaikon.ClientManager
 import com.github.nabezokodaikon.dataListener.{
   ParticipantsDataListener,
   ParticipantVehicleNamesDataListener,
@@ -10,7 +10,8 @@ import com.github.nabezokodaikon.dataListener.{
   LapTimeDetailsListener,
   FuelDataListener
 }
-import com.github.nabezokodaikon.pcars2.{
+import com.github.nabezokodaikon.udpListener.{
+  UdpListener,
   UdpData,
   TelemetryData,
   RaceData,
@@ -21,7 +22,7 @@ import com.github.nabezokodaikon.pcars2.{
   ParticipantVehicleNamesData,
   VehicleClassNamesData
 }
-import com.github.nabezokodaikon.pcars2.UdpDataReader.readUdpData
+import com.github.nabezokodaikon.udpListener.UdpDataReader.readUdpData
 import com.github.nabezokodaikon.util.FileUtil
 import com.typesafe.scalalogging.LazyLogging
 import java.io.File

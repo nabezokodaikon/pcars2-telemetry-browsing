@@ -1,7 +1,7 @@
 package com.github.nabezokodaikon.dataListener
 
 import akka.actor.{ Actor, ActorRef }
-import com.github.nabezokodaikon.pcars2.{
+import com.github.nabezokodaikon.udpListener.{
   UdpDataMerger,
   ParticipantsData,
   ParticipantVehicleNamesData,

@@ -2,7 +2,7 @@ package com.github.nabezokodaikon
 
 import akka.actor.{ Actor, ActorRef, PoisonPill, Props }
 import akka.pattern.{ AskTimeoutException, gracefulStop }
-import com.github.nabezokodaikon.pcars2.UdpData
+import com.github.nabezokodaikon.udpListener.UdpData
 import com.github.nabezokodaikon.dataListener.UdpDataStorage
 import com.typesafe.scalalogging.LazyLogging
 import scala.concurrent.Await

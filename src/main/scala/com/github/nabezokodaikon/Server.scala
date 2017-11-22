@@ -61,12 +61,7 @@ class Server(manager: ActorRef, dac: OptionDBAccessor)
           complete(HttpEntity(contentType, text))
         }
       } ~
-      path("pcars1") {
-        get {
-          handleWebSocketMessages(createClient())
-        }
-      } ~
-      path("pcars2") {
+      path("udp-data") {
         get {
           handleWebSocketMessages(createClient())
         }

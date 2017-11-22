@@ -2,7 +2,7 @@ package com.github.nabezokodaikon.dataListener
 
 import akka.actor.{ Actor, ActorRef }
 import com.github.nabezokodaikon.util.BigDecimalSupport._
-import com.github.nabezokodaikon.pcars2.{
+import com.github.nabezokodaikon.udpListener.{
   UdpStreamerPacketHandlerType,
   PacketBase,
   GameStateDefineValue,
@@ -13,7 +13,7 @@ import com.github.nabezokodaikon.pcars2.{
   TimingsData,
   FuelData
 }
-import com.github.nabezokodaikon.pcars2.UdpDataReader.toPitMode
+import com.github.nabezokodaikon.udpListener.UdpDataReader.toPitMode
 import com.typesafe.scalalogging.LazyLogging
 
 final case class FuelAccumulationData(

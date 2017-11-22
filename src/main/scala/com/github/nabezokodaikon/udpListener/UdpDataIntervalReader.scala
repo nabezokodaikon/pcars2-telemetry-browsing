@@ -1,4 +1,4 @@
-package com.github.nabezokodaikon.pcars2
+package com.github.nabezokodaikon.udpListener
 
 import com.typesafe.scalalogging.LazyLogging
 

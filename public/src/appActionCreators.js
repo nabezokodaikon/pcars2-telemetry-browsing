@@ -256,7 +256,7 @@ function openWebSocket(isWebSocketOpened) {
 }
 
 async function beginConnectWebSocket(connectionInfo) {
-  const url = "ws://" + connectionInfo.ipAddress + ":" + connectionInfo.port + "/pcars2";
+  const url = "ws://" + connectionInfo.ipAddress + ":" + connectionInfo.port + "/udp-data";
   const ws = new WebSocket(url);
   return ws;
 }
