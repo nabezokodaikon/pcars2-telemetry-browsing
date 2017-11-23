@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { currentContent } from "../../appActionCreators.js";
 import * as contentNames from "../../share/contentNames.js";
 import { isJson } from "../../share/jsUtil.js";
-import { createGearComponent } from "../../share/gearComponent.jsx";
+import GearComponent from "../../share/GearComponent.jsx";
 import fuelIcon from "../../image/fuel-blue.png";
 import style from "./default.css";
 import TimeLogRecordComponent from "./TimeLogRecordComponent.jsx";
@@ -12,38 +12,6 @@ import TimeLogRecordComponent from "./TimeLogRecordComponent.jsx";
 class DefaultContent extends React.Component {
   constructor(props) {
     super(props);
-  }
-
-  createGear() {
-    const props = this.props;
-    const telemetryData = props.telemetryData;
-    if (!isJson(telemetryData)) {
-      return <div></div>;
-    }
-
-    const carState = telemetryData.carState; 
-    const tyre3 = telemetryData.tyre3;
-
-    const gearComponent = createGearComponent({
-      cx: 50,
-      cy: 50,
-      radius: 50,
-      gear: carState.gear,
-      speed: carState.speed,
-      rpm: carState.rpm,
-      maxRpm: carState.maxRpm,
-      throttle: carState.throttle,
-      brake: carState.brake,
-      clutch: carState.clutch,
-      handBrake: tyre3.handBrake,
-      isMeter: props.isMeter
-    });
-
-    return (
-      <svg className={style.gear} preserveAspectRatio="xMidYMid meet" viewBox="0 0 100 100">
-        {gearComponent}
-      </svg>
-    );
   }
 
   createSession() {
@@ -245,11 +213,13 @@ class DefaultContent extends React.Component {
   }
 
   render() {
+    const props = this.props;
+
     return (
       <div className={style.contents}>
         <div className={style.topContents}>
           <div className={style.leftContents}>
-            {this.createGear()}
+            <GearComponent className={style.gear} isMeter={props.isMeter} telemetryData={props.telemetryData} />
           </div>
           <div className={style.rightContents}>
             {this.createSession()}

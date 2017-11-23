@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { currentContent } from "../../appActionCreators.js";
 import * as contentNames from "../../share/contentNames.js";
 import { isJson } from "../../share/jsUtil.js";
-import { createGearComponent } from "../../share/gearComponent.jsx";
+import GearComponent from "../../share/GearComponent.jsx";
 import motecStyle from "./motec.css";
 import { getTempUnit, getTemp } from "../../share/telemetryUtil.js";
 import fuelIcon from "../../image/fuel.png";
@@ -17,34 +17,6 @@ class MotecContent extends React.Component {
     super(props)
   }
 
-  createGear() {
-    const props = this.props;
-    const telemetryData = props.telemetryData;
-    const carState = telemetryData.carState; 
-    const tyre3 = telemetryData.tyre3;
-
-    const gearComponent = createGearComponent({
-      cx: 50,
-      cy: 50,
-      radius: 50,
-      gear: carState.gear,
-      speed: carState.speed,
-      rpm: carState.rpm,
-      maxRpm: carState.maxRpm,
-      throttle: carState.throttle,
-      brake: carState.brake,
-      clutch: carState.clutch,
-      handBrake: tyre3.handBrake,
-      isMeter: props.isMeter
-    });
-
-    return (
-      <svg className={motecStyle.gear} preserveAspectRatio="xMidYMid meet" viewBox="0 0 100 100">
-        {gearComponent}
-      </svg>
-    );
-  }
-
   createData() {
     const props = this.props;
     const telemetryData = props.telemetryData;
@@ -53,7 +25,6 @@ class MotecContent extends React.Component {
     const fuelData = props.fuelData;
     const isCelsius = props.isCelsius;
 
-    // const telemetryData = props
     return (
       <div className={motecStyle.table}>
         <div className={motecStyle.fuelRecord}>
@@ -156,10 +127,10 @@ class MotecContent extends React.Component {
         <div></div>
       );
     }
-    
+
     return (
-      <div className={motecStyle.content} onClick={this.props.onContentsClick}>
-        {this.createGear()}
+      <div className={motecStyle.content} onClick={props.onContentsClick}>
+        <GearComponent className={motecStyle.gear} isMeter={props.isMeter} telemetryData={props.telemetryData} />
         {this.createData()}
       </div>
     );

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { currentContent } from "../../appActionCreators.js";
 import * as contentNames from "../../share/contentNames.js";
 import { isJson } from "../../share/jsUtil.js";
-import { createGearComponent } from "../../share/gearComponent.jsx";
+import GearComponent from "../../share/GearComponent.jsx";
 import simpleStyle from "./simple.css";
 import rankIcon from "../../image/rank.png";
 import lapIcon from "../../image/lap.png";
@@ -14,37 +14,6 @@ import fuelIcon from "../../image/fuel.png";
 class SimpleContent extends React.Component {
   constructor(props) {
     super(props)
-  }
-
-  createGear() {
-    const telemetryData = this.props.telemetryData;
-    if (!isJson(telemetryData)) {
-      return <div></div>;
-    }
-
-    const carState = telemetryData.carState; 
-    const tyre3 = telemetryData.tyre3;
-
-    const gearComponent = createGearComponent({
-      cx: 50,
-      cy: 50,
-      radius: 50,
-      gear: carState.gear,
-      speed: carState.speed,
-      rpm: carState.rpm,
-      maxRpm: carState.maxRpm,
-      throttle: carState.throttle,
-      brake: carState.brake,
-      clutch: carState.clutch,
-      handBrake: tyre3.handBrake,
-      isMeter: this.props.isMeter
-    });
-
-    return (
-      <svg className={simpleStyle.gear} preserveAspectRatio="xMidYMid meet" viewBox="0 0 100 100">
-        {gearComponent}
-      </svg>
-    );
   }
 
   createData() {
@@ -127,9 +96,11 @@ class SimpleContent extends React.Component {
   }
 
   render() {
+    const props = this.props;
+
     return (
-      <div className={simpleStyle.content} onClick={this.props.onContentsClick}>
-        {this.createGear()}
+      <div className={simpleStyle.content} onClick={props.onContentsClick}>
+        <GearComponent className={simpleStyle.gear} isMeter={props.isMeter} telemetryData={props.telemetryData} />
         {this.createData()}
       </div>
     );
