@@ -22,7 +22,7 @@ class Contents extends React.Component {
       position: "fixed",
       width: "100%",
       height: "100%",
-      backgroundColor: "#0f192a" 
+      backgroundColor: "#1b1d1e" 
     };
   }
 
