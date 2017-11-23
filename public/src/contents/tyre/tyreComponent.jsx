@@ -4,7 +4,7 @@ import {
   celsiusToFahrenheit,
   getAirPressureUnit,
   getTempUnit
-} from "../../common/telemetryUtil.js";
+} from "../../share/telemetryUtil.js";
 import discBrakeIcon from "../../image/disc-brake.png";
 
 const WHITE = "#FEFEFE";

@@ -12,7 +12,7 @@ import {
 } from "./appActionCreators.js"
 import DevelopMenuContainer from "./menu/DevelopMenuContainer.jsx";
 import DevelopContentsContainer from "./develop/DevelopContentsContainer.jsx";
-import * as contentNames from "./common/contentNames.js";
+import * as contentNames from "./share/contentNames.js";
 
 const composeEnhancers =
   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__

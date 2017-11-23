@@ -12,7 +12,7 @@ import {
   isLapTimeDetails,
   isAggregateTime,
   isFuelData
-} from "./common/telemetryUtil.js";
+} from "./share/telemetryUtil.js";
 import * as actionTypes from "./appActionTypes.js";
 
 function fetchPostByJson(json, url) {

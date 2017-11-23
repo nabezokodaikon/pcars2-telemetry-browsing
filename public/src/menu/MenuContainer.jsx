@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import * as contentNames from "../common/contentNames.js";
+import * as contentNames from "../share/contentNames.js";
 import { currentContent, toggleMenu } from "../appActionCreators.js";
 import menuOpenIcon from "./menuOpenIcon.css";
 import menuItem from "./menuItem.css";

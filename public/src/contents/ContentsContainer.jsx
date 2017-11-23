@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import * as contentNames from "../common/contentNames.js";
+import * as contentNames from "../share/contentNames.js";
 import DefaultContainer from "../contents/default/DefaultContainer.jsx";
 import SimpleContainer from "../contents/simple/SimpleContainer.jsx";
 import MotecContainer from "../contents/motec/MotecContainer.jsx";

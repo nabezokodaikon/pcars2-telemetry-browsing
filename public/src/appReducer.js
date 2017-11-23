@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import * as actionTypes from "./appActionTypes.js";
-import * as contentNames from "./common/contentNames";
+import * as contentNames from "./share/contentNames";
 
 function currentContent(state = contentNames.DEFAULT, action) {
   switch (action.type) {

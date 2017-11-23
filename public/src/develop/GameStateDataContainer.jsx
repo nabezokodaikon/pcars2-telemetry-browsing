@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { isJson } from "../common/jsUtil.js";
+import { isJson } from "../share/jsUtil.js";
 
 class GameStateData extends React.Component {
   constructor(props) {

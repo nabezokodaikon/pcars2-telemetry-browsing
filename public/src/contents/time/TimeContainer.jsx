@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { currentContent } from "../../appActionCreators.js";
-import * as contentNames from "../../common/contentNames.js";
-import { isArray, isJson } from "../../common/jsUtil.js";
-import { createMiniHUDComponent } from "../../common/miniHUDComponent.jsx"
+import * as contentNames from "../../share/contentNames.js";
+import { isArray, isJson } from "../../share/jsUtil.js";
+import { createMiniHUDComponent } from "../../share/miniHUDComponent.jsx"
 import HeaderRecordComponent from "./HeaderRecordComponent.jsx";
 import BodyRecordComponent from "./BodyRecordComponent.jsx";
 

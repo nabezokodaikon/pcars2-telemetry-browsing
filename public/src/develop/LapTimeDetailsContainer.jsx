@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { isArray, isJson } from "../common/jsUtil.js";
+import { isArray, isJson } from "../share/jsUtil.js";
 
 class LapTimeDetails extends React.Component {
   constructor(props) {

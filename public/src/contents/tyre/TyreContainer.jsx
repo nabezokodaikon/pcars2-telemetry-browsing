@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { isJson } from "../../common/jsUtil.js";
-import emptyStyle from "../../common/empty.css";
+import { isJson } from "../../share/jsUtil.js";
+import emptyStyle from "../../share/empty.css";
 
 class TyreContent extends React.Component {
   constructor(props) {

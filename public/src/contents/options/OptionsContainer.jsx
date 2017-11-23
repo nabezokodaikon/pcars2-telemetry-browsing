@@ -7,7 +7,7 @@ import {
   requestDistanceUnitChange,
   requestAirPressureUnitChange
 } from "../../appActionCreators.js";
-import checkBoxStyle from "../../common/slideCheckBox.css";
+import checkBoxStyle from "../../share/slideCheckBox.css";
 
 class OptionsContent extends React.Component {
   constructor(props) {

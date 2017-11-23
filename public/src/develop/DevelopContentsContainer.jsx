@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import * as contentNames from "../common/contentNames.js";
+import * as contentNames from "../share/contentNames.js";
 import TelemetryDataContainer from "./TelemetryDataContainer.jsx";
 import VelocityContainer from "./VelocityContainer.jsx";
 import TyreContainer from "./TyreContainer.jsx";
