@@ -5,7 +5,8 @@ import { currentContent } from "../../appActionCreators.js";
 import * as contentNames from "../../share/contentNames.js";
 import { isJson } from "../../share/jsUtil.js";
 import GearComponent from "../../share/GearComponent.jsx";
-import fuelIcon from "../../image/fuel-blue.png";
+import LargeFuelComponent from "../../share/LargeFuelComponent.jsx";
+import shareStyle from "../../share/largeContent.css";
 import style from "./default.css";
 import TimeLogRecordComponent from "./TimeLogRecordComponent.jsx";
 
@@ -22,10 +23,10 @@ class DefaultContent extends React.Component {
 
     return (
       <div className={style.session}>
-        <div className={[style.sessionHeader, style.header].join(" ")}>
+        <div className={[style.sessionHeader, shareStyle.header].join(" ")}>
           <span>SESSION</span>
         </div>
-        <div className={[style.sessionValue, style.value].join(" ")}>
+        <div className={[style.sessionValue, shareStyle.value].join(" ")}>
           <span>{timingsData.eventTimeRemaining}</span>
         </div>
       </div>
@@ -44,10 +45,10 @@ class DefaultContent extends React.Component {
 
     return (
       <div className={[style.position, style.border].join(" ")}>
-        <div className={[style.positionHeader, style.header].join(" ")}>
+        <div className={[style.positionHeader, shareStyle.header].join(" ")}>
           <span>POSITION</span>
         </div>
-        <div className={[style.positionValue, style.value].join(" ")}>
+        <div className={[style.positionValue, shareStyle.value].join(" ")}>
           <span>{participant.racePosition}/{timingsData.numParticipants}</span>
         </div>
       </div>
@@ -70,7 +71,7 @@ class DefaultContent extends React.Component {
 
     return (
       <div className={[style.current, style.border].join(" ")}>
-        <div className={[style.currentLap, style.header].join(" ")}>
+        <div className={[style.currentLap, shareStyle.header].join(" ")}>
           <span>CURRENT</span>
         </div>
         <div className={[style.currentLapCount, style.lap].join(" ")}>
@@ -131,10 +132,10 @@ class DefaultContent extends React.Component {
 
     return (
       <div className={[style.otherTime, style.border].join(" ")}>
-        <div className={[style.otherTimeHeader, style.header].join(" ")}>
+        <div className={[style.otherTimeHeader, shareStyle.header].join(" ")}>
           <span>FASTEST</span>
         </div>
-        <div className={[style.otherTimeLap, style.header].join(" ")}>
+        <div className={[style.otherTimeLap, shareStyle.header].join(" ")}>
           <span>LAP</span>
         </div>
         <div className={[style.otherTimeLapCount, style.lap].join(" ")}>
@@ -158,10 +159,10 @@ class DefaultContent extends React.Component {
 
     return (
       <div className={[style.otherTime, style.border].join(" ")}>
-        <div className={[style.otherTimeHeader, style.header].join(" ")}>
+        <div className={[style.otherTimeHeader, shareStyle.header].join(" ")}>
           <span>AVERAGE</span>
         </div>
-        <div className={[style.otherTimeLap, style.header].join(" ")}>
+        <div className={[style.otherTimeLap, shareStyle.header].join(" ")}>
           <span>LAP</span>
         </div>
         <div className={[style.otherTimeLapCount, style.lap].join(" ")}>
@@ -174,54 +175,16 @@ class DefaultContent extends React.Component {
     );
   }
 
-  createFuel() {
-    const props = this.props;
-    const telemetryData = props.telemetryData;
-    const fuelData = props.fuelData;
-    if (!isJson(telemetryData) || !isJson(fuelData)) {
-      return <div></div>;
-    }
-
-    const carState = telemetryData.carState; 
-
-    return (
-      <div className={style.fuel}>
-        <img src={fuelIcon} />
-        <div className={[style.fuelValue, style.value].join(" ")}>
-          <span>{carState.fuelRemaining}L</span>
-        </div>
-        <div className={style.fuelDetails}>
-          <div>
-            <div className={[style.fuelDetailsHeader, style.header].join(" ")}>
-              <span>LATEST</span>
-            </div>
-            <div className={[style.fuelDetailsValue, style.value].join(" ")}>
-              <span>{fuelData.lastConsumption}L</span>
-            </div>
-          </div>
-          <div>
-            <div className={[style.fuelDetailsHeader, style.header].join(" ")}>
-              <span>AVERAGE</span>
-            </div>
-            <div className={[style.fuelDetailsValue, style.value].join(" ")}>
-              <span>{fuelData.averageConsumption}L</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   render() {
     const props = this.props;
 
     return (
-      <div className={style.contents}>
-        <div className={style.topContents}>
-          <div className={style.leftContents}>
-            <GearComponent className={style.gear} isMeter={props.isMeter} telemetryData={props.telemetryData} />
+      <div className={shareStyle.contents}>
+        <div className={shareStyle.topContents}>
+          <div className={shareStyle.leftContents}>
+            <GearComponent isMeter={props.isMeter} telemetryData={props.telemetryData} />
           </div>
-          <div className={style.rightContents}>
+          <div className={shareStyle.rightContents}>
             {this.createSession()}
             {this.createPosition()}
             {this.createCurrent()}
@@ -230,8 +193,8 @@ class DefaultContent extends React.Component {
             {this.createAverage()}
           </div>
         </div>
-        <div className={style.bottomContents}>
-          {this.createFuel()}
+        <div className={shareStyle.bottomContents}>
+          <LargeFuelComponent telemetryData={props.telemetryData} fuelData={props.fuelData} />
         </div>
       </div>
     );

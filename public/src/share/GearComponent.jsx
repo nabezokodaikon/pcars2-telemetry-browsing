@@ -11,6 +11,7 @@ import {
   getSpeedUnit,
   kmhToMIH
 } from "./telemetryUtil.js";
+import style from "./largeContent.css";
 
 const WHITE = "#FEFEFE";
 const BLACK = "#1B1B1B";
@@ -283,7 +284,7 @@ export default class GearComponent extends React.Component {
       width, cx, cy, radius * 0.65);
 
     return (
-      <svg className={props.className} preserveAspectRatio="xMidYMid meet" viewBox="0 0 100 100">
+      <svg className={style.gear} preserveAspectRatio="xMidYMid meet" viewBox="0 0 100 100">
         <g>
           {gear}
           {rpm}
@@ -298,7 +299,6 @@ export default class GearComponent extends React.Component {
 }
 
 GearComponent.propTypes = {
-  className: PropTypes.string.isRequired,
   isMeter: PropTypes.bool.isRequired,
   telemetryData: PropTypes.object.isRequired
 };
