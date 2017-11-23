@@ -43,6 +43,9 @@ TODO
   * UDP Frequency: 4 (Around 4 to 6 is appropriate.)
   * UDP Protocol Version: Project CARS 2
 
+### iPhone or iPad Web page to Home short cut
+* From the status bar of Safari, tap Add to Home Screen to create a shortcut on the home screen and display it in full screen.
+
 
 ## Install
 * Expand `pcars2-telemetry-browsing.zip` file.

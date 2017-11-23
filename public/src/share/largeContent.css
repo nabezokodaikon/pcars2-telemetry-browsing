@@ -38,9 +38,10 @@
 .leftContents {
   width: 100%;
   height: 100%;
-  background-color: #000000;
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .gear {
@@ -54,10 +55,10 @@
 .rightContents {
   width: 100%;
   height: 100%;
-  background-color: #000000;
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 /********************************
@@ -77,7 +78,6 @@
   height: 100%;
   display: flex;
   align-items: center;
-  background-color: #000000;
 }
 
 .fuel > img {
@@ -132,5 +132,4 @@
 .tyre {
   width: 100%;
   height: 100%;
-  background-color: #222222;
 }
