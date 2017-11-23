@@ -26,10 +26,11 @@ TODO
 TODO
 
 
-## Usage
-### Dependencies
-* Install Java Runtime Environment(JRE) to your PC.
+## Dependencies
+* Java Runtime Environment(JRE)
 
+
+## Usage
 ### Settings
 #### Application setting
 * Edit the following items in `application.conf`
@@ -55,13 +56,8 @@ TODO
 #### For Windows
 * Please run `start-for-windows.bat` and access to the displayed address by WebBrowser of PC, smart phone or tablet in LAN.
 
-### iPhone Web page to Home short cut
-* From the status bar of Safari, tap Add to Home Screen to create a shortcut on the home screen and display it in full screen.
-
 
 ## Troubleshooting
-* If you are using an older iPhone, Safari may be heavy. 
-In that case, using Google Chrome may improve it.
 * If you can not connect to the server, check the PC's network interface.  
 PROECT CARS2 connects to the network interface found at the beginning of the PC in the LAN.
 
