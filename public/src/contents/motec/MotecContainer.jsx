@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { currentContent } from "../../appActionCreators.js";
 import * as contentNames from "../../share/contentNames.js";
 import { isJson } from "../../share/jsUtil.js";
-import GearComponent from "../../share/GearComponent.jsx";
 import motecStyle from "./motec.css";
 import { getTempUnit, getTemp } from "../../share/telemetryUtil.js";
 import fuelIcon from "../../image/fuel.png";
@@ -130,7 +129,6 @@ class MotecContent extends React.Component {
 
     return (
       <div className={motecStyle.content} onClick={props.onContentsClick}>
-        <GearComponent className={motecStyle.gear} isMeter={props.isMeter} telemetryData={props.telemetryData} />
         {this.createData()}
       </div>
     );

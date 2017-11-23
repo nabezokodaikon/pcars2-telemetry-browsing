@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { currentContent } from "../../appActionCreators.js";
 import * as contentNames from "../../share/contentNames.js";
 import { isJson } from "../../share/jsUtil.js";
-import GearComponent from "../../share/GearComponent.jsx";
+import LargeGearComponent from "../../share/LargeGearComponent.jsx";
 import LargeFuelComponent from "../../share/LargeFuelComponent.jsx";
 import shareStyle from "../../share/largeContent.css";
 import style from "./default.css";
@@ -182,7 +182,7 @@ class DefaultContent extends React.Component {
       <div className={shareStyle.contents}>
         <div className={shareStyle.topContents}>
           <div className={shareStyle.leftContents}>
-            <GearComponent isMeter={props.isMeter} telemetryData={props.telemetryData} />
+            <LargeGearComponent isMeter={props.isMeter} telemetryData={props.telemetryData} />
           </div>
           <div className={shareStyle.rightContents}>
             {this.createSession()}

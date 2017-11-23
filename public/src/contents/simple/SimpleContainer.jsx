@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { currentContent } from "../../appActionCreators.js";
 import * as contentNames from "../../share/contentNames.js";
 import { isJson } from "../../share/jsUtil.js";
-import GearComponent from "../../share/GearComponent.jsx";
 import simpleStyle from "./simple.css";
 import rankIcon from "../../image/rank.png";
 import lapIcon from "../../image/lap.png";
@@ -100,7 +99,6 @@ class SimpleContent extends React.Component {
 
     return (
       <div className={simpleStyle.content} onClick={props.onContentsClick}>
-        <GearComponent className={simpleStyle.gear} isMeter={props.isMeter} telemetryData={props.telemetryData} />
         {this.createData()}
       </div>
     );

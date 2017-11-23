@@ -21,7 +21,7 @@ const GREEN = "#93C543";
 const BLUE = "#B0C1D1";
 const YELLOW = "#C5C543";
 
-export default class GearComponent extends React.Component {
+export default class LargeGearComponent extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -298,7 +298,7 @@ export default class GearComponent extends React.Component {
   }
 }
 
-GearComponent.propTypes = {
+LargeGearComponent.propTypes = {
   isMeter: PropTypes.bool.isRequired,
   telemetryData: PropTypes.object.isRequired
 };
