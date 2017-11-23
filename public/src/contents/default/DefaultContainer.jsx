@@ -22,6 +22,7 @@ class DefaultContent extends React.Component {
     }
 
     const carState = telemetryData.carState; 
+    const tyre3 = telemetryData.tyre3;
 
     const gearHUDComponent = createGearHUDComponent({
       cx: 50,
@@ -34,6 +35,7 @@ class DefaultContent extends React.Component {
       throttle: carState.throttle,
       brake: carState.brake,
       clutch: carState.clutch,
+      handBrake: tyre3.handBrake,
       isMeter: props.isMeter
     });
 

@@ -16,6 +16,7 @@ const RED = "#C54343";
 const GRAY = "#79838D";
 const GREEN = "#93C543";
 const BLUE = "#B0C1D1";
+const YELLOW = "#C5C543";
 
 /*
  * rpm: RPM
@@ -68,21 +69,38 @@ function createRpmComponent(rpm, maxRpm, width, fontSize, cx, cy, radius) {
  * radius: 半径
 */
 function createClutchComponent(srcValue, width, cx, cy, radius) {
-  const degree = 60;
-  const value = srcValue;
+  const degree = 90;
   const unit = degree / 255; 
-  const lBG = 60;
-  const rBG = 300;
-  const lValue = unit * value + lBG;
-  const rValue = rBG - unit * value;
+  const bg = 45;
+  const value = unit * srcValue + bg;
 
-  const lValueShape = createFanShape(cx, cy, radius, lBG, lValue, width, GRAY);
-  const rValueShape = createFanShape(cx, cy, radius, rValue, rBG, width, GRAY);
+  const valueShape = createFanShape(cx, cy, radius, bg, value, width, GRAY);
 
   return (
     <g>
-      {lValueShape}
-      {rValueShape}
+      {valueShape}
+    </g>
+  );
+}
+
+/*
+ * srcValue: Handbrake
+ * width: 扇の幅
+ * cx: 円の中心のx座標
+ * cy: 円の中心のy座標
+ * radius: 半径
+*/
+function createHandBrakeComponent(srcValue, width, cx, cy, radius) {
+  const degree = 90;
+  const unit = degree / 255; 
+  const bg = 315;
+  const value = bg - unit * srcValue;
+
+  const valueShape = createFanShape(cx, cy, radius, value, bg, width, YELLOW);
+
+  return (
+    <g>
+      {valueShape}
     </g>
   );
 }
@@ -228,6 +246,7 @@ function createGearComponent(
  * throttle: carState.throttle
  * brake: carState.brake
  * clutch: carState.clutch
+ * handBrake: tyre3.handBrake
  * isMeter: 距離の単位がメートル法かそうでないか
 */
 export function createGearHUDComponent(param) {
@@ -248,6 +267,8 @@ export function createGearHUDComponent(param) {
     param.brake, width, cx, cy, throttoleAndBrakeRadius);
   const clutchComponent = createClutchComponent(
     param.clutch, width, cx, cy, radius * 0.65);
+  const handBrakeComponent = createHandBrakeComponent(
+    param.handBrake, width, cx, cy, radius * 0.65);
 
   return (
     <g>
@@ -256,6 +277,7 @@ export function createGearHUDComponent(param) {
       {throttleComponent}
       {brakeComponent}
       {clutchComponent}
+      {handBrakeComponent}
     </g>
   );
 }

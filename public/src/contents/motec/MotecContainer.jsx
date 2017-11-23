@@ -19,7 +19,9 @@ class MotecContent extends React.Component {
 
   createGear() {
     const props = this.props;
-    const carState = props.telemetryData.carState; 
+    const telemetryData = props.telemetryData;
+    const carState = telemetryData.carState; 
+    const tyre3 = telemetryData.tyre3;
 
     const gearHUDComponent = createGearHUDComponent({
       cx: 50,
@@ -32,6 +34,7 @@ class MotecContent extends React.Component {
       throttle: carState.throttle,
       brake: carState.brake,
       clutch: carState.clutch,
+      handBrake: tyre3.handBrake,
       isMeter: props.isMeter
     });
 
