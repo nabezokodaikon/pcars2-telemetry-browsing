@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { currentContent } from "../../appActionCreators.js";
 import * as contentNames from "../../share/contentNames.js";
 import { isJson } from "../../share/jsUtil.js";
-import { createGearHUDComponent } from "../../share/gearHUDComponent.jsx";
+import { createGearComponent } from "../../share/gearComponent.jsx";
 import fuelIcon from "../../image/fuel-blue.png";
 import style from "./default.css";
 import TimeLogRecordComponent from "./TimeLogRecordComponent.jsx";
@@ -24,7 +24,7 @@ class DefaultContent extends React.Component {
     const carState = telemetryData.carState; 
     const tyre3 = telemetryData.tyre3;
 
-    const gearHUDComponent = createGearHUDComponent({
+    const gearComponent = createGearComponent({
       cx: 50,
       cy: 50,
       radius: 50,
@@ -41,7 +41,7 @@ class DefaultContent extends React.Component {
 
     return (
       <svg className={style.gear} preserveAspectRatio="xMidYMid meet" viewBox="0 0 100 100">
-        {gearHUDComponent}
+        {gearComponent}
       </svg>
     );
   }

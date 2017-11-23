@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { currentContent } from "../../appActionCreators.js";
 import * as contentNames from "../../share/contentNames.js";
 import { isJson } from "../../share/jsUtil.js";
-import { createGearHUDComponent } from "../../share/gearHUDComponent.jsx";
+import { createGearComponent } from "../../share/gearComponent.jsx";
 import motecStyle from "./motec.css";
 import { getTempUnit, getTemp } from "../../share/telemetryUtil.js";
 import fuelIcon from "../../image/fuel.png";
@@ -23,7 +23,7 @@ class MotecContent extends React.Component {
     const carState = telemetryData.carState; 
     const tyre3 = telemetryData.tyre3;
 
-    const gearHUDComponent = createGearHUDComponent({
+    const gearComponent = createGearComponent({
       cx: 50,
       cy: 50,
       radius: 50,
@@ -40,7 +40,7 @@ class MotecContent extends React.Component {
 
     return (
       <svg className={motecStyle.gear} preserveAspectRatio="xMidYMid meet" viewBox="0 0 100 100">
-        {gearHUDComponent}
+        {gearComponent}
       </svg>
     );
   }

@@ -19,7 +19,7 @@ import oilIcon from "../image/oil.png";
  * width: 扇の幅
  * fontSize: Font size
 */
-function createRpmComponent(rpm, maxRpm, cx, cy, radius, width, fontSize) {
+function createRpm(rpm, maxRpm, cx, cy, radius, width, fontSize) {
   const rpmBG = maxRpm * 1.2;
   const rpmUnit = 300 / rpmBG;
   const rpmValue = rpmUnit * rpm + 30;
@@ -53,7 +53,7 @@ function createRpmComponent(rpm, maxRpm, cx, cy, radius, width, fontSize) {
  * radius: 半径
  * width: 扇の幅
 */
-function createClutchComponent(srcValue, cx, cy, radius, width) {
+function createClutch(srcValue, cx, cy, radius, width) {
   const degree = 60;
   const value = srcValue * 100;
   const unit = degree / 100; 
@@ -80,7 +80,7 @@ function createClutchComponent(srcValue, cx, cy, radius, width) {
  * radius: 半径
  * width: 扇の幅
 */
-function createThrottleComponent(srcValue, cx, cy, radius, width) {
+function createThrottle(srcValue, cx, cy, radius, width) {
   const degree = 150;
   const value = srcValue * 100;
   const unit = degree / 100; 
@@ -97,7 +97,7 @@ function createThrottleComponent(srcValue, cx, cy, radius, width) {
  * radius: 半径
  * width: 扇の幅
 */
-function createBrakeComponent(srcValue, cx, cy, radius, width) {
+function createBrake(srcValue, cx, cy, radius, width) {
   const degree = 150;
   const value = srcValue * 100;
   const unit = degree / 100; 
@@ -114,7 +114,7 @@ function createBrakeComponent(srcValue, cx, cy, radius, width) {
  * iconSize: アイコンサイズ
  * fontSize: フォントサイズ
 */
-function createFuelLevelComponent(value, cx, cy, iconSize, fontSize) {
+function createFuelLevel(value, cx, cy, iconSize, fontSize) {
   const x = cx - 235;
   const y = cy - 64;
 
@@ -159,7 +159,7 @@ function createFuelLevelComponent(value, cx, cy, iconSize, fontSize) {
  * width: 扇の幅
  * gearValueFontSize: ギア値のフォントサイズ
 */
-function createGearComponent(gear, rpm, maxRpm, srcSpeed, isMeter, cx, cy, radius, width, gearValueFontSize) {
+function createGear(gear, rpm, maxRpm, srcSpeed, isMeter, cx, cy, radius, width, gearValueFontSize) {
   const speed = (isMeter ? Math.floor(srcSpeed) : kmhToMIH(srcSpeed)); 
   const speedUnit = (isMeter ? "KM/H" : "MI/H");
   const gearColor = (rpm > maxRpm * 0.99 ? "#FF0000" : "#FFFFFF");
@@ -249,7 +249,7 @@ function createGearComponent(gear, rpm, maxRpm, srcSpeed, isMeter, cx, cy, radiu
  * iconSize: アイコンサイズ
  * fontSize: フォントサイズ
 */
-function createOilTempComponent(srcValue, isCelsius, cx, cy, iconSize, fontSize) {
+function createOilTemp(srcValue, isCelsius, cx, cy, iconSize, fontSize) {
   const x = cx - 40;
   const y = cy - 300;
   const unit = (isCelsius ? "°C" : "ºF");
@@ -300,19 +300,19 @@ function createOilTempComponent(srcValue, isCelsius, cx, cy, iconSize, fontSize)
  * isCelsius: 温度の単位が摂氏かそうでないか
  * isMeter: 距離の単位がメートル法かそうでないか
 */
-export function createGearHUDComponent(param) {
+export function createGearComponent(param) {
   const radius = 400;
   const cx = param.cx;
   const cy = param.cy;
 
-  const rpmComponent = createRpmComponent(param.rpm, param.maxRpm, cx, cy, radius, 24, 48);
-  const throttleComponent = createThrottleComponent(param.throttle, cx, cy, radius * 0.8, 16);
-  const brakeComponent = createBrakeComponent(param.brake, cx, cy, radius * 0.8, 16);
-  const clutchComponent = createClutchComponent(param.clutch, cx, cy, radius * 0.7, 16);
-  const fuelLevelComponent = createFuelLevelComponent(param.fuelLevel, cx, cy, 80, 48);
-  const gearComponent = createGearComponent(
+  const rpmComponent = createRpm(param.rpm, param.maxRpm, cx, cy, radius, 24, 48);
+  const throttleComponent = createThrottle(param.throttle, cx, cy, radius * 0.8, 16);
+  const brakeComponent = createBrake(param.brake, cx, cy, radius * 0.8, 16);
+  const clutchComponent = createClutch(param.clutch, cx, cy, radius * 0.7, 16);
+  const fuelLevelComponent = createFuelLevel(param.fuelLevel, cx, cy, 80, 48);
+  const gearComponent = createGear(
     param.gear, param.rpm, param.maxRpm, param.speed, param.isMeter, cx, cy, radius * 0.35, 8, 220);
-  const oilTempComponent = createOilTempComponent(param.oilTempCelsius, param.isCelsius, cx, cy, 80, 48);
+  const oilTempComponent = createOilTemp(param.oilTempCelsius, param.isCelsius, cx, cy, 80, 48);
 
   return (
     <g>

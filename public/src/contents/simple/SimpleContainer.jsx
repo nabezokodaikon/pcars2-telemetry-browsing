@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { currentContent } from "../../appActionCreators.js";
 import * as contentNames from "../../share/contentNames.js";
 import { isJson } from "../../share/jsUtil.js";
-import { createGearHUDComponent } from "../../share/gearHUDComponent.jsx";
+import { createGearComponent } from "../../share/gearComponent.jsx";
 import simpleStyle from "./simple.css";
 import rankIcon from "../../image/rank.png";
 import lapIcon from "../../image/lap.png";
@@ -25,7 +25,7 @@ class SimpleContent extends React.Component {
     const carState = telemetryData.carState; 
     const tyre3 = telemetryData.tyre3;
 
-    const gearHUDComponent = createGearHUDComponent({
+    const gearComponent = createGearComponent({
       cx: 50,
       cy: 50,
       radius: 50,
@@ -42,7 +42,7 @@ class SimpleContent extends React.Component {
 
     return (
       <svg className={simpleStyle.gear} preserveAspectRatio="xMidYMid meet" viewBox="0 0 100 100">
-        {gearHUDComponent}
+        {gearComponent}
       </svg>
     );
   }

@@ -27,7 +27,7 @@ const YELLOW = "#C5C543";
  * cy: 円の中心のy座標
  * radius: 半径
 */
-function createRpmComponent(rpm, maxRpm, width, fontSize, cx, cy, radius) {
+function createRpm(rpm, maxRpm, width, fontSize, cx, cy, radius) {
   const rpmBG = maxRpm * 1.2;
   const rpmUnit = 300 / rpmBG;
   const bgWidth = width * 0.75;
@@ -68,7 +68,7 @@ function createRpmComponent(rpm, maxRpm, width, fontSize, cx, cy, radius) {
  * cy: 円の中心のy座標
  * radius: 半径
 */
-function createClutchComponent(srcValue, width, cx, cy, radius) {
+function createClutch(srcValue, width, cx, cy, radius) {
   const degree = 90;
   const unit = degree / 255; 
   const bg = 45;
@@ -90,7 +90,7 @@ function createClutchComponent(srcValue, width, cx, cy, radius) {
  * cy: 円の中心のy座標
  * radius: 半径
 */
-function createHandBrakeComponent(srcValue, width, cx, cy, radius) {
+function createHandBrake(srcValue, width, cx, cy, radius) {
   const degree = 90;
   const unit = degree / 255; 
   const bg = 315;
@@ -112,7 +112,7 @@ function createHandBrakeComponent(srcValue, width, cx, cy, radius) {
  * cy: 円の中心のy座標
  * radius: 半径
 */
-function createThrottleComponent(srcValue, width, cx, cy, radius) {
+function createThrottle(srcValue, width, cx, cy, radius) {
   const degree = 150;
   const value = srcValue;
   const unit = degree / 255; 
@@ -129,7 +129,7 @@ function createThrottleComponent(srcValue, width, cx, cy, radius) {
  * cy: 円の中心のy座標
  * radius: 半径
 */
-function createBrakeComponent(srcValue, width, cx, cy, radius) {
+function createBrake(srcValue, width, cx, cy, radius) {
   const degree = 150;
   const value = srcValue;
   const unit = degree / 255; 
@@ -151,7 +151,7 @@ function createBrakeComponent(srcValue, width, cx, cy, radius) {
  * cy: 円の中心のy座標
  * radius: 半径
 */
-function createGearComponent(
+function createGear(
   gear, rpm, maxRpm, srcSpeed, isMeter, gearValueFontSize, width, cx, cy, radius) {
   const speed = getSpeed(srcSpeed, isMeter); 
   const speedUnit = getSpeedUnit(isMeter);
@@ -249,25 +249,25 @@ function createGearComponent(
  * handBrake: tyre3.handBrake
  * isMeter: 距離の単位がメートル法かそうでないか
 */
-export function createGearHUDComponent(param) {
+export function createGearComponent(param) {
   const cx = param.cx;
   const cy = param.cy;
   const radius = param.radius;
   const width = radius * 0.025;
   const throttoleAndBrakeRadius = radius * 0.75;
 
-  const gearComponent = createGearComponent(
+  const gearComponent = createGear(
     param.gear, param.rpm, param.maxRpm, param.speed, param.isMeter,
     radius * 0.6, width, cx, cy, radius);
-  const rpmComponent = createRpmComponent(
+  const rpmComponent = createRpm(
     param.rpm, param.maxRpm, width, radius * 0.15, cx, cy, radius);
-  const throttleComponent = createThrottleComponent(
+  const throttleComponent = createThrottle(
     param.throttle, width, cx, cy, throttoleAndBrakeRadius);
-  const brakeComponent = createBrakeComponent(
+  const brakeComponent = createBrake(
     param.brake, width, cx, cy, throttoleAndBrakeRadius);
-  const clutchComponent = createClutchComponent(
+  const clutchComponent = createClutch(
     param.clutch, width, cx, cy, radius * 0.65);
-  const handBrakeComponent = createHandBrakeComponent(
+  const handBrakeComponent = createHandBrake(
     param.handBrake, width, cx, cy, radius * 0.65);
 
   return (
