@@ -220,7 +220,7 @@ class TimeContent extends React.Component {
     };
 
     return (
-      <div style={style}  onClick={this.props.onContentsClick}>
+      <div style={style} onClick={this.props.onContentClick}>
         {this.createHeader()}
         {this.createTimeTable()}
       </div>
@@ -233,7 +233,7 @@ TimeContent.propTypes = {
   telemetryData: PropTypes.object.isRequired,
   timingsData: PropTypes.object.isRequired,
   lapTimeDetails: PropTypes.object.isRequired,
-  onContentsClick: PropTypes.func.isRequired
+  onContentClick: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -248,8 +248,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onContentsClick: () => {
-      dispatch(currentContent(contentNames.SIMPLE))
+    onContentClick: () => {
+      dispatch(currentContent(contentNames.DEFAULT))
     }
   };
 };

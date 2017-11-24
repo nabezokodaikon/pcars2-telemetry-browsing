@@ -133,13 +133,14 @@ class Menu extends React.Component {
   createMenuItems() {
     return [
       contentNames.DEFAULT,
-      contentNames.SIMPLE,
-      contentNames.MOTEC,
+      contentNames.ENGINE,
       contentNames.TYRE,
       contentNames.TIME,
       contentNames.RANK,
       contentNames.OPTIONS,
-      contentNames.CREDITS
+      contentNames.CREDITS,
+      contentNames.SIMPLE, // TODO: Plan to delete.
+      contentNames.MOTEC // TODO: Plan to delete.
     ].map((v, i) => {
       if (v == this.props.currentContent) {
         return (

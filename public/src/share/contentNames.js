@@ -1,12 +1,14 @@
 // Product contents.
-export const SIMPLE = "SIMPLE";
 export const DEFAULT = "DEFAULT";
-export const MOTEC = "MOTEC";
+export const ENGINE = "ENGINE";
 export const TYRE = "TYRE";
 export const TIME = "TIME";
 export const RANK = "RANK";
 export const OPTIONS = "OPTIONS";
 export const CREDITS = "CREDITS";
+// TODO: Plan to delete.
+export const SIMPLE = "SIMPLE";
+export const MOTEC = "MOTEC";
 
 // Debug contents.(PCars2)
 export const TELEMETRY_DATA = "TelemetryData";

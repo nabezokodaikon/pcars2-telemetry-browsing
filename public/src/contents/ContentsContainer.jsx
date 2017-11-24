@@ -3,13 +3,15 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as contentNames from "../share/contentNames.js";
 import DefaultContainer from "../contents/default/DefaultContainer.jsx";
-import SimpleContainer from "../contents/simple/SimpleContainer.jsx";
-import MotecContainer from "../contents/motec/MotecContainer.jsx";
+import EngineContainer from "../contents/engine/EngineContainer.jsx";
 import TyreContainer from "../contents/tyre/TyreContainer.jsx";
 import TimeContainer from "../contents/time/TimeContainer.jsx";
 import RankContainer from "../contents/rank/RankContainer.jsx";
 import OptionsContainer from "../contents/options/OptionsContainer.jsx";
 import CreditsContent from "../contents/credits/CreditsContent.jsx";
+// TODO: Plan to delete.
+import SimpleContainer from "../contents/simple/SimpleContainer.jsx";
+import MotecContainer from "../contents/motec/MotecContainer.jsx";
 
 class Contents extends React.Component {
   constructor(props) {
@@ -30,10 +32,8 @@ class Contents extends React.Component {
     switch (this.props.currentContent) {
       case contentNames.DEFAULT:
         return <DefaultContainer />;
-      case contentNames.SIMPLE:
-        return <SimpleContainer />;
-      case contentNames.MOTEC:
-        return <MotecContainer />;
+      case contentNames.ENGINE:
+        return <EngineContainer />;
       case contentNames.TYRE:
         return <TyreContainer />;
       case contentNames.TIME:
@@ -44,6 +44,10 @@ class Contents extends React.Component {
         return <OptionsContainer />;
       case contentNames.CREDITS:
         return <CreditsContent />;
+      case contentNames.SIMPLE: // TODO: Plan to delete.
+        return <SimpleContainer />;
+      case contentNames.MOTEC: // TODO: Plan to delete.
+        return <MotecContainer />;
       default:
         return <div></div>;
     }

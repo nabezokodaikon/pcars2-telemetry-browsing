@@ -179,7 +179,7 @@ class DefaultContent extends React.Component {
     const props = this.props;
 
     return (
-      <div className={shareStyle.contents}>
+      <div className={shareStyle.contents} onClick={props.onContentClick}>
         <div className={shareStyle.topContents}>
           <div className={shareStyle.leftContents}>
             <LargeGearComponent isMeter={props.isMeter} telemetryData={props.telemetryData} />
@@ -208,7 +208,7 @@ DefaultContent.propTypes = {
   raceData: PropTypes.object.isRequired,
   lapTimeDetails: PropTypes.object.isRequired,
   fuelData: PropTypes.object.isRequired,
-  onContentsClick: PropTypes.func.isRequired
+  onContentClick: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -225,8 +225,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onContentsClick: () => {
-      // dispatch(currentContent(contentNames.TIME))
+    onContentClick: () => {
+      dispatch(currentContent(contentNames.ENGINE))
     }
   };
 };
