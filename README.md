@@ -1,5 +1,7 @@
 # Telemetry browsing for Project Cars 2
-[Source code](https://github.com/nabezokodaikon/pcars2-telemetry-browsing)
+* [Source code](https://github.com/nabezokodaikon/pcars2-telemetry-browsing)
+* [Change log](https://github.com/nabezokodaikon/pcars2-telemetry-browsing/doc/changelog.md)
+
 
 ## Overview
 This application is a server that converts UDP data sent by PROJECT CARS 2 to HTTP.
@@ -10,19 +12,19 @@ This application can only be accessed within the same LAN as the UDP data being 
 
 
 ## Screen shot
-### SIMPLE
+### SIMPLE View // TODO: Change to the DEFAULT View.
 ![SIMPLE](./screenshot/simple.png)
 
-### MOTEC
+### MOTEC View // TODO: Change to the ENGINE View.
 ![MOTEC](./screenshot/motec.png)
 
-### TIME
-![TIME](./screenshot/time.png)
-
-### RANK
+### TYRE View
 TODO
 
-### TYRE
+### TIME View
+![TIME](./screenshot/time.png)
+
+### RANK View
 TODO
 
 
@@ -63,10 +65,6 @@ TODO
 ## Troubleshooting
 * If you can not connect to the server, check the PC's network interface.  
 PROECT CARS2 connects to the network interface found at the beginning of the PC in the LAN.
-
-
-## Change log
-* [changelog.md](./doc/changelog.md)
 
 
 ## CREDITS
