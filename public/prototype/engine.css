@@ -39,15 +39,16 @@
 }
 
 .values {
-  width: 100%;
+  width: 18rem;
   height: 100%;
+  border-right: solid;
+  border-right-width: 0.1rem;
+  border-right-color: #777777;
   display: flex;
   flex-direction: column;
 }
 
 .valueBox {
-  width: 18rem;
-  height: 100%;
   border-bottom: solid;
   border-bottom-width: 0.1rem;
   border-bottom-color: #777777;
