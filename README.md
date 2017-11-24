@@ -65,6 +65,10 @@ TODO
 PROECT CARS2 connects to the network interface found at the beginning of the PC in the LAN.
 
 
+## Change log
+* [changelog.md](./doc/changelog.md)
+
+
 ## CREDITS
 ### PROJECT CARS 2
 * <https://www.projectcarsgame.com/>
