@@ -1,9 +1,10 @@
 # Change log
 ## v0.2
+* Add DEFAULT content.
+* Add handbrake bar.
+* Fixed the latest remaining fuel after pit-in.
 * Remove SIMPLE content.
 * Remove MOTEC content.
-* Add DEFAULT content.
-* Fixed the latest remaining fuel after pit-in.
 
 ## v0.1
 * Initial release.
