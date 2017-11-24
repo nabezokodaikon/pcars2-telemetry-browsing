@@ -137,10 +137,10 @@ class Menu extends React.Component {
       contentNames.TYRE,
       contentNames.TIME,
       contentNames.RANK,
+      // contentNames.SIMPLE, // TODO: Plan to delete.
+      // contentNames.MOTEC, // TODO: Plan to delete.
       contentNames.OPTIONS,
-      contentNames.CREDITS,
-      contentNames.SIMPLE, // TODO: Plan to delete.
-      contentNames.MOTEC // TODO: Plan to delete.
+      contentNames.CREDITS
     ].map((v, i) => {
       if (v == this.props.currentContent) {
         return (

@@ -1,6 +1,7 @@
 # Change log
 ## v0.2
 * Add DEFAULT content.
+* Add ENGINE content.
 * Add handbrake bar.
 * Fixed the latest remaining fuel after pit-in.
 * Remove SIMPLE content.
