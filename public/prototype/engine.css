@@ -1,7 +1,84 @@
+@import "../index.css";
+@import "../src/share/largeContent.css";
+
 .contents {
-  z-index: 0;
   position: fixed;
   width: 100%;
   height: 100%;
   background-color: #1b1d1e;
+}
+
+.engine,
+.oil,
+.water {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.engine {
+  height: 9rem;
+}
+
+.oil,
+.water {
+  height: 6rem;
+}
+
+.icon {
+  height: 100%;
+  background-color: #BFD2E3;
+  display: flex;
+  align-items: center;
+}
+
+.icon > img {
+  margin: 1rem;
+  width: 4rem;
+  height: 4rem;
+}
+
+.values {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.valueBox {
+  width: 18rem;
+  height: 100%;
+  border-bottom: solid;
+  border-bottom-width: 0.1rem;
+  border-bottom-color: #777777;
+  display: flex;
+}
+
+.valueBox:first-child {
+  border-top: solid;
+  border-top-width: 0.1rem;
+  border-top-color: #777777;
+}
+
+.valueBox > div:first-child {
+  width: 8rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.valueBox > div:first-child > span {
+  font-size: 3rem;
+}
+
+.unit {
+  margin-left: 1rem;
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.unit > span {
+  font-size: 2.5rem;
 }
