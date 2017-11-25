@@ -253,3 +253,10 @@
 * TIME content に Small gear, Small fuel を実装する。
 * TIME content の テーブルの斜め表示をやめる。
 * 時間履歴を増やし、TIME content をスクロール可能にする。
+* ダメージの表示を追加する。
+  * エンジン
+    * aeroDamege
+    * engineDamage
+  * タイヤ
+    * brakeDamage
+    * suspensionDamage
