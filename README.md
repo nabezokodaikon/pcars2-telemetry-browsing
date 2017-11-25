@@ -12,11 +12,11 @@ This application can only be accessed within the same LAN as the UDP data being 
 
 
 ## Screen shot
-### SIMPLE View // TODO: Change to the DEFAULT View.
-![SIMPLE](./screenshot/simple.png)
+### DEFAULT View
+![SIMPLE](./screenshot/default.png)
 
-### MOTEC View // TODO: Change to the ENGINE View.
-![MOTEC](./screenshot/motec.png)
+### ENGINE View
+![MOTEC](./screenshot/engine.png)
 
 ### TYRE View
 TODO
