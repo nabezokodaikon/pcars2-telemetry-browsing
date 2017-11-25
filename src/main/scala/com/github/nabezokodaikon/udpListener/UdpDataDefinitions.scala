@@ -188,7 +188,7 @@ case class Tyre2(
 )
 
 case class Tyre3(
-    engineSpeed: Float,
+    engineSpeed: String,
     engineTorque: String,
     enginePower: String,
     wings: Array[Short],

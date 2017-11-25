@@ -291,7 +291,7 @@ object UdpDataReader extends LazyLogging {
 
     (
       Tyre3(
-        engineSpeed = engineSpeed,
+        engineSpeed = engineSpeed.toRound(0),
         engineTorque = engineTorque.toRound(0),
         enginePower = enginePower.toRound(0),
         wings = wings,
