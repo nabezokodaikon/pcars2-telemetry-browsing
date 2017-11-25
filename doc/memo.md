@@ -248,9 +248,8 @@
 * sTyreWear = It is unknown whether the value is correct when compared with RearLeft.
 
 ## TODO
-* engineSpeed
-  * rad/s（毎秒で何ラジアンか）の角速度
-  * rpm * (3.14 * 20)
-* 右コンテンツを上に詰める。
-  * 他の画面でも同じ位置にするため。
-  * もう位置画面作成してから検討する。
+* DEFAULT content の順位を3桁まで表示できるようにする。
+* ENGINE content のスクリーンショットに水圧が表示されていないので、撮り直す。
+* TIME content に Small gear, Small fuel を実装する。
+* TIME content の テーブルの斜め表示をやめる。
+* 時間履歴を増やし、TIME content をスクロール可能にする。
