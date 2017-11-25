@@ -1,6 +1,6 @@
 {
   "name": "pcars2-udp-app",
-  "version": "0.2",
+  "version": "0.2.1",
   "description": "Telemetry display for Project Cars 2",
   "main": "contents/index.js",
   "scripts": {

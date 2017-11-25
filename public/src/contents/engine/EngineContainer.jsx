@@ -125,7 +125,7 @@ class EngineContent extends React.Component {
           </div>
           <div className={style.valueBox}>
             <div className={shareStyle.value}>
-              <span>{carState.waterPressureKPa}</span>
+              <span>{carState.waterPressureKpa}</span>
             </div>
             <div className={[style.unit, shareStyle.value].join(" ")}>
               <span>kPa</span>

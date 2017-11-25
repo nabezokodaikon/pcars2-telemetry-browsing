@@ -1,7 +1,7 @@
 lazy val commonSettings = Seq(
   organization := "com.github.nabezokodaikon",
   name := "pcars2-telemetry-browsing",
-  version := "0.2",
+  version := "0.2.1",
   scalaVersion := "2.12.4",
   scalacOptions ++= Seq(
     "-deprecation",
