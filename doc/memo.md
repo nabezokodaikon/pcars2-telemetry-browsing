@@ -248,7 +248,7 @@
 * sTyreWear = It is unknown whether the value is correct when compared with RearLeft.
 
 ## TODO
-* DEFAULT content の順位を3桁まで表示できるようにする。
+* DEFAULT content の順位を3桁まで表示できるようにする。(特にiPhoneでレイアウトが崩れる。)
 * ENGINE content のスクリーンショットに水圧が表示されていないので、撮り直す。
 * TIME content に Small gear, Small fuel を実装する。
 * TIME content の テーブルの斜め表示をやめる。
