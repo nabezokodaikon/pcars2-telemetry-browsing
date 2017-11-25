@@ -5,6 +5,7 @@
 * Add handbrake bar.
 * Remove SIMPLE content.
 * Remove MOTEC content.
+* Modify page title.
 * Fixed the latest remaining fuel after pit-in.
 
 ## v0.1
