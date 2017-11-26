@@ -44,17 +44,17 @@
 }
 
 .session > div {
-  height: 2.5rem;
+  height: 3rem;
   display: flex;
   align-items: center;
 }
 
 .session > div > span {
-  font-size: 2.25rem;
+  font-size: 2.5rem;
 }
 
 .sessionHeader {
-  width: 8.5rem;
+  width: 10rem;
   margin-left: 0.5rem;
 }
 
@@ -67,17 +67,17 @@
 }
 
 .position > div {
-  height: 2.5rem;
+  height: 3rem;
   display: flex;
   align-items: center;
 }
 
 .position> div > span {
-  font-size: 2.25rem;
+  font-size: 2.5rem;
 }
 
 .positionHeader {
-  width: 8.5rem;
+  width: 10rem;
   margin-left: 0.5rem;
   display: flex;
   align-items: center;
@@ -92,15 +92,15 @@
 }
 
 .current > div {
-  height: 2.5rem;
+  height: 3rem;
 }
 
 .current > div > span {
-  font-size: 2.25rem;
+  font-size: 2.5rem;
 }
 
 .currentLap {
-  width: 8.5rem;
+  width: 10rem;
   margin-left: 0.5rem;
   display: flex;
   align-items: center;
@@ -133,12 +133,12 @@
   border-top-width: 0.1rem;
   border-top-style: solid;
   border-top-color: #777777;
-  height: 2rem;
+  height: 2.5rem;
   display: flex;
 }
 
 .timeLogs > div > div > span {
-  font-size: 1.5rem;
+  font-size: 2rem;
 }
 
 .timeLogLap {
@@ -161,7 +161,7 @@
 }
 
 .timeLogDelta {
-  width: 7.5rem;
+  width: 10rem;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -176,17 +176,17 @@
 }
 
 .otherTime > div {
-  height: 2.25rem;
+  height: 2.75rem;
   display: flex;
   align-items: center;
 }
 
 .otherTime > div > span {
-  font-size: 1.75rem;
+  font-size: 2.25rem;
 }
 
 .otherTimeHeader {
-  width: 6rem;
+  width: 8rem;
   margin-left: 0.5rem;
   align-items: center;
 }
