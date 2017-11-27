@@ -5,156 +5,185 @@
   margin: 0;
   padding: 0;
   border-width: 0;
-  color: #565656;
-  font-size: 100%;
-  font-family: 'Open Sans', sans-serif;
+  cursor: "pointer"
 }
 
 *:focus {
   outline: none;
 }
 
-* {
-  cursor: "pointer"
-}
-
 html,
 body {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
 }
 
 .contents {
-  z-index: 0;
   position: fixed;
   width: 100%;
   height: 100%;
-  /* background-color: #17202b;  */
-}
-
-.table {
-  width: 80%;
-  margin: 2rem;
-}
-
-.headerColumn {
-  margin-bottom: 0.2rem;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
-.headerColumn > div {
-  transform: skewX(-12deg);
+/********************************
+ * topContents
+ ********************************/
+.topContents {
+  width: 100%;
+  height: 100%;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+
+  background-color: #000;
+
 }
 
-.headerColumn > div > div {
-  height: 3rem;
-  transform: skewX(12deg);
+.header,
+.darkRecord,
+.brightRecord {
+  width: 100%;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
 }
 
-.headerColumn > div > div > span {
-  font-color: ##565656;
+.header > div,
+.darkRecord > div,
+.brightRecord > div {
+  margin-right: 0.1rem;
+  margin-bottom: 0.1rem;
+}
+
+.header > div > span,
+.darkRecord > div > span,
+.brightRecord > div > span {
+  font-size: 1.75rem;
+}
+
+.lapHeader,
+.timeHeader,
+.deltaHeader,
+.titleCell {
+  background-color: #C1D9F0;
+}
+
+.lapCell {
+  background-color: #30CDFF;
+}
+
+.darkRecord > .timeCell,
+.darkRecord > .evenDeltaCell,
+.darkRecord > .plusDeltaCell,
+.darkRecord > .minusDeltaCell {
+  background-color: #53524F;
+}
+
+.brightRecord > .timeCell,
+.brightRecord > .evenDeltaCell,
+.brightRecord > .plusDeltaCell,
+.brightRecord > .minusDeltaCell {
+  background-color: #75726D;
+}
+
+.tileHeader > span,
+.lapHeader > span,
+.timeHeader > span,
+.deltaHeader > span,
+.titleCell > span
+{
   font-family: 'Oswald', sans-serif;
-  font-size: 1.3rem;
 }
 
-.bodyColumn {
-  margin-bottom: 0.2rem;
-  display: flex;
-  flex-direction: row;
+.lapCell > span,
+.timeCell > span,
+.evenDeltaCell > span,
+.plusDeltaCell > span,
+.minusDeltaCell > span {
+  font-family: 'Inconsolata', monospace;
 }
 
-.bodyColumn > div {
-  transform: skewX(-12deg);
+.header > div > span,
+.titleCell > span,
+.lapCell > span {
+  color: #063B4B;
+}
+
+.timeCell > span,
+.evenDeltaCell > span {
+  color: #E3E4E5;
+}
+
+.plusDeltaCell > span {
+  color: #C14544;
+}
+
+.minusDeltaCell > span {
+  color: #90C143;
+}
+
+.titleHeader,
+.titleCell {
+  width: 8rem;
+}
+
+.lapHeader,
+.lapCell {
+  width: 3.5rem;
+}
+
+.timeHeader,
+.timeCell {
+  width: 9rem;
+}
+
+.deltaHeader,
+.evenDeltaCell,
+.plusDeltaCell,
+.minusDeltaCell {
+  width: 10rem;
+}
+
+.lapHeader,
+.timeHeader,
+.deltaHeader {
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 
-.bodyColumn > div > div {
-  height: 3rem;
-  transform: skewX(12deg);
+.titleCell {
   display: flex;
-  flex-direction: row;
+  align-items: center;
+}
+
+.lapCell,
+.timeCell,
+.evenDeltaCell,
+.plusDeltaCell,
+.minusDeltaCell {
+  display: flex;
   justify-content: flex-end;
   align-items: center;
 }
 
-.headerCell {
-  background-color: #C1D9F0;
-}
-
-.headerCell > div {
-  width: 5rem;
-  margin-left: -1rem;
-  margin-right: 1rem;
-  background-color: #C1D9F0;
-}
-
-.headerCell > div > span {
-  font-family: 'Oswald', sans-serif;
-  font-size: 1.3rem;
-}
-
-.lapCountCell {
-  background-color: #30CDFF;
-}
-
-.lapCountCell > div {
-  width: 4rem;
+.titleCell > span {
   margin-left: 0.5rem;
+}
+
+.lapCell > span,
+.timeCell > span,
+.evenDeltaCell > span,
+.plusDeltaCell > span,
+.minusDeltaCell > span
+{
   margin-right: 0.5rem;
-  text-align: right;
 }
 
-.lapCountCell > div > span {
-  color: #063B4B;
-  font-family: 'Inconsolata', monospace;
-  font-size: 2.25rem;
-}
-
-.sectorCell {
-  background-color: #53524F;
-  margin-right: 0.1rem
-}
-
-.sectorCell > div {
-  width: 11rem;
-  margin-left: 0.5rem;
-  text-align: center;
-}
-
-.sectorCell > div > span {
+/********************************
+ * bottomContents
+ ********************************/
+.bottomContents {
   width: 100%;
-  color: #E3E4E5;
-  font-family: 'Inconsolata', monospace;
-  font-size: 2.25rem;
-}
+  height: 12rem;
 
-.lapTimeCell {
-  background-color: #75726D;
-}
-
-.lapTimeCell > div {
-  width: 11rem;
-  background-color: #75726D;
-  margin-left: 0.5rem;
-  margin-right: -0.5rem;
-  text-align: center;
-}
-
-.lapTimeCell > div > span {
-  width: 100%;
-  color: #E3E4E5;
-  font-family: 'Inconsolata', monospace;
-  font-size: 2.25rem;
+  background-color: blue;
 }
