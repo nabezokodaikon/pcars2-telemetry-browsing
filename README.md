@@ -59,7 +59,7 @@ TODO
 
 ### Run
 #### For Windows
-* Please run `start-for-windows.bat` and access to the displayed address by WebBrowser of PC, smart phone or tablet in LAN.
+* Please run `start-for-windows.bat` and access to the displayed address by WebBrowser of PC, mobile phone, android or IOS device in LAN.
 
 
 ## Troubleshooting
