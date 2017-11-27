@@ -284,7 +284,7 @@ export default class LargeGearComponent extends React.Component {
       width, cx, cy, radius * 0.65);
 
     return (
-      <svg className={style.gear} preserveAspectRatio="xMidYMin meet" viewBox="0 0 100 100">
+      <svg className={style.gear} preserveAspectRatio="xMidYMid meet" viewBox="0 0 100 100">
         <g>
           {gear}
           {rpm}

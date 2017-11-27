@@ -143,14 +143,16 @@
 
 .timeLogLap {
   margin-left: 0.5rem;
-  margin-right: 0.5rem;
+  margin-right: 1rem;
   display: flex;
   align-items: center;
 }
 
 .timeLogLapCount {
+  width: 3rem;
   margin-right: 1rem;
   display: flex;
+  justify-content: flex-end;
   align-items: center;
 }
 
@@ -198,8 +200,10 @@
 }
 
 .otherTimeLapCount {
+  width: 4rem;
   margin-right: 1rem;
   display: flex;
+  justify-content: flex-end;
   align-items: center;
 }
 
