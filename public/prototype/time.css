@@ -32,30 +32,50 @@ body {
 .topContents {
   width: 100%;
   height: 100%;
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
+  align-items: center;
+}
 
-  background-color: #000;
-
+.timeLogTable {
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
+  overflow-y: scroll;
+  flex-grow: 1;
+  flex-basis: 0;
 }
 
 .header,
-.darkRecord,
-.brightRecord {
-  width: 100%;
+.current,
+.fastest,
+.average,
+.timeLogTable > div {
+  height: 3rem;
+}
+
+.header,
+.current,
+.fastest,
+.average,
+.timeLogTable > div {
+  margin-bottom: 0.1rem;
   display: flex;
 }
 
 .header > div,
-.darkRecord > div,
-.brightRecord > div {
+.current > div,
+.fastest > div,
+.average > div,
+.timeLogTable > div > div {
   margin-right: 0.1rem;
-  margin-bottom: 0.1rem;
 }
 
 .header > div > span,
-.darkRecord > div > span,
-.brightRecord > div > span {
+.current > div > span,
+.fastest > div > span,
+.average > div > span,
+.timeLogTable > div > div > span {
   font-size: 1.75rem;
 }
 
@@ -73,14 +93,22 @@ body {
 .darkRecord > .timeCell,
 .darkRecord > .evenDeltaCell,
 .darkRecord > .plusDeltaCell,
-.darkRecord > .minusDeltaCell {
+.darkRecord > .minusDeltaCell,
+.timeLogTable > div:nth-child(even) > .timeCell,
+.timeLogTable > div:nth-child(even) > .evenDeltaCell,
+.timeLogTable > div:nth-child(even) > .plusDeltaCell,
+.timeLogTable > div:nth-child(even) > .minusDeltaCell {
   background-color: #53524F;
 }
 
 .brightRecord > .timeCell,
 .brightRecord > .evenDeltaCell,
 .brightRecord > .plusDeltaCell,
-.brightRecord > .minusDeltaCell {
+.brightRecord > .minusDeltaCell,
+.timeLogTable > div:nth-child(odd) > .timeCell,
+.timeLogTable > div:nth-child(odd) > .evenDeltaCell,
+.timeLogTable > div:nth-child(odd) > .plusDeltaCell,
+.timeLogTable > div:nth-child(odd) > .minusDeltaCell {
   background-color: #75726D;
 }
 
