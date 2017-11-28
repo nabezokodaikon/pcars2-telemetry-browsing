@@ -5,155 +5,34 @@ import { currentContent } from "../../appActionCreators.js";
 import * as contentNames from "../../share/contentNames.js";
 import { isArray, isJson } from "../../share/jsUtil.js";
 import { createMiniHUDComponent } from "../../share/miniHUDComponent.jsx"
-import HeaderRecordComponent from "./HeaderRecordComponent.jsx";
-import BodyRecordComponent from "./BodyRecordComponent.jsx";
+import HeaderComponent from "./HeaderComponent.jsx";
+import RecordComponent from "./RecordComponent.jsx";
+import shareStyle from "../../share/smallContent.css";
+import style from "./time.css";
+
+const emptyTime = "--:--.---";
 
 const emptyRecord = {
   lap: "---",
-  sector1: "--:--.---",
-  sector2: "--:--.---",
-  sector3: "--:--.---",
-  lapTime: "--:--.---",
-  delta: "--:--.---"
+  sector1: emptyTime,
+  sector2: emptyTime,
+  sector3: emptyTime,
+  lapTime: emptyTime,
+  delta: emptyTime
 }
 
+const indexArray = [...Array(60).keys()];
 
 class TimeContent extends React.Component {
   constructor(props) {
     super(props)
   }
 
-  getCurrentRecord() {
-    const telemetryData = this.props.telemetryData;
-    if (!isJson(telemetryData)) {
-      return emptyRecord;
-    }
-
-    const participantInfo = this.props.telemetryData.participantInfo;
-    if (!isJson(participantInfo)) {
-      return emptyRecord;
-    }
-
-    const timingsData = this.props.timingsData;
-    if (!isJson(timingsData)) {
-      return emptyRecord;
-    }
-
-    const participants = timingsData.formatParticipants;
-    if (!isArray(participants)) {
-      return emptyRecord;
-    }
-
-    const participant = participants[participantInfo.viewedParticipantIndex];
-    if (!isJson(participant)) {
-      return emptyRecord;
-    }
-
-    const getCurrentWidthoutLapTime = () => {
-      switch (participant.sector) {
-        case 1:
-          return {
-            lap: participant.currentLap,
-            sector1: participant.currentSectorTime,
-            sector2: "--:--.---",
-            sector3: "--:--.---",
-            lapTime: participant.currentTime,
-            delta: "--:--.---"
-          }
-        case 2:
-          return {
-            lap: participant.currentLap,
-            sector1: "--:--.---",
-            sector2: participant.currentSectorTime,
-            sector3: "--:--.---",
-            lapTime: participant.currentTime,
-            delta: "--:--.---"
-          }
-        case 3:
-          return {
-            lap: participant.currentLap,
-            sector1: "--:--.---",
-            sector2: "--:--.---",
-            sector3: participant.currentSectorTime,
-            lapTime: participant.currentTime,
-            delta: "--:--.---"
-          }
-        default:
-          return {
-            lap: participant.currentLap,
-            sector1: "--:--.---",
-            sector2: "--:--.---",
-            sector3: "--:--.---",
-            lapTime: participant.currentTime,
-            delta: "--:--.---"
-          }
-      }
-    };
-
-    const lapTimeDetails = this.props.lapTimeDetails;
-    if (isJson(lapTimeDetails)) {
-      const current = lapTimeDetails.current; 
-      if (isJson(current)) {
-        switch (participant.sector) {
-          case 1:
-            return {
-              lap: participant.currentLap,
-              sector1: participant.currentSectorTime,
-              sector2: "--:--.---",
-              sector3: "--:--.---",
-              lapTime: participant.currentTime,
-              delta: "--:--.---"
-            }
-          case 2:
-            return {
-              lap: participant.currentLap,
-              sector1: current.sector1,
-              sector2: participant.currentSectorTime,
-              sector3: "--:--.---",
-              lapTime: participant.currentTime,
-              delta: "--:--.---"
-            }
-          case 3:
-            return {
-              lap: participant.currentLap,
-              sector1: current.sector1,
-              sector2: current.sector2,
-              sector3: participant.currentSectorTime,
-              lapTime: participant.currentTime,
-              delta: "--:--.---"
-            }
-          default:
-            return {
-              lap: participant.currentLap,
-              sector1: "--:--.---",
-              sector2: "--:--.---",
-              sector3: "--:--.---",
-              lapTime: participant.currentTime,
-              delta: "--:--.---"
-            }
-        }
-      } else {
-        return getCurrentWidthoutLapTime();
-      }
-    } else {
-      return getCurrentWidthoutLapTime();
-    }
-  }
-
-  getRecord(record) {
-    if (isJson(record)) {
-      return record;
-    } else {
-      return emptyRecord;
-    }
-  }
-
+  // TODO
   createHeader() {
     const telemetryData = this.props.telemetryData;
     if (!isJson(telemetryData)) {
-      return (
-        <div></div>
-      );
+      return <div></div>;
     }
 
     const style = {
@@ -178,51 +57,192 @@ class TimeContent extends React.Component {
     );
   }
 
-  createTimeTable() {
-    const lapTimeDetails = this.props.lapTimeDetails;
-    if (!isJson(lapTimeDetails)) {
-      return (
-        <div></div>
-      );
+  getCurrentRecord() {
+    const props = this.props;
+    const telemetryData = props.telemetryData;
+    if (!isJson(telemetryData)) {
+      return emptyRecord;
     }
 
-    const style = {
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center"
+    const participantInfo = telemetryData.participantInfo;
+    if (!isJson(participantInfo)) {
+      return emptyRecord;
+    }
+
+    const timingsData = props.timingsData;
+    if (!isJson(timingsData)) {
+      return emptyRecord;
+    }
+
+    const participants = timingsData.formatParticipants;
+    if (!isArray(participants)) {
+      return emptyRecord;
+    }
+
+    const participant = participants[participantInfo.viewedParticipantIndex];
+    if (!isJson(participant)) {
+      return emptyRecord;
+    }
+
+    const getCurrentWidthoutLapTime = () => {
+      switch (participant.sector) {
+        case 1:
+          return {
+            lap: participant.currentLap,
+            sector1: participant.currentSectorTime,
+            sector2: emptyTime,
+            sector3: emptyTime,
+            lapTime: participant.currentTime,
+            delta: emptyTime
+          }
+        case 2:
+          return {
+            lap: participant.currentLap,
+            sector1: emptyTime,
+            sector2: participant.currentSectorTime,
+            sector3: emptyTime,
+            lapTime: participant.currentTime,
+            delta: emptyTime
+          }
+        case 3:
+          return {
+            lap: participant.currentLap,
+            sector1: emptyTime,
+            sector2: emptyTime,
+            sector3: participant.currentSectorTime,
+            lapTime: participant.currentTime,
+            delta: emptyTime
+          }
+        default:
+          return {
+            lap: participant.currentLap,
+            sector1: emptyTime,
+            sector2: emptyTime,
+            sector3: emptyTime,
+            lapTime: participant.currentTime,
+            delta: emptyTime
+          }
+      }
     };
 
+    const lapTimeDetails = this.props.lapTimeDetails;
+    if (isJson(lapTimeDetails)) {
+      const current = lapTimeDetails.current; 
+      if (isJson(current)) {
+        switch (participant.sector) {
+          case 1:
+            return {
+              lap: participant.currentLap,
+              sector1: participant.currentSectorTime,
+              sector2: emptyTime,
+              sector3: emptyTime,
+              lapTime: participant.currentTime,
+              delta: emptyTime
+            }
+          case 2:
+            return {
+              lap: participant.currentLap,
+              sector1: current.sector1,
+              sector2: participant.currentSectorTime,
+              sector3: emptyTime,
+              lapTime: participant.currentTime,
+              delta: emptyTime
+            }
+          case 3:
+            return {
+              lap: participant.currentLap,
+              sector1: current.sector1,
+              sector2: current.sector2,
+              sector3: participant.currentSectorTime,
+              lapTime: participant.currentTime,
+              delta: emptyTime
+            }
+          default:
+            return {
+              lap: participant.currentLap,
+              sector1: emptyTime,
+              sector2: emptyTime,
+              sector3: emptyTime,
+              lapTime: participant.currentTime,
+              delta: emptyTime
+            }
+        }
+      } else {
+        return getCurrentWidthoutLapTime();
+      }
+    } else {
+      return getCurrentWidthoutLapTime();
+    }
+  }
+
+  createFastest() {
+    const lapTimeDetails = this.props.lapTimeDetails;
+    const className = [style.current, style.darkRecord].join(" ");
+    if (isJson(lapTimeDetails)) {
+      return <RecordComponent className={className} name={"FASTEST"} record={lapTimeDetails.fastest} />;
+    } else {
+      return <RecordComponent className={className} name={"FASTEST"} record={emptyRecord} />;
+    }
+  }
+
+  createAverage() {
+    const lapTimeDetails = this.props.lapTimeDetails;
+    const className = [style.current, style.brightRecord].join(" ");
+    if (isJson(lapTimeDetails)) {
+      return <RecordComponent className={className} name={"AVERAGE"} record={lapTimeDetails.average} />;
+    } else {
+      return <RecordComponent className={className} name={"AVERAGE"} record={emptyRecord} />;
+    }
+  }
+
+  createTimeLogTable() {
+    const lapTimeDetails = this.props.lapTimeDetails;
+    if (!isJson(lapTimeDetails)) {
+      return <div className={style.timeLogTable}></div>;
+    }
+
+    const getRecord = record => {
+      if (isJson(record)) {
+        return record;
+      } else {
+        return emptyRecord;
+      }
+    };
+
+    const brightRecord = style.brightRecord;
+    const darkRecord = style.darkRecord;
     const history = lapTimeDetails.history;
-    const historyLength = history.length;
+    const length = history.length;
+    
+    const records = indexArray.map(index => {
+      const className = (index % 2 == 0)? darkRecord: brightRecord; 
+      if (index < length) {
+        return <RecordComponent key={index} className={className} name={""} record={history[length - (1 + index)]} />;
+      } else {
+        return <RecordComponent key={index} className={className} name={""} record={emptyRecord} />;
+      }
+    });
+
     return (
-      <div style={style}>
-        <HeaderRecordComponent />
-        <BodyRecordComponent name={"CURRENT"} record={this.getCurrentRecord()} />
-        <BodyRecordComponent name={"BEST"} record={this.getRecord(lapTimeDetails.fastest)} />
-        <BodyRecordComponent name={"AVERAGE"} record={this.getRecord(lapTimeDetails.average)} />
-        <BodyRecordComponent name={"LATEST"} record={this.getRecord(history[historyLength - 1])} />
-        <BodyRecordComponent name={""} record={this.getRecord(history[historyLength - 2])} />
-        <BodyRecordComponent name={""} record={this.getRecord(history[historyLength - 3])} />
-        <BodyRecordComponent name={""} record={this.getRecord(history[historyLength - 4])} />
+      <div className={style.timeLogTable}>
+        {records}
       </div>
     );
   }
 
   render() {
-    const style = {
-      position: "fixed",
-      width: "100%",
-      height: "100%",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center"
-    };
-
     return (
-      <div style={style} onClick={this.props.onContentClick}>
-        {this.createHeader()}
-        {this.createTimeTable()}
+      <div className={shareStyle.contents}>
+        <div className={shareStyle.topContents}>
+          <HeaderComponent />
+          <RecordComponent className={[style.current, style.darkRecord].join(" ")} name={"CURRENT"} record={this.getCurrentRecord()} />
+          {this.createTimeLogTable()}
+          {this.createFastest()}
+          {this.createAverage()}
+        </div>
+        <div className={shareStyle.bottomContents} onClick={this.props.onContentClick}>
+          {this.createHeader()}
+        </div>
       </div>
     );
   }

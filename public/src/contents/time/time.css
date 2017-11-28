@@ -1,147 +1,170 @@
 @import url('https://fonts.googleapis.com/css?family=Oswald');
 @import url('https://fonts.googleapis.com/css?family=Inconsolata');
 
-.table {
-  margin: 2rem;
+.timeLogTable {
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
+  overflow-y: scroll;
+  flex-grow: 1;
+  flex-basis: 0;
 }
 
-.headerColumn {
-  margin-bottom: 0.2rem;
+.header,
+.current,
+.fastest,
+.average,
+.timeLogTable > div {
+  height: 3rem;
+}
+
+.header,
+.current,
+.fastest,
+.average,
+.timeLogTable > div {
+  margin-bottom: 0.1rem;
   display: flex;
-  flex-direction: row;
 }
 
-.headerColumn > div {
-  transform: skewX(-12deg);
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+.header > div,
+.current > div,
+.fastest > div,
+.average > div,
+.timeLogTable > div > div {
+  margin-right: 0.1rem;
 }
 
-.headerColumn > div > div {
-  height: 2.5rem;
-  transform: skewX(12deg);
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+.header > div > span,
+.current > div > span,
+.fastest > div > span,
+.average > div > span,
+.timeLogTable > div > div > span {
+  font-size: 1.75rem;
 }
 
-.headerColumn > div > div > span {
-  font-color: ##565656;
+.lapHeader,
+.timeHeader,
+.deltaHeader,
+.titleCell {
+  background-color: #C1D9F0;
+}
+
+.lapCell {
+  background-color: #30CDFF;
+}
+
+.darkRecord > .timeCell,
+.darkRecord > .evenDeltaCell,
+.darkRecord > .plusDeltaCell,
+.darkRecord > .minusDeltaCell,
+.timeLogTable > div:nth-child(even) > .timeCell,
+.timeLogTable > div:nth-child(even) > .evenDeltaCell,
+.timeLogTable > div:nth-child(even) > .plusDeltaCell,
+.timeLogTable > div:nth-child(even) > .minusDeltaCell {
+  background-color: #333333;
+}
+
+.brightRecord > .timeCell,
+.brightRecord > .evenDeltaCell,
+.brightRecord > .plusDeltaCell,
+.brightRecord > .minusDeltaCell,
+.timeLogTable > div:nth-child(odd) > .timeCell,
+.timeLogTable > div:nth-child(odd) > .evenDeltaCell,
+.timeLogTable > div:nth-child(odd) > .plusDeltaCell,
+.timeLogTable > div:nth-child(odd) > .minusDeltaCell {
+  background-color: #444444;
+}
+
+.tileHeader > span,
+.lapHeader > span,
+.timeHeader > span,
+.deltaHeader > span,
+.titleCell > span
+{
   font-family: 'Oswald', sans-serif;
-  font-size: 1rem;
 }
 
-.bodyColumn {
-  margin-bottom: 0.2rem;
-  display: flex;
-  flex-direction: row;
+.lapCell > span,
+.timeCell > span,
+.evenDeltaCell > span,
+.plusDeltaCell > span,
+.minusDeltaCell > span {
+  font-family: 'Inconsolata', monospace;
 }
 
-.bodyColumn > div {
-  transform: skewX(-12deg);
+.header > div > span,
+.titleCell > span,
+.lapCell > span {
+  color: #063B4B;
+}
+
+.timeCell > span,
+.evenDeltaCell > span {
+  color: #E3E4E5;
+}
+
+.plusDeltaCell > span {
+  color: #C14544;
+}
+
+.minusDeltaCell > span {
+  color: #90C143;
+}
+
+.titleHeader,
+.titleCell {
+  width: 8rem;
+}
+
+.lapHeader,
+.lapCell {
+  width: 3.5rem;
+}
+
+.timeHeader,
+.timeCell {
+  width: 9rem;
+}
+
+.deltaHeader,
+.evenDeltaCell,
+.plusDeltaCell,
+.minusDeltaCell {
+  width: 10rem;
+}
+
+.lapHeader,
+.timeHeader,
+.deltaHeader {
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 
-.bodyColumn > div > div {
-  height: 2.5rem;
-  transform: skewX(12deg);
+.titleCell {
   display: flex;
-  flex-direction: row;
+  align-items: center;
+}
+
+.lapCell,
+.timeCell,
+.evenDeltaCell,
+.plusDeltaCell,
+.minusDeltaCell {
+  display: flex;
   justify-content: flex-end;
   align-items: center;
 }
 
-.headerCell {
-  background-color: #C1D9F0;
-}
-
-.headerCell > div {
-  width: 4rem;
-  margin-left: -1rem;
-  margin-right: 1rem;
-  background-color: #C1D9F0;
-}
-
-.headerCell > div > span {
-  color: #565656;
-  font-family: 'Oswald', sans-serif;
-  font-size: 1rem;
-}
-
-.lapCountCell {
-  background-color: #30CDFF;
-}
-
-.lapCountCell > div {
-  width: 3rem;
+.titleCell > span {
   margin-left: 0.5rem;
+}
+
+.lapCell > span,
+.timeCell > span,
+.evenDeltaCell > span,
+.plusDeltaCell > span,
+.minusDeltaCell > span
+{
   margin-right: 0.5rem;
-  text-align: right;
-}
-
-.lapCountCell > div > span {
-  color: #063B4B;
-  font-family: 'Inconsolata', monospace;
-  font-size: 1.5rem;
-}
-
-.sectorCell {
-  background-color: #3D3935;
-  margin-right: 0.1rem
-}
-
-.sectorCell > div {
-  width: 9rem;
-  margin-left: 0.5rem;
-  text-align: center;
-}
-
-.sectorCell > div > span {
-  width: 100%;
-  color: #E3E4E5;
-  font-family: 'Inconsolata', monospace;
-  font-size: 1.5rem;
-}
-
-.lapTimeCell {
-  background-color: #524D47;
-  margin-right: 0.1rem;
-}
-
-.lapTimeCell > div {
-  width: 9rem;
-  margin-left: 0.5rem;
-  text-align: center;
-}
-
-.lapTimeCell > div > span {
-  width: 100%;
-  color: #E3E4E5;
-  font-family: 'Inconsolata', monospace;
-  font-size: 1.5rem;
-}
-
-.deltaTimeCell {
-  background-color: #3D3935;
-}
-
-.deltaTimeCell > div {
-  width: 10rem;
-  background-color: #3D3935;
-  margin-left: 0.5rem;
-  margin-right: -0.5rem;
-  text-align: center;
-}
-
-.deltaTimeCell > div > span {
-  width: 100%;
-  color: #E3E4E5;
-  font-family: 'Inconsolata', monospace;
-  font-size: 1.5rem;
 }

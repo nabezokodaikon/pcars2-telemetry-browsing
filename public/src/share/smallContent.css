@@ -1,0 +1,27 @@
+.contents {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/********************************
+ * topContents
+ ********************************/
+.topContents {
+  width: 100%;
+  height: 100%;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/********************************
+ * bottomContents
+ ********************************/
+.bottomContents {
+  width: 100%;
+  height: 12rem;
+}
