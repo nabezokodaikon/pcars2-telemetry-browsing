@@ -65,7 +65,7 @@ object PacketSize {
   val PARTICIPANTS_DATA: Short = 1136
   val TIMINGS_DATA: Short = 1059
   val GAME_STATE_DATA: Short = 24
-  val TIME_STATS_DATA: Short = 784
+  val TIME_STATS_DATA: Short = 1040
   val PARTICIPANT_VEHICLE_NAMES_DATA: Short = 1164
   val VEHICLE_CLASS_NAMES_DATA: Short = 1452
 }
