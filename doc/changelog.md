@@ -2,6 +2,7 @@
 ## v0.3
 * Displayed up to 60 laps of history in the TIME content.
 * Layout fine adjustment.
+* Corresponded to Patch 1.3.0.0.
 
 
 ## v0.2
