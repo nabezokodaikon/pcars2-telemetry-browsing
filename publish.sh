@@ -4,7 +4,7 @@ rm -rf publish
 mkdir -p publish/pcars2-telemetry-browsing/public
 
 sbt assembly
-cp target/scala-2.12/pcars2-telemetry-browsing-assembly-0.2.2.jar publish/pcars2-telemetry-browsing/
+cp target/scala-2.12/pcars2-telemetry-browsing-assembly-0.2.3.jar publish/pcars2-telemetry-browsing/
 
 npm run product
 cp -r public/dist publish/pcars2-telemetry-browsing/public/
