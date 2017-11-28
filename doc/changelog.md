@@ -1,4 +1,9 @@
 # Change log
+## v0.3
+* Displayed up to 60 laps of history in the TIME content.
+* Layout fine adjustment.
+
+
 ## v0.2
 * Add DEFAULT content.
 * Add ENGINE content.
@@ -8,10 +13,13 @@
 * Modify page title.
 * Fixed the latest remaining fuel after pit-in.
 
+
 ## v0.1
 * Initial release.
+
 
 ## TODO
 * Add TYRE content.
 * Add RANK content.
 * Discontinue the diagonal line UI.
+* Add scroll buttons to the top record and to the bottom record of the TIME content.
