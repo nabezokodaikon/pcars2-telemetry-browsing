@@ -87,12 +87,14 @@ object BinaryUtil {
     }
 
   private def _readFloat(byte1: Byte, byte2: Byte, byte3: Byte, byte4: Byte): Float = {
-    java.lang.Float.intBitsToFloat(
+    val value = java.lang.Float.intBitsToFloat(
       (byte4 << 24)
         + ((byte3 << 24) >>> 8)
         + ((byte2 << 24) >>> 16)
         + ((byte1 << 24) >>> 24)
     )
+
+    if (value.isNaN || value.isInfinity) 0f else value
   }
 
   def readFloat(data: List[Byte], default: Float = 0f): (Float, List[Byte]) =
