@@ -5,6 +5,7 @@ import {
   createFanShape,
   createFanStroke
 } from "./svgComponents.jsx";
+import style from "./smallContent.css";
 
 const WHITE = "#FFFFFF";
 const GRAY = "#AAAAAA";
@@ -73,7 +74,7 @@ export default class SmallGearComponent extends React.Component {
       </text>;
 
     return (
-      <svg className={props.className} preserveAspectRatio="xMidYMid meet" viewBox="0 0 100 100">
+      <svg className={style.gear} preserveAspectRatio="xMidYMid meet" viewBox="0 0 100 100">
         <g>
           {bgShape}
           {bgStroke}
@@ -87,6 +88,5 @@ export default class SmallGearComponent extends React.Component {
 }
 
 SmallGearComponent.propTypes = {
-  className: PropTypes.string.isRequired,
   telemetryData: PropTypes.object.isRequired
 };
