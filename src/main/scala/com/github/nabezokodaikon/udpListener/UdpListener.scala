@@ -140,7 +140,7 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
     val c = Calendar.getInstance()
     val sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS")
     val time = sdf.format(c.getTime())
-    val dir = FileUtil.currentDirectory
+    val dir = s"${FileUtil.currentDirectory}/sample"
 
     val (p, _) = readPacketBase(data.toList)
     p.packetType match {
