@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { currentContent } from "../../appActionCreators.js";
 import * as contentNames from "../../share/contentNames.js";
 import { isArray, isJson } from "../../share/jsUtil.js";
-import { createMiniHUDComponent } from "../../share/miniHUDComponent.jsx"
+import SmallGearComponent from "../../share/SmallGearComponent.jsx";
 import HeaderComponent from "./HeaderComponent.jsx";
 import RecordComponent from "./RecordComponent.jsx";
 import shareStyle from "../../share/smallContent.css";
@@ -26,35 +26,6 @@ const indexArray = [...Array(60).keys()];
 class TimeContent extends React.Component {
   constructor(props) {
     super(props)
-  }
-
-  // TODO
-  createHeader() {
-    const telemetryData = this.props.telemetryData;
-    if (!isJson(telemetryData)) {
-      return <div></div>;
-    }
-
-    const style = {
-      width: "100%",
-      height: "6rem"
-    };
-
-    const carState = telemetryData.carState; 
-    const miniHUDComponent = createMiniHUDComponent({
-      gear: carState.gear,
-      speed: carState.speed,
-      rpm: carState.rpm,
-      maxRpm: carState.maxRpm,
-      fuelRemaining: carState.fuelRemaining,
-      isMeter: this.props.isMeter
-    });
-
-    return (
-      <svg style={style} preserveAspectRatio="xMidYMid meet" viewBox="0 0 100 100">
-        {miniHUDComponent}
-      </svg>
-    );
   }
 
   getCurrentRecord() {
@@ -231,6 +202,8 @@ class TimeContent extends React.Component {
   }
 
   render() {
+    const props = this.props;
+
     return (
       <div className={shareStyle.contents}>
         <div className={shareStyle.topContents}>
@@ -240,8 +213,8 @@ class TimeContent extends React.Component {
           {this.createFastest()}
           {this.createAverage()}
         </div>
-        <div className={shareStyle.bottomContents} onClick={this.props.onContentClick}>
-          {this.createHeader()}
+        <div className={shareStyle.bottomContents} onClick={props.onContentClick}>
+          <SmallGearComponent className={shareStyle.gear} telemetryData={props.telemetryData} />
         </div>
       </div>
     );
