@@ -2,6 +2,7 @@
   margin-top: 0.3rem;
   margin-bottom: 0.3rem;
   overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
   flex-grow: 1;
   flex-basis: 0;
 }
