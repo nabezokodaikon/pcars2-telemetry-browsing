@@ -117,7 +117,7 @@ object BinaryUtil {
   private val NULL_CHAR = new String(Array[Byte](0))
 
   private def trimEnd(s: String, bad: Char): String =
-    s.replaceAll(s"[" + bad + "]+$", "")
+    s"[${bad}]+$$".r.replaceAllIn(s, "")
 
   private def readString(data: Array[Byte]): String = {
     if (data.length < 1) {
