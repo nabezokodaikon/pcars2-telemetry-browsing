@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 import { currentContent } from "../../appActionCreators.js";
 import * as contentNames from "../../share/contentNames.js";
 import { isArray, isJson } from "../../share/jsUtil.js";
-import SmallGearComponent from "../../share/SmallGearComponent.jsx";
 import SmallSpeedComponent from "../../share/SmallSpeedComponent.jsx";
+import SmallFuelComponent from "../../share/SmallFuelComponent.jsx";
 import HeaderComponent from "./HeaderComponent.jsx";
 import RecordComponent from "./RecordComponent.jsx";
 import shareStyle from "../../share/smallContent.css";
@@ -204,6 +204,7 @@ class TimeContent extends React.Component {
 
   render() {
     const props = this.props;
+    const telemetryData = props.telemetryData;
 
     return (
       <div className={shareStyle.contents}>
@@ -215,8 +216,8 @@ class TimeContent extends React.Component {
           {this.createAverage()}
         </div>
         <div className={shareStyle.bottomContents} onClick={props.onContentClick}>
-          <SmallGearComponent telemetryData={props.telemetryData} />
-          <SmallSpeedComponent isMeter={props.isMeter} telemetryData={props.telemetryData} />
+          <SmallSpeedComponent isMeter={props.isMeter} telemetryData={telemetryData} />
+          <SmallFuelComponent telemetryData={telemetryData} />
         </div>
       </div>
     );

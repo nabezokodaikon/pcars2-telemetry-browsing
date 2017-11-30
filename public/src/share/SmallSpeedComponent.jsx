@@ -5,6 +5,7 @@ import {
   getSpeed,
   getSpeedUnit
 } from "./telemetryUtil.js";
+import SmallGearComponent from "./SmallGearComponent.jsx";
 import style from "./smallContent.css";
 
 export default class SmallSpeedComponent extends React.Component {
@@ -26,6 +27,7 @@ export default class SmallSpeedComponent extends React.Component {
 
     return (
       <div className={style.speedBox}>
+        <SmallGearComponent telemetryData={telemetryData} />
         <div className={style.speedValue}>
           <span>{speed}</span>
         </div>

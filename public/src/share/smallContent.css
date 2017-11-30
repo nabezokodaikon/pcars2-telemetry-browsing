@@ -28,15 +28,23 @@
   align-items: center;
 }
 
+.speedBox,
+.fuelBox {
+  margin-left: 0.5rem;
+}
+
+/*
+ * speed
+ */
+.speedBox {
+  width: 22rem;
+  display: flex;
+  align-items: center;
+}
+
 .gear {
   width: 8rem;
   height: 8rem;
-}
-
-.speedBox {
-  width: 16rem;
-  display: flex;
-  align-items: center;
 }
 
 .speedValue {
@@ -49,6 +57,7 @@
   margin-left: 0.5rem;
   display: flex;
 }
+
 .speedValue > span,
 .speedUnit > span {
   color: #FFFFFF;
@@ -60,5 +69,45 @@
 }
 
 .speedUnit > span {
+  font-size: 3rem;
+}
+
+/*
+ * fuel
+ */
+.fuelBox {
+  width: 18rem;
+  display: flex;
+  align-items: center;
+}
+
+.fuelIcon {
+  width: 4rem;
+  height: 4rem;
+}
+
+.fuelValue {
+  width: 10rem;
+  margin-left: 0.5rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.fuelUnit {
+  margin-left: 0.5rem;
+  display: flex;
+}
+
+.fuelValue > span,
+.fuelUnit > span {
+  color: #FFFFFF;
+  font-family: 'Inconsolata', monospace;
+}
+
+.fuelValue > span {
+  font-size: 4rem;
+}
+
+.fuelUnit > span {
   font-size: 3rem;
 }
