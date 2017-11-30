@@ -24,9 +24,41 @@
 .bottomContents {
   width: 100%;
   height: 12rem;
+  display: flex;
+  align-items: center;
 }
 
 .gear {
   width: 8rem;
   height: 8rem;
+}
+
+.speedBox {
+  width: 16rem;
+  display: flex;
+  align-items: center;
+}
+
+.speedValue {
+  width: 6rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.speedUnit {
+  margin-left: 0.5rem;
+  display: flex;
+}
+.speedValue > span,
+.speedUnit > span {
+  color: #FFFFFF;
+  font-family: 'Inconsolata', monospace;
+}
+
+.speedValue > span {
+  font-size: 4rem;
+}
+
+.speedUnit > span {
+  font-size: 3rem;
 }
