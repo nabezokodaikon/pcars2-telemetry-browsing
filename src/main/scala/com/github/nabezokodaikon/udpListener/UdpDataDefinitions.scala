@@ -316,7 +316,7 @@ case class PitMode(value: Byte, text: String)
 case class PitSchedule(value: Byte, text: String)
 
 object PitModeDefineValue {
-  val PIT_MODE_NONE: PitMode = PitMode(0, "PPIT_MODE_NONE")
+  val PIT_MODE_NONE: PitMode = PitMode(0, "PIT_MODE_NONE")
   val PIT_MODE_DRIVING_INTO_PITS: PitMode = PitMode(1, "PIT_MODE_DRIVING_INTO_PITS")
   val PIT_MODE_IN_PIT: PitMode = PitMode(2, "PIT_MODE_IN_PIT")
   val PIT_MODE_DRIVING_OUT_OF_PITS: PitMode = PitMode(3, "PIT_MODE_DRIVING_OUT_OF_PITS")
