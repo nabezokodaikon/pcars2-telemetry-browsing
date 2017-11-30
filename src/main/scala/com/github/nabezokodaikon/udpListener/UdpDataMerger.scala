@@ -8,10 +8,14 @@ object UdpDataMerger {
     dataList.lastOption match {
       case Some(last) =>
         val name = dataList.flatMap(data => data.name).toArray
+        val nationality = dataList.flatMap(data => data.nationality).toArray
+        val index = dataList.flatMap(data => data.index).toArray
         val mergeData = ParticipantsData(
           base = last.base,
           participantsChangedTimestamp = last.participantsChangedTimestamp,
-          name = name
+          name = name,
+          nationality = nationality,
+          index = index
         )
         Some(mergeData)
       case None => None

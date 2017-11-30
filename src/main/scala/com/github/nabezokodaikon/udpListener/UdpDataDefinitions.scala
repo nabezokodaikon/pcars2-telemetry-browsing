@@ -13,18 +13,18 @@ object UdpDataJsonProtocol extends DefaultJsonProtocol {
   implicit val tyre2Format = jsonFormat2(Tyre2)
   implicit val tyre3Format = jsonFormat5(Tyre3)
   implicit val carDamageFormat = jsonFormat2(CarDamage)
-  implicit val hwStateFormat = jsonFormat3(HWState)
+  implicit val hwStateFormat = jsonFormat6(HWState)
   implicit val telemetryDataFormat = jsonFormat10(TelemetryData)
   implicit val raceDataFormat = jsonFormat19(RaceData)
-  implicit val participantsDataFormat = jsonFormat3(ParticipantsData)
-  implicit val participantInfoFormat = jsonFormat14(ParticipantInfo)
-  implicit val formatParticipantInfoFormat = jsonFormat16(FormatParticipantInfo)
-  implicit val timingsDataFormat = jsonFormat9(TimingsData)
+  implicit val participantsDataFormat = jsonFormat5(ParticipantsData)
+  implicit val participantInfoFormat = jsonFormat15(ParticipantInfo)
+  implicit val formatParticipantInfoFormat = jsonFormat17(FormatParticipantInfo)
+  implicit val timingsDataFormat = jsonFormat10(TimingsData)
   implicit val gameStateFormat = jsonFormat2(GameState)
   implicit val gameSessionStateFormat = jsonFormat2(SessionState)
   implicit val gameStateDataFormat = jsonFormat11(GameStateData)
-  implicit val participantStatsInfoFormat = jsonFormat6(ParticipantStatsInfo)
-  implicit val formatParticipantStatsInfoFormat = jsonFormat6(FormatParticipantStatsInfo)
+  implicit val participantStatsInfoFormat = jsonFormat8(ParticipantStatsInfo)
+  implicit val formatParticipantStatsInfoFormat = jsonFormat8(FormatParticipantStatsInfo)
   implicit val participantsStatsFormat = jsonFormat2(ParticipantsStats)
   implicit val timeStatsDataFormat = jsonFormat3(TimeStatsData)
   implicit val vehicleInfoFormat = jsonFormat3(VehicleInfo)
@@ -203,7 +203,10 @@ case class CarDamage(
 case class HWState(
     joyPad0: Long,
     dPad: Short,
-    tyreCompound: Array[String]
+    tyreCompound: Array[String],
+    turboBoostPressure: Float,
+    fullPosition: Array[Float], // position of the viewed participant with full precision
+    brakeBias: Short // quantized brake bias
 )
 
 // partialPacketNumber = 1 Only
@@ -269,7 +272,9 @@ case class RaceData(
 case class ParticipantsData(
     base: PacketBase,
     participantsChangedTimestamp: Long,
-    name: Array[String]
+    name: Array[String],
+    nationality: Array[Long],
+    index: Array[Int] // session unique index for MP races
 ) extends UdpData {
   def toJsonString(): String = this.toJson.toString
 }
@@ -353,7 +358,8 @@ case class FormatParticipantInfo(
     raceState: Short, // race state flags + invalidated lap indication --
     currentLap: Short,
     currentTime: String, // [ Unit: Seconds ]
-    currentSectorTime: String // [ Unit: Seconds ]
+    currentSectorTime: String, // [ Unit: Seconds ]
+    mpParticipantIndex: Int // matching sIndex from sParticipantsData
 )
 
 case class ParticipantInfo(
@@ -370,7 +376,8 @@ case class ParticipantInfo(
     raceState: Short, // race state flags + invalidated lap indication --
     currentLap: Short,
     currentTime: Float, // [ Unit: Seconds ]
-    currentSectorTime: Float // [ Unit: Seconds ]
+    currentSectorTime: Float, // [ Unit: Seconds ]
+    mpParticipantIndex: Int // matching sIndex from sParticipantsData
 )
 
 // partialPacketNumber = 1 Only
@@ -383,7 +390,8 @@ case class TimingsData(
     splitTimeBehind: Float,
     splitTime: Float,
     participants: Array[ParticipantInfo],
-    formatParticipants: Array[FormatParticipantInfo]
+    formatParticipants: Array[FormatParticipantInfo],
+    localParticipantIndex: Int // identifies which of the MP participants is the local player
 ) extends UdpData {
   def toJsonString(): String = this.toJson.toString
 }
@@ -478,7 +486,9 @@ case class FormatParticipantStatsInfo(
     lastSectorTime: String, // [ Unit: Seconds ]
     fastestSector1Time: String, // [ Unit: Seconds ]
     fastestSector2Time: String, // [ Unit: Seconds ]
-    fastestSector3Time: String // [ Unit: Seconds ]
+    fastestSector3Time: String, // [ Unit: Seconds ]
+    participantOnlineRep: Long, // u16 rank type + u16 strength, 0 in SP races
+    mpParticipantIndex: Int // matching sIndex from sParticipantsData
 )
 
 case class ParticipantStatsInfo(
@@ -487,7 +497,9 @@ case class ParticipantStatsInfo(
     lastSectorTime: Float, // [ Unit: Seconds ]
     fastestSector1Time: Float, // [ Unit: Seconds ]
     fastestSector2Time: Float, // [ Unit: Seconds ]
-    fastestSector3Time: Float // [ Unit: Seconds ]
+    fastestSector3Time: Float, // [ Unit: Seconds ]
+    participantOnlineRep: Long, // u16 rank type + u16 strength, 0 in SP races
+    mpParticipantIndex: Int // matching sIndex from sParticipantsData
 )
 
 case class ParticipantsStats(
