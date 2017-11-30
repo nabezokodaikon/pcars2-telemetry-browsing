@@ -30,7 +30,7 @@ class Menu extends React.Component {
   getMenuOpenIconStyle() {
     return {
       zIndex: 3,
-      position: "absolute",
+      position: "fixed",
       margin: "1rem"
     };
   }
