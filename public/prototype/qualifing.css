@@ -24,6 +24,7 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column;
+  background-color: #000000;
 }
 
 /********************************
@@ -35,6 +36,117 @@ body {
   margin-top: 1rem;
   display: flex;
   flex-direction: column;
+  align-items: center;
+}
+
+/*
+ * share
+ */
+.header > span {
+  color: #C1D9F0;
+  font-family: 'Oswald', sans-serif;
+}
+
+.value > span {
+  color: #FFFFFF;
+  font-family: 'Inconsolata', monospace;
+}
+
+.lap > span {
+  color: #FFFFFF;
+  font-family: 'Inconsolata', monospace;
+}
+
+.time > span {
+  color: #FFFFFF;
+  font-family: 'Inconsolata', monospace;
+}
+
+.border {
+  border-top-width: 0.2rem;
+  border-top-style: solid;
+  border-top-color: #777777;
+}
+
+/*
+ * session
+ */
+.session {
+  display: flex;
+  align-items: center;
+}
+
+.session > div {
+  height: 3rem;
+  display: flex;
+  align-items: center;
+}
+
+.session > div > span {
+  font-size: 2.5rem;
+}
+
+.sessionHeader {
+  width: 10rem;
+  margin-left: 0.5rem;
+}
+
+/*
+ * position
+ */
+.position {
+  display: flex;
+  align-items: center;
+}
+
+.position > div {
+  height: 3rem;
+  display: flex;
+  align-items: center;
+}
+
+.position> div > span {
+  font-size: 2.5rem;
+}
+
+.positionHeader {
+  width: 10rem;
+  margin-left: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+/*
+ * current
+ */
+.current {
+  display: flex;
+}
+
+.current > div {
+  height: 3rem;
+}
+
+.current > div > span {
+  font-size: 2.5rem;
+}
+
+.currentLap {
+  width: 10rem;
+  margin-left: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.currentLapCount {
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.currentLapTime {
+  margin-right: 1rem;
+  display: flex;
   align-items: center;
 }
 
