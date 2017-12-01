@@ -16,58 +16,7 @@ import com.github.nabezokodaikon.udpListener.{
 }
 import com.typesafe.scalalogging.LazyLogging
 
-final case class CurrentData(
-    currentLap: Short,
-    sector: Short,
-    currentTime: Float,
-    currentSectorTime: Float
-)
-
-final case class LapData(
-    lap: Short,
-    sector1: Option[Float],
-    sector2: Option[Float],
-    sector3: Option[Float],
-    lapTime: Option[Float]
-) {
-  def toLapTime(): LapTime = {
-    LapTime(
-      lap = s"${lap}",
-      sector1 = toTimeString(sector1),
-      sector2 = toTimeString(sector2),
-      sector3 = toTimeString(sector3),
-      lapTime = toTimeString(lapTime),
-      delta = History.emptyTime
-    )
-  }
-
-  def toLapTime(delta: Float): LapTime = {
-    LapTime(
-      lap = s"${lap}",
-      sector1 = toTimeString(sector1),
-      sector2 = toTimeString(sector2),
-      sector3 = toTimeString(sector3),
-      lapTime = toTimeString(lapTime),
-      delta = delta.toMinuteFormatFromSecondsWithSigned
-    )
-  }
-
-  private def toTimeString(value: Option[Float]): String = {
-    value match {
-      case Some(v) => v.toMinuteFormatFromSeconds
-      case None => History.emptyTime
-    }
-  }
-
-  private def toTimeWithSignedString(value: Option[Float]): String = {
-    value match {
-      case Some(v) => v.toMinuteFormatFromSecondsWithSigned
-      case None => History.emptyTime
-    }
-  }
-}
-
-final object History {
+final object LapTimeDetailsState {
   val emptyLap = "---"
   val emptyTime = "--:--.---"
   val emptyLapTime = LapTime(
@@ -89,9 +38,23 @@ final object History {
     dataTimestamp = System.currentTimeMillis,
     dataSize = 0
   )
+
+  def createInitialState(gameStateData: GameStateData): LapTimeDetailsState =
+    LapTimeDetailsState(
+      isMenu = (gameStateData.gameState == GameStateDefineValue.GAME_FRONT_END),
+      isPlaying = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_PLAYING),
+      isRestart = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_RESTARTING),
+      isTimedSessions = false,
+      lapsInEvent = 0,
+      viewedParticipantIndex = 0,
+      currentView = None,
+      currentData = None,
+      currentLapData = None,
+      lapDataList = List[LapData]()
+    )
 }
 
-final case class History(
+final case class LapTimeDetailsState(
     isMenu: Boolean,
     isPlaying: Boolean,
     isRestart: Boolean,
@@ -102,10 +65,10 @@ final case class History(
     currentData: Option[CurrentData],
     currentLapData: Option[LapData],
     lapDataList: List[LapData]
-) {
-  import History._
+) extends LazyLogging {
+  import LapTimeDetailsState._
 
-  def toLapTimeDetails(): LapTimeDetails = {
+  def toUdpData(): LapTimeDetails = {
     val current = currentLapData match {
       case Some(a) => a.toLapTime
       case None => emptyLapTime
@@ -141,7 +104,7 @@ final case class History(
         val averageSector3 = lapDataList.flatMap(_.sector3).sum / historyLength
         val averageLapTime = lapDataList.flatMap(_.lapTime).sum / historyLength
         val average = LapTime(
-          lap = History.emptyLap,
+          lap = LapTimeDetailsState.emptyLap,
           sector1 = averageSector1.toMinuteFormatFromSeconds,
           sector2 = averageSector2.toMinuteFormatFromSeconds,
           sector3 = averageSector3.toMinuteFormatFromSeconds,
@@ -179,122 +142,43 @@ final case class History(
         )
     }
   }
-}
 
-final class LapTimeDetailsListener(clientManager: ActorRef)
-  extends Actor
-  with LazyLogging {
-
-  override def preStart() = {
-    logger.debug("LapTimeDetailsListener preStart.");
-  }
-
-  override def postStop() = {
-    logger.debug("LapTimeDetailsListener postStop.")
-  }
-
-  def receive(): Receive = {
-    case udpData: GameStateData =>
-      context.become(processing(createInitialHistory(udpData)))
-  }
-
-  private def processing(history: History): Receive = {
-    case udpData: GameStateData =>
-      val nextHistory = resetHistoryByGameStateData(history, udpData)
-      context.become(processing(nextHistory))
-    case udpData: RaceData if (history.isMenu) =>
-      val nextHistory = resetHistoryByRaceData(history, udpData)
-      val lapTimeDetails = nextHistory.toLapTimeDetails
-      clientManager ! lapTimeDetails
-      context.become(processing(nextHistory))
-    case udpData: TelemetryData if (history.isPlaying) =>
-      if (udpData.participantInfo.viewedParticipantIndex != history.viewedParticipantIndex) {
-        val nextHistory = resetHistoryByViewedParticipantIndex(history, udpData.participantInfo.viewedParticipantIndex)
-        context.become(processing(nextHistory))
-      }
-    case udpData: TimingsData if (history.isMenu && history.currentData != None) =>
-      val nextHistory = resetHistory(history)
-      context.become(processing(nextHistory))
-    case udpData: TimingsData if (history.isRestart && history.currentData != None) =>
-      val nextHistory = resetHistory(history)
-      context.become(processing(nextHistory))
-    case udpData: TimingsData if (history.isPlaying) =>
-      createHistory(history, udpData) match {
-        case Some(nextHistory) =>
-          val lapTimeDetails = nextHistory.toLapTimeDetails
-          context.become(processing(nextHistory))
-        case None => Unit
-      }
-    case udpData: TimeStatsData if (history.isMenu) =>
-      val nextHistory = resetHistory(history)
-      val lapTimeDetails = nextHistory.toLapTimeDetails
-      clientManager ! lapTimeDetails
-      context.become(processing(nextHistory))
-    case udpData: TimeStatsData if (history.isRestart) =>
-      val nextHistory = resetHistory(history)
-      val lapTimeDetails = nextHistory.toLapTimeDetails
-      clientManager ! lapTimeDetails
-      context.become(processing(nextHistory))
-    case udpData: TimeStatsData if (history.isPlaying) =>
-      createHistory(history, udpData) match {
-        case Some(nextHistory) =>
-          val lapTimeDetails = nextHistory.toLapTimeDetails
-          clientManager ! lapTimeDetails
-          context.become(processing(nextHistory))
-        case None => Unit
-      }
-  }
-
-  private def createInitialHistory(gameStateData: GameStateData): History =
-    History(
-      isMenu = (gameStateData.gameState == GameStateDefineValue.GAME_FRONT_END),
-      isPlaying = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_PLAYING),
-      isRestart = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_RESTARTING),
-      isTimedSessions = false,
-      lapsInEvent = 0,
-      viewedParticipantIndex = 0,
-      currentView = None,
-      currentData = None,
-      currentLapData = None,
-      lapDataList = List[LapData]()
-    )
-
-  private def resetHistoryByGameStateData(history: History, gameStateData: GameStateData): History =
-    History(
+  def resetStateByGameStateData(gameStateData: GameStateData): LapTimeDetailsState =
+    LapTimeDetailsState(
       isMenu = (gameStateData.gameState == GameStateDefineValue.GAME_FRONT_END),
       isPlaying = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_PLAYING
         || gameStateData.gameState == GameStateDefineValue.GAME_INGAME_INMENU_TIME_TICKING),
       isRestart = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_RESTARTING),
-      isTimedSessions = history.isTimedSessions,
-      lapsInEvent = history.lapsInEvent,
-      viewedParticipantIndex = history.viewedParticipantIndex,
-      currentView = history.currentView,
-      currentData = history.currentData,
-      currentLapData = history.currentLapData,
-      lapDataList = history.lapDataList
+      isTimedSessions = this.isTimedSessions,
+      lapsInEvent = this.lapsInEvent,
+      viewedParticipantIndex = this.viewedParticipantIndex,
+      currentView = this.currentView,
+      currentData = this.currentData,
+      currentLapData = this.currentLapData,
+      lapDataList = this.lapDataList
     )
 
-  private def resetHistoryByRaceData(history: History, raceData: RaceData): History =
-    History(
-      isMenu = history.isMenu,
-      isPlaying = history.isPlaying,
-      isRestart = history.isRestart,
+  def resetStateByRaceData(raceData: RaceData): LapTimeDetailsState =
+    LapTimeDetailsState(
+      isMenu = this.isMenu,
+      isPlaying = this.isPlaying,
+      isRestart = this.isRestart,
       isTimedSessions = raceData.isTimedSessions,
       lapsInEvent = raceData.lapsInEvent,
-      viewedParticipantIndex = history.viewedParticipantIndex,
+      viewedParticipantIndex = this.viewedParticipantIndex,
       currentView = None,
       currentData = None,
       currentLapData = None,
       lapDataList = List[LapData]()
     )
 
-  private def resetHistoryByViewedParticipantIndex(history: History, viewedParticipantIndex: Byte): History =
-    History(
-      isMenu = history.isMenu,
-      isPlaying = history.isPlaying,
-      isRestart = history.isRestart,
-      isTimedSessions = history.isTimedSessions,
-      lapsInEvent = history.lapsInEvent,
+  def resetStateByViewedParticipantIndex(viewedParticipantIndex: Byte): LapTimeDetailsState =
+    LapTimeDetailsState(
+      isMenu = this.isMenu,
+      isPlaying = this.isPlaying,
+      isRestart = this.isRestart,
+      isTimedSessions = this.isTimedSessions,
+      lapsInEvent = this.lapsInEvent,
       viewedParticipantIndex = viewedParticipantIndex,
       currentView = None,
       currentData = None,
@@ -302,27 +186,27 @@ final class LapTimeDetailsListener(clientManager: ActorRef)
       lapDataList = List[LapData]()
     )
 
-  private def resetHistory(history: History): History =
-    History(
-      isMenu = history.isMenu,
-      isPlaying = history.isPlaying,
-      isRestart = history.isRestart,
-      isTimedSessions = history.isTimedSessions,
-      lapsInEvent = history.lapsInEvent,
-      viewedParticipantIndex = history.viewedParticipantIndex,
+  def resetState(): LapTimeDetailsState =
+    LapTimeDetailsState(
+      isMenu = this.isMenu,
+      isPlaying = this.isPlaying,
+      isRestart = this.isRestart,
+      isTimedSessions = this.isTimedSessions,
+      lapsInEvent = this.lapsInEvent,
+      viewedParticipantIndex = this.viewedParticipantIndex,
       currentView = None,
       currentData = None,
       currentLapData = None,
       lapDataList = List[LapData]()
     )
 
-  private def createHistory(history: History, timingsData: TimingsData): Option[History] = {
-    val participant = timingsData.participants(history.viewedParticipantIndex)
+  def createState(timingsData: TimingsData): Option[LapTimeDetailsState] = {
+    val participant = timingsData.participants(this.viewedParticipantIndex)
     if (participant.currentTime < 0) {
       return None
     }
 
-    history.currentData match {
+    this.currentData match {
       case Some(currentData) =>
         if (participant.currentLap != currentData.currentLap
           || participant.sector != currentData.sector) {
@@ -330,7 +214,7 @@ final class LapTimeDetailsListener(clientManager: ActorRef)
             participant.currentLap, participant.sector,
             participant.currentTime, participant.currentSectorTime
           )
-          Some(mergeHistory(history, newCurrentData))
+          Some(mergeState(newCurrentData))
         } else {
           None
         }
@@ -339,83 +223,83 @@ final class LapTimeDetailsListener(clientManager: ActorRef)
           participant.currentLap, participant.sector,
           participant.currentTime, participant.currentSectorTime
         )
-        Some(mergeHistory(history, newCurrentData))
+        Some(mergeState(newCurrentData))
     }
   }
 
-  private def createHistory(history: History, timeStatsData: TimeStatsData): Option[History] =
-    (history.currentData, history.currentLapData) match {
+  def createState(timeStatsData: TimeStatsData): Option[LapTimeDetailsState] =
+    (this.currentData, this.currentLapData) match {
       case (Some(currentData), Some(currentLapData)) =>
         currentData.currentLap match {
           case currentLap if (currentLap == currentLapData.lap) =>
             currentData.sector match {
               case 1 =>
                 val lapData = LapData(currentData.currentLap, None, None, None, None)
-                Some(mergeHistory(history, lapData))
+                Some(mergeState(lapData))
               case 2 =>
-                val stat = timeStatsData.stats.participants(history.viewedParticipantIndex)
+                val stat = timeStatsData.stats.participants(this.viewedParticipantIndex)
                 val lapData = LapData(currentData.currentLap, Some(stat.lastSectorTime), None, None, None)
-                Some(mergeHistory(history, lapData))
+                Some(mergeState(lapData))
               case 3 =>
-                val stat = timeStatsData.stats.participants(history.viewedParticipantIndex)
+                val stat = timeStatsData.stats.participants(this.viewedParticipantIndex)
                 val lapData = LapData(currentData.currentLap, currentLapData.sector1, Some(stat.lastSectorTime), None, None)
-                Some(mergeHistory(history, lapData))
+                Some(mergeState(lapData))
               case _ =>
                 logger.warn(s"Received unknown sector: ${currentData.sector}")
-                Some(resetHistory(history))
+                Some(resetState())
             }
           case currentLap if (currentLap > currentLapData.lap) =>
             (currentLapData.sector1, currentLapData.sector2, currentLapData.sector3) match {
               case (Some(_), Some(_), Some(_)) =>
-                Some(history)
+                Some(this)
               case (Some(_), Some(_), None) =>
-                val stat = timeStatsData.stats.participants(history.viewedParticipantIndex)
+                val stat = timeStatsData.stats.participants(this.viewedParticipantIndex)
                 val lapData = LapData(
                   currentLapData.lap, currentLapData.sector1, currentLapData.sector2, Some(stat.lastSectorTime), Some(stat.lastLapTime)
                 )
-                Some(addHistory(history, lapData))
+                Some(addCurrentLapData(lapData))
               case (Some(_), None, None) =>
-                val stat = timeStatsData.stats.participants(history.viewedParticipantIndex)
+                val stat = timeStatsData.stats.participants(this.viewedParticipantIndex)
                 val lapData = LapData(
                   currentLapData.lap, currentLapData.sector1, Some(stat.lastSectorTime), None, Some(stat.lastLapTime)
                 )
-                Some(addHistory(history, lapData))
+                Some(addCurrentLapData(lapData))
               case (None, None, None) =>
-                val stat = timeStatsData.stats.participants(history.viewedParticipantIndex)
+                val stat = timeStatsData.stats.participants(this.viewedParticipantIndex)
                 val lapData = LapData(
                   currentLapData.lap, Some(stat.lastSectorTime), None, None, Some(stat.lastLapTime)
                 )
-                Some(addHistory(history, lapData))
+                Some(addCurrentLapData(lapData))
               case _ =>
                 logger.warn("Current data is inconsistent.")
-                Some(resetHistory(history))
+                Some(resetState())
             }
           case _ =>
             logger.warn("Current lap is inconsistent.")
-            Some(resetHistory(history))
+            Some(resetState())
         }
       case (Some(currentData), None) =>
         currentData.sector match {
           case 1 =>
             val lapData = LapData(currentData.currentLap, None, None, None, None)
-            Some(mergeHistory(history, lapData))
+            Some(mergeState(lapData))
           case 2 =>
-            val stat = timeStatsData.stats.participants(history.viewedParticipantIndex)
+            val stat = timeStatsData.stats.participants(this.viewedParticipantIndex)
             val lapData = LapData(currentData.currentLap, Some(stat.lastSectorTime), None, None, None)
-            Some(mergeHistory(history, lapData))
+            Some(mergeState(lapData))
           case 3 =>
-            val stat = timeStatsData.stats.participants(history.viewedParticipantIndex)
+            val stat = timeStatsData.stats.participants(this.viewedParticipantIndex)
             val lapData = LapData(currentData.currentLap, None, Some(stat.lastSectorTime), None, None)
-            Some(mergeHistory(history, lapData))
+            Some(mergeState(lapData))
           case _ =>
             logger.warn(s"Received unknown sector: ${currentData.sector}")
-            Some(resetHistory(history))
+            Some(resetState())
         }
       case _ => None
     }
 
-  private def mergeHistory(history: History, currentData: CurrentData): History = {
-    val currentView = history.currentLapData match {
+  def mergeState(currentData: CurrentData): LapTimeDetailsState = {
+    val currentView = this.currentLapData match {
       case Some(currentLapData) => currentData.sector match {
         case 1 =>
           Some(LapData(
@@ -464,79 +348,190 @@ final class LapTimeDetailsListener(clientManager: ActorRef)
       }
     }
 
-    History(
-      isMenu = history.isMenu,
-      isPlaying = history.isPlaying,
-      isRestart = history.isRestart,
-      isTimedSessions = history.isTimedSessions,
-      lapsInEvent = history.lapsInEvent,
-      viewedParticipantIndex = history.viewedParticipantIndex,
+    LapTimeDetailsState(
+      isMenu = this.isMenu,
+      isPlaying = this.isPlaying,
+      isRestart = this.isRestart,
+      isTimedSessions = this.isTimedSessions,
+      lapsInEvent = this.lapsInEvent,
+      viewedParticipantIndex = this.viewedParticipantIndex,
       currentView = currentView,
       currentData = Some(currentData),
-      currentLapData = history.currentLapData,
-      lapDataList = history.lapDataList
+      currentLapData = this.currentLapData,
+      lapDataList = this.lapDataList
     )
   }
 
-  private def mergeHistory(history: History, currentLapData: LapData): History =
-    History(
-      isMenu = history.isMenu,
-      isPlaying = history.isPlaying,
-      isRestart = history.isRestart,
-      isTimedSessions = history.isTimedSessions,
-      lapsInEvent = history.lapsInEvent,
-      viewedParticipantIndex = history.viewedParticipantIndex,
-      currentView = history.currentView,
-      currentData = history.currentData,
+  def mergeState(currentLapData: LapData): LapTimeDetailsState =
+    LapTimeDetailsState(
+      isMenu = this.isMenu,
+      isPlaying = this.isPlaying,
+      isRestart = this.isRestart,
+      isTimedSessions = this.isTimedSessions,
+      lapsInEvent = this.lapsInEvent,
+      viewedParticipantIndex = this.viewedParticipantIndex,
+      currentView = this.currentView,
+      currentData = this.currentData,
       currentLapData = Some(currentLapData),
-      lapDataList = history.lapDataList
+      lapDataList = this.lapDataList
     )
 
-  private def addHistory(history: History, currentLapData: LapData): History =
-    (history.isTimedSessions, history.lapsInEvent) match {
+  def addCurrentLapData(currentLapData: LapData): LapTimeDetailsState =
+    (this.isTimedSessions, this.lapsInEvent) match {
       case (isTimedSessions, lapsInEvent) if (isTimedSessions) =>
         // Time session.
-        History(
-          isMenu = history.isMenu,
-          isPlaying = history.isPlaying,
-          isRestart = history.isRestart,
-          isTimedSessions = history.isTimedSessions,
-          lapsInEvent = history.lapsInEvent,
-          viewedParticipantIndex = history.viewedParticipantIndex,
-          currentView = history.currentView,
-          currentData = history.currentData,
+        LapTimeDetailsState(
+          isMenu = this.isMenu,
+          isPlaying = this.isPlaying,
+          isRestart = this.isRestart,
+          isTimedSessions = this.isTimedSessions,
+          lapsInEvent = this.lapsInEvent,
+          viewedParticipantIndex = this.viewedParticipantIndex,
+          currentView = this.currentView,
+          currentData = this.currentData,
           currentLapData = None,
-          lapDataList = history.lapDataList :+ currentLapData
+          lapDataList = this.lapDataList :+ currentLapData
         )
       case (isTimedSessions, lapsInEvent) if (!isTimedSessions && lapsInEvent == 0) =>
         // Practice.
-        History(
-          isMenu = history.isMenu,
-          isPlaying = history.isPlaying,
-          isRestart = history.isRestart,
-          isTimedSessions = history.isTimedSessions,
-          lapsInEvent = history.lapsInEvent,
-          viewedParticipantIndex = history.viewedParticipantIndex,
-          currentView = history.currentView,
-          currentData = history.currentData,
+        LapTimeDetailsState(
+          isMenu = this.isMenu,
+          isPlaying = this.isPlaying,
+          isRestart = this.isRestart,
+          isTimedSessions = this.isTimedSessions,
+          lapsInEvent = this.lapsInEvent,
+          viewedParticipantIndex = this.viewedParticipantIndex,
+          currentView = this.currentView,
+          currentData = this.currentData,
           currentLapData = None,
-          lapDataList = history.lapDataList :+ currentLapData
+          lapDataList = this.lapDataList :+ currentLapData
         )
-      case (isTimedSessions, lapsInEvent) if (!isTimedSessions && lapsInEvent >= history.lapDataList.length) =>
+      case (isTimedSessions, lapsInEvent) if (!isTimedSessions && lapsInEvent >= this.lapDataList.length) =>
         // Laps session.
-        History(
-          isMenu = history.isMenu,
-          isPlaying = history.isPlaying,
-          isRestart = history.isRestart,
-          isTimedSessions = history.isTimedSessions,
-          lapsInEvent = history.lapsInEvent,
-          viewedParticipantIndex = history.viewedParticipantIndex,
-          currentView = history.currentView,
-          currentData = history.currentData,
+        LapTimeDetailsState(
+          isMenu = this.isMenu,
+          isPlaying = this.isPlaying,
+          isRestart = this.isRestart,
+          isTimedSessions = this.isTimedSessions,
+          lapsInEvent = this.lapsInEvent,
+          viewedParticipantIndex = this.viewedParticipantIndex,
+          currentView = this.currentView,
+          currentData = this.currentData,
           currentLapData = None,
-          lapDataList = history.lapDataList :+ currentLapData
+          lapDataList = this.lapDataList :+ currentLapData
         )
       case _ =>
-        history
+        this
     }
+}
+
+final case class CurrentData(
+    currentLap: Short,
+    sector: Short,
+    currentTime: Float,
+    currentSectorTime: Float
+)
+
+final case class LapData(
+    lap: Short,
+    sector1: Option[Float],
+    sector2: Option[Float],
+    sector3: Option[Float],
+    lapTime: Option[Float]
+) {
+  def toLapTime(): LapTime = {
+    LapTime(
+      lap = s"${lap}",
+      sector1 = toTimeString(sector1),
+      sector2 = toTimeString(sector2),
+      sector3 = toTimeString(sector3),
+      lapTime = toTimeString(lapTime),
+      delta = LapTimeDetailsState.emptyTime
+    )
+  }
+
+  def toLapTime(delta: Float): LapTime = {
+    LapTime(
+      lap = s"${lap}",
+      sector1 = toTimeString(sector1),
+      sector2 = toTimeString(sector2),
+      sector3 = toTimeString(sector3),
+      lapTime = toTimeString(lapTime),
+      delta = delta.toMinuteFormatFromSecondsWithSigned
+    )
+  }
+
+  private def toTimeString(value: Option[Float]): String = {
+    value match {
+      case Some(v) => v.toMinuteFormatFromSeconds
+      case None => LapTimeDetailsState.emptyTime
+    }
+  }
+
+  private def toTimeWithSignedString(value: Option[Float]): String = {
+    value match {
+      case Some(v) => v.toMinuteFormatFromSecondsWithSigned
+      case None => LapTimeDetailsState.emptyTime
+    }
+  }
+}
+
+final class LapTimeDetailsListener(clientManager: ActorRef)
+  extends Actor
+  with LazyLogging {
+
+  override def preStart() = {
+    logger.debug("LapTimeDetailsListener preStart.");
+  }
+
+  override def postStop() = {
+    logger.debug("LapTimeDetailsListener postStop.")
+  }
+
+  def receive(): Receive = {
+    case udpData: GameStateData =>
+      context.become(processing(LapTimeDetailsState.createInitialState(udpData)))
+  }
+
+  private def processing(state: LapTimeDetailsState): Receive = {
+    case udpData: GameStateData =>
+      val nextState = state.resetStateByGameStateData(udpData)
+      context.become(processing(nextState))
+    case udpData: RaceData if (state.isMenu) =>
+      val nextState = state.resetStateByRaceData(udpData)
+      clientManager ! nextState.toUdpData
+      context.become(processing(nextState))
+    case udpData: TelemetryData if (state.isPlaying) =>
+      if (udpData.participantInfo.viewedParticipantIndex != state.viewedParticipantIndex) {
+        val nextState = state.resetStateByViewedParticipantIndex(udpData.participantInfo.viewedParticipantIndex)
+        context.become(processing(nextState))
+      }
+    case udpData: TimingsData if (state.isMenu && state.currentData != None) =>
+      val nextState = state.resetState()
+      context.become(processing(nextState))
+    case udpData: TimingsData if (state.isRestart && state.currentData != None) =>
+      val nextState = state.resetState()
+      context.become(processing(nextState))
+    case udpData: TimingsData if (state.isPlaying) =>
+      state.createState(udpData) match {
+        case Some(nextState) =>
+          context.become(processing(nextState))
+        case None => Unit
+      }
+    case udpData: TimeStatsData if (state.isMenu) =>
+      val nextState = state.resetState()
+      clientManager ! nextState.toUdpData
+      context.become(processing(nextState))
+    case udpData: TimeStatsData if (state.isRestart) =>
+      val nextState = state.resetState()
+      clientManager ! nextState.toUdpData
+      context.become(processing(nextState))
+    case udpData: TimeStatsData if (state.isPlaying) =>
+      state.createState(udpData) match {
+        case Some(nextState) =>
+          clientManager ! nextState.toUdpData
+          context.become(processing(nextState))
+        case None => Unit
+      }
+  }
 }
