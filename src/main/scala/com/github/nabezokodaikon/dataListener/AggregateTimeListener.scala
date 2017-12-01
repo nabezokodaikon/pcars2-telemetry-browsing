@@ -17,16 +17,17 @@ import com.github.nabezokodaikon.udpListener.{
 import com.github.nabezokodaikon.util.BigDecimalSupport._
 import com.typesafe.scalalogging.LazyLogging
 
-final case class TotalTime(
-    sector: Short,
-    lastSector: Short,
-    currentSectorTime: Float,
-    cumulativeTime: Float
-)
-
-final object TotalTime {
-  val empty: TotalTime = TotalTime(0, 0, 0f, 0f)
-  val emptyArray: Array[TotalTime] = Array.fill(32)(empty)
+final object TotalTimeStorage {
+  val base = PacketBase(
+    packetNumber = 0,
+    categoryPacketNumber = 0,
+    partialPacketIndex = 0,
+    partialPacketNumber = 0,
+    packetType = UdpStreamerPacketHandlerType.AGGREGATE_TIME,
+    packetVersion = 0,
+    dataTimestamp = System.currentTimeMillis,
+    dataSize = 0
+  )
 }
 
 final case class TotalTimeStorage(
@@ -57,18 +58,17 @@ final case class TotalTimeStorage(
   }
 }
 
-final object TotalTimeStorage {
-  val base = PacketBase(
-    packetNumber = 0,
-    categoryPacketNumber = 0,
-    partialPacketIndex = 0,
-    partialPacketNumber = 0,
-    packetType = UdpStreamerPacketHandlerType.AGGREGATE_TIME,
-    packetVersion = 0,
-    dataTimestamp = System.currentTimeMillis,
-    dataSize = 0
-  )
+final object TotalTime {
+  val empty: TotalTime = TotalTime(0, 0, 0f, 0f)
+  val emptyArray: Array[TotalTime] = Array.fill(32)(empty)
 }
+
+final case class TotalTime(
+    sector: Short,
+    lastSector: Short,
+    currentSectorTime: Float,
+    cumulativeTime: Float
+)
 
 final class AggregateTimeListener(clientManager: ActorRef)
   extends Actor
