@@ -17,7 +17,7 @@ import com.github.nabezokodaikon.udpListener.{
 import com.github.nabezokodaikon.util.BigDecimalSupport._
 import com.typesafe.scalalogging.LazyLogging
 
-final object TotalTimeStorage {
+final object TimeAggregateState {
   val base = PacketBase(
     packetNumber = 0,
     categoryPacketNumber = 0,
@@ -28,18 +28,27 @@ final object TotalTimeStorage {
     dataTimestamp = System.currentTimeMillis,
     dataSize = 0
   )
+
+  def createInitialState(gameStateData: GameStateData): TimeAggregateState =
+    TimeAggregateState(
+      isMenu = (gameStateData.gameState == GameStateDefineValue.GAME_FRONT_END),
+      isPlaying = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_PLAYING),
+      isRestart = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_RESTARTING),
+      viewedParticipantIndex = 0,
+      totalTimes = TotalTime.emptyArray
+    )
 }
 
-final case class TotalTimeStorage(
+final case class TimeAggregateState(
     isMenu: Boolean,
     isPlaying: Boolean,
     isRestart: Boolean,
     viewedParticipantIndex: Byte,
     totalTimes: Array[TotalTime]
 ) {
-  import TotalTimeStorage._
+  import TimeAggregateState._
 
-  def toTotalTimeData(): AggregateTime = {
+  def toUdpData(): AggregateTime = {
     val cumulativeTimes = for {
       i <- totalTimes
       if (i.currentSectorTime > 0f)
@@ -56,6 +65,102 @@ final case class TotalTimeStorage(
       gapTime = gapTime.toMinuteFormatFromSeconds
     )
   }
+
+  def resetState(gameStateData: GameStateData): TimeAggregateState =
+    TimeAggregateState(
+      isMenu = (gameStateData.gameState == GameStateDefineValue.GAME_FRONT_END),
+      isPlaying = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_PLAYING
+        || gameStateData.gameState == GameStateDefineValue.GAME_INGAME_INMENU_TIME_TICKING),
+      isRestart = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_RESTARTING),
+      viewedParticipantIndex = this.viewedParticipantIndex,
+      totalTimes = this.totalTimes
+    )
+
+  def resetState(): TimeAggregateState =
+    TimeAggregateState(
+      isMenu = this.isMenu,
+      isPlaying = this.isPlaying,
+      isRestart = this.isRestart,
+      viewedParticipantIndex = this.viewedParticipantIndex,
+      totalTimes = TotalTime.emptyArray
+    )
+
+  def mergeViewedParticipantIndex(viewedParticipantIndex: Byte): TimeAggregateState =
+    TimeAggregateState(
+      isMenu = this.isMenu,
+      isPlaying = this.isPlaying,
+      isRestart = this.isRestart,
+      viewedParticipantIndex = viewedParticipantIndex,
+      totalTimes = TotalTime.emptyArray
+    )
+
+  def mergeState(timingsData: TimingsData): Option[TimeAggregateState] = {
+    if (this.totalTimes.length < 32 || timingsData.participants.length < 32) {
+      return None
+    }
+
+    val participant = timingsData.participants(this.viewedParticipantIndex)
+    if (participant.currentTime < 0) {
+      return None
+    }
+
+    val totalTimes =
+      for (
+        i <- 0 to 31
+      ) yield mergeTotalTime(this.totalTimes(i), timingsData.participants(i))
+
+    Some(TimeAggregateState(
+      isMenu = this.isMenu,
+      isPlaying = this.isPlaying,
+      isRestart = this.isRestart,
+      viewedParticipantIndex = this.viewedParticipantIndex,
+      totalTimes = totalTimes.toArray
+    ))
+  }
+
+  def mergeTotalTime(totalTime: TotalTime, participantInfo: ParticipantInfo): TotalTime =
+    TotalTime(
+      sector = participantInfo.sector,
+      lastSector =
+        if (totalTime.sector != participantInfo.sector) totalTime.lastSector
+        else totalTime.sector,
+      currentSectorTime = participantInfo.currentSectorTime,
+      cumulativeTime = totalTime.cumulativeTime
+    )
+
+  def mergeState(timeStatsData: TimeStatsData): Option[TimeAggregateState] = {
+    if (this.totalTimes.length < 32 || timeStatsData.stats.participants.length < 32) {
+      return None
+    }
+
+    val totalTimes =
+      for (
+        i <- 0 to 31
+      ) yield mergeTotalTime(this.totalTimes(i), timeStatsData.stats.participants(i))
+
+    Some(TimeAggregateState(
+      isMenu = this.isMenu,
+      isPlaying = this.isPlaying,
+      isRestart = this.isRestart,
+      viewedParticipantIndex = this.viewedParticipantIndex,
+      totalTimes = totalTimes.toArray
+    ))
+  }
+
+  def mergeTotalTime(totalTime: TotalTime, participantInfo: ParticipantStatsInfo): TotalTime = {
+    if (totalTime.sector == totalTime.lastSector) {
+      return totalTime
+    }
+
+    val lastSectorTime = if (participantInfo.lastSectorTime > 0f) participantInfo.lastSectorTime else 0f
+
+    TotalTime(
+      sector = totalTime.sector,
+      lastSector = totalTime.lastSector,
+      currentSectorTime = totalTime.currentSectorTime,
+      cumulativeTime = totalTime.cumulativeTime + lastSectorTime
+    )
+  }
 }
 
 final object TotalTime {
@@ -70,176 +175,57 @@ final case class TotalTime(
     cumulativeTime: Float
 )
 
-final class AggregateTimeListener(clientManager: ActorRef)
+final class TimeAggregateListener(clientManager: ActorRef)
   extends Actor
   with LazyLogging {
 
   override def preStart() = {
-    logger.debug("AggregateTimeListener preStart.");
+    logger.debug("TimeAggregateListener preStart.");
   }
 
   override def postStop() = {
-    logger.debug("AggregateTimeListener postStop.")
+    logger.debug("TimeAggregateListener postStop.")
   }
 
   def receive(): Receive = {
     case udpData: GameStateData =>
-      context.become(processing(createInitialStorage(udpData)))
+      context.become(processing(TimeAggregateState.createInitialState(udpData)))
   }
 
-  private def processing(storage: TotalTimeStorage): Receive = {
+  private def processing(state: TimeAggregateState): Receive = {
     case udpData: GameStateData =>
-      val nextStorage = resetStorage(storage, udpData)
-      context.become(processing(nextStorage))
-    case udpData: RaceData if (storage.isMenu) =>
-      val nextStorage = resetStorage(storage)
-      clientManager ! nextStorage.toTotalTimeData()
-      context.become(processing(nextStorage))
-    case udpData: TelemetryData if (storage.isPlaying) =>
-      if (udpData.participantInfo.viewedParticipantIndex != storage.viewedParticipantIndex) {
-        val nextStorage = mergeViewedParticipantIndex(
-          storage, udpData.participantInfo.viewedParticipantIndex
-        )
-        context.become(processing(nextStorage))
+      val nextState = state.resetState(udpData)
+      context.become(processing(nextState))
+    case udpData: RaceData if (state.isMenu) =>
+      val nextState = state.resetState()
+      clientManager ! nextState.toUdpData()
+      context.become(processing(nextState))
+    case udpData: TelemetryData if (state.isPlaying) =>
+      if (udpData.participantInfo.viewedParticipantIndex != state.viewedParticipantIndex) {
+        val nextState = state.mergeViewedParticipantIndex(udpData.participantInfo.viewedParticipantIndex)
+        context.become(processing(nextState))
       }
-    case udpData: TimingsData if (storage.isPlaying) =>
-      mergeStorage(storage, udpData) match {
-        case Some(nextStorage) =>
-          clientManager ! nextStorage.toTotalTimeData()
-          context.become(processing(nextStorage))
+    case udpData: TimingsData if (state.isPlaying) =>
+      state.mergeState(udpData) match {
+        case Some(nextState) =>
+          clientManager ! nextState.toUdpData()
+          context.become(processing(nextState))
         case None => Unit
       }
-    case udpData: TimeStatsData if (storage.isMenu) =>
-      val nextStorage = resetStorage(storage)
-      clientManager ! nextStorage.toTotalTimeData()
-      context.become(processing(nextStorage))
-    case udpData: TimeStatsData if (storage.isRestart) =>
-      val nextStorage = resetStorage(storage)
-      clientManager ! nextStorage.toTotalTimeData()
-      context.become(processing(nextStorage))
-    case udpData: TimeStatsData if (storage.isPlaying) =>
-      mergeStorage(storage, udpData) match {
-        case Some(nextStorage) =>
-          clientManager ! nextStorage.toTotalTimeData()
-          context.become(processing(nextStorage))
+    case udpData: TimeStatsData if (state.isMenu) =>
+      val nextState = state.resetState()
+      clientManager ! nextState.toUdpData()
+      context.become(processing(nextState))
+    case udpData: TimeStatsData if (state.isRestart) =>
+      val nextState = state.resetState()
+      clientManager ! nextState.toUdpData()
+      context.become(processing(nextState))
+    case udpData: TimeStatsData if (state.isPlaying) =>
+      state.mergeState(udpData) match {
+        case Some(nextState) =>
+          clientManager ! nextState.toUdpData()
+          context.become(processing(nextState))
         case None => Unit
       }
-  }
-
-  private def createInitialStorage(gameStateData: GameStateData): TotalTimeStorage =
-    TotalTimeStorage(
-      isMenu = (gameStateData.gameState == GameStateDefineValue.GAME_FRONT_END),
-      isPlaying = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_PLAYING),
-      isRestart = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_RESTARTING),
-      viewedParticipantIndex = 0,
-      totalTimes = TotalTime.emptyArray
-    )
-
-  private def resetStorage(
-    storage: TotalTimeStorage, gameStateData: GameStateData
-  ): TotalTimeStorage =
-    TotalTimeStorage(
-      isMenu = (gameStateData.gameState == GameStateDefineValue.GAME_FRONT_END),
-      isPlaying = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_PLAYING
-        || gameStateData.gameState == GameStateDefineValue.GAME_INGAME_INMENU_TIME_TICKING),
-      isRestart = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_RESTARTING),
-      viewedParticipantIndex = storage.viewedParticipantIndex,
-      totalTimes = storage.totalTimes
-    )
-
-  private def resetStorage(storage: TotalTimeStorage): TotalTimeStorage =
-    TotalTimeStorage(
-      isMenu = storage.isMenu,
-      isPlaying = storage.isPlaying,
-      isRestart = storage.isRestart,
-      viewedParticipantIndex = storage.viewedParticipantIndex,
-      totalTimes = TotalTime.emptyArray
-    )
-
-  private def mergeViewedParticipantIndex(
-    storage: TotalTimeStorage, viewedParticipantIndex: Byte
-  ): TotalTimeStorage =
-    TotalTimeStorage(
-      isMenu = storage.isMenu,
-      isPlaying = storage.isPlaying,
-      isRestart = storage.isRestart,
-      viewedParticipantIndex = viewedParticipantIndex,
-      totalTimes = TotalTime.emptyArray
-    )
-
-  private def mergeStorage(
-    storage: TotalTimeStorage, timingsData: TimingsData
-  ): Option[TotalTimeStorage] = {
-    if (storage.totalTimes.length < 32 || timingsData.participants.length < 32) {
-      return None
-    }
-
-    val participant = timingsData.participants(storage.viewedParticipantIndex)
-    if (participant.currentTime < 0) {
-      return None
-    }
-
-    val totalTimes =
-      for (
-        i <- 0 to 31
-      ) yield mergeTotalTime(storage.totalTimes(i), timingsData.participants(i))
-
-    Some(TotalTimeStorage(
-      isMenu = storage.isMenu,
-      isPlaying = storage.isPlaying,
-      isRestart = storage.isRestart,
-      viewedParticipantIndex = storage.viewedParticipantIndex,
-      totalTimes = totalTimes.toArray
-    ))
-  }
-
-  private def mergeTotalTime(
-    totalTime: TotalTime, participantInfo: ParticipantInfo
-  ): TotalTime =
-    TotalTime(
-      sector = participantInfo.sector,
-      lastSector =
-        if (totalTime.sector != participantInfo.sector) totalTime.lastSector
-        else totalTime.sector,
-      currentSectorTime = participantInfo.currentSectorTime,
-      cumulativeTime = totalTime.cumulativeTime
-    )
-
-  private def mergeStorage(
-    storage: TotalTimeStorage, timeStatsData: TimeStatsData
-  ): Option[TotalTimeStorage] = {
-    if (storage.totalTimes.length < 32 || timeStatsData.stats.participants.length < 32) {
-      return None
-    }
-
-    val totalTimes =
-      for (
-        i <- 0 to 31
-      ) yield mergeTotalTime(storage.totalTimes(i), timeStatsData.stats.participants(i))
-
-    Some(TotalTimeStorage(
-      isMenu = storage.isMenu,
-      isPlaying = storage.isPlaying,
-      isRestart = storage.isRestart,
-      viewedParticipantIndex = storage.viewedParticipantIndex,
-      totalTimes = totalTimes.toArray
-    ))
-  }
-
-  private def mergeTotalTime(
-    totalTime: TotalTime, participantInfo: ParticipantStatsInfo
-  ): TotalTime = {
-    if (totalTime.sector == totalTime.lastSector) {
-      return totalTime
-    }
-
-    val lastSectorTime = if (participantInfo.lastSectorTime > 0f) participantInfo.lastSectorTime else 0f
-
-    TotalTime(
-      sector = totalTime.sector,
-      lastSector = totalTime.lastSector,
-      currentSectorTime = totalTime.currentSectorTime,
-      cumulativeTime = totalTime.cumulativeTime + lastSectorTime
-    )
   }
 }

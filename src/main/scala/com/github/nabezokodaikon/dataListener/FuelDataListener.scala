@@ -315,11 +315,11 @@ final class FuelDataListener(clientManager: ActorRef)
   with LazyLogging {
 
   override def preStart() = {
-    logger.debug("AggregateTimeListener preStart.");
+    logger.debug("TimeAggregateListener preStart.");
   }
 
   override def postStop() = {
-    logger.debug("AggregateTimeListener postStop.")
+    logger.debug("TimeAggregateListener postStop.")
   }
 
   def receive(): Receive = {

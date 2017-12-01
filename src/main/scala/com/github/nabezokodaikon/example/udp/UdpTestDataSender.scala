@@ -133,28 +133,28 @@ class UdpTestDataSender(clientManager: ActorRef) extends Actor with LazyLogging 
         clientManager ! udpData
         lapTimeDetailsListener ! udpData
         fuelDataListener ! udpData
-      // aggregateTimeListener ! udpData
+      // timeAggregateListener ! udpData
       case udpData: RaceData =>
         clientManager ! udpData
         lapTimeDetailsListener ! udpData
         fuelDataListener ! udpData
-      // aggregateTimeListener ! udpData
+      // timeAggregateListener ! udpData
       case udpData: ParticipantsData =>
         participantsDataListener ! udpData
       case udpData: TimingsData =>
         clientManager ! udpData
         lapTimeDetailsListener ! udpData
         fuelDataListener ! udpData
-      // aggregateTimeListener ! udpData
+      // timeAggregateListener ! udpData
       case udpData: GameStateData =>
         clientManager ! udpData
         lapTimeDetailsListener ! udpData
         fuelDataListener ! udpData
-      // aggregateTimeListener ! udpData
+      // timeAggregateListener ! udpData
       case udpData: TimeStatsData =>
         clientManager ! udpData
         lapTimeDetailsListener ! udpData
-      // aggregateTimeListener ! udpData
+      // timeAggregateListener ! udpData
       case udpData: ParticipantVehicleNamesData =>
         participantVehicleNamesDataListener ! udpData
       case udpData: VehicleClassNamesData =>
