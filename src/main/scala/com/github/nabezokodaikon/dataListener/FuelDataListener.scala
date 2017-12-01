@@ -201,6 +201,8 @@ final case class FuelDataState(
     val participant = timingsData.participants(this.viewedParticipantIndex)
     if (participant.currentTime < 0) return None
     (participant.currentLap, participant.sector, toPitMode(participant.pitMode), this.consumptionUntilPitIn) match {
+      case (_, _, pitMode, _) if (pitMode == PIT_MODE_DRIVING_OUT_OF_GARAGE || pitMode == PIT_MODE_IN_GARAGE) =>
+        Some(resetState())
       case (currentLap, sector, _, _) if (currentLap == 1 && sector == 1 && (this.currentLap != 1 || this.currentSector != 1)) =>
         Some(FuelDataState(
           isMenu = this.isMenu,
