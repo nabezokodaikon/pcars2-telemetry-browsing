@@ -4,14 +4,14 @@ import akka.actor.{ Actor, ActorRef, PoisonPill, Props }
 import akka.pattern.{ AskTimeoutException, gracefulStop }
 import com.github.nabezokodaikon.ClientManager
 import com.github.nabezokodaikon.dataListener.{
-  ParticipantsDataListener,
-  ParticipantVehicleNamesDataListener,
-  VehicleClassNamesDataListener,
   LapTimeDetailsListener,
   FuelDataListener
 }
 import com.github.nabezokodaikon.udpListener.{
   UdpListener,
+  ParticipantsDataListener,
+  VehicleClassNamesDataListener,
+  ParticipantVehicleNamesDataListener,
   UdpData,
   TelemetryData,
   RaceData,

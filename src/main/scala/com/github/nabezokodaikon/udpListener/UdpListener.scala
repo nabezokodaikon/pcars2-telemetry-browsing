@@ -5,9 +5,6 @@ import akka.io.{ IO, Udp }
 import akka.pattern.{ AskTimeoutException, gracefulStop }
 import com.github.nabezokodaikon.UsingActor._
 import com.github.nabezokodaikon.dataListener.{
-  ParticipantsDataListener,
-  ParticipantVehicleNamesDataListener,
-  VehicleClassNamesDataListener,
   LapTimeDetailsListener,
   TimeAggregateListener,
   FuelDataListener
