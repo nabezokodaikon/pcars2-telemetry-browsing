@@ -1,5 +1,5 @@
 /*
-package com.github.nabezokodaikon.example.udp
+package pcars2tb.example.udp
 
 import akka.actor.{ Actor, ActorRef, ActorSystem, Props }
 import akka.io.{ IO, Udp }

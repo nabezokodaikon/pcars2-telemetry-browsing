@@ -34,7 +34,7 @@
     </root>
 
     <!-- Output to file -->
-    <logger name="com.github.nabezokodaikon" level="error">
+    <logger name="pcars2tb" level="error">
         <appender-ref ref="FILE" />
     </logger>
 

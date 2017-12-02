@@ -1,8 +1,8 @@
-package com.github.nabezokodaikon.db
+package pcars2tb.db
 
-import com.github.nabezokodaikon.util.FileUtil
 import com.typesafe.scalalogging.LazyLogging
 import org.mapdb.{ DB, DBException, DBMaker, Serializer }
+import pcars2tb.util.FileUtil
 import scala.util.control.Exception.catching
 
 final class OptionDBAccessor(file: String) extends LazyLogging {

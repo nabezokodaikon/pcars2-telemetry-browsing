@@ -1,15 +1,15 @@
-package com.github.nabezokodaikon.example
+package pcars2tb.example
 
 import akka.http.scaladsl.model.ws.TextMessage
-import com.github.nabezokodaikon.pcars1._
-import com.github.nabezokodaikon.pcars1.Encoding
-import com.github.nabezokodaikon.pcars1.ParticipantInfo
-import com.github.nabezokodaikon.pcars1.TelemetryDataStructFactory._
-import com.github.nabezokodaikon.udpListener._
-import com.github.nabezokodaikon.udpListener.UdpDataReader._
-import com.github.nabezokodaikon.util.Loan.runningTime
-import com.github.nabezokodaikon.util.FileUtil
 import com.typesafe.scalalogging.LazyLogging
+import pcars2tb.pcars1._
+import pcars2tb.pcars1.Encoding
+import pcars2tb.pcars1.ParticipantInfo
+import pcars2tb.pcars1.TelemetryDataStructFactory._
+import pcars2tb.udp.listener._
+import pcars2tb.udp.listener.UdpDataReader._
+import pcars2tb.util.Loan.runningTime
+import pcars2tb.util.FileUtil
 
 object ParserApp extends /* App with */ LazyLogging {
 

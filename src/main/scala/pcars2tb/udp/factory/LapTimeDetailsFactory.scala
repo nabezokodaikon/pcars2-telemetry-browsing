@@ -1,8 +1,9 @@
-package com.github.nabezokodaikon.dataListener
+package pcars2tb.udp.factory
 
 import akka.actor.{ Actor, ActorRef }
-import com.github.nabezokodaikon.util.BigDecimalSupport._
-import com.github.nabezokodaikon.udpListener.{
+import com.typesafe.scalalogging.LazyLogging
+import pcars2tb.util.BigDecimalSupport._
+import pcars2tb.udp.listener.{
   UdpStreamerPacketHandlerType,
   PacketBase,
   GameStateDefineValue,
@@ -14,7 +15,6 @@ import com.github.nabezokodaikon.udpListener.{
   LapTime,
   LapTimeDetails
 }
-import com.typesafe.scalalogging.LazyLogging
 
 final object LapTimeDetailsState {
   val emptyLap = "---"

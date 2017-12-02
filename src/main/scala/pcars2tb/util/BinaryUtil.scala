@@ -1,4 +1,4 @@
-package com.github.nabezokodaikon.util
+package pcars2tb.util
 
 object BinaryUtil {
 

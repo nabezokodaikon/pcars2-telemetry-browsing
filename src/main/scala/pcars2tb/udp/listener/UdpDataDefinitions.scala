@@ -1,4 +1,4 @@
-package com.github.nabezokodaikon.udpListener
+package pcars2tb.udp.listener
 
 import spray.json._
 import DefaultJsonProtocol._

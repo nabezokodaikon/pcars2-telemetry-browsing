@@ -1,11 +1,11 @@
 /*
-package com.github.nabezokodaikon.example.http
+package pcars2tb.example.http
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.model.{ ContentTypes, HttpEntity }
 import akka.http.scaladsl.server.{ HttpApp, Route }
-import com.github.nabezokodaikon.util.FileUtil
+import pcars2tb.util.FileUtil
 import com.typesafe.scalalogging.LazyLogging
 import spray.json.DefaultJsonProtocol
 

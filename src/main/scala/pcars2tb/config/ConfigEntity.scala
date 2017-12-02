@@ -1,4 +1,4 @@
-package com.github.nabezokodaikon.config
+package pcars2tb.config
 
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import spray.json._

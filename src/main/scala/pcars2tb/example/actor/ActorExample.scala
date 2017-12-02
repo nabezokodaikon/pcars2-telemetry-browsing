@@ -1,5 +1,5 @@
 /*
-package com.github.nabezokodaikon.example.actor
+package pcars2tb.example.actor
 
 import com.typesafe.scalalogging.LazyLogging
 import akka.actor.{ Actor, ActorSystem, Props }

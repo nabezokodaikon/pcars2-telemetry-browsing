@@ -1,4 +1,4 @@
-package com.github.nabezokodaikon
+package pcars2tb
 
 import akka.actor.{ ActorRef }
 import akka.stream.{ Attributes, Outlet }

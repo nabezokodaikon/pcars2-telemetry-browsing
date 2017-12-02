@@ -1,15 +1,15 @@
-package com.github.nabezokodaikon
+package pcars2tb
 
 import akka.actor.{ PoisonPill, Props }
 import akka.io.Udp
 import akka.pattern.{ AskTimeoutException, gracefulStop }
-import com.github.nabezokodaikon.UsingActor._
-import com.github.nabezokodaikon.db.OptionDBAccessor
-import com.github.nabezokodaikon.udpListener.UdpListener
-import com.github.nabezokodaikon.util.FileUtil
-import com.github.nabezokodaikon.util.Loan.using
 import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.LazyLogging
+import pcars2tb.UsingActor._
+import pcars2tb.db.OptionDBAccessor
+import pcars2tb.udp.listener.UdpListener
+import pcars2tb.util.FileUtil
+import pcars2tb.util.Loan.using
 import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.util.control.Exception.catching
@@ -21,7 +21,7 @@ object Main extends App with LazyLogging {
     val clientManager = system.actorOf(clientManagerProps, "clientManager")
     val server = new Server(clientManager, dac)
 
-    import com.github.nabezokodaikon.example.udp.UdpTestDataSender
+    import pcars2tb.example.udp.UdpTestDataSender
     val udpTestDataSenderProps = Props(classOf[UdpTestDataSender], clientManager)
     val udpTestDataSender = system.actorOf(udpTestDataSenderProps, "udpSender")
     udpTestDataSender ! UdpTestDataSender.Received

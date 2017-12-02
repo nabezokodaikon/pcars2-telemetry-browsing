@@ -1,5 +1,5 @@
 /*
-package com.github.nabezokodaikon
+package pcars2tb
 
 import org.scalatest.FunSuite
 

@@ -1,5 +1,5 @@
 /*
-package com.github.nabezokodaikon.example.akkastream
+package pcars2tb.example.akkastream
 
 import com.typesafe.scalalogging.LazyLogging
 

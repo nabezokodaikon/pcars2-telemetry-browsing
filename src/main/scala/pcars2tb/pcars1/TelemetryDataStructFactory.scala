@@ -1,8 +1,8 @@
-package com.github.nabezokodaikon.pcars1
+package pcars2tb.pcars1
 
-import com.github.nabezokodaikon.pcars1.TelemetryDataConst._
-import com.github.nabezokodaikon.util.BigDecimalSupport._
-import com.github.nabezokodaikon.util.BinaryUtil._
+import pcars2tb.pcars1.TelemetryDataConst._
+import pcars2tb.util.BigDecimalSupport._
+import pcars2tb.util.BinaryUtil._
 import scala.reflect.ClassTag
 
 object TelemetryDataStructFactory {

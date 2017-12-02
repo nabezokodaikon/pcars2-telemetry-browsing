@@ -1,4 +1,4 @@
-package com.github.nabezokodaikon.util
+package pcars2tb.util
 
 import akka.http.scaladsl.model.{
   ContentType,
@@ -7,7 +7,6 @@ import akka.http.scaladsl.model.{
   MediaTypes
 }
 import akka.http.scaladsl.model.ContentType.WithCharset
-import com.github.nabezokodaikon.util.Loan.using
 import com.typesafe.scalalogging.LazyLogging
 import java.io.{
   BufferedInputStream,
@@ -18,6 +17,7 @@ import java.io.{
   IOException,
   OutputStreamWriter
 }
+import pcars2tb.util.Loan.using
 import scala.io.Source
 import scala.util.control.Exception.catching
 

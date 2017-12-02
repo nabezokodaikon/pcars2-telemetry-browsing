@@ -1,13 +1,15 @@
-package com.github.nabezokodaikon.example.udp
+package pcars2tb.example.udp
 
 import akka.actor.{ Actor, ActorRef, PoisonPill, Props }
 import akka.pattern.{ AskTimeoutException, gracefulStop }
-import com.github.nabezokodaikon.ClientManager
-import com.github.nabezokodaikon.dataListener.{
+import com.typesafe.scalalogging.LazyLogging
+import java.io.File
+import pcars2tb.ClientManager
+import pcars2tb.udp.factory.{
   LapTimeDetailsFactory,
   FuelDataFactory
 }
-import com.github.nabezokodaikon.udpListener.{
+import pcars2tb.udp.listener.{
   UdpListener,
   ParticipantsDataListener,
   VehicleClassNamesDataListener,
@@ -22,10 +24,8 @@ import com.github.nabezokodaikon.udpListener.{
   ParticipantVehicleNamesData,
   VehicleClassNamesData
 }
-import com.github.nabezokodaikon.udpListener.UdpDataReader.readUdpData
-import com.github.nabezokodaikon.util.FileUtil
-import com.typesafe.scalalogging.LazyLogging
-import java.io.File
+import pcars2tb.udp.listener.UdpDataReader.readUdpData
+import pcars2tb.util.FileUtil
 import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.util.control.Exception.catching

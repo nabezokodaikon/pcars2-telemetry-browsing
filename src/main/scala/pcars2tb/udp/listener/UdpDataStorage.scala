@@ -1,7 +1,8 @@
-package com.github.nabezokodaikon.dataListener
+package pcars2tb.udp.factory
 
 import akka.actor.{ Actor, ActorRef }
-import com.github.nabezokodaikon.udpListener.{
+import com.typesafe.scalalogging.LazyLogging
+import pcars2tb.udp.listener.{
   UdpData,
   RaceData,
   ParticipantsData,
@@ -11,7 +12,6 @@ import com.github.nabezokodaikon.udpListener.{
   AggregateTime,
   FuelData
 }
-import com.typesafe.scalalogging.LazyLogging
 
 final case class Storage(
     raceData: Option[(RaceData, String)],

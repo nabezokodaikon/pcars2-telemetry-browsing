@@ -1,4 +1,4 @@
-package com.github.nabezokodaikon.udpListener
+package pcars2tb.udp.listener
 
 import akka.actor.{ Actor, ActorRef }
 import com.typesafe.scalalogging.LazyLogging

@@ -1,4 +1,4 @@
-package com.github.nabezokodaikon
+package pcars2tb
 
 import akka.actor.{ ActorRef, Props }
 import akka.http.scaladsl.model.{ HttpEntity, StatusCodes }
@@ -7,19 +7,19 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.{ HttpApp, Route }
 import akka.http.scaladsl.server.directives._
 import akka.stream.scaladsl.{ Flow, Sink, Source }
-import com.github.nabezokodaikon.db.OptionDBAccessor
-import com.github.nabezokodaikon.util.FileUtil
-import com.github.nabezokodaikon.db.{
+import com.typesafe.config.{ Config, ConfigFactory }
+import com.typesafe.scalalogging.LazyLogging
+import pcars2tb.db.OptionDBAccessor
+import pcars2tb.util.FileUtil
+import pcars2tb.db.{
   AllOptions,
   DBEntityJsonProtocol,
   UnitOption
 }
-import com.github.nabezokodaikon.config.{
+import pcars2tb.config.{
   ConfigEntityJsonProtocol,
   ConnectionInfo
 }
-import com.typesafe.config.{ Config, ConfigFactory }
-import com.typesafe.scalalogging.LazyLogging
 
 class Server(manager: ActorRef, dac: OptionDBAccessor)
   extends HttpApp

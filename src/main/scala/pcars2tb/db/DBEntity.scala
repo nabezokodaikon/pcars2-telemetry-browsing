@@ -1,4 +1,4 @@
-package com.github.nabezokodaikon.db
+package pcars2tb.db
 
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import spray.json._
