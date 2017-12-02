@@ -33,20 +33,10 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
     "VehicleClassNamesDataListener"
   )
 
-  val lapTimeDetailsListener = context.actorOf(
-    Props(classOf[LapTimeDetailsFactory], clientManager),
-    "LapTimeDetailsFactory"
+  val converter = context.actorOf(
+    Props(classOf[UdpDataConverter], clientManager),
+    "UdpDataConverter"
   )
-
-  val fuelDataListener = context.actorOf(
-    Props(classOf[FuelDataFactory], clientManager),
-    "FuelDataFactory"
-  )
-
-  // val timeAggregateListener = context.actorOf(
-  // Props(classOf[TimeAggregateFactory], clientManager),
-  // "TimeAggregateFactory"
-  // )
 
   override def preStart() = {
     IO(Udp) ! Udp.Bind(self, new InetSocketAddress("0.0.0.0", 5606))
@@ -80,31 +70,22 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
       readUdpData(data.toArray) match {
         case Some(d) => d match {
           case udpData: TelemetryData =>
-            lapTimeDetailsListener ! udpData
-            fuelDataListener ! udpData
+            converter ! udpData
             clientManager ! udpData
-          // timeAggregateListener ! udpData
           case udpData: RaceData =>
-            lapTimeDetailsListener ! udpData
-            fuelDataListener ! udpData
+            converter ! udpData
             clientManager ! udpData
-          // timeAggregateListener ! udpData
           case udpData: ParticipantsData =>
             participantsDataListener ! udpData
           case udpData: TimingsData =>
-            lapTimeDetailsListener ! udpData
-            fuelDataListener ! udpData
+            converter ! udpData
             clientManager ! udpData
-          // timeAggregateListener ! udpData
           case udpData: GameStateData =>
-            lapTimeDetailsListener ! udpData
-            fuelDataListener ! udpData
+            converter ! udpData
             clientManager ! udpData
-          // timeAggregateListener ! udpData
           case udpData: TimeStatsData =>
-            lapTimeDetailsListener ! udpData
+            converter ! udpData
             clientManager ! udpData
-          // timeAggregateListener ! udpData
           case udpData: ParticipantVehicleNamesData =>
             participantVehicleNamesDataListener ! udpData
           case udpData: VehicleClassNamesData =>

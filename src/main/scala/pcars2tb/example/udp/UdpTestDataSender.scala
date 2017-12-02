@@ -11,6 +11,7 @@ import pcars2tb.udp.factory.{
 }
 import pcars2tb.udp.listener.{
   UdpListener,
+  UdpDataConverter,
   ParticipantsDataListener,
   VehicleClassNamesDataListener,
   ParticipantVehicleNamesDataListener,
@@ -67,14 +68,9 @@ class UdpTestDataSender(clientManager: ActorRef) extends Actor with LazyLogging 
     "VehicleClassNamesDataListener"
   )
 
-  val lapTimeDetailsListener = context.actorOf(
-    Props(classOf[LapTimeDetailsFactory], clientManager),
-    "LapTimeDetailsListener"
-  )
-
-  val fuelDataListener = context.actorOf(
-    Props(classOf[FuelDataFactory], clientManager),
-    "FuelDataFactory"
+  val converter = context.actorOf(
+    Props(classOf[UdpDataConverter], clientManager),
+    "UdpDataConverter"
   )
 
   override def preStart() = {
@@ -131,30 +127,21 @@ class UdpTestDataSender(clientManager: ActorRef) extends Actor with LazyLogging 
     udpData match {
       case udpData: TelemetryData =>
         clientManager ! udpData
-        lapTimeDetailsListener ! udpData
-        fuelDataListener ! udpData
-      // timeAggregateListener ! udpData
+        converter ! udpData
       case udpData: RaceData =>
         clientManager ! udpData
-        lapTimeDetailsListener ! udpData
-        fuelDataListener ! udpData
-      // timeAggregateListener ! udpData
+        converter ! udpData
       case udpData: ParticipantsData =>
         participantsDataListener ! udpData
       case udpData: TimingsData =>
         clientManager ! udpData
-        lapTimeDetailsListener ! udpData
-        fuelDataListener ! udpData
-      // timeAggregateListener ! udpData
+        converter ! udpData
       case udpData: GameStateData =>
         clientManager ! udpData
-        lapTimeDetailsListener ! udpData
-        fuelDataListener ! udpData
-      // timeAggregateListener ! udpData
+        converter ! udpData
       case udpData: TimeStatsData =>
         clientManager ! udpData
-        lapTimeDetailsListener ! udpData
-      // timeAggregateListener ! udpData
+        converter ! udpData
       case udpData: ParticipantVehicleNamesData =>
         participantVehicleNamesDataListener ! udpData
       case udpData: VehicleClassNamesData =>

@@ -9,6 +9,7 @@ import pcars2tb.udp.listener.{
   GameStateDefineValue,
   GameStateData,
   PitModeDefineValue,
+  UdpData,
   RaceData,
   TelemetryData,
   TimingsData,
@@ -64,6 +65,33 @@ final case class FuelDataState(
     totalHistory: List[List[FuelConsumption]]
 ) extends LazyLogging {
   import FuelDataState._
+
+  def createNextState(udpData: UdpData): (FuelDataState, Option[UdpData]) =
+    udpData match {
+      case udpData: GameStateData =>
+        val nextState = resetGameStateData(udpData)
+        (nextState, None)
+      case udpData: RaceData if (isMenu) =>
+        val nextState = resetState()
+        (nextState, Some(toUdpData()))
+      case udpData: TelemetryData if (isPlaying) =>
+        mergeTelemetryData(udpData) match {
+          case Some(nextState) => (nextState, None)
+          case None => (this, None)
+        }
+      case udpData: TimingsData if (isMenu) =>
+        val nextState = resetState()
+        (nextState, Some(nextState.toUdpData))
+      case udpData: TimingsData if (isRestart) =>
+        val nextState = resetState()
+        (nextState, Some(nextState.toUdpData))
+      case udpData: TimingsData if (isPlaying) =>
+        mergeTimingsData(udpData) match {
+          case Some(nextState) => (nextState, Some(nextState.toUdpData()))
+          case None => (this, None)
+        }
+      case _ => (this, None)
+    }
 
   def toUdpData(): FuelData = {
     val allHistory = (totalHistory :+ history).flatMap(_.map(_.value))
@@ -309,51 +337,3 @@ final case class FuelConsumption(
     lap: Short,
     value: Float
 )
-
-final class FuelDataFactory(clientManager: ActorRef)
-  extends Actor
-  with LazyLogging {
-
-  override def preStart() = {
-    logger.debug("FuelDataFactory preStart.");
-  }
-
-  override def postStop() = {
-    logger.debug("FuelDataFactory postStop.")
-  }
-
-  def receive(): Receive = {
-    case udpData: GameStateData =>
-      context.become(processing(FuelDataState.createInitialState(udpData)))
-  }
-
-  private def processing(state: FuelDataState): Receive = {
-    case udpData: GameStateData =>
-      val nextState = state.resetGameStateData(udpData)
-      context.become(processing(nextState))
-    case udpData: RaceData if (state.isMenu) =>
-      val nextState = state.resetState()
-      clientManager ! nextState.toUdpData()
-      context.become(processing(nextState))
-    case udpData: TelemetryData if (state.isPlaying) =>
-      state.mergeTelemetryData(udpData) match {
-        case Some(nextState) => context.become(processing(nextState))
-        case None => Unit
-      }
-    case udpData: TimingsData if (state.isMenu) =>
-      val nextState = state.resetState()
-      clientManager ! nextState.toUdpData()
-      context.become(processing(nextState))
-    case udpData: TimingsData if (state.isRestart) =>
-      val nextState = state.resetState()
-      clientManager ! nextState.toUdpData()
-      context.become(processing(nextState))
-    case udpData: TimingsData if (state.isPlaying) =>
-      state.mergeTimingsData(udpData) match {
-        case Some(nextState) =>
-          clientManager ! nextState.toUdpData()
-          context.become(processing(nextState))
-        case None => Unit
-      }
-  }
-}

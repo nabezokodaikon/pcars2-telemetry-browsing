@@ -6,6 +6,7 @@ import pcars2tb.udp.listener.{
   UdpStreamerPacketHandlerType,
   PacketBase,
   GameStateDefineValue,
+  UdpData,
   GameStateData,
   TelemetryData,
   RaceData,
@@ -47,6 +48,40 @@ final case class TimeAggregateState(
     totalTimes: Array[TotalTime]
 ) {
   import TimeAggregateState._
+
+  def createNextState(udpData: UdpData): (TimeAggregateState, Option[UdpData]) =
+    udpData match {
+      case udpData: GameStateData =>
+        val nextState = resetState(udpData)
+        (nextState, None)
+      case udpData: RaceData if (isMenu) =>
+        val nextState = resetState()
+        (nextState, Some(nextState.toUdpData()))
+      case udpData: TelemetryData if (isPlaying) =>
+        if (udpData.participantInfo.viewedParticipantIndex != viewedParticipantIndex) {
+          val nextState = mergeViewedParticipantIndex(udpData.participantInfo.viewedParticipantIndex)
+          (nextState, None)
+        } else {
+          (this, None)
+        }
+      case udpData: TimingsData if (isPlaying) =>
+        mergeState(udpData) match {
+          case Some(nextState) => (nextState, Some(nextState.toUdpData()))
+          case None => (this, None)
+        }
+      case udpData: TimeStatsData if (isMenu) =>
+        val nextState = resetState()
+        (nextState, Some(nextState.toUdpData()))
+      case udpData: TimeStatsData if (isRestart) =>
+        val nextState = resetState()
+        (nextState, Some(nextState.toUdpData()))
+      case udpData: TimeStatsData if (isPlaying) =>
+        mergeState(udpData) match {
+          case Some(nextState) => (nextState, Some(nextState.toUdpData()))
+          case None => (this, None)
+        }
+      case _ => (this, None)
+    }
 
   def toUdpData(): AggregateTime = {
     val cumulativeTimes = for {
@@ -174,58 +209,3 @@ final case class TotalTime(
     currentSectorTime: Float,
     cumulativeTime: Float
 )
-
-final class TimeAggregateFactory(clientManager: ActorRef)
-  extends Actor
-  with LazyLogging {
-
-  override def preStart() = {
-    logger.debug("TimeAggregateFactory preStart.");
-  }
-
-  override def postStop() = {
-    logger.debug("TimeAggregateFactory postStop.")
-  }
-
-  def receive(): Receive = {
-    case udpData: GameStateData =>
-      context.become(processing(TimeAggregateState.createInitialState(udpData)))
-  }
-
-  private def processing(state: TimeAggregateState): Receive = {
-    case udpData: GameStateData =>
-      val nextState = state.resetState(udpData)
-      context.become(processing(nextState))
-    case udpData: RaceData if (state.isMenu) =>
-      val nextState = state.resetState()
-      clientManager ! nextState.toUdpData()
-      context.become(processing(nextState))
-    case udpData: TelemetryData if (state.isPlaying) =>
-      if (udpData.participantInfo.viewedParticipantIndex != state.viewedParticipantIndex) {
-        val nextState = state.mergeViewedParticipantIndex(udpData.participantInfo.viewedParticipantIndex)
-        context.become(processing(nextState))
-      }
-    case udpData: TimingsData if (state.isPlaying) =>
-      state.mergeState(udpData) match {
-        case Some(nextState) =>
-          clientManager ! nextState.toUdpData()
-          context.become(processing(nextState))
-        case None => Unit
-      }
-    case udpData: TimeStatsData if (state.isMenu) =>
-      val nextState = state.resetState()
-      clientManager ! nextState.toUdpData()
-      context.become(processing(nextState))
-    case udpData: TimeStatsData if (state.isRestart) =>
-      val nextState = state.resetState()
-      clientManager ! nextState.toUdpData()
-      context.become(processing(nextState))
-    case udpData: TimeStatsData if (state.isPlaying) =>
-      state.mergeState(udpData) match {
-        case Some(nextState) =>
-          clientManager ! nextState.toUdpData()
-          context.become(processing(nextState))
-        case None => Unit
-      }
-  }
-}

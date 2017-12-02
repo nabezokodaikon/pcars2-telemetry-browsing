@@ -7,6 +7,7 @@ import pcars2tb.udp.listener.{
   UdpStreamerPacketHandlerType,
   PacketBase,
   GameStateDefineValue,
+  UdpData,
   GameStateData,
   TelemetryData,
   RaceData,
@@ -67,6 +68,46 @@ final case class LapTimeDetailsState(
     lapDataList: List[LapData]
 ) extends LazyLogging {
   import LapTimeDetailsState._
+
+  def createNextState(udpData: UdpData): (LapTimeDetailsState, Option[UdpData]) =
+    udpData match {
+      case udpData: GameStateData =>
+        val nextState = resetStateByGameStateData(udpData)
+        (nextState, None)
+      case udpData: RaceData if (isMenu) =>
+        val nextState = resetStateByRaceData(udpData)
+        (nextState, Some(nextState.toUdpData()))
+      case udpData: TelemetryData if (isPlaying) =>
+        if (udpData.participantInfo.viewedParticipantIndex != viewedParticipantIndex) {
+          val nextState = resetStateByViewedParticipantIndex(udpData.participantInfo.viewedParticipantIndex)
+          (nextState, None)
+        } else {
+          (this, None)
+        }
+      case udpData: TimingsData if (isMenu && currentData != None) =>
+        val nextState = resetState()
+        (nextState, None)
+      case udpData: TimingsData if (isRestart && currentData != None) =>
+        val nextState = resetState()
+        (nextState, None)
+      case udpData: TimingsData if (isPlaying) =>
+        createState(udpData) match {
+          case Some(nextState) => (nextState, None)
+          case None => (this, None)
+        }
+      case udpData: TimeStatsData if (isMenu) =>
+        val nextState = resetState()
+        (nextState, Some(nextState.toUdpData()))
+      case udpData: TimeStatsData if (isRestart) =>
+        val nextState = resetState()
+        (nextState, Some(nextState.toUdpData()))
+      case udpData: TimeStatsData if (isPlaying) =>
+        createState(udpData) match {
+          case Some(nextState) => (nextState, Some(nextState.toUdpData()))
+          case None => (this, None)
+        }
+      case _ => (this, None)
+    }
 
   def toUdpData(): LapTimeDetails = {
     val current = currentLapData match {
@@ -473,65 +514,5 @@ final case class LapData(
       case Some(v) => v.toMinuteFormatFromSecondsWithSigned
       case None => LapTimeDetailsState.emptyTime
     }
-  }
-}
-
-final class LapTimeDetailsFactory(clientManager: ActorRef)
-  extends Actor
-  with LazyLogging {
-
-  override def preStart() = {
-    logger.debug("LapTimeDetailsFactory preStart.");
-  }
-
-  override def postStop() = {
-    logger.debug("LapTimeDetailsFactory postStop.")
-  }
-
-  def receive(): Receive = {
-    case udpData: GameStateData =>
-      context.become(processing(LapTimeDetailsState.createInitialState(udpData)))
-  }
-
-  private def processing(state: LapTimeDetailsState): Receive = {
-    case udpData: GameStateData =>
-      val nextState = state.resetStateByGameStateData(udpData)
-      context.become(processing(nextState))
-    case udpData: RaceData if (state.isMenu) =>
-      val nextState = state.resetStateByRaceData(udpData)
-      clientManager ! nextState.toUdpData
-      context.become(processing(nextState))
-    case udpData: TelemetryData if (state.isPlaying) =>
-      if (udpData.participantInfo.viewedParticipantIndex != state.viewedParticipantIndex) {
-        val nextState = state.resetStateByViewedParticipantIndex(udpData.participantInfo.viewedParticipantIndex)
-        context.become(processing(nextState))
-      }
-    case udpData: TimingsData if (state.isMenu && state.currentData != None) =>
-      val nextState = state.resetState()
-      context.become(processing(nextState))
-    case udpData: TimingsData if (state.isRestart && state.currentData != None) =>
-      val nextState = state.resetState()
-      context.become(processing(nextState))
-    case udpData: TimingsData if (state.isPlaying) =>
-      state.createState(udpData) match {
-        case Some(nextState) =>
-          context.become(processing(nextState))
-        case None => Unit
-      }
-    case udpData: TimeStatsData if (state.isMenu) =>
-      val nextState = state.resetState()
-      clientManager ! nextState.toUdpData
-      context.become(processing(nextState))
-    case udpData: TimeStatsData if (state.isRestart) =>
-      val nextState = state.resetState()
-      clientManager ! nextState.toUdpData
-      context.become(processing(nextState))
-    case udpData: TimeStatsData if (state.isPlaying) =>
-      state.createState(udpData) match {
-        case Some(nextState) =>
-          clientManager ! nextState.toUdpData
-          context.become(processing(nextState))
-        case None => Unit
-      }
   }
 }
