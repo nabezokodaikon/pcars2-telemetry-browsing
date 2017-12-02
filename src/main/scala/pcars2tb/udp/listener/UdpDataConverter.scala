@@ -2,12 +2,9 @@ package pcars2tb.udp.listener
 
 import akka.actor.{ Actor, ActorRef }
 import com.typesafe.scalalogging.LazyLogging
-import pcars2tb.udp.factory.{
+import pcars2tb.udp.state.{
   FuelDataState,
-  FuelDataFactory,
-  TimeAggregateFactory,
   TimeAggregateState,
-  LapTimeDetailsFactory,
   LapTimeDetailsState
 }
 

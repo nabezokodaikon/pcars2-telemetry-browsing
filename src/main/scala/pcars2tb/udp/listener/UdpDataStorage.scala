@@ -1,17 +1,7 @@
-package pcars2tb.udp.factory
+package pcars2tb.udp.listener
 
 import akka.actor.{ Actor, ActorRef }
 import com.typesafe.scalalogging.LazyLogging
-import pcars2tb.udp.listener.{
-  UdpData,
-  RaceData,
-  ParticipantsData,
-  ParticipantVehicleNamesData,
-  VehicleClassNamesData,
-  LapTimeDetails,
-  AggregateTime,
-  FuelData
-}
 
 final case class Storage(
     raceData: Option[(RaceData, String)],

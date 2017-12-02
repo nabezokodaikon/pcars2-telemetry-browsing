@@ -5,10 +5,6 @@ import akka.pattern.{ AskTimeoutException, gracefulStop }
 import com.typesafe.scalalogging.LazyLogging
 import java.io.File
 import pcars2tb.ClientManager
-import pcars2tb.udp.factory.{
-  LapTimeDetailsFactory,
-  FuelDataFactory
-}
 import pcars2tb.udp.listener.{
   UdpListener,
   UdpDataConverter,
