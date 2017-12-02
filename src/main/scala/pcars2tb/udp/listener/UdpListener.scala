@@ -6,11 +6,6 @@ import akka.pattern.{ AskTimeoutException, gracefulStop }
 import com.typesafe.scalalogging.LazyLogging
 import java.net.InetSocketAddress
 import pcars2tb.UsingActor._
-import pcars2tb.udp.factory.{
-  LapTimeDetailsFactory,
-  TimeAggregateFactory,
-  FuelDataFactory
-}
 import pcars2tb.udp.listener.UdpDataReader.readUdpData
 import scala.concurrent.Await
 import scala.concurrent.duration._
