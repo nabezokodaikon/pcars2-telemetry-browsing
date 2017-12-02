@@ -310,16 +310,16 @@ final case class FuelConsumption(
     value: Float
 )
 
-final class FuelDataListener(clientManager: ActorRef)
+final class FuelDataFactory(clientManager: ActorRef)
   extends Actor
   with LazyLogging {
 
   override def preStart() = {
-    logger.debug("TimeAggregateListener preStart.");
+    logger.debug("FuelDataFactory preStart.");
   }
 
   override def postStop() = {
-    logger.debug("TimeAggregateListener postStop.")
+    logger.debug("FuelDataFactory postStop.")
   }
 
   def receive(): Receive = {

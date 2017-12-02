@@ -5,9 +5,9 @@ import akka.io.{ IO, Udp }
 import akka.pattern.{ AskTimeoutException, gracefulStop }
 import com.github.nabezokodaikon.UsingActor._
 import com.github.nabezokodaikon.dataListener.{
-  LapTimeDetailsListener,
-  TimeAggregateListener,
-  FuelDataListener
+  LapTimeDetailsFactory,
+  TimeAggregateFactory,
+  FuelDataFactory
 }
 import com.github.nabezokodaikon.udpListener.UdpDataReader.readUdpData
 import com.typesafe.scalalogging.LazyLogging
@@ -34,18 +34,18 @@ class UdpListener(clientManager: ActorRef) extends Actor with LazyLogging {
   )
 
   val lapTimeDetailsListener = context.actorOf(
-    Props(classOf[LapTimeDetailsListener], clientManager),
-    "LapTimeDetailsListener"
+    Props(classOf[LapTimeDetailsFactory], clientManager),
+    "LapTimeDetailsFactory"
   )
 
   val fuelDataListener = context.actorOf(
-    Props(classOf[FuelDataListener], clientManager),
-    "FuelDataListener"
+    Props(classOf[FuelDataFactory], clientManager),
+    "FuelDataFactory"
   )
 
   // val timeAggregateListener = context.actorOf(
-  // Props(classOf[TimeAggregateListener], clientManager),
-  // "TimeAggregateListener"
+  // Props(classOf[TimeAggregateFactory], clientManager),
+  // "TimeAggregateFactory"
   // )
 
   override def preStart() = {

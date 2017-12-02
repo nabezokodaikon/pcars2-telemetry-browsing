@@ -476,16 +476,16 @@ final case class LapData(
   }
 }
 
-final class LapTimeDetailsListener(clientManager: ActorRef)
+final class LapTimeDetailsFactory(clientManager: ActorRef)
   extends Actor
   with LazyLogging {
 
   override def preStart() = {
-    logger.debug("LapTimeDetailsListener preStart.");
+    logger.debug("LapTimeDetailsFactory preStart.");
   }
 
   override def postStop() = {
-    logger.debug("LapTimeDetailsListener postStop.")
+    logger.debug("LapTimeDetailsFactory postStop.")
   }
 
   def receive(): Receive = {

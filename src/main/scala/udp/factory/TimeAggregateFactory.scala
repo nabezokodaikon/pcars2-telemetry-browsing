@@ -175,16 +175,16 @@ final case class TotalTime(
     cumulativeTime: Float
 )
 
-final class TimeAggregateListener(clientManager: ActorRef)
+final class TimeAggregateFactory(clientManager: ActorRef)
   extends Actor
   with LazyLogging {
 
   override def preStart() = {
-    logger.debug("TimeAggregateListener preStart.");
+    logger.debug("TimeAggregateFactory preStart.");
   }
 
   override def postStop() = {
-    logger.debug("TimeAggregateListener postStop.")
+    logger.debug("TimeAggregateFactory postStop.")
   }
 
   def receive(): Receive = {
