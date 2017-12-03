@@ -17,8 +17,8 @@ object UdpDataJsonProtocol extends DefaultJsonProtocol {
   implicit val telemetryDataFormat = jsonFormat10(TelemetryData)
   implicit val raceDataFormat = jsonFormat19(RaceData)
   implicit val participantsDataFormat = jsonFormat5(ParticipantsData)
-  implicit val participantInfoFormat = jsonFormat15(ParticipantInfo)
-  implicit val formatParticipantInfoFormat = jsonFormat17(FormatParticipantInfo)
+  implicit val participantInfoFormat = jsonFormat16(ParticipantInfo)
+  implicit val formatParticipantInfoFormat = jsonFormat19(FormatParticipantInfo)
   implicit val timingsDataFormat = jsonFormat10(TimingsData)
   implicit val gameStateFormat = jsonFormat2(GameState)
   implicit val gameSessionStateFormat = jsonFormat2(SessionState)
@@ -287,15 +287,31 @@ case class ParticipantsData(
 //	When it is sent: in race
 //
 *******************************************************************************************************************/
-object RaceState {
-  val RACESTATE_INVALID = 0
-  val RACESTATE_NOT_STARTED = 1
-  val RACESTATE_RACING = 2
-  val RACESTATE_FINISHED = 3
-  val RACESTATE_DISQUALIFIED = 4
-  val RACESTATE_RETIRED = 5
-  val RACESTATE_DNF = 6
+case class RaceState(value: Byte, text: String)
+
+object RaceStateDefine {
+  val RACESTATE_INVALID: Byte = 0
+  val RACESTATE_NOT_STARTED: Byte = 1
+  val RACESTATE_RACING: Byte = 2
+  val RACESTATE_FINISHED: Byte = 3
+  val RACESTATE_DISQUALIFIED: Byte = 4
+  val RACESTATE_RETIRED: Byte = 5
+  val RACESTATE_DNF: Byte = 6
+  val RACESTATE_UNKNOWN: Byte = 127
 }
+
+object RaceStateDefineValue {
+  val RACESTATE_INVALID: RaceState = RaceState(RaceStateDefine.RACESTATE_INVALID, "RACESTATE_INVALID")
+  val RACESTATE_NOT_STARTED: RaceState = RaceState(RaceStateDefine.RACESTATE_NOT_STARTED, "RACESTATE_NOT_STARTED")
+  val RACESTATE_RACING: RaceState = RaceState(RaceStateDefine.RACESTATE_RACING, "RACESTATE_RACING")
+  val RACESTATE_FINISHED: RaceState = RaceState(RaceStateDefine.RACESTATE_FINISHED, "RACESTATE_FINISHED")
+  val RACESTATE_DISQUALIFIED: RaceState = RaceState(RaceStateDefine.RACESTATE_DISQUALIFIED, "RACESTATE_DISQUALIFIED")
+  val RACESTATE_RETIRED: RaceState = RaceState(RaceStateDefine.RACESTATE_RETIRED, "RACESTATE_RETIRED")
+  val RACESTATE_DNF: RaceState = RaceState(RaceStateDefine.RACESTATE_DNF, "RACESTATE_DNF")
+  val RACESTATE_UNKNOWN: RaceState = RaceState(RaceStateDefine.RACESTATE_UNKNOWN, "RACESTATE_UNKNOWN")
+}
+
+case class PitMode(value: Byte, text: String)
 
 object PitModeDefine {
   val PIT_MODE_NONE: Byte = 0
@@ -304,7 +320,20 @@ object PitModeDefine {
   val PIT_MODE_DRIVING_OUT_OF_PITS: Byte = 3
   val PIT_MODE_IN_GARAGE: Byte = 4
   val PIT_MODE_DRIVING_OUT_OF_GARAGE: Byte = 5
+  val PIT_MODE_UNKNOWN: Byte = 127
 }
+
+object PitModeDefineValue {
+  val PIT_MODE_NONE: PitMode = PitMode(PitModeDefine.PIT_MODE_NONE, "PIT_MODE_NONE")
+  val PIT_MODE_DRIVING_INTO_PITS: PitMode = PitMode(PitModeDefine.PIT_MODE_DRIVING_INTO_PITS, "PIT_MODE_DRIVING_INTO_PITS")
+  val PIT_MODE_IN_PIT: PitMode = PitMode(PitModeDefine.PIT_MODE_IN_PIT, "PIT_MODE_IN_PIT")
+  val PIT_MODE_DRIVING_OUT_OF_PITS: PitMode = PitMode(PitModeDefine.PIT_MODE_DRIVING_OUT_OF_PITS, "PIT_MODE_DRIVING_OUT_OF_PITS")
+  val PIT_MODE_IN_GARAGE: PitMode = PitMode(PitModeDefine.PIT_MODE_IN_GARAGE, "PIT_MODE_IN_GARAGE")
+  val PIT_MODE_DRIVING_OUT_OF_GARAGE: PitMode = PitMode(PitModeDefine.PIT_MODE_DRIVING_OUT_OF_GARAGE, "PIT_MODE_DRIVING_OUT_OF_GARAGE")
+  val PIT_MODE_UNKNOWN: PitMode = PitMode(PitModeDefine.PIT_MODE_UNKNOWN, "PIT_MODE_UNKNOWN")
+}
+
+case class PitSchedule(value: Byte, text: String)
 
 object PitScheduleDefine {
   val PIT_SCHEDULE_NONE: Byte = 0 // Nothing scheduled
@@ -315,31 +344,19 @@ object PitScheduleDefine {
   val PIT_SCHEDULE_DRIVE_THROUGH: Byte = 5 // Used for drive-through penalty
   val PIT_SCHEDULE_STOP_GO: Byte = 6 // Used for stop-go penalty
   val PIT_SCHEDULE_PITSPOT_OCCUPIED: Byte = 7 // Used for drive-through when pitspot is occupied
-}
-
-case class PitMode(value: Byte, text: String)
-case class PitSchedule(value: Byte, text: String)
-
-object PitModeDefineValue {
-  val PIT_MODE_NONE: PitMode = PitMode(0, "PIT_MODE_NONE")
-  val PIT_MODE_DRIVING_INTO_PITS: PitMode = PitMode(1, "PIT_MODE_DRIVING_INTO_PITS")
-  val PIT_MODE_IN_PIT: PitMode = PitMode(2, "PIT_MODE_IN_PIT")
-  val PIT_MODE_DRIVING_OUT_OF_PITS: PitMode = PitMode(3, "PIT_MODE_DRIVING_OUT_OF_PITS")
-  val PIT_MODE_IN_GARAGE: PitMode = PitMode(4, "PIT_MODE_IN_GARAGE")
-  val PIT_MODE_DRIVING_OUT_OF_GARAGE: PitMode = PitMode(5, "PIT_MODE_DRIVING_OUT_OF_GARAGE")
-  val PIT_MODE_UNKNOWN: PitMode = PitMode(127, "PIT_MODE_UNKNOWN")
+  val PIT_SCHEDULE_UNKNOWN: Byte = 127
 }
 
 object PitScheduleDefineValue {
-  val PIT_SCHEDULE_NONE: PitSchedule = PitSchedule(0, "PIT_SCHEDULE_NONE")
-  val PIT_SCHEDULE_PLAYER_REQUESTED: PitSchedule = PitSchedule(1, "PIT_SCHEDULE_PLAYER_REQUESTED")
-  val PIT_SCHEDULE_ENGINEER_REQUESTED: PitSchedule = PitSchedule(2, "PIT_SCHEDULE_ENGINEER_REQUESTED")
-  val PIT_SCHEDULE_DAMAGE_REQUESTED: PitSchedule = PitSchedule(3, "PIT_SCHEDULE_DAMAGE_REQUESTED")
-  val PIT_SCHEDULE_MANDATORY: PitSchedule = PitSchedule(4, "PIT_SCHEDULE_MANDATORY")
-  val PIT_SCHEDULE_DRIVE_THROUGH: PitSchedule = PitSchedule(5, "PIT_SCHEDULE_DRIVE_THROUGH")
-  val PIT_SCHEDULE_STOP_GO: PitSchedule = PitSchedule(6, "PIT_SCHEDULE_STOP_GO")
-  val PIT_SCHEDULE_PITSPOT_OCCUPIED: PitSchedule = PitSchedule(7, "PIT_SCHEDULE_PITSPOT_OCCUPIED")
-  val PIT_SCHEDULE_UNKNOWN: PitSchedule = PitSchedule(127, "PIT_SCHEDULE_UNKNOWN")
+  val PIT_SCHEDULE_NONE: PitSchedule = PitSchedule(PitScheduleDefine.PIT_SCHEDULE_NONE, "PIT_SCHEDULE_NONE")
+  val PIT_SCHEDULE_PLAYER_REQUESTED: PitSchedule = PitSchedule(PitScheduleDefine.PIT_SCHEDULE_PLAYER_REQUESTED, "PIT_SCHEDULE_PLAYER_REQUESTED")
+  val PIT_SCHEDULE_ENGINEER_REQUESTED: PitSchedule = PitSchedule(PitScheduleDefine.PIT_SCHEDULE_ENGINEER_REQUESTED, "PIT_SCHEDULE_ENGINEER_REQUESTED")
+  val PIT_SCHEDULE_DAMAGE_REQUESTED: PitSchedule = PitSchedule(PitScheduleDefine.PIT_SCHEDULE_DAMAGE_REQUESTED, "PIT_SCHEDULE_DAMAGE_REQUESTED")
+  val PIT_SCHEDULE_MANDATORY: PitSchedule = PitSchedule(PitScheduleDefine.PIT_SCHEDULE_MANDATORY, "PIT_SCHEDULE_MANDATORY")
+  val PIT_SCHEDULE_DRIVE_THROUGH: PitSchedule = PitSchedule(PitScheduleDefine.PIT_SCHEDULE_DRIVE_THROUGH, "PIT_SCHEDULE_DRIVE_THROUGH")
+  val PIT_SCHEDULE_STOP_GO: PitSchedule = PitSchedule(PitScheduleDefine.PIT_SCHEDULE_STOP_GO, "PIT_SCHEDULE_STOP_GO")
+  val PIT_SCHEDULE_PITSPOT_OCCUPIED: PitSchedule = PitSchedule(PitScheduleDefine.PIT_SCHEDULE_PITSPOT_OCCUPIED, "PIT_SCHEDULE_PITSPOT_OCCUPIED")
+  val PIT_SCHEDULE_UNKNOWN: PitSchedule = PitSchedule(PitScheduleDefine.PIT_SCHEDULE_UNKNOWN, "PIT_SCHEDULE_UNKNOWN")
 }
 
 case class FormatParticipantInfo(
@@ -355,7 +372,9 @@ case class FormatParticipantInfo(
     pitSchedule: Byte,
     pitScheduleString: String,
     carIndex: Int, // top bit shows if participant is (local or remote) human player or not
-    raceState: Short, // race state flags + invalidated lap indication --
+    raceState: Byte, // race state flags + invalidated lap indication --
+    raceStateString: String,
+    lapInvalidated: Short,
     currentLap: Short,
     currentTime: String, // [ Unit: Seconds ]
     currentSectorTime: String, // [ Unit: Seconds ]
@@ -373,7 +392,8 @@ case class ParticipantInfo(
     pitMode: Byte,
     pitSchedule: Byte,
     carIndex: Int, // top bit shows if participant is (local or remote) human player or not
-    raceState: Short, // race state flags + invalidated lap indication --
+    raceState: Byte, // race state flags + invalidated lap indication --
+    lapInvalidated: Short,
     currentLap: Short,
     currentTime: Float, // [ Unit: Seconds ]
     currentSectorTime: Float, // [ Unit: Seconds ]

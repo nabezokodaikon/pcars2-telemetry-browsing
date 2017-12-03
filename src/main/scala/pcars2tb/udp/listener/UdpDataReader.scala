@@ -33,9 +33,9 @@ object UdpDataReader extends LazyLogging {
     }
   }
 
-  def toPitMode(pitMode: Byte): PitMode = {
+  def toPitMode(value: Byte): PitMode = {
     import PitModeDefine._
-    pitMode match {
+    value match {
       case PIT_MODE_NONE => PitModeDefineValue.PIT_MODE_NONE
       case PIT_MODE_DRIVING_INTO_PITS => PitModeDefineValue.PIT_MODE_DRIVING_INTO_PITS
       case PIT_MODE_IN_PIT => PitModeDefineValue.PIT_MODE_IN_PIT
@@ -58,6 +58,20 @@ object UdpDataReader extends LazyLogging {
       case PIT_SCHEDULE_STOP_GO => PitScheduleDefineValue.PIT_SCHEDULE_STOP_GO
       case PIT_SCHEDULE_PITSPOT_OCCUPIED => PitScheduleDefineValue.PIT_SCHEDULE_PITSPOT_OCCUPIED
       case _ => PitScheduleDefineValue.PIT_SCHEDULE_UNKNOWN
+    }
+  }
+
+  def toRaceState(value: Byte): RaceState = {
+    import RaceStateDefine._
+    value match {
+      case RACESTATE_INVALID => RaceStateDefineValue.RACESTATE_INVALID
+      case RACESTATE_NOT_STARTED => RaceStateDefineValue.RACESTATE_NOT_STARTED
+      case RACESTATE_RACING => RaceStateDefineValue.RACESTATE_RACING
+      case RACESTATE_FINISHED => RaceStateDefineValue.RACESTATE_FINISHED
+      case RACESTATE_DISQUALIFIED => RaceStateDefineValue.RACESTATE_DISQUALIFIED
+      case RACESTATE_RETIRED => RaceStateDefineValue.RACESTATE_RETIRED
+      case RACESTATE_DNF => RaceStateDefineValue.RACESTATE_DNF
+      case _ => RaceStateDefineValue.RACESTATE_UNKNOWN
     }
   }
 
@@ -442,6 +456,8 @@ object UdpDataReader extends LazyLogging {
 
     val pitMode = toPitMode((pitModeSchedule & 7).toByte)
     val pitSchedule = toPitSchedule((pitModeSchedule >> 3 & 3).toByte)
+    val raceStateValue = toRaceState((raceState & 127).toByte)
+    val lapInvalidated = (raceState >> 7).toShort
 
     val participantInfo = ParticipantInfo(
       worldPosition = worldPosition,
@@ -454,7 +470,8 @@ object UdpDataReader extends LazyLogging {
       pitMode = pitMode.value,
       pitSchedule = pitSchedule.value,
       carIndex = carIndex,
-      raceState = raceState,
+      raceState = raceStateValue.value,
+      lapInvalidated = lapInvalidated,
       currentLap = currentLap,
       currentTime = currentTime,
       currentSectorTime = currentSectorTime,
@@ -474,7 +491,9 @@ object UdpDataReader extends LazyLogging {
       pitSchedule = pitSchedule.value,
       pitScheduleString = pitSchedule.text,
       carIndex = participantInfo.carIndex,
-      raceState = participantInfo.raceState,
+      raceState = raceStateValue.value,
+      raceStateString = raceStateValue.text,
+      lapInvalidated = lapInvalidated,
       currentLap = participantInfo.currentLap,
       currentTime = participantInfo.currentTime.toMinuteFormatFromSeconds,
       currentSectorTime = participantInfo.currentSectorTime.toMinuteFormatFromSeconds,
