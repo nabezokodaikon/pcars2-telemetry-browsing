@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { isArray, isJson } from "../share/jsUtil.js";
 
+const Fragment = React.Fragment;
+
 class TelemetryData extends React.Component {
   constructor(props) {
     super(props)
@@ -52,12 +54,28 @@ class TelemetryData extends React.Component {
       const data = this.props.telemetryData.carState;
       return Object.keys(data).map(key => {
         const value = data[key];
-        return (
-          <tr key={key}>
-            <td>{key}</td>
-            <td>{value}</td>
-          </tr>
-        );
+        if (isJson(value)) {
+          const flags = Object.keys(value).map(name => {
+            return (
+              <tr key={key + name}>
+                <td>{key + "." + name}</td>
+                <td>{value[name].toString()}</td>
+              </tr>
+            );
+          });
+          return (
+            <Fragment key={key}>
+              {flags}
+            </Fragment>
+          )
+        } else {
+          return (
+            <tr key={key}>
+              <td>{key}</td>
+              <td>{value}</td>
+            </tr>
+          );
+        }
       });
     }
 

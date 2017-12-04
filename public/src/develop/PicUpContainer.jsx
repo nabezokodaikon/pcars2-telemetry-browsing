@@ -22,15 +22,12 @@ class PicUp extends React.Component {
     }
 
     const carState = telemetryData.carState;
+    const carFlags = carState.carFlags;
 
     return (
       <Fragment>
         <tr>
           <td>Car State</td>
-        </tr>
-        <tr>
-          <td>carFlags</td>
-          <td>{carState.carFlags}</td>
         </tr>
         <tr>
           <td>crashState</td>
@@ -39,6 +36,33 @@ class PicUp extends React.Component {
         <tr>
           <td>boostAmount</td>
           <td>{carState.boostAmount}</td>
+        </tr>
+        <tr>
+          <td>carFlags</td>
+        </tr>
+        <tr>
+          <td>headLight</td>
+          <td>{carFlags.headLight.toString()}</td>
+        </tr>
+        <tr>
+          <td>engineActive</td>
+          <td>{carFlags.engineActive.toString()}</td>
+        </tr>
+        <tr>
+          <td>engineWarning</td>
+          <td>{carFlags.engineWarning.toString()}</td>
+        </tr>
+        <tr>
+          <td>speedLimiter</td>
+          <td>{carFlags.speedLimiter.toString()}</td>
+        </tr>
+        <tr>
+          <td>abs</td>
+          <td>{carFlags.abs.toString()}</td>
+        </tr>
+        <tr>
+          <td>handbrake</td>
+          <td>{carFlags.handbrake.toString()}</td>
         </tr>
       </Fragment>
     );

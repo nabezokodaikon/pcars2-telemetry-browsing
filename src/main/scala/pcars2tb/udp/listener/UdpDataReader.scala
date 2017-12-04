@@ -158,6 +158,8 @@ object UdpDataReader extends LazyLogging {
   }
 
   private def readCarState(data1: List[Byte]): (CarState, List[Byte]) = {
+    import CarFlagsDefine._
+
     val (carFlags, data2) = readUByte(data1)
     val (oilTempCelsius, data3) = readShort(data2)
     val (oilPressureKPa, data4) = readUShort(data3)
@@ -180,7 +182,14 @@ object UdpDataReader extends LazyLogging {
 
     (
       CarState(
-        carFlags = carFlags,
+        carFlags = CarFlags(
+          headLight = (carFlags & CAR_HEADLIGHT) == CAR_HEADLIGHT,
+          engineActive = (carFlags & CAR_ENGINE_ACTIVE) == CAR_ENGINE_ACTIVE,
+          engineWarning = (carFlags & CAR_ENGINE_WARNING) == CAR_ENGINE_WARNING,
+          speedLimiter = (carFlags & CAR_SPEED_LIMITER) == CAR_SPEED_LIMITER,
+          abs = (carFlags & CAR_ABS) == CAR_ABS,
+          handbrake = (carFlags & CAR_HANDBRAKE) == CAR_HANDBRAKE
+        ),
         oilTempCelsius = (oilTempCelsius / 255f).toRound(0),
         oilPressureKPa = oilPressureKPa,
         waterTempCelsius = (waterTempCelsius / 255f).toRound(0),
