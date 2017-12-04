@@ -430,7 +430,7 @@ case class FormatParticipantInfo(
     carIndex: Int, // top bit shows if participant is (local or remote) human player or not
     raceState: Byte, // race state flags + invalidated lap indication --
     raceStateString: String,
-    lapInvalidated: Short,
+    lapInvalidated: Boolean,
     currentLap: Short,
     currentTime: String, // [ Unit: Seconds ]
     currentSectorTime: String, // [ Unit: Seconds ]
@@ -449,7 +449,7 @@ case class ParticipantInfo(
     pitSchedule: Byte,
     carIndex: Int, // top bit shows if participant is (local or remote) human player or not
     raceState: Byte, // race state flags + invalidated lap indication --
-    lapInvalidated: Short,
+    lapInvalidated: Boolean,
     currentLap: Short,
     currentTime: Float, // [ Unit: Seconds ]
     currentSectorTime: Float, // [ Unit: Seconds ]

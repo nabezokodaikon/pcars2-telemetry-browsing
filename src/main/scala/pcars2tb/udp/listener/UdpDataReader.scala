@@ -490,7 +490,7 @@ object UdpDataReader extends LazyLogging {
     val pitMode = toPitMode((pitModeSchedule & 7).toByte)
     val pitSchedule = toPitSchedule((pitModeSchedule >> 3 & 3).toByte)
     val raceStateValue = toRaceState((raceState & 127).toByte)
-    val lapInvalidated = (raceState >> 7).toShort
+    val lapInvalidated = ((raceState >> 7) == 1)
 
     val participantInfo = ParticipantInfo(
       worldPosition = worldPosition,

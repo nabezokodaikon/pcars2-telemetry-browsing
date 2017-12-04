@@ -283,7 +283,7 @@ class PicUp extends React.Component {
         </tr>
         <tr>
           <td>lapInvalidated</td>
-          <td>{record.lapInvalidated}</td>
+          <td>{record.lapInvalidated.toString()}</td>
         </tr>
       </Fragment>
     );
