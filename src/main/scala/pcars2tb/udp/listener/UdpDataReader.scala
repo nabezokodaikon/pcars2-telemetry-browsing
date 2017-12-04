@@ -92,19 +92,42 @@ object UdpDataReader extends LazyLogging {
     }
   }
 
-  def toSessionState(value: Byte): SessionState =
+  def toSessionState(value: Byte): SessionState = {
+    import SessionStateDefine._
     value match {
-      case SessionStateDefine.SESSION_INVALID => SessionStateDefineValue.SESSION_INVALID
-      case SessionStateDefine.SESSION_PRACTICE => SessionStateDefineValue.SESSION_PRACTICE
-      case SessionStateDefine.SESSION_TEST => SessionStateDefineValue.SESSION_TEST
-      case SessionStateDefine.SESSION_QUALIFY => SessionStateDefineValue.SESSION_QUALIFY
-      case SessionStateDefine.SESSION_FORMATION_LAP => SessionStateDefineValue.SESSION_FORMATION_LAP
-      case SessionStateDefine.SESSION_RACE => SessionStateDefineValue.SESSION_RACE
-      case SessionStateDefine.SESSION_TIME_ATTACK => SessionStateDefineValue.SESSION_TIME_ATTACK
+      case SESSION_INVALID => SessionStateDefineValue.SESSION_INVALID
+      case SESSION_PRACTICE => SessionStateDefineValue.SESSION_PRACTICE
+      case SESSION_TEST => SessionStateDefineValue.SESSION_TEST
+      case SESSION_QUALIFY => SessionStateDefineValue.SESSION_QUALIFY
+      case SESSION_FORMATION_LAP => SessionStateDefineValue.SESSION_FORMATION_LAP
+      case SESSION_RACE => SessionStateDefineValue.SESSION_RACE
+      case SESSION_TIME_ATTACK => SessionStateDefineValue.SESSION_TIME_ATTACK
       case _ =>
         logger.warn("Received unknown session state.")
         SessionStateDefineValue.SESSION_UNKNOWN
     }
+  }
+
+  def toFlagColor(value: Byte): FlagColor = {
+    import FlagColorDefine._
+    value match {
+      case FLAG_COLOUR_NONE => FlagColorDefineValue.FLAG_COLOUR_NONE
+      case FLAG_COLOUR_GREEN => FlagColorDefineValue.FLAG_COLOUR_GREEN
+      case FLAG_COLOUR_BLUE => FlagColorDefineValue.FLAG_COLOUR_BLUE
+      case FLAG_COLOUR_WHITE_SLOW_CAR => FlagColorDefineValue.FLAG_COLOUR_WHITE_SLOW_CAR
+      case FLAG_COLOUR_WHITE_FINAL_LAP => FlagColorDefineValue.FLAG_COLOUR_WHITE_FINAL_LAP
+      case FLAG_COLOUR_RED => FlagColorDefineValue.FLAG_COLOUR_RED
+      case FLAG_COLOUR_YELLOW => FlagColorDefineValue.FLAG_COLOUR_YELLOW
+      case FLAG_COLOUR_DOUBLE_YELLOW => FlagColorDefineValue.FLAG_COLOUR_DOUBLE_YELLOW
+      case FLAG_COLOUR_BLACK_AND_WHITE => FlagColorDefineValue.FLAG_COLOUR_BLACK_AND_WHITE
+      case FLAG_COLOUR_BLACK_ORANGE_CIRCLE => FlagColorDefineValue.FLAG_COLOUR_BLACK_ORANGE_CIRCLE
+      case FLAG_COLOUR_BLACK => FlagColorDefineValue.FLAG_COLOUR_BLACK
+      case FLAG_COLOUR_CHEQUERED => FlagColorDefineValue.FLAG_COLOUR_CHEQUERED
+      case _ =>
+        logger.warn("Received unknown flag color.")
+        FlagColorDefineValue.FLAG_COLOUR_UNKNOWN
+    }
+  }
 
   def readPacketBase(data1: List[Byte]): (PacketBase, List[Byte]) = {
     val (packetNumber, data2) = readUInt(data1)
@@ -463,6 +486,7 @@ object UdpDataReader extends LazyLogging {
     val (currentSectorTime, data13) = readFloat(data12)
     val (mpParticipantIndex, nextData) = readUShort(data13)
 
+    val flagColor = toFlagColor(highestFlag.toByte)
     val pitMode = toPitMode((pitModeSchedule & 7).toByte)
     val pitSchedule = toPitSchedule((pitModeSchedule >> 3 & 3).toByte)
     val raceStateValue = toRaceState((raceState & 127).toByte)
@@ -475,7 +499,7 @@ object UdpDataReader extends LazyLogging {
       racePosition = (racePosition & 127).toShort,
       isActive = ((racePosition >> 7) == 1),
       sector = ((sector & 7) + 1).toShort,
-      highestFlag = highestFlag,
+      highestFlag = flagColor.value,
       pitMode = pitMode.value,
       pitSchedule = pitSchedule.value,
       carIndex = carIndex,
@@ -494,7 +518,8 @@ object UdpDataReader extends LazyLogging {
       racePosition = participantInfo.racePosition,
       isActive = participantInfo.isActive,
       sector = participantInfo.sector,
-      highestFlag = participantInfo.highestFlag,
+      highestFlag = flagColor.value,
+      highestFlagString = flagColor.text,
       pitMode = pitMode.value,
       pitModeString = pitMode.text,
       pitSchedule = pitSchedule.value,

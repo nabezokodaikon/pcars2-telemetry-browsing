@@ -19,7 +19,7 @@ object UdpDataJsonProtocol extends DefaultJsonProtocol {
   implicit val raceDataFormat = jsonFormat19(RaceData)
   implicit val participantsDataFormat = jsonFormat5(ParticipantsData)
   implicit val participantInfoFormat = jsonFormat16(ParticipantInfo)
-  implicit val formatParticipantInfoFormat = jsonFormat19(FormatParticipantInfo)
+  implicit val formatParticipantInfoFormat = jsonFormat20(FormatParticipantInfo)
   implicit val timingsDataFormat = jsonFormat10(TimingsData)
   implicit val gameStateFormat = jsonFormat2(GameState)
   implicit val gameSessionStateFormat = jsonFormat2(SessionState)
@@ -380,6 +380,40 @@ object PitScheduleDefineValue {
   val PIT_SCHEDULE_UNKNOWN: PitSchedule = PitSchedule(PitScheduleDefine.PIT_SCHEDULE_UNKNOWN, "PIT_SCHEDULE_UNKNOWN")
 }
 
+case class FlagColor(value: Byte, text: String)
+
+object FlagColorDefine {
+  val FLAG_COLOUR_NONE: Byte = 0 // Not used for actual flags, only for some query functions
+  val FLAG_COLOUR_GREEN: Byte = 1 // End of danger zone, or race started
+  val FLAG_COLOUR_BLUE: Byte = 2 // Faster car wants to overtake the participant
+  val FLAG_COLOUR_WHITE_SLOW_CAR: Byte = 3 // Slow car in area
+  val FLAG_COLOUR_WHITE_FINAL_LAP: Byte = 4 // Final Lap
+  val FLAG_COLOUR_RED: Byte = 5 // Huge collisions where one or more cars become wrecked and block the track
+  val FLAG_COLOUR_YELLOW: Byte = 6 // Danger on the racing surface itself
+  val FLAG_COLOUR_DOUBLE_YELLOW: Byte = 7 // Danger that wholly or partly blocks the racing surface
+  val FLAG_COLOUR_BLACK_AND_WHITE: Byte = 8 // Unsportsmanlike conduct
+  val FLAG_COLOUR_BLACK_ORANGE_CIRCLE: Byte = 9 // Mechanical Failure
+  val FLAG_COLOUR_BLACK: Byte = 10 // Participant disqualified
+  val FLAG_COLOUR_CHEQUERED: Byte = 11 // Chequered flag
+  val FLAG_COLOUR_UNKNOWN: Byte = 127
+}
+
+object FlagColorDefineValue {
+  val FLAG_COLOUR_NONE: FlagColor = FlagColor(FlagColorDefine.FLAG_COLOUR_NONE, "FLAG_COLOUR_NONE")
+  val FLAG_COLOUR_GREEN: FlagColor = FlagColor(FlagColorDefine.FLAG_COLOUR_GREEN, "FLAG_COLOUR_GREEN")
+  val FLAG_COLOUR_BLUE: FlagColor = FlagColor(FlagColorDefine.FLAG_COLOUR_BLUE, "FLAG_COLOUR_BLUE")
+  val FLAG_COLOUR_WHITE_SLOW_CAR: FlagColor = FlagColor(FlagColorDefine.FLAG_COLOUR_WHITE_SLOW_CAR, "FLAG_COLOUR_WHITE_SLOW_CAR")
+  val FLAG_COLOUR_WHITE_FINAL_LAP: FlagColor = FlagColor(FlagColorDefine.FLAG_COLOUR_WHITE_FINAL_LAP, "FLAG_COLOUR_WHITE_FINAL_LAP")
+  val FLAG_COLOUR_RED: FlagColor = FlagColor(FlagColorDefine.FLAG_COLOUR_RED, "FLAG_COLOUR_RED")
+  val FLAG_COLOUR_YELLOW: FlagColor = FlagColor(FlagColorDefine.FLAG_COLOUR_YELLOW, "FLAG_COLOUR_YELLOW")
+  val FLAG_COLOUR_DOUBLE_YELLOW: FlagColor = FlagColor(FlagColorDefine.FLAG_COLOUR_DOUBLE_YELLOW, "FLAG_COLOUR_DOUBLE_YELLOW")
+  val FLAG_COLOUR_BLACK_AND_WHITE: FlagColor = FlagColor(FlagColorDefine.FLAG_COLOUR_BLACK_AND_WHITE, "FLAG_COLOUR_BLACK_AND_WHITE")
+  val FLAG_COLOUR_BLACK_ORANGE_CIRCLE: FlagColor = FlagColor(FlagColorDefine.FLAG_COLOUR_BLACK_ORANGE_CIRCLE, "FLAG_COLOUR_BLACK_ORANGE_CIRCLE")
+  val FLAG_COLOUR_BLACK: FlagColor = FlagColor(FlagColorDefine.FLAG_COLOUR_BLACK, "FLAG_COLOUR_BLACK")
+  val FLAG_COLOUR_CHEQUERED: FlagColor = FlagColor(FlagColorDefine.FLAG_COLOUR_CHEQUERED, "FLAG_COLOUR_CHEQUERED")
+  val FLAG_COLOUR_UNKNOWN: FlagColor = FlagColor(FlagColorDefine.FLAG_COLOUR_UNKNOWN, "FLAG_COLOUR_UNKNOWN")
+}
+
 case class FormatParticipantInfo(
     worldPosition: Array[Short],
     orientation: Array[Short], // Quantized heading (-PI .. +PI) , Quantized pitch (-PI / 2 .. +PI / 2),  Quantized bank (-PI .. +PI).
@@ -388,6 +422,7 @@ case class FormatParticipantInfo(
     isActive: Boolean,
     sector: Short, // sector + extra precision bits for x/z position
     highestFlag: Short,
+    highestFlagString: String,
     pitMode: Byte,
     pitModeString: String,
     pitSchedule: Byte,

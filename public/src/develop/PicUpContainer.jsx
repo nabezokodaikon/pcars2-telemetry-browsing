@@ -279,6 +279,7 @@ class PicUp extends React.Component {
         <tr>
           <td>highestFlag</td>
           <td>{record.highestFlag}</td>
+          <td>{record.highestFlagString}</td>
         </tr>
         <tr>
           <td>lapInvalidated</td>
