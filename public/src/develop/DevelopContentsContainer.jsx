@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as contentNames from "../share/contentNames.js";
+import PicUpContainer from "./PicUpContainer.jsx";
 import TelemetryDataContainer from "./TelemetryDataContainer.jsx";
 import VelocityContainer from "./VelocityContainer.jsx";
 import TyreContainer from "./TyreContainer.jsx";
@@ -32,6 +33,8 @@ class DevelopContents extends React.Component {
 
   getCurrentContents() {
     switch (this.props.currentContent) {
+        case contentNames.PIC_UP:
+          return <PicUpContainer />;
         case contentNames.TELEMETRY_DATA:
           return <TelemetryDataContainer />;
         case contentNames.TELEMETRY_DATA_VELOCITY:

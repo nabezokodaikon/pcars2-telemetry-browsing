@@ -11,6 +11,7 @@ export const SIMPLE = "SIMPLE";
 export const MOTEC = "MOTEC";
 
 // Debug contents.(PCars2)
+export const PIC_UP = "PIC_UP";
 export const TELEMETRY_DATA = "TelemetryData";
 export const TELEMETRY_DATA_VELOCITY = "TelemetryData.velocity";
 export const TELEMETRY_DATA_TYRE = "TelemetryData.tyre";

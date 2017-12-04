@@ -81,6 +81,7 @@ class DevelopMenu extends React.Component {
 
   getContentItems() {
     return [
+      contentNames.PIC_UP,
       contentNames.TELEMETRY_DATA,
       contentNames.TELEMETRY_DATA_VELOCITY,
       contentNames.TELEMETRY_DATA_TYRE,
