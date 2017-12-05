@@ -148,7 +148,22 @@ class PicUp extends React.Component {
         </tr>
         <tr>
           <td>tyreFlags</td>
-          <td>{tyre1.tyreFlags[0]}</td>
+        </tr>
+        <tr>
+          <td>attached</td>
+          <td>{tyre1.tyreFlags[0].attached.toString()}</td>
+        </tr>
+        <tr>
+          <td>inflated</td>
+          <td>{tyre1.tyreFlags[0].inflated.toString()}</td>
+        </tr>
+        <tr>
+          <td>isOnGround</td>
+          <td>{tyre1.tyreFlags[0].isOnGround.toString()}</td>
+        </tr>
+        <tr>
+          <td>brakeDamage</td>
+          <td>{tyre1.brakeDamage[0]}</td>
         </tr>
         <tr>
           <td>brakeDamage</td>
@@ -163,7 +178,18 @@ class PicUp extends React.Component {
         </tr>
         <tr>
           <td>tyreFlags</td>
-          <td>{tyre1.tyreFlags[1]}</td>
+        </tr>
+        <tr>
+          <td>attached</td>
+          <td>{tyre1.tyreFlags[1].attached.toString()}</td>
+        </tr>
+        <tr>
+          <td>inflated</td>
+          <td>{tyre1.tyreFlags[1].inflated.toString()}</td>
+        </tr>
+        <tr>
+          <td>isOnGround</td>
+          <td>{tyre1.tyreFlags[1].isOnGround.toString()}</td>
         </tr>
         <tr>
           <td>brakeDamage</td>
@@ -178,7 +204,18 @@ class PicUp extends React.Component {
         </tr>
         <tr>
           <td>tyreFlags</td>
-          <td>{tyre1.tyreFlags[2]}</td>
+        </tr>
+        <tr>
+          <td>attached</td>
+          <td>{tyre1.tyreFlags[2].attached.toString()}</td>
+        </tr>
+        <tr>
+          <td>inflated</td>
+          <td>{tyre1.tyreFlags[2].inflated.toString()}</td>
+        </tr>
+        <tr>
+          <td>isOnGround</td>
+          <td>{tyre1.tyreFlags[2].isOnGround.toString()}</td>
         </tr>
         <tr>
           <td>brakeDamage</td>
@@ -193,7 +230,18 @@ class PicUp extends React.Component {
         </tr>
         <tr>
           <td>tyreFlags</td>
-          <td>{tyre1.tyreFlags[3]}</td>
+        </tr>
+        <tr>
+          <td>attached</td>
+          <td>{tyre1.tyreFlags[3].attached.toString()}</td>
+        </tr>
+        <tr>
+          <td>inflated</td>
+          <td>{tyre1.tyreFlags[3].inflated.toString()}</td>
+        </tr>
+        <tr>
+          <td>isOnGround</td>
+          <td>{tyre1.tyreFlags[3].isOnGround.toString()}</td>
         </tr>
         <tr>
           <td>brakeDamage</td>

@@ -9,6 +9,8 @@ import {
   TYRE_REAR_RIGHT
 } from "../share/telemetryConst.js";
 
+const Fragment = React.Fragment;
+
 class Tyre extends React.Component {
   constructor(props) {
     super(props)
@@ -31,12 +33,29 @@ class Tyre extends React.Component {
     const data1 = this.props.telemetryData.tyre1;
     const data2 = this.props.telemetryData.tyre2;
     const frontLeft1 = Object.keys(data1).map(key => {
-      return (
-        <tr key={key}>
-          <td>{key}</td>
-          <td>{data1[key][TYRE_FRONT_LEFT]}</td>
-        </tr>
-      );
+      const value = data1[key][TYRE_FRONT_LEFT];
+      if (isJson(value)) {
+        const childValues = Object.keys(value).map(childKey => {
+          return (
+            <tr key={childKey}>
+              <td>{childKey}</td>
+              <td>{value[childKey].toString()}</td>
+            </tr>
+          );
+        });
+        return (
+          <Fragment key={key}>
+            {childValues}
+          </Fragment>
+        );
+      } else {
+        return (
+          <tr key={key}>
+            <td>{key}</td>
+            <td>{value}</td>
+          </tr>
+        );
+      }
     });
     const frontLeft2 = Object.keys(data2).map(key => {
       return (
@@ -48,12 +67,29 @@ class Tyre extends React.Component {
     });
 
     const frontRight1 = Object.keys(data1).map(key => {
-      return (
-        <tr key={key}>
-          <td>{key}</td>
-          <td>{data1[key][TYRE_FRONT_RIGHT]}</td>
-        </tr>
-      );
+      const value = data1[key][TYRE_FRONT_RIGHT];
+      if (isJson(value)) {
+        const childValues = Object.keys(value).map(childKey => {
+          return (
+            <tr key={childKey}>
+              <td>{childKey}</td>
+              <td>{value[childKey].toString()}</td>
+            </tr>
+          );
+        });
+        return (
+          <Fragment key={key}>
+            {childValues}
+          </Fragment>
+        );
+      } else {
+        return (
+          <tr key={key}>
+            <td>{key}</td>
+            <td>{value}</td>
+          </tr>
+        );
+      }
     });
     const frontRight2 = Object.keys(data2).map(key => {
       return (
@@ -65,12 +101,29 @@ class Tyre extends React.Component {
     });
 
     const rearLeft1 = Object.keys(data1).map(key => {
-      return (
-        <tr key={key}>
-          <td>{key}</td>
-          <td>{data1[key][TYRE_REAR_LEFT]}</td>
-        </tr>
-      );
+      const value = data1[key][TYRE_REAR_LEFT];
+      if (isJson(value)) {
+        const childValues = Object.keys(value).map(childKey => {
+          return (
+            <tr key={childKey}>
+              <td>{childKey}</td>
+              <td>{value[childKey].toString()}</td>
+            </tr>
+          );
+        });
+        return (
+          <Fragment key={key}>
+            {childValues}
+          </Fragment>
+        );
+      } else {
+        return (
+          <tr key={key}>
+            <td>{key}</td>
+            <td>{value}</td>
+          </tr>
+        );
+      }
     });
     const rearLeft2 = Object.keys(data2).map(key => {
       return (
@@ -82,12 +135,29 @@ class Tyre extends React.Component {
     });
 
     const rearRight1 = Object.keys(data1).map(key => {
-      return (
-        <tr key={key}>
-          <td>{key}</td>
-          <td>{data1[key][TYRE_REAR_RIGHT]}</td>
-        </tr>
-      );
+      const value = data1[key][TYRE_REAR_RIGHT];
+      if (isJson(value)) {
+        const childValues = Object.keys(value).map(childKey => {
+          return (
+            <tr key={childKey}>
+              <td>{childKey}</td>
+              <td>{value[childKey].toString()}</td>
+            </tr>
+          );
+        });
+        return (
+          <Fragment key={key}>
+            {childValues}
+          </Fragment>
+        );
+      } else {
+        return (
+          <tr key={key}>
+            <td>{key}</td>
+            <td>{value}</td>
+          </tr>
+        );
+      }
     });
     const rearRight2 = Object.keys(data2).map(key => {
       return (

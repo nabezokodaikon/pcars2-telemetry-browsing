@@ -10,6 +10,7 @@ object UdpDataJsonProtocol extends DefaultJsonProtocol {
   implicit val carFlagsFormat = jsonFormat6(CarFlags)
   implicit val carStateFormat = jsonFormat21(CarState)
   implicit val velocityFormat = jsonFormat7(Velocity)
+  implicit val tyreFlagsFormat = jsonFormat3(TyreFlags)
   implicit val tyre1Format = jsonFormat22(Tyre1)
   implicit val tyre2Format = jsonFormat2(Tyre2)
   implicit val tyre3Format = jsonFormat5(Tyre3)
@@ -125,6 +126,15 @@ case class UnfilteredInput(
     unfilteredClutch: Short // 0 - 255
 )
 
+object CarFlagsDefine {
+  val CAR_HEADLIGHT: Byte = (1 << 0).toByte
+  val CAR_ENGINE_ACTIVE: Byte = (1 << 1).toByte
+  val CAR_ENGINE_WARNING: Byte = (1 << 2).toByte
+  val CAR_SPEED_LIMITER: Byte = (1 << 3).toByte
+  val CAR_ABS: Byte = (1 << 4).toByte
+  val CAR_HANDBRAKE: Byte = (1 << 5).toByte
+}
+
 case class CarFlags(
     headLight: Boolean,
     engineActive: Boolean,
@@ -134,15 +144,6 @@ case class CarFlags(
     handbrake: Boolean
 ) {
   def toJsonString: String = this.toJson.toString
-}
-
-object CarFlagsDefine {
-  val CAR_HEADLIGHT: Byte = (1 << 0).toByte
-  val CAR_ENGINE_ACTIVE: Byte = (1 << 1).toByte
-  val CAR_ENGINE_WARNING: Byte = (1 << 2).toByte
-  val CAR_SPEED_LIMITER: Byte = (1 << 3).toByte
-  val CAR_ABS: Byte = (1 << 4).toByte
-  val CAR_HANDBRAKE: Byte = (1 << 5).toByte
 }
 
 case class CarState(
@@ -179,8 +180,22 @@ case class Velocity(
     extentsCentre: Array[Float]
 )
 
+object TyreFlagsDefine {
+  val TYRE_ATTACHED: Byte = (1 << 0)
+  val TYRE_INFLATED: Byte = (1 << 1)
+  val TYRE_IS_ON_GROUND: Byte = (1 << 2)
+}
+
+case class TyreFlags(
+    attached: Boolean,
+    inflated: Boolean,
+    isOnGround: Boolean
+) {
+  def toJsonString: String = this.toJson.toString
+}
+
 case class Tyre1(
-    tyreFlags: Array[Short],
+    tyreFlags: Array[TyreFlags],
     terrain: Array[Short],
     tyreY: Array[Float],
     tyreRPS: Array[Float],

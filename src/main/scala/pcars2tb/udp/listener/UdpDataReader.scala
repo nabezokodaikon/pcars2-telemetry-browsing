@@ -129,6 +129,27 @@ object UdpDataReader extends LazyLogging {
     }
   }
 
+  def toCarFlags(carFlags: Byte): CarFlags = {
+    import CarFlagsDefine._
+    CarFlags(
+      headLight = (carFlags & CAR_HEADLIGHT) == CAR_HEADLIGHT,
+      engineActive = (carFlags & CAR_ENGINE_ACTIVE) == CAR_ENGINE_ACTIVE,
+      engineWarning = (carFlags & CAR_ENGINE_WARNING) == CAR_ENGINE_WARNING,
+      speedLimiter = (carFlags & CAR_SPEED_LIMITER) == CAR_SPEED_LIMITER,
+      abs = (carFlags & CAR_ABS) == CAR_ABS,
+      handbrake = (carFlags & CAR_HANDBRAKE) == CAR_HANDBRAKE
+    )
+  }
+
+  def toTyreFlags(tyreFlags: Byte): TyreFlags = {
+    import TyreFlagsDefine._
+    TyreFlags(
+      attached = (tyreFlags & TYRE_ATTACHED) == TYRE_ATTACHED,
+      inflated = (tyreFlags & TYRE_INFLATED) == TYRE_INFLATED,
+      isOnGround = (tyreFlags & TYRE_IS_ON_GROUND) == TYRE_IS_ON_GROUND
+    )
+  }
+
   def readPacketBase(data1: List[Byte]): (PacketBase, List[Byte]) = {
     val (packetNumber, data2) = readUInt(data1)
     val (categoryPacketNumber, data3) = readUInt(data2)
@@ -205,14 +226,7 @@ object UdpDataReader extends LazyLogging {
 
     (
       CarState(
-        carFlags = CarFlags(
-          headLight = (carFlags & CAR_HEADLIGHT) == CAR_HEADLIGHT,
-          engineActive = (carFlags & CAR_ENGINE_ACTIVE) == CAR_ENGINE_ACTIVE,
-          engineWarning = (carFlags & CAR_ENGINE_WARNING) == CAR_ENGINE_WARNING,
-          speedLimiter = (carFlags & CAR_SPEED_LIMITER) == CAR_SPEED_LIMITER,
-          abs = (carFlags & CAR_ABS) == CAR_ABS,
-          handbrake = (carFlags & CAR_HANDBRAKE) == CAR_HANDBRAKE
-        ),
+        carFlags = toCarFlags(carFlags.toByte),
         oilTempCelsius = (oilTempCelsius / 255f).toRound(0),
         oilPressureKPa = oilPressureKPa,
         waterTempCelsius = (waterTempCelsius / 255f).toRound(0),
@@ -287,7 +301,7 @@ object UdpDataReader extends LazyLogging {
 
     (
       Tyre1(
-        tyreFlags = tyreFlags,
+        tyreFlags = tyreFlags.map(a => toTyreFlags(a.toByte)),
         terrain = terrain,
         tyreY = tyreY,
         tyreRPS = tyreRPS,
@@ -310,7 +324,7 @@ object UdpDataReader extends LazyLogging {
         suspensionTravel = suspensionTravel,
         suspensionVelocity = suspensionVelocity
       ),
-      nextData
+        nextData
     )
   }
 
