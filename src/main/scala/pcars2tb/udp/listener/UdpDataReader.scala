@@ -513,17 +513,6 @@ object UdpDataReader extends LazyLogging {
     val (currentSectorTime, data13) = readFloat(data12)
     val (mpParticipantIndex, nextData) = readUShort(data13)
 
-    // byte lapInvalidated = (byte)(newParticipantInfo.sRaceState >> 7);
-    // existingState.mRaceStates[i] = (uint)newParticipantInfo.sRaceState & 127;
-    // existingState.mPitModes[i] = (uint) newParticipantInfo.sPitModeSchedule & 28;
-    // existingState.mPitSchedules[i] = (uint) newParticipantInfo.sPitModeSchedule & 3;
-    // existingState.mHighestFlagColours[i] = (uint)newParticipantInfo.sHighestFlag & 28;
-    // existingState.mHighestFlagReasons[i] = (uint)newParticipantInfo.sHighestFlag & 3;
-    //
-    // if (highestFlag != 0) {
-    // println(s"highestFlag: ${highestFlag}")
-    // }
-
     val lapInvalidated = ((raceState >> 3) == 1)
     val raceStateValue = toRaceState((raceState & 7).toByte)
     val pitMode = toPitMode((pitModeSchedule & 15).toByte)
