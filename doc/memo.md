@@ -247,6 +247,39 @@
 ### RearRight
 * sTyreWear = It is unknown whether the value is correct when compared with RearLeft.
 
+## ダメージ
+```
+private float trivialEngineDamageThreshold = 0.05f;
+private float minorEngineDamageThreshold = 0.20f;
+private float severeEngineDamageThreshold = 0.45f;
+private float destroyedEngineDamageThreshold = 0.90f;
+
+private float trivialSuspensionDamageThreshold = 0.01f;
+private float minorSuspensionDamageThreshold = 0.05f;
+private float severeSuspensionDamageThreshold = 0.15f;
+private float destroyedSuspensionDamageThreshold = 0.60f;
+
+private float trivialBrakeDamageThreshold = 0.15f;
+private float minorBrakeDamageThreshold = 0.3f;
+private float severeBrakeDamageThreshold = 0.6f;
+private float destroyedBrakeDamageThreshold = 0.90f;
+
+// TODO: have separate thresholds for tin-tops and open wheelers with wings here
+private float trivialAeroDamageThreshold = 0.1f;
+private float minorAeroDamageThreshold = 0.25f;
+private float severeAeroDamageThreshold = 0.6f;
+private float destroyedAeroDamageThreshold = 0.90f;
+
+// tyres in PCars are worn out when the wear level is > ?
+private float wornOutTyreWearLevel = 0.50f;
+
+private float scrubbedTyreWearPercent = 1f;
+private float minorTyreWearPercent = 20f;
+private float majorTyreWearPercent = 40f;
+private float wornOutTyreWearPercent = 80f;
+```
+
+
 ## TODO
 * DEFAULT content の順位を3桁まで表示できるようにする。(特にiPhoneでレイアウトが崩れる。)
 * ENGINE content のスクリーンショットに水圧が表示されていないので、撮り直す。
