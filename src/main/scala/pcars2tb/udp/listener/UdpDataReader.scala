@@ -129,6 +129,19 @@ object UdpDataReader extends LazyLogging {
     }
   }
 
+  def toFlagReason(value: Byte): FlagReason = {
+    import FlagReasonDefine._
+    value match {
+      case FLAG_REASON_NONE => FlagReasonDefineValue.FLAG_REASON_NONE
+      case FLAG_REASON_SOLO_CRASH => FlagReasonDefineValue.FLAG_REASON_SOLO_CRASH
+      case FLAG_REASON_VEHICLE_CRASH => FlagReasonDefineValue.FLAG_REASON_VEHICLE_CRASH
+      case FLAG_REASON_VEHICLE_OBSTRUCTION => FlagReasonDefineValue.FLAG_REASON_VEHICLE_OBSTRUCTION
+      case _ =>
+        logger.warn("Received unknown flag color.")
+        FlagReasonDefineValue.FLAG_REASON_UNKNOWN
+    }
+  }
+
   def toCarFlags(carFlags: Byte): CarFlags = {
     import CarFlagsDefine._
     CarFlags(
@@ -500,11 +513,23 @@ object UdpDataReader extends LazyLogging {
     val (currentSectorTime, data13) = readFloat(data12)
     val (mpParticipantIndex, nextData) = readUShort(data13)
 
-    val flagColor = toFlagColor(highestFlag.toByte)
-    val pitMode = toPitMode((pitModeSchedule & 7).toByte)
-    val pitSchedule = toPitSchedule((pitModeSchedule >> 3 & 3).toByte)
-    val raceStateValue = toRaceState((raceState & 127).toByte)
-    val lapInvalidated = ((raceState >> 7) == 1)
+    // byte lapInvalidated = (byte)(newParticipantInfo.sRaceState >> 7);
+    // existingState.mRaceStates[i] = (uint)newParticipantInfo.sRaceState & 127;
+    // existingState.mPitModes[i] = (uint) newParticipantInfo.sPitModeSchedule & 28;
+    // existingState.mPitSchedules[i] = (uint) newParticipantInfo.sPitModeSchedule & 3;
+    // existingState.mHighestFlagColours[i] = (uint)newParticipantInfo.sHighestFlag & 28;
+    // existingState.mHighestFlagReasons[i] = (uint)newParticipantInfo.sHighestFlag & 3;
+    //
+    // if (highestFlag != 0) {
+    // println(s"highestFlag: ${highestFlag}")
+    // }
+
+    val lapInvalidated = ((raceState >> 3) == 1)
+    val raceStateValue = toRaceState((raceState & 7).toByte)
+    val pitMode = toPitMode((pitModeSchedule & 15).toByte)
+    val pitSchedule = toPitSchedule((pitModeSchedule >> 4).toByte)
+    val flagColor = toFlagColor((highestFlag & 15).toByte)
+    val flagReason = toFlagReason((highestFlag >> 4).toByte)
 
     val participantInfo = ParticipantInfo(
       worldPosition = worldPosition,
@@ -513,7 +538,8 @@ object UdpDataReader extends LazyLogging {
       racePosition = (racePosition & 127).toShort,
       isActive = ((racePosition >> 7) == 1),
       sector = ((sector & 7) + 1).toShort,
-      highestFlag = flagColor.value,
+      flagColor = flagColor.value,
+      flagReason = flagReason.value,
       pitMode = pitMode.value,
       pitSchedule = pitSchedule.value,
       carIndex = carIndex,
@@ -532,8 +558,10 @@ object UdpDataReader extends LazyLogging {
       racePosition = participantInfo.racePosition,
       isActive = participantInfo.isActive,
       sector = participantInfo.sector,
-      highestFlag = flagColor.value,
-      highestFlagString = flagColor.text,
+      flagColor = flagColor.value,
+      flagColorString = flagColor.text,
+      flagReason = flagReason.value,
+      flagReasonString = flagReason.text,
       pitMode = pitMode.value,
       pitModeString = pitMode.text,
       pitSchedule = pitSchedule.value,

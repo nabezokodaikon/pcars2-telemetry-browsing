@@ -122,7 +122,7 @@ class PicUp extends React.Component {
         </tr>
         <tr>
           <td>turboBoostPressure</td>
-          <td>{hwState.turboBoostPressure}</td>
+          <td>{/* hwState.turboBoostPressure */}</td>
         </tr>
       </Fragment>
     );
@@ -160,10 +160,6 @@ class PicUp extends React.Component {
         <tr>
           <td>isOnGround</td>
           <td>{tyre1.tyreFlags[0].isOnGround.toString()}</td>
-        </tr>
-        <tr>
-          <td>brakeDamage</td>
-          <td>{tyre1.brakeDamage[0]}</td>
         </tr>
         <tr>
           <td>brakeDamage</td>
@@ -325,9 +321,14 @@ class PicUp extends React.Component {
           <td>{record.pitModeString}</td>
         </tr>
         <tr>
-          <td>highestFlag</td>
-          <td>{record.highestFlag}</td>
-          <td>{record.highestFlagString}</td>
+          <td>flagColor</td>
+          <td>{record.flagColor}</td>
+          <td>{record.flagColorString}</td>
+        </tr>
+        <tr>
+          <td>flagReason</td>
+          <td>{record.flagReason}</td>
+          <td>{record.flagReasonString}</td>
         </tr>
         <tr>
           <td>lapInvalidated</td>

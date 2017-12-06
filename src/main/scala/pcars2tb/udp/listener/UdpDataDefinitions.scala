@@ -19,8 +19,8 @@ object UdpDataJsonProtocol extends DefaultJsonProtocol {
   implicit val telemetryDataFormat = jsonFormat10(TelemetryData)
   implicit val raceDataFormat = jsonFormat19(RaceData)
   implicit val participantsDataFormat = jsonFormat5(ParticipantsData)
-  implicit val participantInfoFormat = jsonFormat16(ParticipantInfo)
-  implicit val formatParticipantInfoFormat = jsonFormat20(FormatParticipantInfo)
+  implicit val participantInfoFormat = jsonFormat17(ParticipantInfo)
+  implicit val formatParticipantInfoFormat = jsonFormat22(FormatParticipantInfo)
   implicit val timingsDataFormat = jsonFormat10(TimingsData)
   implicit val gameStateFormat = jsonFormat2(GameState)
   implicit val gameSessionStateFormat = jsonFormat2(SessionState)
@@ -429,6 +429,24 @@ object FlagColorDefineValue {
   val FLAG_COLOUR_UNKNOWN: FlagColor = FlagColor(FlagColorDefine.FLAG_COLOUR_UNKNOWN, "FLAG_COLOUR_UNKNOWN")
 }
 
+case class FlagReason(value: Byte, text: String)
+
+object FlagReasonDefine {
+  val FLAG_REASON_NONE: Byte = 0
+  val FLAG_REASON_SOLO_CRASH: Byte = 1
+  val FLAG_REASON_VEHICLE_CRASH: Byte = 2
+  val FLAG_REASON_VEHICLE_OBSTRUCTION: Byte = 3
+  val FLAG_REASON_UNKNOWN: Byte = 127
+}
+
+object FlagReasonDefineValue {
+  val FLAG_REASON_NONE: FlagReason = FlagReason(FlagReasonDefine.FLAG_REASON_NONE, "FLAG_REASON_NONE")
+  val FLAG_REASON_SOLO_CRASH: FlagReason = FlagReason(FlagReasonDefine.FLAG_REASON_SOLO_CRASH, "FLAG_REASON_SOLO_CRASH")
+  val FLAG_REASON_VEHICLE_CRASH: FlagReason = FlagReason(FlagReasonDefine.FLAG_REASON_VEHICLE_CRASH, "FLAG_REASON_VEHICLE_CRASH")
+  val FLAG_REASON_VEHICLE_OBSTRUCTION: FlagReason = FlagReason(FlagReasonDefine.FLAG_REASON_VEHICLE_OBSTRUCTION, "FLAG_REASON_VEHICLE_OBSTRUCTION")
+  val FLAG_REASON_UNKNOWN: FlagReason = FlagReason(FlagReasonDefine.FLAG_REASON_UNKNOWN, "FLAG_REASON_UNKNOWN")
+}
+
 case class FormatParticipantInfo(
     worldPosition: Array[Short],
     orientation: Array[Short], // Quantized heading (-PI .. +PI) , Quantized pitch (-PI / 2 .. +PI / 2),  Quantized bank (-PI .. +PI).
@@ -436,8 +454,10 @@ case class FormatParticipantInfo(
     racePosition: Short, // holds the race position, + top bit shows if the participant is active or not
     isActive: Boolean,
     sector: Short, // sector + extra precision bits for x/z position
-    highestFlag: Short,
-    highestFlagString: String,
+    flagColor: Byte,
+    flagColorString: String,
+    flagReason: Byte,
+    flagReasonString: String,
     pitMode: Byte,
     pitModeString: String,
     pitSchedule: Byte,
@@ -459,7 +479,8 @@ case class ParticipantInfo(
     racePosition: Short, // holds the race position, + top bit shows if the participant is active or not
     isActive: Boolean,
     sector: Short, // sector + extra precision bits for x/z position
-    highestFlag: Short,
+    flagColor: Byte,
+    flagReason: Byte,
     pitMode: Byte,
     pitSchedule: Byte,
     carIndex: Int, // top bit shows if participant is (local or remote) human player or not
