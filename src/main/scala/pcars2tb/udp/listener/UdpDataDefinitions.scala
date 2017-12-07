@@ -202,8 +202,8 @@ case class Tyre1(
     tyreTemp: Array[Short],
     tyreHeightAboveGround: Array[Float],
     tyreWear: Array[Short],
-    brakeDamage: Array[Short],
-    suspensionDamage: Array[Short],
+    brakeDamage: Array[String],
+    suspensionDamage: Array[String],
     brakeTempCelsius: Array[Short], // [ Unit: Celsius ] [ Convert: value / 255 ]
     tyreTreadTemp: Array[Int],
     tyreLayerTemp: Array[Int],
@@ -232,8 +232,8 @@ case class Tyre3(
 )
 
 case class CarDamage(
-    aeroDamage: Short,
-    engineDamage: Short
+    aeroDamage: String,
+    engineDamage: String
 )
 
 case class HWState(

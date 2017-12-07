@@ -64,7 +64,7 @@
 
 .engineDamage,
 .aeroDamage {
-  width: 8rem;
+  width: 6.5rem;
   display: flex;
   flex-direction: column;
 }
@@ -99,5 +99,5 @@
 
 .brake > .value,
 .suspension > .value {
-  width: 4.5rem;
+  flex-grow: 1;
 }

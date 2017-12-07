@@ -321,8 +321,8 @@ object UdpDataReader extends LazyLogging {
         tyreTemp = tyreTemp,
         tyreHeightAboveGround = tyreHeightAboveGround,
         tyreWear = tyreWear,
-        brakeDamage = brakeDamage,
-        suspensionDamage = suspensionDamage,
+        brakeDamage = brakeDamage.map(a => (a / 255f).multiply(100, 0)),
+        suspensionDamage = suspensionDamage.map(a => (a / 255f).multiply(100, 0)),
         brakeTempCelsius = brakeTempCelsius,
         tyreTreadTemp = tyreTreadTemp,
         tyreLayerTemp = tyreLayerTemp,
@@ -380,10 +380,10 @@ object UdpDataReader extends LazyLogging {
 
     (
       CarDamage(
-        aeroDamage = aeroDamage,
-        engineDamage = engineDamage
+        aeroDamage = (aeroDamage / 255f).multiply(100, 0),
+        engineDamage = (engineDamage / 255f).multiply(100, 0)
       ),
-      nextData
+        nextData
     )
   }
 
