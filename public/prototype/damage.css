@@ -1,0 +1,6 @@
+@import "../index.css";
+@import "../src/share/largeContent.css";
+
+.contents {
+  background-color: #1b1d1e;
+}
