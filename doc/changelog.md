@@ -1,4 +1,9 @@
 # Change log
+## v0.4
+* Add DAMAGE content.
+  * Because of API bug, provisional implementation.
+
+
 ## v0.3
 * Displayed up to 60 laps of history in the TIME content.
 * Layout fine adjustment.
