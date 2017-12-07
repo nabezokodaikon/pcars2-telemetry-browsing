@@ -135,6 +135,7 @@ class Menu extends React.Component {
       contentNames.DEFAULT,
       contentNames.ENGINE,
       contentNames.TYRE,
+      contentNames.DAMAGE,
       contentNames.TIME,
       contentNames.RANK,
       // contentNames.SIMPLE, // TODO: Plan to delete.
