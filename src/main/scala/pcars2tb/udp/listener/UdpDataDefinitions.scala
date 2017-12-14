@@ -65,6 +65,7 @@ object UdpStreamerPacketHandlerType {
 
 object PacketSize {
   val TELEMETRY_DATA: Short = 555
+  // val TELEMETRY_DATA: Short = 556
   val RACE_DATA: Short = 308
   val PARTICIPANTS_DATA: Short = 1136
   val TIMINGS_DATA: Short = 1059
