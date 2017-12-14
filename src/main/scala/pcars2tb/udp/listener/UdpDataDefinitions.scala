@@ -38,6 +38,7 @@ object UdpDataJsonProtocol extends DefaultJsonProtocol {
   implicit val lapTimeDetailsFormat = jsonFormat7(LapTimeDetails)
   implicit val aggregateTimeFormat = jsonFormat3(AggregateTime)
   implicit val fuelDataFormat = jsonFormat3(FuelData)
+  implicit val telemetrySummaryFormat = jsonFormat11(TelemetrySummary)
 }
 
 import UdpDataJsonProtocol._
@@ -59,6 +60,7 @@ object UdpStreamerPacketHandlerType {
   val LAP_TIME_DETAILS: Byte = 64
   val AGGREGATE_TIME: Byte = 65
   val FUEL_DATA: Byte = 66
+  val TELEMETRY_SUMMARY: Byte = 67
 }
 
 object PacketSize {
@@ -712,6 +714,25 @@ case class FuelData(
     base: PacketBase,
     lastConsumption: String,
     averageConsumption: String
+) extends UdpData {
+  def toJsonString(): String = this.toJson.toString
+}
+
+/*
+ * Telemetry summary
+ */
+case class TelemetrySummary(
+    base: PacketBase,
+    minOilTempCelsius: String,
+    maxOilTempCelsius: String,
+    minOilPressureKPa: Int,
+    maxOilPressureKPa: Int,
+    minWaterTempCelsius: String,
+    maxWaterTempCelsius: String,
+    minWaterPressureKPa: Int,
+    maxWaterPressureKPa: Int,
+    minFuelPressureKPa: Int,
+    maxFuelPressureKPa: Int
 ) extends UdpData {
   def toJsonString(): String = this.toJson.toString
 }
