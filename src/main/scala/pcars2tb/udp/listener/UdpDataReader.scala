@@ -240,9 +240,9 @@ object UdpDataReader extends LazyLogging {
     (
       CarState(
         carFlags = toCarFlags(carFlags.toByte),
-        oilTempCelsius = (oilTempCelsius / 255f).toRound(0),
+        oilTempCelsius = oilTempCelsius.divide(255f, 0),
         oilPressureKPa = oilPressureKPa,
-        waterTempCelsius = (waterTempCelsius / 255f).toRound(0),
+        waterTempCelsius = waterTempCelsius.divide(255f, 0),
         waterPressureKpa = waterPressureKpa,
         fuelPressureKpa = fuelPressureKpa,
         fuelCapacity = fuelCapacity,
