@@ -1,6 +1,5 @@
 package pcars2tb.udp.state
 
-import akka.actor.{ Actor, ActorRef }
 import com.typesafe.scalalogging.LazyLogging
 import pcars2tb.util.BigDecimalSupport._
 import pcars2tb.udp.listener.{
