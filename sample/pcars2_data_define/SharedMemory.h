@@ -30,7 +30,7 @@
 // Header version number to test against
 enum
 {
-  SHARED_MEMORY_VERSION = 8
+  SHARED_MEMORY_VERSION = 9
 };
 
 // Maximum allowed length of string
@@ -43,6 +43,12 @@ enum
 enum
 {
   STORED_PARTICIPANTS_MAX = 64
+};
+
+// Maximum length of a tyre compound name
+enum
+{
+ TYRE_COMPOUND_NAME_LENGTH_MAX = 40
 };
 
 // Tyres
@@ -168,7 +174,7 @@ enum
 };
 
 // (Type#9) Car Flags (to be used with 'mCarFlags')
-enum
+enum CarFlags
 {
   CAR_HEADLIGHT         = (1<<0),
   CAR_ENGINE_ACTIVE     = (1<<1),
@@ -237,6 +243,9 @@ enum
   TERRAIN_ICE_ROAD,
   TERRAIN_RUNOFF_ROAD,
   TERRAIN_ILLEGAL_STRIP,
+	TERRAIN_PAINT_CONCRETE,
+	TERRAIN_PAINT_CONCRETE_ILLEGAL,
+	TERRAIN_RALLY_TARMAC,
 
   //-------------
   TERRAIN_MAX
@@ -438,8 +447,18 @@ typedef struct
 	int		mEnforcedPitStopLap;                          // [ UNITS = in which lap there will be a mandatory pitstop] [ RANGE = 0.0f->... ] [ UNSET = -1 ]
 	char	mTranslatedTrackLocation[STRING_LENGTH_MAX];  // [ string ]
 	char	mTranslatedTrackVariation[STRING_LENGTH_MAX]; // [ string ]
+	float	mBrakeBias;																		// [ RANGE = 0.0f->1.0f... ]   [ UNSET = -1.0f ]
+	float mTurboBoostPressure;													//	 RANGE = 0.0f->1.0f... ]   [ UNSET = -1.0f ]
+	char	mTyreCompound[TYRE_MAX][TYRE_COMPOUND_NAME_LENGTH_MAX];// [ strings  ]
+	unsigned int	mPitSchedules[STORED_PARTICIPANTS_MAX];  // [ enum (Type#7)  Pit Mode ]
+	unsigned int	mHighestFlagColours[STORED_PARTICIPANTS_MAX];                 // [ enum (Type#5) Flag Colour ]
+	unsigned int	mHighestFlagReasons[STORED_PARTICIPANTS_MAX];                 // [ enum (Type#6) Flag Reason ]
+	unsigned int	mNationalities[STORED_PARTICIPANTS_MAX];										  // [ nationality table , SP AND UNSET = 0 ] See nationalities.txt file for details
+	float	mSnowDensity;																// [ UNITS = How much snow will fall ]   [ RANGE = 0.0f->1.0f ], this will be non zero only in Snow season, in other seasons whatever is falling from the sky is reported as rain
+	
 
 } SharedMemory;
 
 
 #endif  // _SHARED_MEMORY_HPP_
+
