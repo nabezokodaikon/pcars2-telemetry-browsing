@@ -149,7 +149,7 @@ class TimeContent extends React.Component {
 
   createFastest() {
     const lapTimeDetails = this.props.lapTimeDetails;
-    const className = [style.current, style.darkRecord].join(" ");
+    const className = [style.fastest, style.darkRecord].join(" ");
     if (isJson(lapTimeDetails)) {
       return <RecordComponent className={className} name={"FASTEST"} record={lapTimeDetails.fastest} />;
     } else {
@@ -159,7 +159,7 @@ class TimeContent extends React.Component {
 
   createAverage() {
     const lapTimeDetails = this.props.lapTimeDetails;
-    const className = [style.current, style.brightRecord].join(" ");
+    const className = [style.average, style.brightRecord].join(" ");
     if (isJson(lapTimeDetails)) {
       return <RecordComponent className={className} name={"AVERAGE"} record={lapTimeDetails.average} />;
     } else {

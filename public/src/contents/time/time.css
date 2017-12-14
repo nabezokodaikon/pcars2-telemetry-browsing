@@ -1,6 +1,7 @@
 .timeLogTable {
   margin-top: 0.3rem;
   margin-bottom: 0.3rem;
+  overflow-x: hidden;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   flex-grow: 1;
@@ -20,8 +21,13 @@
 .fastest,
 .average,
 .timeLogTable > div {
-  margin-bottom: 0.1rem;
   display: flex;
+}
+
+.header,
+.fastest,
+.timeLogTable > div:not(:last-child) {
+  margin-bottom: 0.1rem;
 }
 
 .header > div,
