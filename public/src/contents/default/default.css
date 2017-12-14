@@ -27,9 +27,9 @@
 }
 
 .border {
-  border-top-width: 0.2rem;
-  border-top-style: solid;
-  border-top-color: #777777;
+  border-bottom-width: 0.1rem;
+  border-bottom-style: solid;
+  border-bottom-color: #777777;
 }
 
 /*
@@ -41,7 +41,6 @@
 }
 
 .session > div {
-  height: 3rem;
   display: flex;
   align-items: center;
 }
@@ -64,7 +63,6 @@
 }
 
 .position > div {
-  height: 3rem;
   display: flex;
   align-items: center;
 }
@@ -80,7 +78,6 @@
   align-items: center;
 }
 
-
 /*
  * current
  */
@@ -89,7 +86,6 @@
 }
 
 .current > div {
-  height: 3rem;
 }
 
 .current > div > span {
@@ -119,19 +115,18 @@
  * timeLogs
  */
 .timeLogs {
-  border-top-width: 0.1rem;
-  border-top-style: solid;
-  border-top-color: #777777;
   display: flex;
   flex-direction: column;
 }
 
 .timeLogs > div {
-  border-top-width: 0.1rem;
-  border-top-style: solid;
-  border-top-color: #777777;
-  height: 2.5rem;
   display: flex;
+}
+
+.timeLogs > div:not(:last-child) {
+  border-bottom-width: 0.05rem;
+  border-bottom-style: solid;
+  border-bottom-color: #777777;
 }
 
 .timeLogs > div > div > span {
@@ -175,7 +170,6 @@
 }
 
 .otherTime > div {
-  height: 2.75rem;
   display: flex;
   align-items: center;
 }

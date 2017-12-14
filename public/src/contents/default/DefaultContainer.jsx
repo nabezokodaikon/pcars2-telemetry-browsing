@@ -22,7 +22,7 @@ class DefaultContent extends React.Component {
     }
 
     return (
-      <div className={style.session}>
+      <div className={[style.session, style.border].join(" ")}>
         <div className={[style.sessionHeader, shareStyle.header].join(" ")}>
           <span>SESSION</span>
         </div>
@@ -112,7 +112,7 @@ class DefaultContent extends React.Component {
     const historyLength = history.length;
 
     return (
-      <div className={style.timeLogs}>
+      <div className={[style.timeLogs, style.border].join(" ")}>
         <TimeLogRecordComponent record={getRecord(history[historyLength - 1])} />
         <TimeLogRecordComponent record={getRecord(history[historyLength - 2])} />
         <TimeLogRecordComponent record={getRecord(history[historyLength - 3])} />
@@ -158,7 +158,7 @@ class DefaultContent extends React.Component {
     const average = lapTimeDetails.average;
 
     return (
-      <div className={[style.otherTime, style.border].join(" ")}>
+      <div className={style.otherTime}>
         <div className={[style.otherTimeHeader, shareStyle.header].join(" ")}>
           <span>AVERAGE</span>
         </div>
