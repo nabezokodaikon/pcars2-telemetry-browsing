@@ -221,8 +221,8 @@ object UdpDataReader extends LazyLogging {
     val (oilTempCelsius, data3) = readShort(data2)
     val (oilPressureKPa, data4) = readUShort(data3)
     val (waterTempCelsius, data5) = readShort(data4)
-    val (waterPressureKpa, data6) = readUShort(data5)
-    val (fuelPressureKpa, data7) = readUShort(data6)
+    val (waterPressureKPa, data6) = readUShort(data5)
+    val (fuelPressureKPa, data7) = readUShort(data6)
     val (fuelCapacity, data8) = readUByte(data7)
     val (brake, data9) = readUByte(data8)
     val (throttle, data10) = readUByte(data9)
@@ -243,8 +243,8 @@ object UdpDataReader extends LazyLogging {
         oilTempCelsius = oilTempCelsius.divide(255f, 0).toInt,
         oilPressureKPa = oilPressureKPa,
         waterTempCelsius = waterTempCelsius.divide(255f, 0).toInt,
-        waterPressureKpa = waterPressureKpa,
-        fuelPressureKpa = fuelPressureKpa,
+        waterPressureKPa = waterPressureKPa,
+        fuelPressureKPa = fuelPressureKPa,
         fuelCapacity = fuelCapacity,
         brake = brake,
         throttle = throttle,

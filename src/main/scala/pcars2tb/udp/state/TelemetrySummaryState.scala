@@ -136,10 +136,10 @@ final case class TelemetrySummaryState(
         maxOilPressure = engine.maxOilPressure max carState.oilPressureKPa,
         minWaterTemp = if (engine.minWaterTemp == 0) carState.waterTempCelsius.toInt else engine.minWaterTemp min carState.waterTempCelsius.toInt,
         maxWaterTemp = engine.maxWaterTemp max carState.waterTempCelsius.toInt,
-        minWaterPressure = if (engine.minWaterPressure == 0) carState.waterPressureKpa else engine.minWaterPressure min carState.waterPressureKpa,
-        maxWaterPressure = engine.maxWaterPressure max carState.waterPressureKpa,
-        minFuelPressure = if (engine.minFuelPressure == 0) carState.fuelPressureKpa else engine.minFuelPressure min carState.fuelPressureKpa,
-        maxFuelPressure = engine.maxFuelPressure max carState.fuelPressureKpa
+        minWaterPressure = if (engine.minWaterPressure == 0) carState.waterPressureKPa else engine.minWaterPressure min carState.waterPressureKPa,
+        maxWaterPressure = engine.maxWaterPressure max carState.waterPressureKPa,
+        minFuelPressure = if (engine.minFuelPressure == 0) carState.fuelPressureKPa else engine.minFuelPressure min carState.fuelPressureKPa,
+        maxFuelPressure = engine.maxFuelPressure max carState.fuelPressureKPa
       )
     )
   }

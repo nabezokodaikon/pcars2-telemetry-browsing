@@ -155,8 +155,8 @@ case class CarState(
     oilTempCelsius: Int, // [ Unit: Celsius ] [ value / 255f ]
     oilPressureKPa: Int,
     waterTempCelsius: Int, // [ Unit: Celsius ] [ value / 255f ]
-    waterPressureKpa: Int,
-    fuelPressureKpa: Int,
+    waterPressureKPa: Int,
+    fuelPressureKPa: Int,
     fuelCapacity: Short, // [ Unit: liter ]
     brake: Short, // [ 0 - 255 ]
     throttle: Short, // [ 0 - 255 ]
