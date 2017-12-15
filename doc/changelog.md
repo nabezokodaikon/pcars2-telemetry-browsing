@@ -1,4 +1,11 @@
 # Change log
+## v0.5
+* Modify ENGINE content.
+  * Add mnimum values and maximum values.
+  * Add fuel pressure.
+* Each layout was finely adjusted.
+
+
 ## v0.4
 * Add DAMAGE content.
   * Because of API bug, provisional implementation.
