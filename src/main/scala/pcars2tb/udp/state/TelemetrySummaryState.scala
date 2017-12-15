@@ -5,11 +5,13 @@ import pcars2tb.udp.listener.{
   UdpStreamerPacketHandlerType,
   PacketBase,
   GameStateDefineValue,
+  RaceData,
   GameStateData,
   PitModeDefineValue,
   UdpData,
   TelemetryData,
   TimingsData,
+  EngineSummary,
   TelemetrySummary
 }
 import pcars2tb.udp.listener.UdpDataReader.toPitMode
@@ -27,30 +29,30 @@ final object TelemetrySummaryState {
     dataSize = 0
   )
 
+  val initialEngineState = EngineSummaryState(
+    minOilTemp = 0,
+    maxOilTemp = 0,
+    minOilPressure = 0,
+    maxOilPressure = 0,
+    minWaterTemp = 0,
+    maxWaterTemp = 0,
+    minWaterPressure = 0,
+    maxWaterPressure = 0,
+    minFuelPressure = 0,
+    maxFuelPressure = 0
+  )
+
   def createInitialState(gameStateData: GameStateData): TelemetrySummaryState =
     TelemetrySummaryState(
       isMenu = (gameStateData.gameState == GameStateDefineValue.GAME_FRONT_END),
       isPlaying = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_PLAYING),
       isRestart = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_RESTARTING),
       viewedParticipantIndex = 0,
-      minOilTemp = 0,
-      maxOilTemp = 0,
-      minOilPressure = 0,
-      maxOilPressure = 0,
-      minWaterTemp = 0,
-      maxWaterTemp = 0,
-      minWaterPressure = 0,
-      maxWaterPressure = 0,
-      minFuelPressure = 0,
-      maxFuelPressure = 0
+      engine = initialEngineState
     )
 }
 
-final case class TelemetrySummaryState(
-    isMenu: Boolean,
-    isPlaying: Boolean,
-    isRestart: Boolean,
-    viewedParticipantIndex: Byte,
+final case class EngineSummaryState(
     minOilTemp: Int,
     maxOilTemp: Int,
     minOilPressure: Int,
@@ -61,22 +63,32 @@ final case class TelemetrySummaryState(
     maxWaterPressure: Int,
     minFuelPressure: Int,
     maxFuelPressure: Int
+)
+
+final case class TelemetrySummaryState(
+    isMenu: Boolean,
+    isPlaying: Boolean,
+    isRestart: Boolean,
+    viewedParticipantIndex: Byte,
+    engine: EngineSummaryState
 ) extends LazyLogging {
   import TelemetrySummaryState._
 
   private def toUdpData(): TelemetrySummary =
     TelemetrySummary(
       base = base,
-      minOilTempCelsius = minOilTemp.toString,
-      maxOilTempCelsius = maxOilTemp.toString,
-      minOilPressureKPa = minOilPressure,
-      maxOilPressureKPa = maxOilPressure,
-      minWaterTempCelsius = minWaterTemp.toString,
-      maxWaterTempCelsius = maxWaterTemp.toString,
-      minWaterPressureKPa = minWaterPressure,
-      maxWaterPressureKPa = maxWaterPressure,
-      minFuelPressureKPa = minFuelPressure,
-      maxFuelPressureKPa = maxFuelPressure
+      engine = EngineSummary(
+        minOilTempCelsius = engine.minOilTemp,
+        maxOilTempCelsius = engine.maxOilTemp,
+        minOilPressureKPa = engine.minOilPressure,
+        maxOilPressureKPa = engine.maxOilPressure,
+        minWaterTempCelsius = engine.minWaterTemp,
+        maxWaterTempCelsius = engine.maxWaterTemp,
+        minWaterPressureKPa = engine.minWaterPressure,
+        maxWaterPressureKPa = engine.maxWaterPressure,
+        minFuelPressureKPa = engine.minFuelPressure,
+        maxFuelPressureKPa = engine.maxFuelPressure
+      )
     )
 
   private def resetState() =
@@ -85,16 +97,7 @@ final case class TelemetrySummaryState(
       isPlaying = isPlaying,
       isRestart = isRestart,
       viewedParticipantIndex = 0,
-      minOilTemp = 0,
-      maxOilTemp = 0,
-      minOilPressure = 0,
-      maxOilPressure = 0,
-      minWaterTemp = 0,
-      maxWaterTemp = 0,
-      minWaterPressure = 0,
-      maxWaterPressure = 0,
-      minFuelPressure = 0,
-      maxFuelPressure = 0
+      engine = initialEngineState
     )
 
   private def resetGameStateData(gameStateData: GameStateData) =
@@ -104,16 +107,18 @@ final case class TelemetrySummaryState(
         || gameStateData.gameState == GameStateDefineValue.GAME_INGAME_INMENU_TIME_TICKING),
       isRestart = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_RESTARTING),
       viewedParticipantIndex = viewedParticipantIndex,
-      minOilTemp = minOilTemp,
-      maxOilTemp = maxOilTemp,
-      minOilPressure = minOilPressure,
-      maxOilPressure = maxOilPressure,
-      minWaterTemp = minWaterTemp,
-      maxWaterTemp = maxWaterTemp,
-      minWaterPressure = minWaterPressure,
-      maxWaterPressure = maxWaterPressure,
-      minFuelPressure = minFuelPressure,
-      maxFuelPressure = maxFuelPressure
+      engine = EngineSummaryState(
+        minOilTemp = engine.minOilTemp,
+        maxOilTemp = engine.maxOilTemp,
+        minOilPressure = engine.minOilPressure,
+        maxOilPressure = engine.maxOilPressure,
+        minWaterTemp = engine.minWaterTemp,
+        maxWaterTemp = engine.maxWaterTemp,
+        minWaterPressure = engine.minWaterPressure,
+        maxWaterPressure = engine.maxWaterPressure,
+        minFuelPressure = engine.minFuelPressure,
+        maxFuelPressure = engine.maxFuelPressure
+      )
     )
 
   private def mergeTelemetryData(telemetryData: TelemetryData) = {
@@ -124,16 +129,18 @@ final case class TelemetrySummaryState(
       isPlaying = isPlaying,
       isRestart = isRestart,
       viewedParticipantIndex = participantInfo.viewedParticipantIndex,
-      minOilTemp = if (minOilTemp == 0) carState.oilTempCelsius.toInt else minOilTemp min carState.oilTempCelsius.toInt,
-      maxOilTemp = maxOilTemp max carState.oilTempCelsius.toInt,
-      minOilPressure = if (minOilPressure == 0) carState.oilPressureKPa else minOilPressure min carState.oilPressureKPa,
-      maxOilPressure = maxOilPressure max carState.oilPressureKPa,
-      minWaterTemp = if (minWaterTemp == 0) carState.waterTempCelsius.toInt else minWaterTemp min carState.waterTempCelsius.toInt,
-      maxWaterTemp = maxWaterTemp max carState.waterTempCelsius.toInt,
-      minWaterPressure = if (minWaterPressure == 0) carState.waterPressureKpa else minWaterPressure min carState.waterPressureKpa,
-      maxWaterPressure = maxWaterPressure max carState.waterPressureKpa,
-      minFuelPressure = if (minFuelPressure == 0) carState.fuelPressureKpa else minFuelPressure min carState.fuelPressureKpa,
-      maxFuelPressure = maxFuelPressure max carState.fuelPressureKpa
+      engine = EngineSummaryState(
+        minOilTemp = if (engine.minOilTemp == 0) carState.oilTempCelsius.toInt else engine.minOilTemp min carState.oilTempCelsius.toInt,
+        maxOilTemp = engine.maxOilTemp max carState.oilTempCelsius.toInt,
+        minOilPressure = if (engine.minOilPressure == 0) carState.oilPressureKPa else engine.minOilPressure min carState.oilPressureKPa,
+        maxOilPressure = engine.maxOilPressure max carState.oilPressureKPa,
+        minWaterTemp = if (engine.minWaterTemp == 0) carState.waterTempCelsius.toInt else engine.minWaterTemp min carState.waterTempCelsius.toInt,
+        maxWaterTemp = engine.maxWaterTemp max carState.waterTempCelsius.toInt,
+        minWaterPressure = if (engine.minWaterPressure == 0) carState.waterPressureKpa else engine.minWaterPressure min carState.waterPressureKpa,
+        maxWaterPressure = engine.maxWaterPressure max carState.waterPressureKpa,
+        minFuelPressure = if (engine.minFuelPressure == 0) carState.fuelPressureKpa else engine.minFuelPressure min carState.fuelPressureKpa,
+        maxFuelPressure = engine.maxFuelPressure max carState.fuelPressureKpa
+      )
     )
   }
 
@@ -142,6 +149,8 @@ final case class TelemetrySummaryState(
     val participant = timingsData.participants(viewedParticipantIndex)
     toPitMode(participant.pitMode) match {
       case PIT_MODE_IN_GARAGE => true
+      case PIT_MODE_DRIVING_OUT_OF_GARAGE => true
+      case PIT_MODE_UNKNOWN => true
       case _ => false
     }
   }
@@ -151,6 +160,26 @@ final case class TelemetrySummaryState(
       case udpData: GameStateData =>
         val nextState = resetGameStateData(udpData)
         (nextState, None)
+      case udpData: RaceData if (isMenu) =>
+        val nextState = resetState()
+        (nextState, Some(toUdpData()))
+      case udpData: TelemetryData if (isPlaying) =>
+        val nextState = mergeTelemetryData(udpData)
+        (nextState, Some(toUdpData()))
+      case udpData: TimingsData if (isMenu) =>
+        val nextState = resetState()
+        (nextState, Some(nextState.toUdpData))
+      case udpData: TimingsData if (isRestart) =>
+        val nextState = resetState()
+        (nextState, Some(nextState.toUdpData))
+      case udpData: TimingsData if (isPlaying) =>
+        inGarage(udpData) match {
+          case true =>
+            val nextState = resetState()
+            (nextState, Some(nextState.toUdpData))
+          case _ =>
+            (this, None)
+        }
       case _ => (this, None)
     }
 }

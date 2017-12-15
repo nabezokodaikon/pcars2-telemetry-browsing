@@ -86,7 +86,8 @@ const initialUdpData = {
   vehicleClassNamesData: {},
   lapTimeDetails: {},
   aggregateTime: {},
-  fuelData: {}
+  fuelData: {},
+  telemetrySummary: {}
 };
 
 function currentUdpData(state = initialUdpData, action) {
@@ -117,6 +118,8 @@ function currentUdpData(state = initialUdpData, action) {
       return { ...state, aggregateTime: action.receivedAggregateTime };
     case actionTypes.RECEIVED_FUEL_DATA:
       return { ...state, fuelData: action.receivedFuelData };
+    case actionTypes.RECEIVED_TELEMETRY_SUMMARY:
+      return { ...state, telemetrySummary: action.receivedTelemetrySummary };
     default:
       return state;
   }

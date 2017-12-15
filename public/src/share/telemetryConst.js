@@ -16,6 +16,7 @@ export const PARTICIPANT_VEHICLE_NAMES = 8;
 export const LAP_TIME_DETAILS = 64;
 export const AGGREGATE_TIME = 65;
 export const FUEL_DATA = 66;
+export const TELEMETRY_SUMMARY = 67;
 
 // PacketSize
 export const TELEMETRY_DATA = 538;

@@ -81,6 +81,12 @@ export function isFuelData(json) {
     && json.base.packetType == telemetryConst.FUEL_DATA;
 }
 
+export function isTelemetrySummary(json) {
+  return isJson(json)
+    && existsKey(json, "base")
+    && json.base.packetType == telemetryConst.TELEMETRY_SUMMARY;
+}
+
 export function kmhToMIH(kmh) {
   return Math.floor(kmh * 0.625);
 }

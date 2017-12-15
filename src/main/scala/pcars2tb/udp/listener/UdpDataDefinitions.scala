@@ -38,7 +38,8 @@ object UdpDataJsonProtocol extends DefaultJsonProtocol {
   implicit val lapTimeDetailsFormat = jsonFormat7(LapTimeDetails)
   implicit val aggregateTimeFormat = jsonFormat3(AggregateTime)
   implicit val fuelDataFormat = jsonFormat3(FuelData)
-  implicit val telemetrySummaryFormat = jsonFormat11(TelemetrySummary)
+  implicit val engineSummaryFormat = jsonFormat10(EngineSummary)
+  implicit val telemetrySummaryFormat = jsonFormat2(TelemetrySummary)
 }
 
 import UdpDataJsonProtocol._
@@ -151,9 +152,9 @@ case class CarFlags(
 
 case class CarState(
     carFlags: CarFlags,
-    oilTempCelsius: String, // [ Unit: Celsius ] [ value / 255f ]
+    oilTempCelsius: Int, // [ Unit: Celsius ] [ value / 255f ]
     oilPressureKPa: Int,
-    waterTempCelsius: String, // [ Unit: Celsius ] [ value / 255f ]
+    waterTempCelsius: Int, // [ Unit: Celsius ] [ value / 255f ]
     waterPressureKpa: Int,
     fuelPressureKpa: Int,
     fuelCapacity: Short, // [ Unit: liter ]
@@ -722,18 +723,22 @@ case class FuelData(
 /*
  * Telemetry summary
  */
-case class TelemetrySummary(
-    base: PacketBase,
-    minOilTempCelsius: String,
-    maxOilTempCelsius: String,
+case class EngineSummary(
+    minOilTempCelsius: Int,
+    maxOilTempCelsius: Int,
     minOilPressureKPa: Int,
     maxOilPressureKPa: Int,
-    minWaterTempCelsius: String,
-    maxWaterTempCelsius: String,
+    minWaterTempCelsius: Int,
+    maxWaterTempCelsius: Int,
     minWaterPressureKPa: Int,
     maxWaterPressureKPa: Int,
     minFuelPressureKPa: Int,
     maxFuelPressureKPa: Int
+)
+
+case class TelemetrySummary(
+    base: PacketBase,
+    engine: EngineSummary
 ) extends UdpData {
   def toJsonString(): String = this.toJson.toString
 }

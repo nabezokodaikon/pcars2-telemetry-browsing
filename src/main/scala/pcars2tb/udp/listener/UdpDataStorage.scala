@@ -10,7 +10,8 @@ final case class Storage(
     vehicleClassNamesData: Option[(VehicleClassNamesData, String)],
     lapTimeDetails: Option[(LapTimeDetails, String)],
     aggregateTime: Option[(AggregateTime, String)],
-    fuelData: Option[(FuelData, String)]
+    fuelData: Option[(FuelData, String)],
+    telemetrySummary: Option[(TelemetrySummary, String)]
 )
 
 final class UdpDataStorage()
@@ -32,7 +33,8 @@ final class UdpDataStorage()
     vehicleClassNamesData = None,
     lapTimeDetails = None,
     aggregateTime = None,
-    fuelData = None
+    fuelData = None,
+    telemetrySummary = None
   ))
 
   def processing(storage: Storage): Receive = {
@@ -45,7 +47,8 @@ final class UdpDataStorage()
           vehicleClassNamesData = storage.vehicleClassNamesData,
           lapTimeDetails = storage.lapTimeDetails,
           aggregateTime = storage.aggregateTime,
-          fuelData = storage.fuelData
+          fuelData = storage.fuelData,
+          telemetrySummary = storage.telemetrySummary
         )))
       case udpData: ParticipantsData =>
         context.become(processing(Storage(
@@ -55,7 +58,8 @@ final class UdpDataStorage()
           vehicleClassNamesData = storage.vehicleClassNamesData,
           lapTimeDetails = storage.lapTimeDetails,
           aggregateTime = storage.aggregateTime,
-          fuelData = storage.fuelData
+          fuelData = storage.fuelData,
+          telemetrySummary = storage.telemetrySummary
         )))
       case udpData: ParticipantVehicleNamesData =>
         context.become(processing(Storage(
@@ -65,7 +69,8 @@ final class UdpDataStorage()
           vehicleClassNamesData = storage.vehicleClassNamesData,
           lapTimeDetails = storage.lapTimeDetails,
           aggregateTime = storage.aggregateTime,
-          fuelData = storage.fuelData
+          fuelData = storage.fuelData,
+          telemetrySummary = storage.telemetrySummary
         )))
       case udpData: VehicleClassNamesData =>
         context.become(processing(Storage(
@@ -75,7 +80,8 @@ final class UdpDataStorage()
           vehicleClassNamesData = Some((udpData, json)),
           lapTimeDetails = storage.lapTimeDetails,
           aggregateTime = storage.aggregateTime,
-          fuelData = storage.fuelData
+          fuelData = storage.fuelData,
+          telemetrySummary = storage.telemetrySummary
         )))
       case udpData: LapTimeDetails =>
         context.become(processing(Storage(
@@ -85,7 +91,8 @@ final class UdpDataStorage()
           vehicleClassNamesData = storage.vehicleClassNamesData,
           lapTimeDetails = Some((udpData, json)),
           aggregateTime = storage.aggregateTime,
-          fuelData = storage.fuelData
+          fuelData = storage.fuelData,
+          telemetrySummary = storage.telemetrySummary
         )))
       case udpData: AggregateTime =>
         context.become(processing(Storage(
@@ -95,7 +102,8 @@ final class UdpDataStorage()
           vehicleClassNamesData = storage.vehicleClassNamesData,
           lapTimeDetails = storage.lapTimeDetails,
           aggregateTime = Some((udpData, json)),
-          fuelData = storage.fuelData
+          fuelData = storage.fuelData,
+          telemetrySummary = storage.telemetrySummary
         )))
       case udpData: FuelData =>
         context.become(processing(Storage(
@@ -105,7 +113,19 @@ final class UdpDataStorage()
           vehicleClassNamesData = storage.vehicleClassNamesData,
           lapTimeDetails = storage.lapTimeDetails,
           aggregateTime = storage.aggregateTime,
-          fuelData = Some((udpData, json))
+          fuelData = Some((udpData, json)),
+          telemetrySummary = storage.telemetrySummary
+        )))
+      case udpData: TelemetrySummary =>
+        context.become(processing(Storage(
+          raceData = storage.raceData,
+          participantsData = storage.participantsData,
+          participantVehicleNamesData = storage.participantVehicleNamesData,
+          vehicleClassNamesData = storage.vehicleClassNamesData,
+          lapTimeDetails = storage.lapTimeDetails,
+          aggregateTime = storage.aggregateTime,
+          fuelData = storage.fuelData,
+          telemetrySummary = Some((udpData, json))
         )))
       case _ => Unit
     }
@@ -123,6 +143,8 @@ final class UdpDataStorage()
       for ((_, json) <- storage.aggregateTime) client ! json
       Thread.sleep(10)
       for ((_, json) <- storage.fuelData) client ! json
+      Thread.sleep(10)
+      for ((_, json) <- storage.telemetrySummary) client ! json
     case _ =>
       logger.warn(s"UdpDataStorage received unknown message.")
   }
