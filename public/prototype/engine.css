@@ -8,39 +8,37 @@
   background-color: #1b1d1e;
 }
 
-.engine,
-.oil,
-.water {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.engine {
-  height: 9rem;
-}
-
-.oil,
-.water {
-  height: 6rem;
-}
-
+/*
+ * share
+ */
 .icon {
-  height: 100%;
+  width: 4rem;
   background-color: #BFD2E3;
   display: flex;
+  justify-content: center;
   align-items: center;
 }
 
 .icon > img {
-  margin: 1rem;
-  width: 4rem;
-  height: 4rem;
+  margin: 0.5rem;
+  width: 3rem;
+  height: 3rem;
 }
 
-.values {
-  width: 18rem;
-  height: 100%;
+/*
+ * engine
+ */
+.engine {
+  display: flex;
+}
+
+.engine > .icon {
+}
+
+.engine > .valueRecords {
+  border-top: solid;
+  border-top-width: 0.1rem;
+  border-top-color: #777777;
   border-right: solid;
   border-right-width: 0.1rem;
   border-right-color: #777777;
@@ -48,38 +46,155 @@
   flex-direction: column;
 }
 
-.valueBox {
+.engine > .valueRecords > .valueRecord {
   border-bottom: solid;
   border-bottom-width: 0.1rem;
   border-bottom-color: #777777;
   display: flex;
 }
 
-.valueBox:first-child {
-  border-top: solid;
-  border-top-width: 0.1rem;
-  border-top-color: #777777;
-}
-
-.valueBox > div:first-child {
-  width: 8rem;
+.engine > .valueRecords > .valueRecord > .value {
+  width: 4rem;
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
 
-.valueBox > div:first-child > span {
-  font-size: 3rem;
+.engine > .valueRecords > .valueRecord > .value > span {
+  color: #FFFFFF;
+  font-size: 1.5rem;
+  font-family: 'Inconsolata', monospace;
 }
 
-.unit {
-  margin-left: 1rem;
-  flex-grow: 1;
+.engine > .valueRecords > .valueRecord > .unit {
+  width: 4.5rem;
+  margin-left: 0.5rem;
   display: flex;
   justify-content: flex-start;
   align-items: center;
 }
 
-.unit > span {
-  font-size: 2.5rem;
+.engine > .valueRecords > .valueRecord > .unit > span {
+  color: #FFFFFF;
+  font-size: 1.5rem;
+  font-family: 'Inconsolata', monospace;
+}
+
+/*
+ * valueTable
+ */
+.valueTable {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+}
+
+.header > div {
+}
+
+.header > div:first-child {
+  width: 4rem;
+}
+
+.header > div:not(:first-child) {
+  width: 7.5rem;
+  background-color: #BFD2E3;
+  border-right: solid;
+  border-right-width: 0.1rem;
+  border-right-color: #777777;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header > div > span {
+  color: #000000;
+  font-size: 1rem;
+  font-family: 'Oswald', sans-serif;
+}
+
+.oil,
+.water,
+.fuel {
+  display: flex;
+}
+
+.oil > .icon,
+.water > .icon,
+.fuel > .icon {
+  margin-top: 0.1rem;
+}
+
+.oil > .valueRecords,
+.water > .valueRecords,
+.fuel > .valueRecords {
+  display: flex;
+  flex-direction: column;
+}
+
+.oil > .valueRecords > .valueRecord,
+.water > .valueRecords > .valueRecord,
+.fuel > .valueRecords > .valueRecord {
+  border-bottom: solid;
+  border-bottom-width: 0.1rem;
+  border-bottom-color: #777777;
+  display: flex;
+}
+
+.oil > .valueRecords > .valueRecord,
+.water > .valueRecords > .valueRecord {
+  height: 2rem;
+}
+
+.fuel > .valueRecords > .valueRecord {
+  height: 4rem;
+}
+
+.oil > .valueRecords > .valueRecord > div,
+.water > .valueRecords > .valueRecord > div,
+.fuel > .valueRecords > .valueRecord > div {
+  display: flex;
+}
+
+.oil > .valueRecords > .valueRecord > div > .value,
+.water > .valueRecords > .valueRecord > div > .value,
+.fuel > .valueRecords > .valueRecord > div > .value {
+  width: 4rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.oil > .valueRecords > .valueRecord > div > .value > span,
+.water > .valueRecords > .valueRecord > div > .value > span,
+.fuel > .valueRecords > .valueRecord > div > .value > span {
+  color: #FFFFFF;
+  font-size: 1.5rem;
+  font-family: 'Inconsolata', monospace;
+}
+
+.oil > .valueRecords > .valueRecord > div > .unit,
+.water > .valueRecords > .valueRecord > div > .unit,
+.fuel > .valueRecords > .valueRecord > div > .unit {
+  width: 3rem;
+  height: 100%;
+  margin-left: 0.5rem;
+  border-right: solid;
+  border-right-width: 0.1rem;
+  border-right-color: #777777;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.oil > .valueRecords > .valueRecord > div > .unit > span,
+.water > .valueRecords > .valueRecord > div > .unit > span,
+.fuel > .valueRecords > .valueRecord > div > .unit > span {
+  color: #FFFFFF;
+  font-size: 1.5rem;
+  font-family: 'Inconsolata', monospace;
 }
