@@ -216,7 +216,7 @@ export default class LargeGearComponent extends React.Component {
         textAnchor="middle"
         dominantBaseline="middle"
       >
-        888
+        {speed}
       </text>
 
     const speedUnitText =
