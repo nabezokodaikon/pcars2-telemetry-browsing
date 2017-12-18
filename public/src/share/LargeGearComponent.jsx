@@ -164,19 +164,19 @@ export default class LargeGearComponent extends React.Component {
     const speed = getSpeed(srcSpeed, isMeter); 
     const speedUnit = getSpeedUnit(isMeter);
     const gearColor = (rpm > maxRpm * 0.97 ? RED : WHITE);
-    const rpmValueFontSize = gearValueFontSize * 0.3;
-    const rpmUnitFontSize = gearValueFontSize * 0.2;
-    const speedFontSize = gearValueFontSize * 0.75;
-    const speedUnitFontSize = gearValueFontSize * 0.3;
+    const rpmValueFontSize = gearValueFontSize * 0.2;
+    const rpmUnitFontSize = gearValueFontSize * 0.15;
+    const speedFontSize = gearValueFontSize * 0.55;
+    const speedUnitFontSize = gearValueFontSize * 0.2;
 
-    const frameShape = createFanShape(cx, cy, radius * 0.5, 30, 330, width, gearColor);
+    const frameShape = createFanShape(cx, cy, radius, 30, 330, width, gearColor);
 
     const gearText =
       <text
         x={cx}
         y={cy}
         fill={gearColor}
-        style={{fontSize: gearValueFontSize, fontFamily: "'Inconsolata', monospace"}}
+        style={{fontSize: gearValueFontSize, fontWeight: "bold", fontFamily: "'Inconsolata', monospace"}}
         textAnchor="middle"
         dominantBaseline="middle"
       >
@@ -186,7 +186,7 @@ export default class LargeGearComponent extends React.Component {
     const rpmValueText =
       <text
         x={cx}
-        y={cy * 1.275}
+        y={cy * 1.33}
         fill={BLUE}
         style={{fontSize: rpmValueFontSize, fontFamily: "'Inconsolata', monospace"}}
         textAnchor="middle"
@@ -198,7 +198,7 @@ export default class LargeGearComponent extends React.Component {
     const rpmUnitText =
       <text
         x={cx}
-        y={cy * 1.375}
+        y={cy * 1.43}
         fill={BLUE}
         style={{fontSize: rpmUnitFontSize, fontFamily: "'Inconsolata', monospace"}}
         textAnchor="middle"
@@ -212,11 +212,11 @@ export default class LargeGearComponent extends React.Component {
         x={cx}
         y={cy * 1.7}
         fill={WHITE}
-        style={{fontSize: speedFontSize, fontFamily: "'Inconsolata', monospace"}}
+        style={{fontSize: speedFontSize, fontWeight: "bold", fontFamily: "'Inconsolata', monospace"}}
         textAnchor="middle"
         dominantBaseline="middle"
       >
-        {speed}
+        888
       </text>
 
     const speedUnitText =
@@ -256,12 +256,15 @@ export default class LargeGearComponent extends React.Component {
     const cx = 50;
     const cy = 50;
     const radius = 50;
-    const width = radius * 0.025;
-    const throttoleAndBrakeRadius = radius * 0.75;
+    const width = radius * 0.04;
+    const gearValueFontSize = radius * 0.85;
+    const gearRadius = radius * 0.55;
+    const clutchAndHandBrakeRadius = radius * 0.675;
+    const throttoleAndBrakeRadius = radius * 0.775;
 
     const gear = this.createGear(
       carState.gear, carState.rpm, carState.maxRpm, carState.speed, props.isMeter,
-      radius * 0.6, width, cx, cy, radius);
+      gearValueFontSize, width, cx, cy, gearRadius);
 
     const rpm = this.createRpm(
       carState.rpm, carState.maxRpm,
@@ -277,11 +280,11 @@ export default class LargeGearComponent extends React.Component {
 
     const clutch = this.createClutch(
       carState.clutch,
-      width, cx, cy, radius * 0.65);
+      width, cx, cy, clutchAndHandBrakeRadius);
     
     const handBrake = this.createHandBrake(
       tyre3.handBrake,
-      width, cx, cy, radius * 0.65);
+      width, cx, cy, clutchAndHandBrakeRadius);
 
     return (
       <svg className={style.gear} preserveAspectRatio="xMidYMin meet" viewBox="0 0 100 100">
