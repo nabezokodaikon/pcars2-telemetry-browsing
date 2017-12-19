@@ -8,6 +8,7 @@ import DamageContainer from "../contents/damage/DamageContainer.jsx";
 import TyreContainer from "../contents/tyre/TyreContainer.jsx";
 import TimeContainer from "../contents/time/TimeContainer.jsx";
 import RankContainer from "../contents/rank/RankContainer.jsx";
+import ButtonBoxContainer from "../contents/buttonBox/ButtonBoxContainer.jsx";
 import OptionsContainer from "../contents/options/OptionsContainer.jsx";
 import CreditsContent from "../contents/credits/CreditsContent.jsx";
 // TODO: Plan to delete.
@@ -43,6 +44,8 @@ class Contents extends React.Component {
         return <TimeContainer />;
       case contentNames.RANK:
         return <RankContainer />;
+      case contentNames.BUTTON_BOX:
+        return <ButtonBoxContainer />;
       case contentNames.OPTIONS:
         return <OptionsContainer />;
       case contentNames.CREDITS:

@@ -5,6 +5,7 @@ export const TYRE = "TYRE";
 export const DAMAGE = "DAMAGE";
 export const TIME = "TIME";
 export const RANK = "RANK";
+export const BUTTON_BOX = "BUTTON BOX";
 export const OPTIONS = "OPTIONS";
 export const CREDITS = "CREDITS";
 // TODO: Plan to delete.
