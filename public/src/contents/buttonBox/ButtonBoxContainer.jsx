@@ -8,6 +8,29 @@ import shareStyle from "../../share/smallContent.css";
 class ButtonBoxContent extends React.Component {
   constructor(props) {
     super(props);
+
+    this.requestButtonAction = this.requestButtonAction.bind(this);
+  }
+
+  requestButtonAction(index) {
+    const url = "buttonBox/callAction";
+    const json = {
+      index: index
+    };
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(json)
+    })
+    .then(res => console.log(`success callAction: ${index}`))
+    .catch(error => console.log(error.message));
+  }
+
+  handleButtonClick(index) {
+    this.props.onButtonClick(index);
   }
 
   render() {
@@ -17,7 +40,9 @@ class ButtonBoxContent extends React.Component {
     return (
       <div className={shareStyle.contents}>
         <div className={shareStyle.topContents}>
-          TODO
+          <button onClick={() => this.requestButtonAction(0)}>
+            <span>Test Button</span>
+          </button>
         </div>
         <div className={shareStyle.bottomContents} onClick={props.onContentClick}>
           <SmallSpeedComponent isMeter={props.isMeter} telemetryData={telemetryData} />
