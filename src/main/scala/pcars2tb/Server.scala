@@ -1,7 +1,11 @@
 package pcars2tb
 
 import akka.actor.{ ActorRef, Props }
-import akka.http.scaladsl.model.{ HttpEntity, StatusCodes }
+import akka.http.scaladsl.model.{
+  HttpEntity,
+  HttpResponse,
+  StatusCodes
+}
 import akka.http.scaladsl.model.ws.TextMessage
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.{ HttpApp, Route }
@@ -9,23 +13,31 @@ import akka.http.scaladsl.server.directives._
 import akka.stream.scaladsl.{ Flow, Sink, Source }
 import com.typesafe.config.{ Config, ConfigFactory }
 import com.typesafe.scalalogging.LazyLogging
-import pcars2tb.db.OptionDBAccessor
-import pcars2tb.util.FileUtil
-import pcars2tb.db.{
-  AllOptions,
-  DBEntityJsonProtocol,
-  UnitOption
+import pcars2tb.buttonbox.{
+  ButtonBox,
+  ButtonIndex,
+  ButtonBoxJsonProtocol
 }
 import pcars2tb.config.{
   ConfigEntityJsonProtocol,
   ConnectionInfo
 }
+import pcars2tb.db.OptionDBAccessor
+import pcars2tb.db.{
+  AllOptions,
+  DBEntityJsonProtocol,
+  UnitOption,
+  OptionMapDBAccessor
+}
+import pcars2tb.util.FileUtil
+import pcars2tb.util.Loan.using
 
-class Server(manager: ActorRef, dac: OptionDBAccessor)
+class Server(manager: ActorRef)
   extends HttpApp
   with LazyLogging
   with ConfigEntityJsonProtocol
-  with DBEntityJsonProtocol {
+  with DBEntityJsonProtocol
+  with ButtonBoxJsonProtocol {
 
   private val contentsDirectory = {
     val current = FileUtil.currentDirectory
@@ -76,27 +88,40 @@ class Server(manager: ActorRef, dac: OptionDBAccessor)
           }
         }
       } ~
+      pathPrefix("buttonBox") {
+        path("callAction") {
+          post {
+            entity(as[ButtonIndex]) { req =>
+              logger.debug(s"callAction: ${req.index}")
+              ButtonBox.callAction(req.index)
+              complete(HttpResponse(StatusCodes.Accepted))
+            }
+          }
+        }
+      } ~
       pathPrefix("option") {
         path("all") {
           get {
-            val map = dac.option.booleanMap
-            val isCelsius = map.getOrDefault("option/isCelsius", true)
-            val isMeter = map.getOrDefault("option/isMeter", true)
-            val isBar = map.getOrDefault("option/isBar", true)
-            val res = AllOptions(
-              isCelsius = UnitOption("option/isCelsius", isCelsius),
-              isMeter = UnitOption("option/isMeter", isMeter),
-              isBar = UnitOption("option/isBar", isBar)
-            )
-            complete(res)
+            using(new OptionMapDBAccessor()) { dac =>
+              val isCelsius = dac.map.getOrDefault("option/isCelsius", true)
+              val isMeter = dac.map.getOrDefault("option/isMeter", true)
+              val isBar = dac.map.getOrDefault("option/isBar", true)
+              val res = AllOptions(
+                isCelsius = UnitOption("option/isCelsius", isCelsius),
+                isMeter = UnitOption("option/isMeter", isMeter),
+                isBar = UnitOption("option/isBar", isBar)
+              )
+              complete(res)
+            }
           }
         } ~
           path("unit") {
             post {
               entity(as[UnitOption]) { req =>
-                val map = dac.option.booleanMap
-                map.put(req.key, req.value)
-                complete(req)
+                using(new OptionMapDBAccessor()) { dac =>
+                  dac.map.put(req.key, req.value)
+                  complete(req)
+                }
               }
             }
           }

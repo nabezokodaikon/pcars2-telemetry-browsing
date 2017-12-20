@@ -6,20 +6,17 @@ import akka.pattern.{ AskTimeoutException, gracefulStop }
 import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.LazyLogging
 import pcars2tb.UsingActor._
-import pcars2tb.db.OptionDBAccessor
 import pcars2tb.udp.listener.UdpListener
-import pcars2tb.util.FileUtil
-import pcars2tb.util.Loan.using
 import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.util.control.Exception.catching
 
 object Main extends App with LazyLogging {
 
-  def debug(dac: OptionDBAccessor): Unit = {
+  def debug(): Unit = {
     val clientManagerProps = Props(classOf[ClientManager])
     val clientManager = system.actorOf(clientManagerProps, "clientManager")
-    val server = new Server(clientManager, dac)
+    val server = new Server(clientManager)
 
     import pcars2tb.example.udp.UdpTestDataSender
     val udpTestDataSenderProps = Props(classOf[UdpTestDataSender], clientManager)
@@ -50,14 +47,14 @@ object Main extends App with LazyLogging {
     system.terminate()
   }
 
-  def boot(dac: OptionDBAccessor): Unit = {
+  def boot(): Unit = {
     val clientManagerProps = Props(classOf[ClientManager])
     val clientManager = system.actorOf(clientManagerProps, "clientManager")
 
     val udpProps = Props(classOf[UdpListener], clientManager)
     val udpListener = system.actorOf(udpProps, "udpListener")
 
-    val server = new Server(clientManager, dac)
+    val server = new Server(clientManager)
 
     val ipAddress = config.getString("app.server.ip-address")
     val port = config.getInt("app.server.port")
@@ -87,14 +84,11 @@ object Main extends App with LazyLogging {
   logger.debug("Application start")
 
   val config = ConfigFactory.load()
-  val debug = config.getString("app.debug").toBoolean
-  val file: String = s"${FileUtil.currentDirectory}/option.db"
-  using(new OptionDBAccessor(file)) { dac =>
-    if (!debug) {
-      boot(dac)
-    } else {
-      debug(dac)
-    }
+  val isDebug = config.getString("app.debug").toBoolean
+  if (!isDebug) {
+    boot()
+  } else {
+    debug()
   }
 
   logger.debug("Application termination")
