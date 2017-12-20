@@ -1,16 +1,15 @@
-package pcars2tb.db
+package pcars2tb.option
 
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
-import spray.json._
-import DefaultJsonProtocol._
+import spray.json.DefaultJsonProtocol
 
-trait DBEntityJsonProtocol extends SprayJsonSupport with DefaultJsonProtocol {
+trait OptionJsonProtocol extends SprayJsonSupport with DefaultJsonProtocol {
   implicit val unitOptionFormat = jsonFormat2(UnitOption)
   implicit val allOptionsFormat = jsonFormat3(AllOptions)
 }
 
 /*
- * key: option/
+ * key: unit/
  *        isCelsius
  *        isMeter
  *        isBar

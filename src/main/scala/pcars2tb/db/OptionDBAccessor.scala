@@ -5,12 +5,12 @@ import org.mapdb.{ DB, DBException, DBMaker, HTreeMap, Serializer }
 import pcars2tb.util.FileUtil
 import scala.util.control.Exception.catching
 
-trait MapDBAccessor[T] extends LazyLogging {
+trait MapDBAccessor extends LazyLogging {
   val name: String
-  val file: String = s"${FileUtil.currentDirectory}/${name}.db"
-  val map: HTreeMap[String, T]
+  private val file: String = s"${FileUtil.currentDirectory}/${name}.db"
 
-  val db: DB =
+  val db: DB = {
+    println(file)
     catching(classOf[DBException.DataCorruption]).either {
       DBMaker.fileDB(file).make()
     } match {
@@ -23,6 +23,7 @@ trait MapDBAccessor[T] extends LazyLogging {
         logger.debug("OptionDBAccessor open.")
         db
     }
+  }
 
   def close(): Unit = {
     db.close()
@@ -30,21 +31,17 @@ trait MapDBAccessor[T] extends LazyLogging {
   }
 }
 
-final class OptionMapDBAccessor
-  extends MapDBAccessor[java.lang.Boolean] {
+final class OptionMapDBAccessor(val name: String = "option")
+  extends MapDBAccessor {
 
-  val name: String = "option"
-
-  val map: HTreeMap[String, java.lang.Boolean] = db.hashMap(s"${name}")
+  val unitMap: HTreeMap[String, java.lang.Boolean] = db.hashMap(s"${name}")
     .keySerializer(Serializer.STRING)
     .valueSerializer(Serializer.BOOLEAN)
     .createOrOpen()
 }
 
-final class ButtonBoxMapDBAccessor
-  extends MapDBAccessor[String] {
-
-  val name: String = "buttonBox"
+final class ButtonBoxMapDBAccessor(val name: String = "buttonBox")
+  extends MapDBAccessor {
 
   val map: HTreeMap[String, String] = db.hashMap(s"${name}")
     .keySerializer(Serializer.STRING)

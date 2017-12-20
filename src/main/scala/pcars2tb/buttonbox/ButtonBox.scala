@@ -16,10 +16,9 @@ trait ButtonBoxJsonProtocol extends SprayJsonSupport with DefaultJsonProtocol {
 }
 
 /*
- * key: buttonBox/
- *        index(0 to 20)/
- *          char: 0 to 9 and A to Z
- *          label: Button label text.
+ * key: index(0 to 20)/
+ *        char: 0 to 9 and A to Z.
+ *        label: Button label text.
  */
 final case class ButtonIndex(index: Int)
 
@@ -63,9 +62,9 @@ final object ButtonBox extends LazyLogging {
       ButtonMapping("K", "KeyCode: K")
     )
 
-  def toCharKey(index: Int): String = s"buttonBox/${index}/char"
+  def toCharKey(index: Int): String = s"${index}/char"
 
-  def toLabelKey(index: Int): String = s"buttonBox/${index}/label"
+  def toLabelKey(index: Int): String = s"${index}/label"
 
   private def toKeyCode(char: String): Option[Int] =
     char.toUpperCase match {

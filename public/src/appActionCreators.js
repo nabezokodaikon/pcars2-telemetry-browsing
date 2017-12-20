@@ -200,7 +200,7 @@ function changedTempUnit(isCelsius) {
 export function requestTempUnitChange(isCelsius) {
   return dispatch => {
     const json = {
-      key: "option/isCelsius",
+      key: "unit/isCelsius",
       value: isCelsius
     };
     fetchPostByJson(json, "option/unit")
@@ -222,7 +222,7 @@ function changedDistanceUnit(isMeter) {
 export function requestDistanceUnitChange(isMeter) {
   return dispatch => {
     const json = {
-      key: "option/isMeter",
+      key: "unit/isMeter",
       value: isMeter
     };
     fetchPostByJson(json, "option/unit")
@@ -244,7 +244,7 @@ function changedAirPressureUnit(isBar) {
 export function requestAirPressureUnitChange(isBar) {
   return dispatch => {
     const json = {
-      key: "option/isBar",
+      key: "unit/isBar",
       value: isBar
     };
     fetchPostByJson(json, "option/unit")

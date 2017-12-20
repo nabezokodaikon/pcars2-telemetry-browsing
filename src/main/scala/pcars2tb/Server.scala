@@ -22,12 +22,13 @@ import pcars2tb.config.{
   ConfigEntityJsonProtocol,
   ConnectionInfo
 }
-import pcars2tb.db.OptionDBAccessor
 import pcars2tb.db.{
-  AllOptions,
-  DBEntityJsonProtocol,
-  UnitOption,
   OptionMapDBAccessor
+}
+import pcars2tb.option.{
+  AllOptions,
+  OptionJsonProtocol,
+  UnitOption
 }
 import pcars2tb.util.FileUtil
 import pcars2tb.util.Loan.using
@@ -36,7 +37,7 @@ class Server(manager: ActorRef)
   extends HttpApp
   with LazyLogging
   with ConfigEntityJsonProtocol
-  with DBEntityJsonProtocol
+  with OptionJsonProtocol
   with ButtonBoxJsonProtocol {
 
   private val contentsDirectory = {
@@ -103,13 +104,13 @@ class Server(manager: ActorRef)
         path("all") {
           get {
             using(new OptionMapDBAccessor()) { dac =>
-              val isCelsius = dac.map.getOrDefault("option/isCelsius", true)
-              val isMeter = dac.map.getOrDefault("option/isMeter", true)
-              val isBar = dac.map.getOrDefault("option/isBar", true)
+              val isCelsius = dac.unitMap.getOrDefault("unit/isCelsius", true)
+              val isMeter = dac.unitMap.getOrDefault("unit/isMeter", true)
+              val isBar = dac.unitMap.getOrDefault("unit/isBar", true)
               val res = AllOptions(
-                isCelsius = UnitOption("option/isCelsius", isCelsius),
-                isMeter = UnitOption("option/isMeter", isMeter),
-                isBar = UnitOption("option/isBar", isBar)
+                isCelsius = UnitOption("unit/isCelsius", isCelsius),
+                isMeter = UnitOption("unit/isMeter", isMeter),
+                isBar = UnitOption("unit/isBar", isBar)
               )
               complete(res)
             }
@@ -119,7 +120,7 @@ class Server(manager: ActorRef)
             post {
               entity(as[UnitOption]) { req =>
                 using(new OptionMapDBAccessor()) { dac =>
-                  dac.map.put(req.key, req.value)
+                  dac.unitMap.put(req.key, req.value)
                   complete(req)
                 }
               }
