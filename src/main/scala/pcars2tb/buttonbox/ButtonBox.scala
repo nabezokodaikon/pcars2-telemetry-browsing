@@ -17,6 +17,7 @@ trait ButtonBoxJsonProtocol extends SprayJsonSupport with DefaultJsonProtocol {
   implicit val buttonCharFormat = jsonFormat2(ButtonChar)
   implicit val buttonLabelFormat = jsonFormat2(ButtonLabel)
   implicit val buttonMappingFormat = jsonFormat2(ButtonMapping)
+  implicit val buttonMappingsFormat = jsonFormat1(ButtonMappings)
 }
 
 /*
@@ -28,6 +29,7 @@ final case class ButtonIndex(index: Int)
 final case class ButtonChar(index: Int, char: String)
 final case class ButtonLabel(index: Int, label: String)
 final case class ButtonMapping(char: String, label: String)
+final case class ButtonMappings(mappings: Array[ButtonMapping])
 
 final object ButtonBox extends LazyLogging {
 
@@ -113,14 +115,15 @@ final object ButtonBox extends LazyLogging {
       Some(robot)
   }
 
-  def getAllMappings(): Array[ButtonMapping] =
+  def getAllMappings(): ButtonMappings =
     using(new ButtonBoxMapDBAccessor()) { dac =>
-      (0 until defaultMappings.length).map(index => {
+      val array = (0 until defaultMappings.length).map(index => {
         val default = defaultMappings(index)
         val char = dac.map.getOrDefault(toCharKey(index), default.char)
         val label = dac.map.getOrDefault(toLabelKey(index), default.label)
         ButtonMapping(char, label)
       }).toArray
+      ButtonMappings(array)
     }
 
   def updateChar(buttonChar: ButtonChar): ButtonChar =

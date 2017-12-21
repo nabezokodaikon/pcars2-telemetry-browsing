@@ -143,6 +143,24 @@ export function toggleMenu() {
   };
 }
 
+function gotAllButtonBoxMappings(json) {
+  return {
+    type: actionTypes.GOT_ALL_BUTTON_BOX_MAPPINGS,
+    mappings: json.mappings
+  };
+}
+
+export function requestAllButtonBoxMappings() {
+  return dispatch => {
+    fetchGet("buttonBox/all")
+      .then(res => res.json())
+      .then(json => dispatch(gotAllButtonBoxMappings(json)))
+      .catch(error => {
+        console.log(error.message);
+      });
+  };
+}
+
 function gotAllOptions(options) {
   return {
     type: actionTypes.GOT_ALL_OPTIONS,

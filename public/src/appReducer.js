@@ -73,6 +73,21 @@ function isWebSocketOpened(state = false, action) {
   }
 }
 
+const initialButtonBox = {
+  mappings: []
+};
+
+function buttonBox(state = initialButtonBox, action) {
+  switch (action.type) {
+    case actionTypes.GOT_ALL_BUTTON_BOX_MAPPINGS:
+      return {
+        mappings: action.mappings
+      };
+    default:
+      return state;
+  }
+}
+
 const initialUdpData = {
   telemetryData: {},
   raceData: {},
@@ -129,6 +144,7 @@ const appReducer = combineReducers({
   connectionInfo,
   isWebSocketOpened,
   options,
+  buttonBox,
   currentContent,
   isMenuVisible,
   currentUdpData

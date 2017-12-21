@@ -101,7 +101,6 @@ class Server(manager: ActorRef)
           path("action") {
             post {
               entity(as[ButtonIndex]) { req =>
-                logger.debug(s"callAction: ${req}")
                 ButtonBox.callAction(req)
                 complete(HttpResponse(StatusCodes.Accepted))
               }

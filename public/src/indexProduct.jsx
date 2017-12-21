@@ -7,6 +7,7 @@ import appReducer from "./appReducer.js"
 import {
   connectWebSocket,
   requestAllOptions,
+  requestAllButtonBoxMappings,
   requestConnectionInfo
 } from "./appActionCreators.js"
 import MenuContainer from "./menu/MenuContainer.jsx";
@@ -23,6 +24,7 @@ setInterval(() => {
 }, 5000);
 
 store.dispatch(requestAllOptions());
+store.dispatch(requestAllButtonBoxMappings());
 store.dispatch(requestConnectionInfo());
 
 render(
