@@ -16,6 +16,8 @@ import com.typesafe.scalalogging.LazyLogging
 import pcars2tb.buttonbox.{
   ButtonBox,
   ButtonIndex,
+  ButtonChar,
+  ButtonLabel,
   ButtonBoxJsonProtocol
 }
 import pcars2tb.config.{
@@ -90,15 +92,37 @@ class Server(manager: ActorRef)
         }
       } ~
       pathPrefix("buttonBox") {
-        path("action") {
-          post {
-            entity(as[ButtonIndex]) { req =>
-              logger.debug(s"callAction: ${req}")
-              ButtonBox.callAction(req)
-              complete(HttpResponse(StatusCodes.Accepted))
+        path("all") {
+          get {
+            val res = ButtonBox.getAllMappings()
+            complete(res)
+          }
+        } ~
+          path("action") {
+            post {
+              entity(as[ButtonIndex]) { req =>
+                logger.debug(s"callAction: ${req}")
+                ButtonBox.callAction(req)
+                complete(HttpResponse(StatusCodes.Accepted))
+              }
+            }
+          } ~
+          path("char") {
+            post {
+              entity(as[ButtonChar]) { req =>
+                val res = ButtonBox.updateChar(req)
+                complete(res)
+              }
+            }
+          } ~
+          path("label") {
+            post {
+              entity(as[ButtonLabel]) { req =>
+                val res = ButtonBox.updateLabel(req)
+                complete(res)
+              }
             }
           }
-        }
       } ~
       pathPrefix("option") {
         path("all") {
