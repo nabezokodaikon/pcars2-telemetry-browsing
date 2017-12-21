@@ -13,7 +13,7 @@ class ButtonBoxContent extends React.Component {
   }
 
   requestButtonAction(index) {
-    const url = "buttonBox/callAction";
+    const url = "buttonBox/action";
     const json = {
       index: index
     };

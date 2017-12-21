@@ -7,11 +7,15 @@ import java.awt.event.KeyEvent._
 import java.awt.Robot
 import java.lang.IllegalArgumentException
 import java.lang.SecurityException
+import pcars2tb.db.ButtonBoxMapDBAccessor
+import pcars2tb.util.Loan.using
 import scala.util.control.Exception.catching
 import spray.json.DefaultJsonProtocol
 
 trait ButtonBoxJsonProtocol extends SprayJsonSupport with DefaultJsonProtocol {
   implicit val buttonIndexFormat = jsonFormat1(ButtonIndex)
+  implicit val buttonCharFormat = jsonFormat2(ButtonChar)
+  implicit val buttonLabelFormat = jsonFormat2(ButtonLabel)
   implicit val buttonMappingFormat = jsonFormat2(ButtonMapping)
 }
 
@@ -21,50 +25,15 @@ trait ButtonBoxJsonProtocol extends SprayJsonSupport with DefaultJsonProtocol {
  *        label: Button label text.
  */
 final case class ButtonIndex(index: Int)
-
+final case class ButtonChar(index: Int, char: String)
+final case class ButtonLabel(index: Int, label: String)
 final case class ButtonMapping(char: String, label: String)
 
 final object ButtonBox extends LazyLogging {
 
-  private val robot = catching(classOf[AWTException], classOf[SecurityException]).either {
-    new Robot()
-  } match {
-    case Left(e) =>
-      logger.error(e.getMessage)
-      None
-    case Right(robot) =>
-      robot.setAutoDelay(200);
-      Some(robot)
-  }
+  private def toCharKey(index: Int): String = s"${index}/char"
 
-  val defaultMappings: Array[ButtonMapping] =
-    Array(
-      ButtonMapping("0", "KeyCode: 0"),
-      ButtonMapping("1", "KeyCode: 1"),
-      ButtonMapping("2", "KeyCode: 2"),
-      ButtonMapping("3", "KeyCode: 3"),
-      ButtonMapping("4", "KeyCode: 4"),
-      ButtonMapping("5", "KeyCode: 5"),
-      ButtonMapping("6", "KeyCode: 6"),
-      ButtonMapping("7", "KeyCode: 7"),
-      ButtonMapping("8", "KeyCode: 8"),
-      ButtonMapping("9", "KeyCode: 9"),
-      ButtonMapping("A", "KeyCode: A"),
-      ButtonMapping("B", "KeyCode: B"),
-      ButtonMapping("C", "KeyCode: C"),
-      ButtonMapping("D", "KeyCode: D"),
-      ButtonMapping("E", "KeyCode: E"),
-      ButtonMapping("F", "KeyCode: F"),
-      ButtonMapping("G", "KeyCode: G"),
-      ButtonMapping("H", "KeyCode: H"),
-      ButtonMapping("I", "KeyCode: I"),
-      ButtonMapping("J", "KeyCode: J"),
-      ButtonMapping("K", "KeyCode: K")
-    )
-
-  def toCharKey(index: Int): String = s"${index}/char"
-
-  def toLabelKey(index: Int): String = s"${index}/label"
+  private def toLabelKey(index: Int): String = s"${index}/label"
 
   private def toKeyCode(char: String): Option[Int] =
     char.toUpperCase match {
@@ -107,23 +76,88 @@ final object ButtonBox extends LazyLogging {
       case _ => None
     }
 
-  def callAction(index: Int): Unit = {
-    val charKey = toCharKey(index)
-    // TODO:
-    // val char = getChar(charKey)
-    val keyCode = toKeyCode("0")
+  private val defaultMappings: Array[ButtonMapping] =
+    Array(
+      ButtonMapping("0", "KeyCode: 0"),
+      ButtonMapping("1", "KeyCode: 1"),
+      ButtonMapping("2", "KeyCode: 2"),
+      ButtonMapping("3", "KeyCode: 3"),
+      ButtonMapping("4", "KeyCode: 4"),
+      ButtonMapping("5", "KeyCode: 5"),
+      ButtonMapping("6", "KeyCode: 6"),
+      ButtonMapping("7", "KeyCode: 7"),
+      ButtonMapping("8", "KeyCode: 8"),
+      ButtonMapping("9", "KeyCode: 9"),
+      ButtonMapping("A", "KeyCode: A"),
+      ButtonMapping("B", "KeyCode: B"),
+      ButtonMapping("C", "KeyCode: C"),
+      ButtonMapping("D", "KeyCode: D"),
+      ButtonMapping("E", "KeyCode: E"),
+      ButtonMapping("F", "KeyCode: F"),
+      ButtonMapping("G", "KeyCode: G"),
+      ButtonMapping("H", "KeyCode: H"),
+      ButtonMapping("I", "KeyCode: I"),
+      ButtonMapping("J", "KeyCode: J"),
+      ButtonMapping("K", "KeyCode: K")
+    )
 
-    for {
-      r <- robot
-      k <- keyCode
-    } {
-      catching(classOf[IllegalArgumentException]).either {
-        r.keyPress(k)
-        r.keyRelease(k)
-      } match {
-        case Left(e) => logger.error(e.getMessage)
-        case _ => Unit
+  private val robot = catching(classOf[AWTException], classOf[SecurityException]).either {
+    new Robot()
+  } match {
+    case Left(e) =>
+      logger.error(e.getMessage)
+      None
+    case Right(robot) =>
+      // TODO: Need adjustment.
+      robot.setAutoDelay(200);
+      Some(robot)
+  }
+
+  def getAllMappings(): Array[ButtonMapping] =
+    using(new ButtonBoxMapDBAccessor()) { dac =>
+      (0 until defaultMappings.length).map(index => {
+        val default = defaultMappings(index)
+        val char = dac.map.getOrDefault(toCharKey(index), default.char)
+        val label = dac.map.getOrDefault(toLabelKey(index), default.label)
+        ButtonMapping(char, label)
+      }).toArray
+    }
+
+  def updateChar(buttonChar: ButtonChar): ButtonChar =
+    using(new ButtonBoxMapDBAccessor()) { dac =>
+      val key = toCharKey(buttonChar.index)
+      dac.map.put(key, buttonChar.char)
+      buttonChar
+    }
+
+  def updateLabel(buttonLabel: ButtonLabel): ButtonLabel =
+    using(new ButtonBoxMapDBAccessor()) { dac =>
+      val key = toLabelKey(buttonLabel.index)
+      dac.map.put(key, buttonLabel.label)
+      buttonLabel
+    }
+
+  def callAction(buttonIndex: ButtonIndex): Unit =
+    using(new ButtonBoxMapDBAccessor()) { dac =>
+      val default = defaultMappings(buttonIndex.index)
+      val charKey = toCharKey(buttonIndex.index)
+      val char = dac.map.getOrDefault(charKey, default.char)
+      val keyCode = toKeyCode(char)
+
+      for {
+        r <- robot
+        k <- keyCode
+      } {
+        catching(classOf[IllegalArgumentException]).either {
+          // TODO: Test sleep.
+          Thread.sleep(3000)
+
+          r.keyPress(k)
+          r.keyRelease(k)
+        } match {
+          case Left(e) => logger.error(e.getMessage)
+          case _ => Unit
+        }
       }
     }
-  }
 }

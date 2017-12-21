@@ -90,11 +90,11 @@ class Server(manager: ActorRef)
         }
       } ~
       pathPrefix("buttonBox") {
-        path("callAction") {
+        path("action") {
           post {
             entity(as[ButtonIndex]) { req =>
-              logger.debug(s"callAction: ${req.index}")
-              ButtonBox.callAction(req.index)
+              logger.debug(s"callAction: ${req}")
+              ButtonBox.callAction(req)
               complete(HttpResponse(StatusCodes.Accepted))
             }
           }
