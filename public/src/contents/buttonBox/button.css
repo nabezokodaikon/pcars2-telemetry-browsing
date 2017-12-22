@@ -1,0 +1,45 @@
+/********************************
+ * button
+ ********************************/
+.input {
+  display: none;
+}
+
+.span {
+  position: relative;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: rgba(255, 85, 94, 1);
+}
+
+.span:before {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: rgba(255, 85, 94, 0.3);
+}
+
+.input:checked + .span:before {
+  animation: pulsate 0.1s ease-out;
+}
+
+@keyframes pulsate {
+  0% {
+    transform: scale(0, 0);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(8, 8);
+    opacity: 0.0;
+  }
+}
