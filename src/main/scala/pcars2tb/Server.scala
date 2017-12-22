@@ -10,6 +10,7 @@ import akka.http.scaladsl.model.ws.TextMessage
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.{ HttpApp, Route }
 import akka.http.scaladsl.server.directives._
+import akka.pattern.ask
 import akka.stream.scaladsl.{ Flow, Sink, Source }
 import com.typesafe.config.{ Config, ConfigFactory }
 import com.typesafe.scalalogging.LazyLogging
@@ -18,6 +19,7 @@ import pcars2tb.buttonbox.{
   ButtonIndex,
   ButtonChar,
   ButtonLabel,
+  ButtonMappings,
   ButtonBoxJsonProtocol
 }
 import pcars2tb.config.{
@@ -35,12 +37,14 @@ import pcars2tb.option.{
 import pcars2tb.util.FileUtil
 import pcars2tb.util.Loan.using
 
-class Server(manager: ActorRef)
+class Server(manager: ActorRef, buttonBox: ActorRef)
   extends HttpApp
   with LazyLogging
   with ConfigEntityJsonProtocol
   with OptionJsonProtocol
   with ButtonBoxJsonProtocol {
+
+  import UsingActor._
 
   private val contentsDirectory = {
     val current = FileUtil.currentDirectory
@@ -94,14 +98,15 @@ class Server(manager: ActorRef)
       pathPrefix("buttonBox") {
         path("all") {
           get {
-            val res = ButtonBox.getAllMappings()
-            complete(res)
+            onSuccess((buttonBox ? "all").mapTo[ButtonMappings]) { res =>
+              complete(res)
+            }
           }
         } ~
           path("action") {
             post {
               entity(as[ButtonIndex]) { req =>
-                ButtonBox.callAction(req)
+                buttonBox ! req
                 complete(HttpResponse(StatusCodes.Accepted))
               }
             }
@@ -109,16 +114,18 @@ class Server(manager: ActorRef)
           path("char") {
             post {
               entity(as[ButtonChar]) { req =>
-                val res = ButtonBox.updateChar(req)
-                complete(res)
+                onSuccess((buttonBox ? req).mapTo[ButtonChar]) { res =>
+                  complete(res)
+                }
               }
             }
           } ~
           path("label") {
             post {
               entity(as[ButtonLabel]) { req =>
-                val res = ButtonBox.updateLabel(req)
-                complete(res)
+                onSuccess((buttonBox ? req).mapTo[ButtonLabel]) { res =>
+                  complete(res)
+                }
               }
             }
           }

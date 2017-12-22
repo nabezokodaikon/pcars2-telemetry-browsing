@@ -1,5 +1,6 @@
 package pcars2tb.buttonbox
 
+import akka.actor.Actor
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import com.typesafe.scalalogging.LazyLogging
 import java.awt.AWTException
@@ -126,24 +127,24 @@ final object ButtonBox extends LazyLogging {
       ButtonMappings(array)
     }
 
-  def updateChar(buttonChar: ButtonChar): ButtonChar =
+  def updateChar(index: Int, char: String): ButtonChar =
     using(new ButtonBoxMapDBAccessor()) { dac =>
-      val key = toCharKey(buttonChar.index)
-      dac.map.put(key, buttonChar.char)
-      buttonChar
+      val key = toCharKey(index)
+      dac.map.put(key, char)
+      ButtonChar(index, char)
     }
 
-  def updateLabel(buttonLabel: ButtonLabel): ButtonLabel =
+  def updateLabel(index: Int, label: String): ButtonLabel =
     using(new ButtonBoxMapDBAccessor()) { dac =>
-      val key = toLabelKey(buttonLabel.index)
-      dac.map.put(key, buttonLabel.label)
-      buttonLabel
+      val key = toLabelKey(index)
+      dac.map.put(key, label)
+      ButtonLabel(index, label)
     }
 
-  def callAction(buttonIndex: ButtonIndex): Unit =
+  def callAction(index: Int): Unit =
     using(new ButtonBoxMapDBAccessor()) { dac =>
-      val default = defaultMappings(buttonIndex.index)
-      val charKey = toCharKey(buttonIndex.index)
+      val default = defaultMappings(index)
+      val charKey = toCharKey(index)
       val char = dac.map.getOrDefault(charKey, default.char)
       val keyCode = toKeyCode(char)
 
@@ -163,4 +164,25 @@ final object ButtonBox extends LazyLogging {
         }
       }
     }
+}
+
+final class ButtonBox extends Actor with LazyLogging {
+  import ButtonBox._
+
+  override def preStart() = {
+    logger.debug("ButtonBox preStart.");
+  }
+
+  override def postStop() = {
+    logger.debug("ButtonBox postStop.");
+  }
+
+  def receive(): Receive = {
+    case "all" => sender ! getAllMappings()
+    case ButtonIndex(index) => callAction(index)
+    case ButtonChar(index, char) => sender ! updateChar(index, char)
+    case ButtonLabel(index, label) => sender ! updateLabel(index, label)
+    case _ =>
+      logger.warn("ButtonBox received unknown message.")
+  }
 }
