@@ -15,7 +15,6 @@ import akka.stream.scaladsl.{ Flow, Sink, Source }
 import com.typesafe.config.{ Config, ConfigFactory }
 import com.typesafe.scalalogging.LazyLogging
 import pcars2tb.buttonbox.{
-  ButtonBox,
   ButtonIndex,
   ButtonChar,
   ButtonLabel,
@@ -26,18 +25,15 @@ import pcars2tb.config.{
   ConfigEntityJsonProtocol,
   ConnectionInfo
 }
-import pcars2tb.db.{
-  OptionMapDBAccessor
-}
 import pcars2tb.option.{
-  AllOptions,
   OptionJsonProtocol,
+  Options,
   UnitOption
 }
 import pcars2tb.util.FileUtil
 import pcars2tb.util.Loan.using
 
-class Server(manager: ActorRef, buttonBox: ActorRef)
+class Server(manager: ActorRef, optionAccessor: ActorRef, buttonBoxAccessor: ActorRef)
   extends HttpApp
   with LazyLogging
   with ConfigEntityJsonProtocol
@@ -95,10 +91,28 @@ class Server(manager: ActorRef, buttonBox: ActorRef)
           }
         }
       } ~
+      pathPrefix("option") {
+        path("all") {
+          get {
+            onSuccess((optionAccessor ? "all").mapTo[Options]) { res =>
+              complete(res)
+            }
+          }
+        } ~
+          path("unit") {
+            post {
+              entity(as[UnitOption]) { req =>
+                onSuccess((optionAccessor ? req).mapTo[UnitOption]) { res =>
+                  complete(res)
+                }
+              }
+            }
+          }
+      } ~
       pathPrefix("buttonBox") {
         path("all") {
           get {
-            onSuccess((buttonBox ? "all").mapTo[ButtonMappings]) { res =>
+            onSuccess((buttonBoxAccessor ? "all").mapTo[ButtonMappings]) { res =>
               complete(res)
             }
           }
@@ -106,7 +120,7 @@ class Server(manager: ActorRef, buttonBox: ActorRef)
           path("action") {
             post {
               entity(as[ButtonIndex]) { req =>
-                buttonBox ! req
+                buttonBoxAccessor ! req
                 complete(HttpResponse(StatusCodes.Accepted))
               }
             }
@@ -114,7 +128,7 @@ class Server(manager: ActorRef, buttonBox: ActorRef)
           path("char") {
             post {
               entity(as[ButtonChar]) { req =>
-                onSuccess((buttonBox ? req).mapTo[ButtonChar]) { res =>
+                onSuccess((buttonBoxAccessor ? req).mapTo[ButtonChar]) { res =>
                   complete(res)
                 }
               }
@@ -123,35 +137,8 @@ class Server(manager: ActorRef, buttonBox: ActorRef)
           path("label") {
             post {
               entity(as[ButtonLabel]) { req =>
-                onSuccess((buttonBox ? req).mapTo[ButtonLabel]) { res =>
+                onSuccess((buttonBoxAccessor ? req).mapTo[ButtonLabel]) { res =>
                   complete(res)
-                }
-              }
-            }
-          }
-      } ~
-      pathPrefix("option") {
-        path("all") {
-          get {
-            using(new OptionMapDBAccessor()) { dac =>
-              val isCelsius = dac.unitMap.getOrDefault("unit/isCelsius", true)
-              val isMeter = dac.unitMap.getOrDefault("unit/isMeter", true)
-              val isBar = dac.unitMap.getOrDefault("unit/isBar", true)
-              val res = AllOptions(
-                isCelsius = UnitOption("unit/isCelsius", isCelsius),
-                isMeter = UnitOption("unit/isMeter", isMeter),
-                isBar = UnitOption("unit/isBar", isBar)
-              )
-              complete(res)
-            }
-          }
-        } ~
-          path("unit") {
-            post {
-              entity(as[UnitOption]) { req =>
-                using(new OptionMapDBAccessor()) { dac =>
-                  dac.unitMap.put(req.key, req.value)
-                  complete(req)
                 }
               }
             }

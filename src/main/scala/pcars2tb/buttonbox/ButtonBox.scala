@@ -32,7 +32,7 @@ final case class ButtonLabel(index: Int, label: String)
 final case class ButtonMapping(char: String, label: String)
 final case class ButtonMappings(mappings: Array[ButtonMapping])
 
-final object ButtonBox extends LazyLogging {
+final object ButtonBoxAccessor extends LazyLogging {
 
   private def toCharKey(index: Int): String = s"${index}/char"
 
@@ -166,15 +166,15 @@ final object ButtonBox extends LazyLogging {
     }
 }
 
-final class ButtonBox extends Actor with LazyLogging {
-  import ButtonBox._
+final class ButtonBoxAccessor extends Actor with LazyLogging {
+  import ButtonBoxAccessor._
 
   override def preStart() = {
-    logger.debug("ButtonBox preStart.");
+    logger.debug("ButtonBoxAccessor preStart.");
   }
 
   override def postStop() = {
-    logger.debug("ButtonBox postStop.");
+    logger.debug("ButtonBoxAccessor postStop.");
   }
 
   def receive(): Receive = {
@@ -183,6 +183,6 @@ final class ButtonBox extends Actor with LazyLogging {
     case ButtonChar(index, char) => sender ! updateChar(index, char)
     case ButtonLabel(index, label) => sender ! updateLabel(index, label)
     case _ =>
-      logger.warn("ButtonBox received unknown message.")
+      logger.warn("ButtonBoxAccessor received unknown message.")
   }
 }

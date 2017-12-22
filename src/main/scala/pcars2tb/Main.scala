@@ -5,7 +5,8 @@ import akka.io.Udp
 import akka.pattern.{ AskTimeoutException, gracefulStop }
 import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.LazyLogging
-import pcars2tb.buttonbox.ButtonBox
+import pcars2tb.buttonbox.ButtonBoxAccessor
+import pcars2tb.option.OptionAccessor
 import pcars2tb.UsingActor._
 import pcars2tb.udp.listener.UdpListener
 import scala.concurrent.Await
@@ -25,13 +26,16 @@ object Main extends App with LazyLogging {
   }
 
   def debug(): Unit = {
-    val buttonBoxProps = Props(classOf[ButtonBox])
-    val buttonBox = system.actorOf(buttonBoxProps, "buttonBox")
+    val optionAccessorProps = Props(classOf[OptionAccessor])
+    val optionAccessor = system.actorOf(optionAccessorProps, "optionAccessor")
+
+    val buttonBoxAccessorProps = Props(classOf[ButtonBoxAccessor])
+    val buttonBoxAccessor = system.actorOf(buttonBoxAccessorProps, "buttonBoxAccessor")
 
     val clientManagerProps = Props(classOf[ClientManager])
     val clientManager = system.actorOf(clientManagerProps, "clientManager")
 
-    val server = new Server(clientManager, buttonBox)
+    val server = new Server(clientManager, optionAccessor, buttonBoxAccessor)
 
     import pcars2tb.example.udp.UdpTestDataSender
     val udpTestDataSenderProps = Props(classOf[UdpTestDataSender], clientManager)
@@ -45,14 +49,18 @@ object Main extends App with LazyLogging {
 
     terminateActor(udpTestDataSender)
     terminateActor(clientManager)
-    terminateActor(buttonBox)
+    terminateActor(buttonBoxAccessor)
+    terminateActor(optionAccessor)
 
     system.terminate()
   }
 
   def boot(): Unit = {
-    val buttonBoxProps = Props(classOf[ButtonBox])
-    val buttonBox = system.actorOf(buttonBoxProps, "buttonBox")
+    val optionAccessorProps = Props(classOf[OptionAccessor])
+    val optionAccessor = system.actorOf(optionAccessorProps, "optionAccessor")
+
+    val buttonBoxAccessorProps = Props(classOf[ButtonBoxAccessor])
+    val buttonBoxAccessor = system.actorOf(buttonBoxAccessorProps, "buttonBoxAccessor")
 
     val clientManagerProps = Props(classOf[ClientManager])
     val clientManager = system.actorOf(clientManagerProps, "clientManager")
@@ -60,7 +68,7 @@ object Main extends App with LazyLogging {
     val udpProps = Props(classOf[UdpListener], clientManager)
     val udpListener = system.actorOf(udpProps, "udpListener")
 
-    val server = new Server(clientManager, buttonBox)
+    val server = new Server(clientManager, optionAccessor, buttonBoxAccessor)
 
     val ipAddress = config.getString("app.server.ip-address")
     val port = config.getInt("app.server.port")
@@ -69,12 +77,13 @@ object Main extends App with LazyLogging {
 
     terminateActor(udpListener)
     terminateActor(clientManager)
-    terminateActor(buttonBox)
+    terminateActor(buttonBoxAccessor)
+    terminateActor(optionAccessor)
 
     system.terminate()
   }
 
-  logger.debug("Application start")
+  logger.debug("Application start.")
 
   val config = ConfigFactory.load()
   val isDebug = config.getString("app.debug").toBoolean
@@ -84,5 +93,5 @@ object Main extends App with LazyLogging {
     debug()
   }
 
-  logger.debug("Application termination")
+  logger.debug("Application termination.")
 }
