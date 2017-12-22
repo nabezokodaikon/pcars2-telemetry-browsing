@@ -1,4 +1,7 @@
 # Change log
+## v0.6
+* Fixed MapDB access error.
+
 ## v0.5
 * Modify ENGINE content.
   * Add mnimum values and maximum values.
