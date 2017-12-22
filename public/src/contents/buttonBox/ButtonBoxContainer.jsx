@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import SmallSpeedComponent from "../../share/SmallSpeedComponent.jsx";
 import SmallFuelComponent from "../../share/SmallFuelComponent.jsx";
 import shareStyle from "../../share/smallContent.css";
+import Button from "./Button.jsx";
 
 class ButtonBoxContent extends React.Component {
   constructor(props) {
@@ -43,6 +44,7 @@ class ButtonBoxContent extends React.Component {
           <button onClick={() => this.requestButtonAction(0)}>
             <span>Test Button</span>
           </button>
+          <Button />
         </div>
         <div className={shareStyle.bottomContents} onClick={props.onContentClick}>
           <SmallSpeedComponent isMeter={props.isMeter} telemetryData={telemetryData} />
