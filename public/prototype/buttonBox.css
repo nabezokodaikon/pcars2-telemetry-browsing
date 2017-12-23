@@ -41,15 +41,20 @@ body {
 .leftButtons {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 .leftTopButtons {
+  flex-grow: 1;
   display: flex;
 }
 
+.leftTopButtons > div {
+  display: flex;
+  align-items: center;
+}
+
 .crossButtons {
-  flex-grow: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
