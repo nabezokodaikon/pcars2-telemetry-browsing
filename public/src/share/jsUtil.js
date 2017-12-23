@@ -12,3 +12,7 @@ export function isArray(array) {
 export function existsKey(obj, key) {
   return (key in obj)
 }
+
+export function sleep(time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
