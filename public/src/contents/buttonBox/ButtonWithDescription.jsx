@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { sleep } from "../../share/jsUtil.js";
 import style from "./button.css";
 
-export default class Button extends React.Component {
+export default class ButtonWithDescription extends React.Component {
   constructor(props) {
     super(props);
 
@@ -23,21 +23,25 @@ export default class Button extends React.Component {
 
   render() {
     return (
-      <label className={style.labelLeft}>
-        <input
-          type="checkbox"
-          className={style.input}
-          ref={input => { this.input = input; }}
-          onClick={this.handleClick}
-        />
+      <div className={style.buttonWithDescription}>
+        <label className={style.labelLeft}>
+          <input
+            type="checkbox"
+            className={style.input}
+            ref={input => { this.input = input; }}
+            onClick={this.handleClick}
+          />
         <span className={[style.span, this.props.color].join(" ")} />
-      </label>
+        </label>
+        <span className={style.description}>{this.props.description}</span>
+      </div>
     );
   }
 }
 
-Button.propTypes = {
+ButtonWithDescription.propTypes = {
   index: PropTypes.number.isRequired,
   onClick: PropTypes.func.isRequired,
-  color: PropTypes.string.isRequired
+  color: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired
 };

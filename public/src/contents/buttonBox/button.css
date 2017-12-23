@@ -1,6 +1,20 @@
 /********************************
  * button
  ********************************/
+.labelLeft {
+  width: 6rem;
+  height: 6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.labelRight{
+  display: flex;
+  flex-direction: column;
+}
+
 .input {
   display: none;
 }
@@ -10,10 +24,9 @@
   display: block;
   top: 0;
   left: 0;
-  width: 3rem;
-  height: 3rem;
+  width: 4rem;
+  height: 4rem;
   border-radius: 50%;
-  background: rgba(255, 85, 94, 1);
 }
 
 .span:before {
@@ -21,14 +34,45 @@
   content: "";
   top: 0;
   left: 0;
-  width: 3rem;
-  height: 3rem;
+  width: 4rem;
+  height: 4rem;
   border-radius: 50%;
+}
+
+.red {
+  background: rgba(255, 85, 94, 1);
+}
+
+.red:before {
   background: rgba(255, 85, 94, 0.3);
 }
 
+.yellow {
+  background: rgba(255, 255, 94, 1);
+}
+
+.yellow:before {
+  background: rgba(255, 255, 94, 0.3);
+}
+
+.green {
+  background: rgba(85, 255, 94, 1);
+}
+
+.green:before {
+  background: rgba(85, 255, 94, 0.3);
+}
+
+.blue {
+  background: rgba(85, 94, 255, 1);
+}
+
+.blue:before {
+  background: rgba(85, 94, 255, 0.3);
+}
+
 .input:checked + .span:before {
-  animation: pulsate 0.1s ease-out;
+  animation: pulsate 0.2s ease-out;
 }
 
 @keyframes pulsate {
@@ -42,4 +86,25 @@
     transform: scale(8, 8);
     opacity: 0.0;
   }
+}
+
+/********************************
+ * button with description
+ ********************************/
+.buttonWithDescription {
+  width: 25%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.description {
+  display: block;
+  width: 100%;
+  font-size: 1.5rem;
+  font-family: 'Roboto Condensed', sans-serif;
+  text-align: center;
+  color: #FFFFFF;
 }
