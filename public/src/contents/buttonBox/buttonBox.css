@@ -1,0 +1,78 @@
+/********************************
+ * topContents
+ ********************************/
+.topContents {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: space-around;
+}
+
+.leftButtons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.leftTopButtons {
+  flex-grow: 1;
+  display: flex;
+}
+
+.leftTopButtons > div {
+  display: flex;
+  align-items: center;
+}
+
+.crossButtons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.leftBottomButtons {
+  display: flex;
+}
+
+.rightButtons {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.rightColumn {
+  width: 100%;
+  height: 25%;
+  display: flex;
+}
+
+/********************************
+ * custom button
+ ********************************/
+.customButton {
+  width: 8rem;
+  border-style: solid;
+  border-color: #899ba9;
+  border-width: 0.1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.customButton > span {
+  margin: 0.5rem;
+  font-size: 1rem;
+  font-family: 'Roboto Condensed', sans-serif;
+  text-align: center;
+  color: #FFFFFF;
+}
+
+.customButton:hover {
+  background-color: #80adfd;
+}
+
+.customButton:hover > span {
+  color: #000000;
+}
