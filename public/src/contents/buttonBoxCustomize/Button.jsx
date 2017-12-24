@@ -26,8 +26,5 @@ export default class Button extends React.Component {
 Button.propTypes = {
   index: PropTypes.number.isRequired,
   char: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  onCharChanged: PropTypes.func.isRequired,
-  onDescriptionChange: PropTypes.func.isRequired,
-  onDescriptionChanged: PropTypes.func.isRequired
+  onCharChanged: PropTypes.func.isRequired
 };
