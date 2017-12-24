@@ -10,7 +10,6 @@ trait MapDBAccessor extends LazyLogging {
   private val file: String = s"${FileUtil.currentDirectory}/${name}.db"
 
   val db: DB = {
-    println(file)
     catching(classOf[DBException.DataCorruption]).either {
       DBMaker.fileDB(file).make()
     } match {

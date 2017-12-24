@@ -112,7 +112,7 @@ final object ButtonBoxAccessor extends LazyLogging {
       None
     case Right(robot) =>
       // TODO: Need adjustment.
-      robot.setAutoDelay(200);
+      robot.setAutoDelay(50);
       Some(robot)
   }
 
@@ -153,9 +153,6 @@ final object ButtonBoxAccessor extends LazyLogging {
         k <- keyCode
       } {
         catching(classOf[IllegalArgumentException]).either {
-          // TODO: Test sleep.
-          Thread.sleep(3000)
-
           r.keyPress(k)
           r.keyRelease(k)
         } match {
