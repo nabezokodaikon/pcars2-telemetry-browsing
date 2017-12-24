@@ -6,6 +6,7 @@ export const DAMAGE = "DAMAGE";
 export const TIME = "TIME";
 export const RANK = "RANK";
 export const BUTTON_BOX = "BUTTON BOX";
+export const BUTTON_BOX_CUSTOMIZE = "BUTTON BOX CUSTOMIZE";
 export const OPTIONS = "OPTIONS";
 export const CREDITS = "CREDITS";
 // TODO: Plan to delete.

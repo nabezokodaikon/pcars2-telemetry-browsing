@@ -49,9 +49,9 @@
 }
 
 /********************************
- * customize button
+ * custom button
  ********************************/
-.customizeButton {
+.customButton {
   width: 8rem;
   border-style: solid;
   border-color: #899ba9;
@@ -61,7 +61,7 @@
   align-items: center;
 }
 
-.customizeButton > span {
+.customButton > span {
   margin: 0.5rem;
   font-size: 1rem;
   font-family: 'Roboto Condensed', sans-serif;
@@ -69,10 +69,10 @@
   color: #FFFFFF;
 }
 
-.customizeButton:hover {
+.customButton:hover {
   background-color: #80adfd;
 }
 
-.customizeButton:hover > span {
+.customButton:hover > span {
   color: #000000;
 }

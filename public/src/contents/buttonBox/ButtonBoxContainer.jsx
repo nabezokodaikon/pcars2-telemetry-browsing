@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { currentContent } from "../../appActionCreators.js";
+import * as contentNames from "../../share/contentNames.js";
 import SmallSpeedComponent from "../../share/SmallSpeedComponent.jsx";
 import SmallFuelComponent from "../../share/SmallFuelComponent.jsx";
 import shareStyle from "../../share/smallContent.css";
@@ -14,7 +16,7 @@ class ButtonBoxContent extends React.Component {
     super(props);
 
     this.handleButtonClick = this.handleButtonClick.bind(this);
-    this.handleCustomButtonClick = this.handleCustomButtonClick.bind(this);
+    this.handleCustomizeButtonClick = this.handleCustomizeButtonClick.bind(this);
   }
 
   handleButtonClick(index) {
@@ -34,9 +36,8 @@ class ButtonBoxContent extends React.Component {
     .catch(error => console.log(error.message));
   }
 
-  handleCustomButtonClick() {
-    // TODO
-    console.log("custom button clicked.");
+  handleCustomizeButtonClick() {
+    this.props.onCustomizeButtonClick();
   }
 
   render() {
@@ -71,8 +72,8 @@ class ButtonBoxContent extends React.Component {
             </div>
 
             <div className={style.leftBottomButtons}>
-              <div className={style.customButton} onClick={this.handleCustomButtonClick}>
-                <span>CUSTOM</span>
+              <div className={style.customizeButton} onClick={this.handleCustomizeButtonClick}>
+                <span>CUSTOMIZE</span>
               </div>
             </div>
 
@@ -117,7 +118,8 @@ class ButtonBoxContent extends React.Component {
 
 ButtonBoxContent.propTypes = {
   isMeter: PropTypes.bool.isRequired,
-  telemetryData: PropTypes.object.isRequired
+  telemetryData: PropTypes.object.isRequired,
+  onCustomizeButtonClick: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -128,8 +130,17 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    onCustomizeButtonClick: () => {
+      dispatch(currentContent(contentNames.BUTTON_BOX_CUSTOMIZE))
+    }
+  };
+};
+
 const ButtonBoxContainer = connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(ButtonBoxContent);
 
 export default ButtonBoxContainer;
