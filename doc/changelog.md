@@ -1,6 +1,9 @@
 # Change log
 ## v0.6
+* Add Button Box content.(PC only)
 * Fixed MapDB access error.
+* Each layout was finely adjusted.
+
 
 ## v0.5
 * Modify ENGINE content.
