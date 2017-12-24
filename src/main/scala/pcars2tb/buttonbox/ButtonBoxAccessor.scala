@@ -16,7 +16,7 @@ import spray.json.DefaultJsonProtocol
 trait ButtonBoxJsonProtocol extends SprayJsonSupport with DefaultJsonProtocol {
   implicit val buttonIndexFormat = jsonFormat1(ButtonIndex)
   implicit val buttonCharFormat = jsonFormat2(ButtonChar)
-  implicit val buttonLabelFormat = jsonFormat2(ButtonLabel)
+  implicit val buttonDescriptionFormat = jsonFormat2(ButtonDescription)
   implicit val buttonMappingFormat = jsonFormat2(ButtonMapping)
   implicit val buttonMappingsFormat = jsonFormat1(ButtonMappings)
 }
@@ -24,19 +24,19 @@ trait ButtonBoxJsonProtocol extends SprayJsonSupport with DefaultJsonProtocol {
 /*
  * key: index(0 to 20)/
  *        char: 0 to 9 and A to Z.
- *        label: Button label text.
+ *        description: Button description text.
  */
 final case class ButtonIndex(index: Int)
 final case class ButtonChar(index: Int, char: String)
-final case class ButtonLabel(index: Int, label: String)
-final case class ButtonMapping(char: String, label: String)
+final case class ButtonDescription(index: Int, description: String)
+final case class ButtonMapping(char: String, description: String)
 final case class ButtonMappings(mappings: Array[ButtonMapping])
 
 final object ButtonBoxAccessor extends LazyLogging {
 
   private def toCharKey(index: Int): String = s"${index}/char"
 
-  private def toLabelKey(index: Int): String = s"${index}/label"
+  private def toDescriptionKey(index: Int): String = s"${index}/description"
 
   private def toKeyCode(char: String): Option[Int] =
     char.toUpperCase match {
@@ -121,8 +121,8 @@ final object ButtonBoxAccessor extends LazyLogging {
       val array = (0 until defaultMappings.length).map(index => {
         val default = defaultMappings(index)
         val char = dac.map.getOrDefault(toCharKey(index), default.char)
-        val label = dac.map.getOrDefault(toLabelKey(index), default.label)
-        ButtonMapping(char, label)
+        val description = dac.map.getOrDefault(toDescriptionKey(index), default.description)
+        ButtonMapping(char, description)
       }).toArray
       ButtonMappings(array)
     }
@@ -134,11 +134,11 @@ final object ButtonBoxAccessor extends LazyLogging {
       ButtonChar(index, char)
     }
 
-  def updateLabel(index: Int, label: String): ButtonLabel =
+  def updateDescription(index: Int, description: String): ButtonDescription =
     using(new ButtonBoxMapDBAccessor()) { dac =>
-      val key = toLabelKey(index)
-      dac.map.put(key, label)
-      ButtonLabel(index, label)
+      val key = toDescriptionKey(index)
+      dac.map.put(key, description)
+      ButtonDescription(index, description)
     }
 
   def callAction(index: Int): Unit =
@@ -181,7 +181,7 @@ final class ButtonBoxAccessor extends Actor with LazyLogging {
     case "all" => sender ! getAllMappings()
     case ButtonIndex(index) => callAction(index)
     case ButtonChar(index, char) => sender ! updateChar(index, char)
-    case ButtonLabel(index, label) => sender ! updateLabel(index, label)
+    case ButtonDescription(index, description) => sender ! updateDescription(index, description)
     case _ =>
       logger.warn("ButtonBoxAccessor received unknown message.")
   }

@@ -17,7 +17,7 @@ import com.typesafe.scalalogging.LazyLogging
 import pcars2tb.buttonbox.{
   ButtonIndex,
   ButtonChar,
-  ButtonLabel,
+  ButtonDescription,
   ButtonMappings,
   ButtonBoxJsonProtocol
 }
@@ -134,10 +134,10 @@ class Server(manager: ActorRef, optionAccessor: ActorRef, buttonBoxAccessor: Act
               }
             }
           } ~
-          path("label") {
+          path("description") {
             post {
-              entity(as[ButtonLabel]) { req =>
-                onSuccess((buttonBoxAccessor ? req).mapTo[ButtonLabel]) { res =>
+              entity(as[ButtonDescription]) { req =>
+                onSuccess((buttonBoxAccessor ? req).mapTo[ButtonDescription]) { res =>
                   complete(res)
                 }
               }
