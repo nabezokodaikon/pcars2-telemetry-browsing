@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css?family=Oswald');
+@import url('https://fonts.googleapis.com/css?family=Inconsolata');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
+
+* {
+  margin: 0;
+  padding: 0;
+  border-width: 0;
+  cursor: pointer;
+}
+
+*:focus {
+  outline: none;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+.bottomContents {
+  width: 100%;
+  height: 12rem;
+  display: flex;
+  background-color: #555555;
+}
+
+.contents {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #000000;
+}
+
+/********************************
+ * topContents
+ ********************************/
+.topContents {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: space-around;
+}
+
+.leftButtons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.leftTopButtons {
+  flex-grow: 1;
+  display: flex;
+}
+
+.leftTopButtons > div {
+  display: flex;
+  align-items: center;
+}
+
+.crossButtons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.leftBottomButtons {
+  display: flex;
+}
+
+.rightButtons {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.rightColumn {
+  width: 100%;
+  height: 25%;
+  display: flex;
+}
+
+/********************************
+ * button
+ ********************************/
+.button {
+  width: 3rem;
+  font-size: 2rem;
+  text-align-last: right;
+}
+
+.label {
+  width: 6rem;
+  height: 6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/********************************
+ * button with description
+ ********************************/
+.buttonWithDescription {
+  width: 25%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.description {
+  width: 95%;
+  font-size: 1.5rem;
+  font-family: 'Roboto Condensed', sans-serif;
+  text-align: center;
+  color: #000000;
+}
+
+/********************************
+ * custom button
+ ********************************/
+.customButton {
+  width: 8rem;
+  border-style: solid;
+  border-color: #899ba9;
+  border-width: 0.1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.customButton > span {
+  margin: 0.5rem;
+  font-size: 1rem;
+  font-family: 'Roboto Condensed', sans-serif;
+  text-align: center;
+  color: #FFFFFF;
+}
+
+.customButton:hover {
+  background-color: #80adfd;
+}
+
+.customButton:hover > span {
+  color: #000000;
+}
