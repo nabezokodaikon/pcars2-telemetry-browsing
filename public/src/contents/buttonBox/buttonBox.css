@@ -53,6 +53,7 @@
  ********************************/
 .customizeButton {
   width: 8rem;
+  background-color: #80adfd;
   border-style: solid;
   border-color: #899ba9;
   border-width: 0.1rem;
@@ -66,13 +67,5 @@
   font-size: 1rem;
   font-family: 'Roboto Condensed', sans-serif;
   text-align: center;
-  color: #FFFFFF;
-}
-
-.customizeButton:hover {
-  background-color: #80adfd;
-}
-
-.customizeButton:hover > span {
   color: #000000;
 }

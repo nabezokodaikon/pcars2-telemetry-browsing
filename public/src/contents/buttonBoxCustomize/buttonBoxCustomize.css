@@ -49,10 +49,11 @@
 }
 
 /********************************
- * custom button
+ * exit button
  ********************************/
-.customButton {
+.exitButton {
   width: 8rem;
+  background-color: #80adfd;
   border-style: solid;
   border-color: #899ba9;
   border-width: 0.1rem;
@@ -61,18 +62,10 @@
   align-items: center;
 }
 
-.customButton > span {
+.exitButton > span {
   margin: 0.5rem;
   font-size: 1rem;
   font-family: 'Roboto Condensed', sans-serif;
   text-align: center;
-  color: #FFFFFF;
-}
-
-.customButton:hover {
-  background-color: #80adfd;
-}
-
-.customButton:hover > span {
   color: #000000;
 }

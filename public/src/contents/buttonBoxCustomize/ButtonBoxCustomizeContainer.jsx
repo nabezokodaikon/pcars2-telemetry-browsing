@@ -60,7 +60,7 @@ class ButtonBoxCustomizeContent extends React.Component {
             </div>
 
             <div className={style.leftBottomButtons}>
-              <div className={style.customButton} onClick={this.handleExitButtonClick}>
+              <div className={style.exitButton} onClick={this.handleExitButtonClick}>
                 <span>EXIT</span>
               </div>
             </div>
