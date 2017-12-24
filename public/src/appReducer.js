@@ -83,7 +83,17 @@ function buttonBox(state = initialButtonBox, action) {
       return {
         mappings: action.mappings
       };
-    case actionTypes.DESCRIPTION_CHANGE:
+    case actionTypes.CHANGED_BUTTON_BOX_CHAR:
+      return {
+        mappings: state.mappings.map((v, i) => {
+          if (i == action.index) {
+            return { ...v, char: action.char };
+          } else {
+            return v;
+          }
+        })
+      };
+    case actionTypes.CHANGED_BUTTON_BOX_DESCRIPTION:
       return {
         mappings: state.mappings.map((v, i) => {
           if (i == action.index) {
@@ -92,7 +102,17 @@ function buttonBox(state = initialButtonBox, action) {
             return v;
           }
         })
-      }
+      };
+    case actionTypes.CHANGE_BUTTON_BOX_DESCRIPTION:
+      return {
+        mappings: state.mappings.map((v, i) => {
+          if (i == action.index) {
+            return { ...v, description: action.description };
+          } else {
+            return v;
+          }
+        })
+      };
     default:
       return state;
   }

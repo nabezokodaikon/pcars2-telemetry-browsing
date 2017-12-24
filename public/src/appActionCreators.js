@@ -161,6 +161,60 @@ export function requestAllButtonBoxMappings() {
   };
 }
 
+function changedButtonBoxChar(index, char) {
+  return {
+    type: actionTypes.CHANGED_BUTTON_BOX_CHAR,
+    index,
+    char
+  };
+}
+
+export function requestButtonBoxCharChage(index, char) {
+  return dispatch => {
+    const json = {
+      index: index,
+      char: char
+    };
+    fetchPostByJson(json, "buttonBox/char")
+      .then(res => res.json())
+      .then(json => dispatch(changedButtonBoxChar(json.index, json.char)))
+      .catch(error => {
+        console.log(error.message);
+      });
+  }
+}
+
+function changedButtonBoxDescription(index, description) {
+  return {
+    type: actionTypes.CHANGED_BUTTON_BOX_DESCRIPTION,
+    index,
+    description
+  };
+}
+
+export function requestButtonBoxDescriptionChage(index, description) {
+  return dispatch => {
+    const json = {
+      index: index,
+      description: description
+    };
+    fetchPostByJson(json, "buttonBox/description")
+      .then(res => res.json())
+      .then(json => dispatch(changedButtonBoxDescription(json.index, json.description)))
+      .catch(error => {
+        console.log(error.message);
+      });
+  }
+}
+
+export function chageButtonBoxDescription(index, description) {
+  return {
+    type: actionTypes.CHANGE_BUTTON_BOX_DESCRIPTION,
+    index,
+    description
+  }
+}
+
 function gotAllOptions(options) {
   return {
     type: actionTypes.GOT_ALL_OPTIONS,
@@ -181,14 +235,6 @@ export function requestAllOptions() {
         console.log(error.message);
       });
   };
-}
-
-export function descriptionChange(index, description) {
-  return {
-    type: actionTypes.DESCRIPTION_CHANGE,
-    index,
-    description
-  }
 }
 
 function gotConnectionInfo(connectionInfo) {

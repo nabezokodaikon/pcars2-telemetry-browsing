@@ -3,7 +3,10 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { 
   currentContent,
-  descriptionChange
+  requestAllButtonBoxMappings,
+  requestButtonBoxCharChage,
+  requestButtonBoxDescriptionChage,
+  chageButtonBoxDescription
 } from "../../appActionCreators.js";
 import * as contentNames from "../../share/contentNames.js";
 import SmallSpeedComponent from "../../share/SmallSpeedComponent.jsx";
@@ -17,6 +20,8 @@ class ButtonBoxCustomizeContent extends React.Component {
     super(props);
 
     this.handleExitButtonClick = this.handleExitButtonClick.bind(this);
+
+    this.props.onRequestAllButtonBoxMappings();
   }
 
   handleExitButtonClick() {
@@ -86,6 +91,7 @@ ButtonBoxCustomizeContent.propTypes = {
   isMeter: PropTypes.bool.isRequired,
   telemetryData: PropTypes.object.isRequired,
   mappings: PropTypes.array.isRequired,
+  onRequestAllButtonBoxMappings: PropTypes.func.isRequired,
   onCharChanged: PropTypes.func.isRequired,
   onDescriptionChange: PropTypes.func.isRequired,
   onDescriptionChanged: PropTypes.func.isRequired,
@@ -103,16 +109,17 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onCharChanged(index, char) {
-      // TODO
-      console.log(`${index}, ${char}`);
+    onRequestAllButtonBoxMappings() {
+      dispatch(requestAllButtonBoxMappings());
     },
-    onDescriptionChange(index, description) {
-      dispatch(descriptionChange(index, description));
+    onCharChanged(index, char) {
+      dispatch(requestButtonBoxCharChage(index, char));
     },
     onDescriptionChanged(index, description) {
-      // TODO
-      console.log(`${index}, ${description}`);
+      dispatch(requestButtonBoxDescriptionChage(index, description));
+    },
+    onDescriptionChange(index, description) {
+      dispatch(chageButtonBoxDescription(index, description));
     },
     onExitButtonClick: () => {
       dispatch(currentContent(contentNames.BUTTON_BOX));
