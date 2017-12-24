@@ -2,9 +2,8 @@
  * button
  ********************************/
 .button {
-  width: 3rem;
+  width: 6rem;
   font-size: 2rem;
-  text-align-last: right;
 }
 
 .label {

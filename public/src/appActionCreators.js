@@ -183,6 +183,14 @@ export function requestAllOptions() {
   };
 }
 
+export function descriptionChange(index, description) {
+  return {
+    type: actionTypes.DESCRIPTION_CHANGE,
+    index,
+    description
+  }
+}
+
 function gotConnectionInfo(connectionInfo) {
   return {
     type: actionTypes.GOT_CONNECTION_INFO,

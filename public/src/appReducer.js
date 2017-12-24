@@ -83,6 +83,16 @@ function buttonBox(state = initialButtonBox, action) {
       return {
         mappings: action.mappings
       };
+    case actionTypes.DESCRIPTION_CHANGE:
+      return {
+        mappings: state.mappings.map((v, i) => {
+          if (i == action.index) {
+            return { ...v, description: action.description };
+          } else {
+            return v;
+          }
+        })
+      }
     default:
       return state;
   }
