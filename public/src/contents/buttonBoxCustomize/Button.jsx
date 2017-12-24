@@ -1,39 +1,33 @@
 import React from "react";
 import PropTypes from "prop-types";
+import CharDropDown from "./CharDropDown.jsx";
 import style from "./button.css";
 
 export default class Button extends React.Component {
   constructor(props) {
     super(props);
 
-    // this.handleClick = this.handleClick.bind(this);
+    this.handleDropDownChange = this.handleDropDownChange.bind(this);
   }
 
-  // handleClick() {
-    // this.input.disabled = true;
-    // sleep(100).then(() => {
-      // this.input.checked = false;
-      // this.input.disabled = false;
-    // });
-
-    // const props = this.props;
-    // props.onClick(props.index);
-  // }
+  handleDropDownChange(char) {
+    this.props.onCharChanged(this.props.index, char);
+  }
 
   render() {
     return (
       <div className={style.label}>
-        <select className={style.button}>
-          <option value="0">A</option>
-          <option value="1">B</option>
-          <option value="2">C</option>
-          <option value="3">D</option>
-        </select>
+        <CharDropDown char={this.props.char} onChange={this.handleDropDownChange} />
       </div>
     );
   }
 }
 
 Button.propTypes = {
-  index: PropTypes.number.isRequired
+  index: PropTypes.number.isRequired,
+  char: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  onCharChanged: PropTypes.func.isRequired,
+  onDescriptionChange: PropTypes.func.isRequired,
+  onDescriptionChanged: PropTypes.func.isRequired
 };
