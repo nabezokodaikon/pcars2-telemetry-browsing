@@ -1,7 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { currentContent } from "../../appActionCreators.js";
+import {
+  currentContent,
+  requestAllButtonBoxMappings
+} from "../../appActionCreators.js";
 import * as contentNames from "../../share/contentNames.js";
 import SmallSpeedComponent from "../../share/SmallSpeedComponent.jsx";
 import SmallFuelComponent from "../../share/SmallFuelComponent.jsx";
@@ -17,6 +20,8 @@ class ButtonBoxContent extends React.Component {
 
     this.handleButtonClick = this.handleButtonClick.bind(this);
     this.handleCustomizeButtonClick = this.handleCustomizeButtonClick.bind(this);
+
+    this.props.onRequestAllButtonBoxMappings();
   }
 
   handleButtonClick(index) {
@@ -48,6 +53,11 @@ class ButtonBoxContent extends React.Component {
     const yellow = buttonStyle.yellow;
     const green = buttonStyle.green;
     const blue = buttonStyle.blue;
+
+    const mappings = props.mappings;
+    if (mappings.length < 1) {
+      return <div></div>;
+    }
 
     return (
       <div className={shareStyle.contents}>
@@ -81,28 +91,28 @@ class ButtonBoxContent extends React.Component {
 
           <div className={style.rightButtons}>
             <div className={style.rightColumn}>
-              <ButtonWithDescription index={5} onClick={this.handleButtonClick} color={red} description={"SCROLL1"} />
-              <ButtonWithDescription index={6} onClick={this.handleButtonClick} color={red} description={"SCROLL1"} />
-              <ButtonWithDescription index={7} onClick={this.handleButtonClick} color={red} description={"SCROLL1"} />
-              <ButtonWithDescription index={8} onClick={this.handleButtonClick} color={red} description={"SCROLL1"} />
+              <ButtonWithDescription index={5} onClick={this.handleButtonClick} color={red} description={mappings[5].description} />
+              <ButtonWithDescription index={6} onClick={this.handleButtonClick} color={red} description={mappings[6].description} />
+              <ButtonWithDescription index={7} onClick={this.handleButtonClick} color={red} description={mappings[7].description} />
+              <ButtonWithDescription index={8} onClick={this.handleButtonClick} color={red} description={mappings[8].description} />
             </div>
             <div className={style.rightColumn}>
-              <ButtonWithDescription index={9} onClick={this.handleButtonClick} color={yellow} description={"SCROLL1"} />
-              <ButtonWithDescription index={10} onClick={this.handleButtonClick} color={yellow} description={"SCROLL1"} />
-              <ButtonWithDescription index={11} onClick={this.handleButtonClick} color={yellow} description={"SCROLL1"} />
-              <ButtonWithDescription index={12} onClick={this.handleButtonClick} color={yellow} description={"SCROLL1"} />
+              <ButtonWithDescription index={9} onClick={this.handleButtonClick} color={yellow} description={mappings[9].description} />
+              <ButtonWithDescription index={10} onClick={this.handleButtonClick} color={yellow} description={mappings[10].description} />
+              <ButtonWithDescription index={11} onClick={this.handleButtonClick} color={yellow} description={mappings[11].description} />
+              <ButtonWithDescription index={12} onClick={this.handleButtonClick} color={yellow} description={mappings[12].description} />
             </div>
             <div className={style.rightColumn}>
-              <ButtonWithDescription index={13} onClick={this.handleButtonClick} color={green} description={"SCROLL1"} />
-              <ButtonWithDescription index={14} onClick={this.handleButtonClick} color={green} description={"SCROLL1"} />
-              <ButtonWithDescription index={15} onClick={this.handleButtonClick} color={green} description={"SCROLL1"} />
-              <ButtonWithDescription index={16} onClick={this.handleButtonClick} color={green} description={"SCROLL1"} />
+              <ButtonWithDescription index={13} onClick={this.handleButtonClick} color={green} description={mappings[13].description} />
+              <ButtonWithDescription index={14} onClick={this.handleButtonClick} color={green} description={mappings[14].description} />
+              <ButtonWithDescription index={15} onClick={this.handleButtonClick} color={green} description={mappings[15].description} />
+              <ButtonWithDescription index={16} onClick={this.handleButtonClick} color={green} description={mappings[16].description} />
             </div>
             <div className={style.rightColumn}>
-              <ButtonWithDescription index={17} onClick={this.handleButtonClick} color={blue} description={"SCROLL1"} />
-              <ButtonWithDescription index={18} onClick={this.handleButtonClick} color={blue} description={"SCROLL1"} />
-              <ButtonWithDescription index={19} onClick={this.handleButtonClick} color={blue} description={"SCROLL1"} />
-              <ButtonWithDescription index={20} onClick={this.handleButtonClick} color={blue} description={"SCROLL1"} />
+              <ButtonWithDescription index={17} onClick={this.handleButtonClick} color={blue} description={mappings[17].description} />
+              <ButtonWithDescription index={18} onClick={this.handleButtonClick} color={blue} description={mappings[18].description} />
+              <ButtonWithDescription index={19} onClick={this.handleButtonClick} color={blue} description={mappings[19].description} />
+              <ButtonWithDescription index={20} onClick={this.handleButtonClick} color={blue} description={mappings[20].description} />
             </div>
           </div>
 
@@ -119,6 +129,8 @@ class ButtonBoxContent extends React.Component {
 ButtonBoxContent.propTypes = {
   isMeter: PropTypes.bool.isRequired,
   telemetryData: PropTypes.object.isRequired,
+  mappings: PropTypes.array.isRequired,
+  onRequestAllButtonBoxMappings: PropTypes.func.isRequired,
   onCustomizeButtonClick: PropTypes.func.isRequired
 };
 
@@ -126,12 +138,16 @@ const mapStateToProps = state => {
   const data = state.currentUdpData;
   return {
     isMeter: state.options.isMeter,
-    telemetryData: data.telemetryData
+    telemetryData: data.telemetryData,
+    mappings: state.buttonBox.mappings
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
+    onRequestAllButtonBoxMappings() {
+      dispatch(requestAllButtonBoxMappings());
+    },
     onCustomizeButtonClick: () => {
       dispatch(currentContent(contentNames.BUTTON_BOX_CUSTOMIZE))
     }
