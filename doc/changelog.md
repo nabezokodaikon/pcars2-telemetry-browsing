@@ -41,4 +41,3 @@
 * Add TYRE content.
 * Add RANK content.
 * Discontinue the diagonal line UI.
-* Add scroll buttons to the top record and to the bottom record of the TIME content.
