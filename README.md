@@ -16,7 +16,10 @@ This application can only be accessed within the same LAN as the UDP data being 
 ![SIMPLE](./screenshot/default.png)
 
 ### ENGINE View
-![MOTEC](./screenshot/engine.png)
+![ENGINE](./screenshot/engine.png)
+
+### DAMAGE View
+![DAMAGE](./screenshot/damage.png)
 
 ### TYRE View
 TODO
@@ -26,6 +29,12 @@ TODO
 
 ### RANK View
 TODO
+
+### BUTTON BOX View
+![BUTTON BOX](./screenshot/button-box.png)
+
+### BUTTON BOX CUSTOMIZE View
+![BUTTON BOX CUSTOMIZE](./screenshot/button-box-customize.png)
 
 
 ## Dependencies
@@ -48,6 +57,9 @@ TODO
 ### iPhone or iPad Web page to Home short cut
 * From the status bar of Safari, tap Add to Home Screen to create a shortcut on the home screen and display it in full screen.
 
+### iPhone fix it Landscape
+[See here.](https://support.apple.com/en-us/HT202612)
+
 
 ## Install
 * Expand `pcars2-telemetry-browsing.zip` file.
@@ -65,6 +77,13 @@ TODO
 ## Troubleshooting
 * If you can not connect to the server, check the PC's network interface.  
 PROECT CARS2 connects to the network interface found at the beginning of the PC in the LAN.
+
+
+## Please note for BUTTON BOX
+* BUTTON BOX works only when you play PROJECT CARS 2 on a PC running this application.
+* BUTTON BOX is just sending key inputs to the application window.
+Therefore, if the window except PROJECT CARS 2 is active, send the key to that active window.
+(For example, if the notepad is active, it will be typed in the notepad.)
 
 
 ## CREDITS
