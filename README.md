@@ -12,6 +12,9 @@ This application can only be accessed within the same LAN as the UDP data being 
 
 
 ## Screen shot
+### MENU
+![MENU](./screenshot/menu.png)
+
 ### DEFAULT View
 ![SIMPLE](./screenshot/default.png)
 
