@@ -20,6 +20,7 @@ class Menu extends React.Component {
   getMenuIconStyle() {
     return {
       zIndex: 3,
+      marginTop: "0.5rem",
       marginLeft: "0.5rem"
     };
   }

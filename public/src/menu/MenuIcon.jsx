@@ -16,12 +16,10 @@ export default class MenuIcon extends React.Component {
   render() {
     return (
       <div className={style.menuIcon} style={this.props.style}>
-        <input id="toggle" type="checkbox" checked={this.props.isMenuVisible} className={style.toggle} onChange={this.handleChange} />
-        <label htmlFor="toggle" className={style.hamburger}>
-          <div className={style.topBun} />
-          <div className={style.meat} />
-          <div className={style.bottomBun} />
-        </label>
+        <input type="checkbox" checked={this.props.isMenuVisible} onChange={this.handleChange} />
+        <span className={style.top} />
+        <span className={style.middle} />
+        <span className={style.bottom} />
       </div>
     );
   }
