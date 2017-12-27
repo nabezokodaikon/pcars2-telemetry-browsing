@@ -3,19 +3,13 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as contentNames from "../share/contentNames.js";
 import { currentContent, toggleMenu } from "../appActionCreators.js";
-import menuOpenIcon from "./menuOpenIcon.css";
+import MenuIcon from "./MenuIcon.jsx";
 import menuItem from "./menuItem.css";
 
 class Menu extends React.Component {
   constructor(props) {
     super(props);
-    this.handleMenuOpenIconClick = this.handleMenuOpenIconClick.bind(this);
     this.handleMenuItemClick = this.handleMenuItemClick.bind(this);
-    this.handleFilterClick = this.handleFilterClick.bind(this);
-  }
-
-  handleMenuOpenIconClick() {
-    this.props.onMenuOpenIconClick();
   }
 
   handleMenuItemClick(evt, selectedContent) {
@@ -23,15 +17,10 @@ class Menu extends React.Component {
     evt.stopPropagation();
   }
 
-  handleFilterClick() {
-    this.props.onFilterClick();
-  }
-
-  getMenuOpenIconStyle() {
+  getMenuIconStyle() {
     return {
       zIndex: 3,
-      position: "fixed",
-      margin: "1rem"
+      marginLeft: "0.5rem"
     };
   }
 
@@ -96,26 +85,6 @@ class Menu extends React.Component {
     };
   }
 
-  getMenuOpenIconChecked() {
-    if (this.props.isMenuVisible) {
-      return "checked";
-    } else {
-      return "";
-    }
-  }
-
-  createMenuOpenIcon() {
-    return (
-      <input
-        type="checkbox"
-        checked={this.getMenuOpenIconChecked()}
-        className={menuOpenIcon.menuOpen}
-        style={this.getMenuOpenIconStyle()}
-        onChange={this.handleMenuOpenIconClick}   
-      />
-    );
-  }
-
   createMenu() {
     return (
       <div style={this.getOuterMenuStyle()}>
@@ -170,7 +139,7 @@ class Menu extends React.Component {
     return (
       <div
         style={this.getFilterStyle()}
-        onClick={this.handleFilterClick}
+        onClick={this.props.onFilterClick}
       >
       </div>
     );
@@ -179,7 +148,11 @@ class Menu extends React.Component {
   render() {
     return (
       <div>
-        {this.createMenuOpenIcon()}
+        <MenuIcon
+          style={this.getMenuIconStyle()}
+          isMenuVisible={this.props.isMenuVisible}
+          onClick={this.props.onMenuIconClick}
+        />
         {this.createMenu()}
         {this.createFilter()}
       </div>
@@ -190,7 +163,7 @@ class Menu extends React.Component {
 Menu.propTypes = {
   isMenuVisible: PropTypes.bool.isRequired,
   currentContent: PropTypes.string.isRequired,
-  onMenuOpenIconClick: PropTypes.func.isRequired,
+  onMenuIconClick: PropTypes.func.isRequired,
   onMenuItemClick: PropTypes.func.isRequired,
   onFilterClick: PropTypes.func.isRequired
 }
@@ -204,7 +177,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onMenuOpenIconClick: () => {
+    onMenuIconClick: () => {
       dispatch(toggleMenu());
     },
     onMenuItemClick: (selectedContent) => {

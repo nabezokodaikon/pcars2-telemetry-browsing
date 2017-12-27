@@ -1,0 +1,45 @@
+/*
+ * menu icon
+ */
+.menuIcon {
+  position: absolute;
+}
+
+.toggle {
+  display: none;
+}
+
+.hamburger {
+  position: absolute;
+  width: 3rem;
+  height: 4rem;
+  z-index: 5;
+}
+
+.hamburger > div {
+  position: relative;
+  width: 100%;
+  height: 0.5rem;
+  margin-top: 0.5rem;
+  background-color: #FFFFFF;
+  transition: all 0.3s ease-in-out;
+}
+
+.toggle:checked + .hamburger > .topBun {
+  margin-top: 1.5rem;
+  transform: rotate(-45deg);
+}
+
+.toggle:checked + .hamburger > .bottomBun {
+  opacity: 0;
+  transform: rotate(45deg);
+}
+
+.toggle:checked + .hamburger > .meat {
+  margin-top: -0.5rem;
+  transform: rotate(45deg);
+}
+
+.toggle:checked + .hamburger {
+  transform: scale(1);
+}
