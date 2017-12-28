@@ -15,11 +15,13 @@ export default class MenuIcon extends React.Component {
 
   render() {
     return (
-      <div className={style.menuIcon} style={this.props.style}>
-        <input type="checkbox" checked={this.props.isMenuVisible} onChange={this.handleChange} />
-        <span className={style.top} />
-        <span className={style.middle} />
-        <span className={style.bottom} />
+      <div className={style.menu} style={this.props.style}>
+        <input id="menuOpen" type="checkbox" className={style.menuOpen} checked={this.props.isMenuVisible} onChange={this.handleChange} />
+        <label  htmlFor="menuOpen" className={style.menuOpenButton}>
+          <span className={[style.hamburger, style.hamburger1].join(" ")} />
+          <span className={[style.hamburger, style.hamburger2].join(" ")} />
+          <span className={[style.hamburger, style.hamburger3].join(" ")} />
+        </label>
       </div>
     );
   }
