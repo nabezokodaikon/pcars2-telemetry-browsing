@@ -5,7 +5,7 @@ import { isArray, isJson } from "../share/jsUtil.js";
 
 class TimingsData extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   createRecords() {
@@ -20,31 +20,33 @@ class TimingsData extends React.Component {
           </tr>
         );
       });
-    }
+    };
 
     const createTimingsData = () => {
       const data = this.props.timingsData;
-      return Object.keys(data).filter(valueName => valueName !== "base" && !isArray(data[valueName])).map(valueName => {
-        const value = data[valueName];
-        if (isJson(value)) {
-          return Object.keys(value).map(key => {
+      return Object.keys(data)
+        .filter(valueName => valueName !== "base" && !isArray(data[valueName]))
+        .map(valueName => {
+          const value = data[valueName];
+          if (isJson(value)) {
+            return Object.keys(value).map(key => {
+              return (
+                <tr key={key}>
+                  <td>{key}</td>
+                  <td>{value[key]}</td>
+                </tr>
+              );
+            });
+          } else {
             return (
-              <tr key={key}>
-                <td>{key}</td>
-                <td>{value[key]}</td>
+              <tr key={valueName}>
+                <td>{valueName}</td>
+                <td>{value}</td>
               </tr>
             );
-          });
-        } else {
-          return (
-            <tr key={valueName}>
-              <td>{valueName}</td>
-              <td>{value}</td>
-            </tr>
-          );
-        }
-      });
-    }
+          }
+        });
+    };
 
     const createHeader = () => {
       const data = this.props.timingsData.formatParticipants;
@@ -54,12 +56,10 @@ class TimingsData extends React.Component {
         if (isArray(value)) {
           return value.map((childValue, index) => {
             const indexKey = key + "[" + index + "]";
-            return (
-              <td key={indexKey}>{indexKey}</td>
-            );
+            return <td key={indexKey}>{indexKey}</td>;
           });
         } else {
-          return (<td key={key}>{key}</td>);
+          return <td key={key}>{key}</td>;
         }
       });
     };
@@ -68,9 +68,7 @@ class TimingsData extends React.Component {
       if (isArray(value)) {
         return value.map((childValue, index) => {
           const indexKey = key + "[" + index + "]";
-          return (
-            <td key={indexKey}>{childValue}</td>
-          );
+          return <td key={indexKey}>{childValue}</td>;
         });
       } else {
         return <td key={key}>{value.toString()}</td>;
@@ -88,7 +86,6 @@ class TimingsData extends React.Component {
         );
       });
     };
-
 
     return (
       <table>
@@ -116,13 +113,9 @@ class TimingsData extends React.Component {
 
   render() {
     if (!isJson(this.props.timingsData)) {
-      return <div></div>;
+      return <div />;
     } else {
-      return (
-        <div>
-          {this.createRecords()}
-        </div>
-      );
+      return <div>{this.createRecords()}</div>;
     }
   }
 }
@@ -137,8 +130,6 @@ const mapStateToProps = state => {
   };
 };
 
-const TimingsDataContainer = connect(
-  mapStateToProps
-)(TimingsData);
+const TimingsDataContainer = connect(mapStateToProps)(TimingsData);
 
 export default TimingsDataContainer;

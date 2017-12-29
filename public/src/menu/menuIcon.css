@@ -12,7 +12,7 @@
   width: 3rem;
   height: 3rem;
   border-radius: 100%;
-  color: #FFFFFF;
+  color: #ffffff;
   background: rgba(0, 0, 0, 0);
   transition: ease-out 200ms;
 }
@@ -30,7 +30,7 @@
   height: 0.2rem;
   margin-top: -0.125rem;
   margin-left: -1rem;
-  background: #FFFFFF;
+  background: #ffffff;
   transition: 200ms;
 }
 

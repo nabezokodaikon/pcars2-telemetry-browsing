@@ -1,12 +1,6 @@
 import React from "react";
-import {
-  createFanShape,
-  createFanStroke,
-  createFanText
-} from "./svgComponents.jsx";
-import {
-  kmhToMIH
-} from "./telemetryUtil.js";
+import { createFanShape, createFanStroke, createFanText } from "./svgComponents.jsx";
+import { kmhToMIH } from "./telemetryUtil.js";
 import gasolineIcon from "../image/fuel.png";
 import oilIcon from "../image/oil.png";
 
@@ -32,8 +26,17 @@ function createRpm(rpm, maxRpm, cx, cy, radius, width, fontSize) {
   const rpmShape = createFanShape(cx, cy, radius, 30, rpmValue, width, "#FFFFFF");
 
   const textRadius = radius * 0.875;
-  const rpmText = Array.from({length: Math.floor(rpmBG / 1000) + 1}, (v, k) => k).map(i =>
-    createFanText(cx, cy, textRadius, 30 + separateDegree * (i - 0.5), 30 + separateDegree * (i + 0.5), fontSize, "#7777FF", i.toString())
+  const rpmText = Array.from({ length: Math.floor(rpmBG / 1000) + 1 }, (v, k) => k).map(i =>
+    createFanText(
+      cx,
+      cy,
+      textRadius,
+      30 + separateDegree * (i - 0.5),
+      30 + separateDegree * (i + 0.5),
+      fontSize,
+      "#7777FF",
+      i.toString()
+    )
   );
 
   return (
@@ -43,7 +46,7 @@ function createRpm(rpm, maxRpm, cx, cy, radius, width, fontSize) {
       {rpmShape}
       {rpmText}
     </g>
-  ); 
+  );
 }
 
 /*
@@ -56,7 +59,7 @@ function createRpm(rpm, maxRpm, cx, cy, radius, width, fontSize) {
 function createClutch(srcValue, cx, cy, radius, width) {
   const degree = 60;
   const value = srcValue * 100;
-  const unit = degree / 100; 
+  const unit = degree / 100;
   const lBG = 60;
   const rBG = 300;
   const lValue = unit * value + lBG;
@@ -83,7 +86,7 @@ function createClutch(srcValue, cx, cy, radius, width) {
 function createThrottle(srcValue, cx, cy, radius, width) {
   const degree = 150;
   const value = srcValue * 100;
-  const unit = degree / 100; 
+  const unit = degree / 100;
   const bg = 330;
   const destValue = bg - unit * value;
   const valueShape = createFanShape(cx, cy, radius, destValue, bg, width, "#00FF00");
@@ -100,7 +103,7 @@ function createThrottle(srcValue, cx, cy, radius, width) {
 function createBrake(srcValue, cx, cy, radius, width) {
   const degree = 150;
   const value = srcValue * 100;
-  const unit = degree / 100; 
+  const unit = degree / 100;
   const bg = 30;
   const destValue = unit * value + bg;
   const valueShape = createFanShape(cx, cy, radius, bg, destValue, width, "#FF0000");
@@ -118,30 +121,24 @@ function createFuelLevel(value, cx, cy, iconSize, fontSize) {
   const x = cx - 235;
   const y = cy - 64;
 
-  const icon =
-    <image
-      x={x}
-      y={y}
-      width={iconSize}
-      height={iconSize}
-      xlinkHref={gasolineIcon}
-    />;
+  const icon = <image x={x} y={y} width={iconSize} height={iconSize} xlinkHref={gasolineIcon} />;
 
-  const valueText =
+  const valueText = (
     <text
       x={x + iconSize * 0.5}
       y={y + iconSize * 1.4}
       fill="#FFFFFF"
-      style={{fontSize: fontSize}}
+      style={{ fontSize: fontSize }}
       textAnchor="middle"
       dominantBaseline="middle"
     >
       {value}
-    </text>;
+    </text>
+  );
 
   return (
     <g>
-      {icon} 
+      {icon}
       {valueText}
     </g>
   );
@@ -160,74 +157,79 @@ function createFuelLevel(value, cx, cy, iconSize, fontSize) {
  * gearValueFontSize: ギア値のフォントサイズ
 */
 function createGear(gear, rpm, maxRpm, srcSpeed, isMeter, cx, cy, radius, width, gearValueFontSize) {
-  const speed = (isMeter ? Math.floor(srcSpeed) : kmhToMIH(srcSpeed)); 
-  const speedUnit = (isMeter ? "KM/H" : "MI/H");
-  const gearColor = (rpm > maxRpm * 0.99 ? "#FF0000" : "#FFFFFF");
+  const speed = isMeter ? Math.floor(srcSpeed) : kmhToMIH(srcSpeed);
+  const speedUnit = isMeter ? "KM/H" : "MI/H";
+  const gearColor = rpm > maxRpm * 0.99 ? "#FF0000" : "#FFFFFF";
   const rpmValueFontSize = gearValueFontSize * 0.3;
   const rpmUnitFontSize = gearValueFontSize * 0.2;
   const speedUnitFontSize = gearValueFontSize * 0.4;
 
   const frameShape = createFanShape(cx, cy, radius, 30, 330, width, gearColor);
 
-  const gearText =
+  const gearText = (
     <text
       x={cx}
       y={cy - 10}
       fill={gearColor}
-      style={{fontSize: gearValueFontSize}}
+      style={{ fontSize: gearValueFontSize }}
       textAnchor="middle"
       dominantBaseline="middle"
     >
       {gear}
     </text>
+  );
 
-  const rpmValueText =
+  const rpmValueText = (
     <text
       x={cx}
       y={cy + 90}
       fill="#7777FF"
-      style={{fontSize: rpmValueFontSize}}
+      style={{ fontSize: rpmValueFontSize }}
       textAnchor="middle"
       dominantBaseline="middle"
     >
       {rpm}
     </text>
+  );
 
-  const rpmUnitText =
+  const rpmUnitText = (
     <text
       x={cx}
       y={cy + 130}
       fill="#7777FF"
-      style={{fontSize: rpmUnitFontSize}}
+      style={{ fontSize: rpmUnitFontSize }}
       textAnchor="middle"
       dominantBaseline="middle"
     >
       rpm
     </text>
+  );
 
-  const speedValueText =
+  const speedValueText = (
     <text
       x={cx}
       y={cy + 280}
       fill="#FFFFFF"
-      style={{fontSize: gearValueFontSize}}
+      style={{ fontSize: gearValueFontSize }}
       textAnchor="middle"
       dominantBaseline="middle"
     >
       {speed}
     </text>
+  );
 
-  const speedUnitText =
+  const speedUnitText = (
     <text
       x={cx}
       y={cy + 400}
       fill="#FFFFFF"
-      style={{fontSize: speedUnitFontSize}}
+      style={{ fontSize: speedUnitFontSize }}
       textAnchor="middle"
       dominantBaseline="middle"
     >
       {speedUnit}
     </text>
+  );
 
   return (
     <g>
@@ -252,34 +254,28 @@ function createGear(gear, rpm, maxRpm, srcSpeed, isMeter, cx, cy, radius, width,
 function createOilTemp(srcValue, isCelsius, cx, cy, iconSize, fontSize) {
   const x = cx - 40;
   const y = cy - 300;
-  const unit = (isCelsius ? "°C" : "ºF");
-  const value = (isCelsius ? Math.floor(srcValue) : CelsiusToFahrenheit(srcValue)); 
+  const unit = isCelsius ? "°C" : "ºF";
+  const value = isCelsius ? Math.floor(srcValue) : CelsiusToFahrenheit(srcValue);
   const text = value + unit;
 
-  const icon =
-    <image
-      x={x}
-      y={y}
-      width={iconSize}
-      height={iconSize}
-      xlinkHref={oilIcon}
-    />;
+  const icon = <image x={x} y={y} width={iconSize} height={iconSize} xlinkHref={oilIcon} />;
 
-  const valueText =
+  const valueText = (
     <text
       x={x + iconSize * 0.5}
       y={y + iconSize * 1.4}
       fill="#FFFFFF"
-      style={{fontSize: fontSize}}
+      style={{ fontSize: fontSize }}
       textAnchor="middle"
       dominantBaseline="middle"
     >
       {text}
-    </text>;
+    </text>
+  );
 
   return (
     <g>
-      {icon} 
+      {icon}
       {valueText}
     </g>
   );
@@ -311,7 +307,17 @@ export function createGearComponent(param) {
   const clutchComponent = createClutch(param.clutch, cx, cy, radius * 0.7, 16);
   const fuelLevelComponent = createFuelLevel(param.fuelLevel, cx, cy, 80, 48);
   const gearComponent = createGear(
-    param.gear, param.rpm, param.maxRpm, param.speed, param.isMeter, cx, cy, radius * 0.35, 8, 220);
+    param.gear,
+    param.rpm,
+    param.maxRpm,
+    param.speed,
+    param.isMeter,
+    cx,
+    cy,
+    radius * 0.35,
+    8,
+    220
+  );
   const oilTempComponent = createOilTemp(param.oilTempCelsius, param.isCelsius, cx, cy, 80, 48);
 
   return (

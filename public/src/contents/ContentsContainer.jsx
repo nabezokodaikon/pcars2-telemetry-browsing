@@ -27,7 +27,7 @@ class Contents extends React.Component {
       position: "fixed",
       width: "100%",
       height: "100%",
-      backgroundColor: "#1b1d1e" 
+      backgroundColor: "#1b1d1e"
     };
   }
 
@@ -58,22 +58,18 @@ class Contents extends React.Component {
       case contentNames.MOTEC: // TODO: Plan to delete.
         return <MotecContainer />;
       default:
-        return <div></div>;
+        return <div />;
     }
   }
 
   render() {
-    return (
-      <div style={this.getContentStyle()}>
-        {this.createCurrentContents()}
-      </div>
-    );
+    return <div style={this.getContentStyle()}>{this.createCurrentContents()}</div>;
   }
 }
 
 Contents.propTypes = {
-  currentContent: PropTypes.string.isRequired,
-}
+  currentContent: PropTypes.string.isRequired
+};
 
 const mapStateToProps = state => {
   return {
@@ -81,8 +77,6 @@ const mapStateToProps = state => {
   };
 };
 
-const ContentsContainer = connect(
-  mapStateToProps
-)(Contents);
+const ContentsContainer = connect(mapStateToProps)(Contents);
 
 export default ContentsContainer;

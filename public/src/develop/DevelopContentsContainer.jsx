@@ -33,47 +33,43 @@ class DevelopContents extends React.Component {
 
   getCurrentContents() {
     switch (this.props.currentContent) {
-        case contentNames.PIC_UP:
-          return <PicUpContainer />;
-        case contentNames.TELEMETRY_DATA:
-          return <TelemetryDataContainer />;
-        case contentNames.TELEMETRY_DATA_VELOCITY:
-          return <VelocityContainer />;
-        case contentNames.TELEMETRY_DATA_TYRE:
-          return <TyreContainer />;
-        case contentNames.RACE_DATA:
-          return <RaceDataContainer />;
-        case contentNames.PARTICIPANTS_DATA:
-          return <ParticipantsDataContainer />;
-        case contentNames.TIMINGS_DATA:
-          return <TimingsDataContainer />;
-        case contentNames.GAMESTATE_DATA:
-          return <GameStateDataContainer />;
-        case contentNames.TIME_STATS_DATA:
-          return <TimeStatsDataContainer />;
-        case contentNames.PARTICIPANT_VEHICLE_NAMES_DATA:
-          return <ParticipantVehicleNamesDataContainer />;
-        case contentNames.VEHICLE_CLASS_NAMES_DATA:
-          return <VehicleClassNamesDataContainer />;
-        case contentNames.LAP_TIME_DETAILS:
-          return <LapTimeDetailsContainer />;
-        default:
-          return <div></div>;
+      case contentNames.PIC_UP:
+        return <PicUpContainer />;
+      case contentNames.TELEMETRY_DATA:
+        return <TelemetryDataContainer />;
+      case contentNames.TELEMETRY_DATA_VELOCITY:
+        return <VelocityContainer />;
+      case contentNames.TELEMETRY_DATA_TYRE:
+        return <TyreContainer />;
+      case contentNames.RACE_DATA:
+        return <RaceDataContainer />;
+      case contentNames.PARTICIPANTS_DATA:
+        return <ParticipantsDataContainer />;
+      case contentNames.TIMINGS_DATA:
+        return <TimingsDataContainer />;
+      case contentNames.GAMESTATE_DATA:
+        return <GameStateDataContainer />;
+      case contentNames.TIME_STATS_DATA:
+        return <TimeStatsDataContainer />;
+      case contentNames.PARTICIPANT_VEHICLE_NAMES_DATA:
+        return <ParticipantVehicleNamesDataContainer />;
+      case contentNames.VEHICLE_CLASS_NAMES_DATA:
+        return <VehicleClassNamesDataContainer />;
+      case contentNames.LAP_TIME_DETAILS:
+        return <LapTimeDetailsContainer />;
+      default:
+        return <div />;
     }
   }
 
   render() {
-    return (
-      <div style={this.getContentStyle()}>
-        {this.getCurrentContents()}
-      </div>
-    );
+    return <div style={this.getContentStyle()}>{this.getCurrentContents()}</div>;
   }
 }
 
 DevelopContents.propTypes = {
-  currentContent: PropTypes.string.isRequired,
-}
+  currentContent: PropTypes.string.isRequired
+};
 
 const mapStateToProps = state => {
   return {
@@ -81,8 +77,6 @@ const mapStateToProps = state => {
   };
 };
 
-const DevelopContentsContainer = connect(
-  mapStateToProps
-)(DevelopContents);
+const DevelopContentsContainer = connect(mapStateToProps)(DevelopContents);
 
 export default DevelopContentsContainer;

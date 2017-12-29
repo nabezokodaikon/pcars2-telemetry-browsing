@@ -1,10 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { isJson } from "./jsUtil.js";
-import {
-  createFanShape,
-  createFanStroke
-} from "./svgComponents.jsx";
+import { createFanShape, createFanStroke } from "./svgComponents.jsx";
 import style from "./smallContent.css";
 
 const WHITE = "#FFFFFF";
@@ -21,13 +18,10 @@ export default class SmallGearComponent extends React.Component {
     const props = this.props;
     const telemetryData = props.telemetryData;
     if (!isJson(telemetryData)) {
-      return (
-        <svg className={props.className} preserveAspectRatio="xMidYMid meet" viewBox="0 0 100 100">
-        </svg>
-      );
+      return <svg className={props.className} preserveAspectRatio="xMidYMid meet" viewBox="0 0 100 100" />;
     }
 
-    const carState = telemetryData.carState; 
+    const carState = telemetryData.carState;
     const rpm = carState.rpm;
     const maxRpm = carState.maxRpm;
     const gear = carState.gear;
@@ -54,24 +48,25 @@ export default class SmallGearComponent extends React.Component {
       );
     }
 
-    const gearColor = (rpm > maxRpm * 0.97 ? RED : WHITE);
+    const gearColor = rpm > maxRpm * 0.97 ? RED : WHITE;
     const rpmBG = maxRpm * 1.2;
     const rpmUnit = (finishDegree - startDegree) / rpmBG;
     const rpmOverStartDegree = finishDegree - (rpmUnit * rpmBG - rpmUnit * maxRpm);
     const rpmOverShape = createFanShape(cx, cy, radius, rpmOverStartDegree, finishDegree, width, RED);
     const rpmValue = rpmUnit * rpm + startDegree;
     const rpmShape = createFanShape(cx, cy, radius, startDegree, rpmValue, width, gearColor);
-    const gearText =
+    const gearText = (
       <text
         x={cx}
         y={cy + fontSize * 0.1}
         fill={gearColor}
-        style={{fontSize: fontSize, fontFamily: "'Inconsolata', monospace"}}
+        style={{ fontSize: fontSize, fontFamily: "'Inconsolata', monospace" }}
         textAnchor="middle"
         dominantBaseline="middle"
       >
         {gear}
-      </text>;
+      </text>
+    );
 
     return (
       <svg className={style.gear} preserveAspectRatio="xMidYMid meet" viewBox="0 0 100 100">

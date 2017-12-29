@@ -5,7 +5,7 @@ import { isArray, isJson } from "../share/jsUtil.js";
 
 class LapTimeDetails extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   createRecords() {
@@ -20,7 +20,7 @@ class LapTimeDetails extends React.Component {
           </tr>
         );
       });
-    }
+    };
 
     const createHeader = () => {
       return (
@@ -102,16 +102,14 @@ class LapTimeDetails extends React.Component {
   }
 
   render() {
-    if (!isJson(this.props.lapTimeDetails)
-    /* || !isJson(this.props.aggregateTime) */
-    || !isJson(this.props.fuelData)) {
-      return <div></div>;
+    if (
+      !isJson(this.props.lapTimeDetails) ||
+      /* || !isJson(this.props.aggregateTime) */
+      !isJson(this.props.fuelData)
+    ) {
+      return <div />;
     } else {
-      return (
-        <div>
-          {this.createRecords()}
-        </div>
-      );
+      return <div>{this.createRecords()}</div>;
     }
   }
 }
@@ -130,8 +128,6 @@ const mapStateToProps = state => {
   };
 };
 
-const LapTimeDetailsContainer = connect(
-  mapStateToProps
-)(LapTimeDetails);
+const LapTimeDetailsContainer = connect(mapStateToProps)(LapTimeDetails);
 
 export default LapTimeDetailsContainer;

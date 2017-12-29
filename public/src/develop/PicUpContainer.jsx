@@ -7,12 +7,12 @@ const Fragment = React.Fragment;
 
 class PicUp extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   createCarState() {
     const data = this.props.data;
-    const telemetryData = data.telemetryData; 
+    const telemetryData = data.telemetryData;
     if (!isJson(telemetryData)) {
       return (
         <tr>
@@ -70,7 +70,7 @@ class PicUp extends React.Component {
 
   createCarDamage() {
     const data = this.props.data;
-    const telemetryData = data.telemetryData; 
+    const telemetryData = data.telemetryData;
     if (!isJson(telemetryData)) {
       return (
         <tr>
@@ -80,7 +80,7 @@ class PicUp extends React.Component {
     }
 
     const carDamage = telemetryData.carDamage;
-    
+
     return (
       <Fragment>
         <tr>
@@ -100,7 +100,7 @@ class PicUp extends React.Component {
 
   createHWState() {
     const data = this.props.data;
-    const telemetryData = data.telemetryData; 
+    const telemetryData = data.telemetryData;
     if (!isJson(telemetryData)) {
       return (
         <tr>
@@ -110,7 +110,7 @@ class PicUp extends React.Component {
     }
 
     const hwState = telemetryData.hwState;
-    
+
     return (
       <Fragment>
         <tr>
@@ -130,7 +130,7 @@ class PicUp extends React.Component {
 
   createTyre() {
     const data = this.props.data;
-    const telemetryData = data.telemetryData; 
+    const telemetryData = data.telemetryData;
     if (!isJson(telemetryData)) {
       return (
         <tr>
@@ -140,7 +140,7 @@ class PicUp extends React.Component {
     }
 
     const tyre1 = telemetryData.tyre1;
-    
+
     return (
       <Fragment>
         <tr>
@@ -253,7 +253,7 @@ class PicUp extends React.Component {
 
   createTyreOther() {
     const data = this.props.data;
-    const telemetryData = data.telemetryData; 
+    const telemetryData = data.telemetryData;
     if (!isJson(telemetryData)) {
       return (
         <tr>
@@ -263,7 +263,7 @@ class PicUp extends React.Component {
     }
 
     const tyre3 = telemetryData.tyre3;
-    
+
     return (
       <Fragment>
         <tr>
@@ -283,7 +283,7 @@ class PicUp extends React.Component {
 
   createTimingsData() {
     const data = this.props.data;
-    const telemetryData = data.telemetryData; 
+    const telemetryData = data.telemetryData;
     const timingsData = data.timingsData;
     if (!isJson(telemetryData) || !isJson(timingsData)) {
       return (
@@ -293,8 +293,7 @@ class PicUp extends React.Component {
       );
     }
 
-    const record = timingsData.formatParticipants[telemetryData.participantInfo.viewedParticipantIndex
-];
+    const record = timingsData.formatParticipants[telemetryData.participantInfo.viewedParticipantIndex];
 
     return (
       <Fragment>
@@ -355,7 +354,7 @@ class PicUp extends React.Component {
 }
 
 PicUp.propTypes = {
- data : PropTypes.object.isRequired
+  data: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
@@ -364,8 +363,6 @@ const mapStateToProps = state => {
   };
 };
 
-const PicUpContainer = connect(
-  mapStateToProps
-)(PicUp);
+const PicUpContainer = connect(mapStateToProps)(PicUp);
 
 export default PicUpContainer;

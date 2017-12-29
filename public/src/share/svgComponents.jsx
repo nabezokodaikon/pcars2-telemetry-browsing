@@ -27,19 +27,15 @@ export function createFanStroke(cx, cy, radius, startDegree, finishDegree, width
   const arcFinishX = cx - radius * finishSinX;
   const arcFinishY = cy + radius * finishCosY;
 
-  const largeArcFlag = (finishDegree - startDegree <= 180) ? 0 : 1;
+  const largeArcFlag = finishDegree - startDegree <= 180 ? 0 : 1;
 
   const startLine = "M" + innerStartX + " " + innerStartY + " L " + arcStartX + " " + arcStartY;
-  const arc = "A" + radius + " " + radius + " " + 0 + " " + largeArcFlag + " " + 1 + " " + arcFinishX + " " + arcFinishY;
+  const arc =
+    "A" + radius + " " + radius + " " + 0 + " " + largeArcFlag + " " + 1 + " " + arcFinishX + " " + arcFinishY;
   const finishLine = "L" + innerFinishX + " " + innerFinishY;
 
   return (
-    <path
-      d={startLine + " " + arc + " " + finishLine}
-      fill="none"
-      stroke={strokeColor}
-      strokeWidth={strokeWidth}
-    />
+    <path d={startLine + " " + arc + " " + finishLine} fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
   );
 }
 
@@ -69,19 +65,30 @@ export function createFanShape(cx, cy, radius, startDegree, finishDegree, width,
   const arcFinishX = cx - radius * finishSinX;
   const arcFinishY = cy + radius * finishCosY;
 
-  const largeArcFlag = (finishDegree - startDegree <= 180) ? 0 : 1;
+  const largeArcFlag = finishDegree - startDegree <= 180 ? 0 : 1;
 
   const startLine = "M" + innerStartX + " " + innerStartY + " L " + arcStartX + " " + arcStartY;
-  const arc = "A" + radius + " " + radius + " " + 0 + " " + largeArcFlag + " " + 1 + " " + arcFinishX + " " + arcFinishY;
+  const arc =
+    "A" + radius + " " + radius + " " + 0 + " " + largeArcFlag + " " + 1 + " " + arcFinishX + " " + arcFinishY;
   const finishLine = "L" + innerFinishX + " " + innerFinishY;
-  const innerArc = "A" + innerRadius + " " + innerRadius + " " + 0 + " " + largeArcFlag + " " + 0 + " " + innerStartX + " " + innerStartY + " Z";
+  const innerArc =
+    "A" +
+    innerRadius +
+    " " +
+    innerRadius +
+    " " +
+    0 +
+    " " +
+    largeArcFlag +
+    " " +
+    0 +
+    " " +
+    innerStartX +
+    " " +
+    innerStartY +
+    " Z";
 
-  return (
-    <path
-      d={startLine + " " + arc + " " + finishLine + " " + innerArc}
-      fill={fillColor}
-    />
-  );
+  return <path d={startLine + " " + arc + " " + finishLine + " " + innerArc} fill={fillColor} />;
 }
 
 /*
@@ -107,7 +114,7 @@ export function createFanText(cx, cy, radius, startDegree, finishDegree, fontSiz
       fill={fontColor}
       textAnchor="middle"
       dominantBaseline="middle"
-      style={{fontSize: fontSize, fontFamily: "'Inconsolata', monospace"}}
+      style={{ fontSize: fontSize, fontFamily: "'Inconsolata', monospace" }}
     >
       {text}
     </text>

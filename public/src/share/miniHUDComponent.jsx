@@ -1,13 +1,6 @@
 import React from "react";
-import {
-  createFanShape,
-  createFanStroke
-} from "./svgComponents.jsx";
-import {
-  getSpeed,
-  getSpeedUnit,
-  kmhToMIH
-} from "./telemetryUtil.js";
+import { createFanShape, createFanStroke } from "./svgComponents.jsx";
+import { getSpeed, getSpeedUnit, kmhToMIH } from "./telemetryUtil.js";
 import fuelIcon from "../image/fuel-blue.png";
 
 const WHITE = "#FFFFFF";
@@ -16,7 +9,7 @@ const RED = "#C54343";
 const BLUE = "#BFD2E3";
 
 function createSpeedComponent(x, y, width, height, speedTextFontSize, srcSpeed, isMeter) {
-  const speed = getSpeed(srcSpeed, isMeter); 
+  const speed = getSpeed(srcSpeed, isMeter);
   const unit = getSpeedUnit(isMeter);
   const radius = height / 2 * 0.9;
   const cx = x + radius;
@@ -27,29 +20,31 @@ function createSpeedComponent(x, y, width, height, speedTextFontSize, srcSpeed, 
   const unitTextX = speedTextX + width * 0.025;
   const unitTextY = y + (height - speedTextFontSize);
 
-  const speedText =
+  const speedText = (
     <text
       x={speedTextX}
       y={speedTextY}
       fill={WHITE}
-      style={{fontSize: speedTextFontSize, fontFamily: "'Inconsolata', monospace"}}
+      style={{ fontSize: speedTextFontSize, fontFamily: "'Inconsolata', monospace" }}
       textAnchor="end"
       dominantBaseline="middle"
     >
       {speed}
-    </text>;
+    </text>
+  );
 
-  const unitText =
+  const unitText = (
     <text
       x={unitTextX}
       y={unitTextY}
       fill={WHITE}
-      style={{fontSize: unitTextFontSize, fontFamily: "'Inconsolata', monospace"}}
+      style={{ fontSize: unitTextFontSize, fontFamily: "'Inconsolata', monospace" }}
       textAnchor="start"
       dominantBaseline="middle"
     >
       {unit}
-    </text>;
+    </text>
+  );
 
   return (
     <g>
@@ -70,11 +65,7 @@ function createGearComponent(x, y, width, height, fontSize, gear, rpm, maxRpm) {
   const rpmBGShape = createFanShape(cx, cy, radius, 30, rpmBGValue + 30, rpmBarWidth, RED);
 
   if (maxRpm <= 0) {
-    return (
-      <g>
-        {rpmBGShape}
-      </g>
-    );
+    return <g>{rpmBGShape}</g>;
   }
 
   const rpmBG = maxRpm * 1.2;
@@ -84,19 +75,20 @@ function createGearComponent(x, y, width, height, fontSize, gear, rpm, maxRpm) {
 
   const maxRpmShape = createFanShape(cx, cy, radius, 30, maxRpmValue, rpmBarWidth * 0.9, BLACK);
   const rpmShape = createFanShape(cx, cy, radius, 30, rpmValue, rpmBarWidth, WHITE);
-  const gearTextColor = (rpm > maxRpm * 0.97 ? RED : WHITE);
+  const gearTextColor = rpm > maxRpm * 0.97 ? RED : WHITE;
 
-  const gearText =
+  const gearText = (
     <text
       x={cx}
       y={textY}
       fill={gearTextColor}
-      style={{fontSize: fontSize, fontFamily: "'Inconsolata', monospace"}}
+      style={{ fontSize: fontSize, fontFamily: "'Inconsolata', monospace" }}
       textAnchor="middle"
       dominantBaseline="middle"
     >
       {gear}
-    </text>;
+    </text>
+  );
 
   return (
     <g>
@@ -116,26 +108,20 @@ function createFuelComponent(x, y, width, height, fontSize, fuelRemaining) {
   const iconX = fuelTextX + iconSize * 1.1;
   const iconY = y + height * 0.2;
 
-  const fuelText =
+  const fuelText = (
     <text
       x={fuelTextX}
       y={fuelTextY}
       fill={WHITE}
-      style={{fontSize: fontSize, fontFamily: "'Inconsolata', monospace"}}
+      style={{ fontSize: fontSize, fontFamily: "'Inconsolata', monospace" }}
       textAnchor="middle"
       dominantBaseline="middle"
     >
       {fuelRemaining}
-    </text>;
+    </text>
+  );
 
-  const icon =
-    <image
-      x={iconX}
-      y={iconY}
-      width={iconSize}
-      height={iconSize}
-      xlinkHref={fuelIcon}
-    />;
+  const icon = <image x={iconX} y={iconY} width={iconSize} height={iconSize} xlinkHref={fuelIcon} />;
 
   return (
     <g>
@@ -164,26 +150,36 @@ export function createMiniHUDComponent(param) {
   const gearY = speedY;
   const gearWidth = 80;
   const gearHeight = speedHeight;
-  const gearFontSize = 40; 
+  const gearFontSize = 40;
 
   const fuelX = gearX + gearWidth + 80;
   const fuelY = speedY;
   const fuelWidth = 160;
   const fuelHeight = speedHeight;
-  const fuelFontSize = 40; 
+  const fuelFontSize = 40;
 
   const speedComponent = createSpeedComponent(
-    speedX, speedY, speedWidth, speedHeight, speedFontSize,
-    param.speed, param.isMeter);
+    speedX,
+    speedY,
+    speedWidth,
+    speedHeight,
+    speedFontSize,
+    param.speed,
+    param.isMeter
+  );
 
   const gearComponent = createGearComponent(
-    gearX, gearY, gearWidth, gearHeight, gearFontSize,
-    param.gear, param.rpm, param.maxRpm);
+    gearX,
+    gearY,
+    gearWidth,
+    gearHeight,
+    gearFontSize,
+    param.gear,
+    param.rpm,
+    param.maxRpm
+  );
 
-  const fuelComponent = createFuelComponent(
-    fuelX, fuelY, fuelWidth, fuelHeight, fuelFontSize,
-    param.fuelRemaining
-  )
+  const fuelComponent = createFuelComponent(fuelX, fuelY, fuelWidth, fuelHeight, fuelFontSize, param.fuelRemaining);
 
   return (
     <g>

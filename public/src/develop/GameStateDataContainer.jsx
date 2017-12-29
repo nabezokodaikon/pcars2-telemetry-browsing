@@ -5,7 +5,7 @@ import { isJson } from "../share/jsUtil.js";
 
 class GameStateData extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   createRecords() {
@@ -20,31 +20,33 @@ class GameStateData extends React.Component {
           </tr>
         );
       });
-    }
+    };
 
     const createGameStateData = () => {
       const data = this.props.gameStateData;
-      return Object.keys(data).filter(key => key !== "base").map(valueName => {
-        const value = data[valueName];
-        if (isJson(value)) {
-          return Object.keys(value).map(key => {
+      return Object.keys(data)
+        .filter(key => key !== "base")
+        .map(valueName => {
+          const value = data[valueName];
+          if (isJson(value)) {
+            return Object.keys(value).map(key => {
+              return (
+                <tr key={key}>
+                  <td>{key}</td>
+                  <td>{value[key]}</td>
+                </tr>
+              );
+            });
+          } else {
             return (
-              <tr key={key}>
-                <td>{key}</td>
-                <td>{value[key]}</td>
+              <tr key={valueName}>
+                <td>{valueName}</td>
+                <td>{value}</td>
               </tr>
             );
-          });
-        } else {
-          return (
-            <tr key={valueName}>
-              <td>{valueName}</td>
-              <td>{value}</td>
-            </tr>
-          );
-        }
-      });
-    }
+          }
+        });
+    };
 
     return (
       <table>
@@ -64,13 +66,9 @@ class GameStateData extends React.Component {
 
   render() {
     if (!isJson(this.props.gameStateData)) {
-      return <div></div>;
+      return <div />;
     } else {
-      return (
-        <div>
-          {this.createRecords()}
-        </div>
-      );
+      return <div>{this.createRecords()}</div>;
     }
   }
 }
@@ -85,8 +83,6 @@ const mapStateToProps = state => {
   };
 };
 
-const GameStateDataContainer = connect(
-  mapStateToProps
-)(GameStateData);
+const GameStateDataContainer = connect(mapStateToProps)(GameStateData);
 
 export default GameStateDataContainer;

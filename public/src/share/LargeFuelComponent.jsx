@@ -14,10 +14,10 @@ export default class LargeFuelComponent extends React.Component {
     const telemetryData = props.telemetryData;
     const fuelData = props.fuelData;
     if (!isJson(telemetryData) || !isJson(fuelData)) {
-      return <div></div>;
+      return <div />;
     }
 
-    const carState = telemetryData.carState; 
+    const carState = telemetryData.carState;
 
     return (
       <div className={style.fuel}>

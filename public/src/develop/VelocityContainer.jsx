@@ -5,7 +5,7 @@ import { isArray, isJson } from "../share/jsUtil.js";
 
 class Velocity extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   createRecords() {
@@ -14,16 +14,16 @@ class Velocity extends React.Component {
       return Object.keys(data).map(valueName => {
         const value = data[valueName];
         return value.map((childValue, index) => {
-          const childValueName = valueName + "[" + index + "]";  
+          const childValueName = valueName + "[" + index + "]";
           return (
             <tr key={childValueName}>
               <td>{childValueName}</td>
               <td>{childValue}</td>
             </tr>
           );
-        }); 
+        });
       });
-    }
+    };
 
     return (
       <table>
@@ -39,13 +39,9 @@ class Velocity extends React.Component {
 
   render() {
     if (!isJson(this.props.telemetryData.velocity)) {
-      return <div></div>;
+      return <div />;
     } else {
-      return (
-        <div>
-          {this.createRecords()}
-        </div>
-      );
+      return <div>{this.createRecords()}</div>;
     }
   }
 }
@@ -60,8 +56,6 @@ const mapStateToProps = state => {
   };
 };
 
-const VelocityContainer = connect(
-  mapStateToProps
-)(Velocity);
+const VelocityContainer = connect(mapStateToProps)(Velocity);
 
 export default VelocityContainer;

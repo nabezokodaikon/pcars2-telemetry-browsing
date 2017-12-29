@@ -5,7 +5,7 @@ import { isArray, isJson } from "../share/jsUtil.js";
 
 class ParticipantsData extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   createRecords() {
@@ -20,41 +20,43 @@ class ParticipantsData extends React.Component {
           </tr>
         );
       });
-    }
+    };
 
     const createParticipantsData = () => {
       const data = this.props.participantsData;
-      return Object.keys(data).filter(key => key !== "base").map(valueName => {
-        const value = data[valueName];
-        if (isJson(value)) {
-          return Object.keys(value).map(key => {
+      return Object.keys(data)
+        .filter(key => key !== "base")
+        .map(valueName => {
+          const value = data[valueName];
+          if (isJson(value)) {
+            return Object.keys(value).map(key => {
+              return (
+                <tr key={key}>
+                  <td>{key}</td>
+                  <td>{value[key]}</td>
+                </tr>
+              );
+            });
+          } else if (isArray(value)) {
+            return value.map((childValue, index) => {
+              const childValueName = valueName + "[" + index + "]";
+              return (
+                <tr key={childValueName}>
+                  <td>{childValueName}</td>
+                  <td>{childValue}</td>
+                </tr>
+              );
+            });
+          } else {
             return (
-              <tr key={key}>
-                <td>{key}</td>
-                <td>{value[key]}</td>
+              <tr key={valueName}>
+                <td>{valueName}</td>
+                <td>{value}</td>
               </tr>
             );
-          });
-        } else if (isArray(value)) {
-          return value.map((childValue, index) => {
-            const childValueName = valueName + "[" + index + "]";  
-            return (
-              <tr key={childValueName}>
-                <td>{childValueName}</td>
-                <td>{childValue}</td>
-              </tr>
-            );
-          }); 
-        } else {
-          return (
-            <tr key={valueName}>
-              <td>{valueName}</td>
-              <td>{value}</td>
-            </tr>
-          );
-        }
-      });
-    }
+          }
+        });
+    };
 
     return (
       <table>
@@ -74,13 +76,9 @@ class ParticipantsData extends React.Component {
 
   render() {
     if (!isJson(this.props.participantsData)) {
-      return <div></div>;
+      return <div />;
     } else {
-      return (
-        <div>
-          {this.createRecords()}
-        </div>
-      );
+      return <div>{this.createRecords()}</div>;
     }
   }
 }
@@ -95,8 +93,6 @@ const mapStateToProps = state => {
   };
 };
 
-const ParticipantsDataContainer = connect(
-  mapStateToProps
-)(ParticipantsData);
+const ParticipantsDataContainer = connect(mapStateToProps)(ParticipantsData);
 
 export default ParticipantsDataContainer;

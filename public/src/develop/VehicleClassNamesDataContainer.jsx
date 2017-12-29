@@ -5,7 +5,7 @@ import { isArray, isJson } from "../share/jsUtil.js";
 
 class VehicleClassNamesData extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   createRecords() {
@@ -20,31 +20,33 @@ class VehicleClassNamesData extends React.Component {
           </tr>
         );
       });
-    }
+    };
 
     const createVehicleClassNamesData = () => {
       const data = this.props.vehicleClassNamesData;
-      return Object.keys(data).filter(key => key !== "base" && !isArray(data[key])).map(key => {
-        const value = data[key];
-        if (isJson(value)) {
-          return Object.keys(value).map(key => {
+      return Object.keys(data)
+        .filter(key => key !== "base" && !isArray(data[key]))
+        .map(key => {
+          const value = data[key];
+          if (isJson(value)) {
+            return Object.keys(value).map(key => {
+              return (
+                <tr key={key}>
+                  <td>{key}</td>
+                  <td>{value[key]}</td>
+                </tr>
+              );
+            });
+          } else {
             return (
               <tr key={key}>
                 <td>{key}</td>
-                <td>{value[key]}</td>
+                <td>{value}</td>
               </tr>
             );
-          });
-        } else {
-          return (
-            <tr key={key}>
-              <td>{key}</td>
-              <td>{value}</td>
-            </tr>
-          );
-        }
-      });
-    }
+          }
+        });
+    };
 
     const createClassesField = (value, key) => {
       return <td key={key}>{value}</td>;
@@ -60,8 +62,8 @@ class VehicleClassNamesData extends React.Component {
             {Object.keys(value).map(key => createClassesField(value[key], key))}
           </tr>
         );
-      }); 
-    }
+      });
+    };
 
     return (
       <table>
@@ -82,13 +84,9 @@ class VehicleClassNamesData extends React.Component {
 
   render() {
     if (!isJson(this.props.vehicleClassNamesData)) {
-      return <div></div>;
+      return <div />;
     } else {
-      return (
-        <div>
-          {this.createRecords()}
-        </div>
-      );
+      return <div>{this.createRecords()}</div>;
     }
   }
 }
@@ -103,8 +101,6 @@ const mapStateToProps = state => {
   };
 };
 
-const VehicleClassNamesDataContainer = connect(
-  mapStateToProps
-)(VehicleClassNamesData);
+const VehicleClassNamesDataContainer = connect(mapStateToProps)(VehicleClassNamesData);
 
 export default VehicleClassNamesDataContainer;

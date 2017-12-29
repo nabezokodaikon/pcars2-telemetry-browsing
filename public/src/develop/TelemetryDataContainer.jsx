@@ -7,7 +7,7 @@ const Fragment = React.Fragment;
 
 class TelemetryData extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   createRecords() {
@@ -22,7 +22,7 @@ class TelemetryData extends React.Component {
           </tr>
         );
       });
-    }
+    };
 
     const createTelemetryParticipantInfo = () => {
       const data = this.props.telemetryData.participantInfo;
@@ -35,7 +35,7 @@ class TelemetryData extends React.Component {
           </tr>
         );
       });
-    }
+    };
 
     const createUnfilteredInput = () => {
       const data = this.props.telemetryData.unfilteredInput;
@@ -48,7 +48,7 @@ class TelemetryData extends React.Component {
           </tr>
         );
       });
-    }
+    };
 
     const createCarState = () => {
       const data = this.props.telemetryData.carState;
@@ -63,11 +63,7 @@ class TelemetryData extends React.Component {
               </tr>
             );
           });
-          return (
-            <Fragment key={key}>
-              {flags}
-            </Fragment>
-          )
+          return <Fragment key={key}>{flags}</Fragment>;
         } else {
           return (
             <tr key={key}>
@@ -77,7 +73,7 @@ class TelemetryData extends React.Component {
           );
         }
       });
-    }
+    };
 
     const createCarDamage = () => {
       const data = this.props.telemetryData.carDamage;
@@ -90,7 +86,7 @@ class TelemetryData extends React.Component {
           </tr>
         );
       });
-    }
+    };
 
     const createHWState = () => {
       const data = this.props.telemetryData.hwState;
@@ -98,14 +94,14 @@ class TelemetryData extends React.Component {
         const value = data[valueName];
         if (isArray(value)) {
           return value.map((childValue, index) => {
-            const childValueName = valueName + "[" + index + "]";  
+            const childValueName = valueName + "[" + index + "]";
             return (
               <tr key={childValueName}>
                 <td>{childValueName}</td>
                 <td>{childValue}</td>
               </tr>
             );
-          }); 
+          });
         } else {
           return (
             <tr key={valueName}>
@@ -115,8 +111,7 @@ class TelemetryData extends React.Component {
           );
         }
       });
-    }
-
+    };
 
     return (
       <table>
@@ -152,13 +147,9 @@ class TelemetryData extends React.Component {
 
   render() {
     if (!isJson(this.props.telemetryData)) {
-      return <div></div>;
+      return <div />;
     } else {
-      return (
-        <div>
-          {this.createRecords()}
-        </div>
-      );
+      return <div>{this.createRecords()}</div>;
     }
   }
 }
@@ -173,8 +164,6 @@ const mapStateToProps = state => {
   };
 };
 
-const TelemetryDataContainer = connect(
-  mapStateToProps
-)(TelemetryData);
+const TelemetryDataContainer = connect(mapStateToProps)(TelemetryData);
 
 export default TelemetryDataContainer;

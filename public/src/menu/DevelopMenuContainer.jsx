@@ -77,7 +77,7 @@ class DevelopMenu extends React.Component {
       opacity: this.getFilterOpacity(),
       cursor: "pointer"
     };
-  };
+  }
 
   getContentItems() {
     return [
@@ -93,11 +93,13 @@ class DevelopMenu extends React.Component {
       contentNames.PARTICIPANT_VEHICLE_NAMES_DATA,
       contentNames.VEHICLE_CLASS_NAMES_DATA,
       contentNames.LAP_TIME_DETAILS
-    ].map((v, i) =>
+    ].map((v, i) => (
       <li style={this.getLiStyle()} key={i.toString()}>
-        <button style={this.getButtonStyle()} onClick={evt => this.handleMenuItemClick(evt, v)}>{v}</button>
+        <button style={this.getButtonStyle()} onClick={evt => this.handleMenuItemClick(evt, v)}>
+          {v}
+        </button>
       </li>
-    );
+    ));
   }
 
   handleMenuClick() {
@@ -117,18 +119,14 @@ class DevelopMenu extends React.Component {
     return (
       <div style={this.getMenuStyle()} tabIndex="1" onClick={this.handleMenuClick}>
         <nav>
-          <ul style={this.getUlStyle()}>
-            {this.getContentItems()}
-          </ul>
+          <ul style={this.getUlStyle()}>{this.getContentItems()}</ul>
         </nav>
       </div>
     );
   }
 
   renderFilter() {
-    return (
-      <div className="filter" style={this.getFilterStyle()} tabIndex="2" onClick={this.handleFilterClick}></div>
-    );
+    return <div className="filter" style={this.getFilterStyle()} tabIndex="2" onClick={this.handleFilterClick} />;
   }
 
   render() {
@@ -146,7 +144,7 @@ DevelopMenu.propTypes = {
   onMenuClick: PropTypes.func.isRequired,
   onMenuItemClick: PropTypes.func.isRequired,
   onFilterClick: PropTypes.func.isRequired
-}
+};
 
 const mapStateToProps = state => {
   return {
@@ -159,7 +157,7 @@ const mapDispatchToProps = dispatch => {
     onMenuClick: () => {
       dispatch(toggleMenu());
     },
-    onMenuItemClick: (selectedContent) => {
+    onMenuItemClick: selectedContent => {
       dispatch(currentContent(selectedContent));
       dispatch(toggleMenu());
     },
@@ -169,9 +167,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const DevelopMenuContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DevelopMenu);
+const DevelopMenuContainer = connect(mapStateToProps, mapDispatchToProps)(DevelopMenu);
 
 export default DevelopMenuContainer;

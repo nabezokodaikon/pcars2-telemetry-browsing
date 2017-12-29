@@ -2,18 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { isArray, isJson } from "../share/jsUtil.js";
-import {
-  TYRE_FRONT_LEFT,
-  TYRE_FRONT_RIGHT,
-  TYRE_REAR_LEFT,
-  TYRE_REAR_RIGHT
-} from "../share/telemetryConst.js";
+import { TYRE_FRONT_LEFT, TYRE_FRONT_RIGHT, TYRE_REAR_LEFT, TYRE_REAR_RIGHT } from "../share/telemetryConst.js";
 
 const Fragment = React.Fragment;
 
 class Tyre extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   createRecords() {
@@ -28,7 +23,7 @@ class Tyre extends React.Component {
           </tr>
         );
       });
-    }
+    };
 
     const data1 = this.props.telemetryData.tyre1;
     const data2 = this.props.telemetryData.tyre2;
@@ -43,11 +38,7 @@ class Tyre extends React.Component {
             </tr>
           );
         });
-        return (
-          <Fragment key={key}>
-            {childValues}
-          </Fragment>
-        );
+        return <Fragment key={key}>{childValues}</Fragment>;
       } else {
         return (
           <tr key={key}>
@@ -77,11 +68,7 @@ class Tyre extends React.Component {
             </tr>
           );
         });
-        return (
-          <Fragment key={key}>
-            {childValues}
-          </Fragment>
-        );
+        return <Fragment key={key}>{childValues}</Fragment>;
       } else {
         return (
           <tr key={key}>
@@ -111,11 +98,7 @@ class Tyre extends React.Component {
             </tr>
           );
         });
-        return (
-          <Fragment key={key}>
-            {childValues}
-          </Fragment>
-        );
+        return <Fragment key={key}>{childValues}</Fragment>;
       } else {
         return (
           <tr key={key}>
@@ -145,11 +128,7 @@ class Tyre extends React.Component {
             </tr>
           );
         });
-        return (
-          <Fragment key={key}>
-            {childValues}
-          </Fragment>
-        );
+        return <Fragment key={key}>{childValues}</Fragment>;
       } else {
         return (
           <tr key={key}>
@@ -167,7 +146,6 @@ class Tyre extends React.Component {
         </tr>
       );
     });
-
 
     return (
       <table>
@@ -203,13 +181,9 @@ class Tyre extends React.Component {
 
   render() {
     if (!isJson(this.props.telemetryData)) {
-      return <div></div>;
+      return <div />;
     } else {
-      return (
-        <div>
-          {this.createRecords()}
-        </div>
-      );
+      return <div>{this.createRecords()}</div>;
     }
   }
 }
@@ -224,8 +198,6 @@ const mapStateToProps = state => {
   };
 };
 
-const TyreContainer = connect(
-  mapStateToProps
-)(Tyre);
+const TyreContainer = connect(mapStateToProps)(Tyre);
 
 export default TyreContainer;

@@ -5,7 +5,7 @@ import { isArray, isJson } from "../share/jsUtil.js";
 
 class RaceData extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   createRecords() {
@@ -20,31 +20,33 @@ class RaceData extends React.Component {
           </tr>
         );
       });
-    }
+    };
 
     const createRaceData = () => {
       const data = this.props.raceData;
-      return Object.keys(data).filter(key => key !== "base").map(valueName => {
-        const value = data[valueName];
-        if (isJson(value)) {
-          return Object.keys(value).map(key => {
+      return Object.keys(data)
+        .filter(key => key !== "base")
+        .map(valueName => {
+          const value = data[valueName];
+          if (isJson(value)) {
+            return Object.keys(value).map(key => {
+              return (
+                <tr key={key}>
+                  <td>{key}</td>
+                  <td>{value[key].toString()}</td>
+                </tr>
+              );
+            });
+          } else {
             return (
-              <tr key={key}>
-                <td>{key}</td>
-                <td>{value[key].toString()}</td>
+              <tr key={valueName}>
+                <td>{valueName}</td>
+                <td>{value.toString()}</td>
               </tr>
             );
-          });
-        } else {
-          return (
-            <tr key={valueName}>
-              <td>{valueName}</td>
-              <td>{value.toString()}</td>
-            </tr>
-          );
-        }
-      });
-    }
+          }
+        });
+    };
 
     return (
       <table>
@@ -64,13 +66,9 @@ class RaceData extends React.Component {
 
   render() {
     if (!isJson(this.props.raceData)) {
-      return <div></div>;
+      return <div />;
     } else {
-      return (
-        <div>
-          {this.createRecords()}
-        </div>
-      );
+      return <div>{this.createRecords()}</div>;
     }
   }
 }
@@ -85,8 +83,6 @@ const mapStateToProps = state => {
   };
 };
 
-const RaceDataContainer = connect(
-  mapStateToProps
-)(RaceData);
+const RaceDataContainer = connect(mapStateToProps)(RaceData);
 
 export default RaceDataContainer;

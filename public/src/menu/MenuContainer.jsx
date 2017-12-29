@@ -91,9 +91,7 @@ class Menu extends React.Component {
       <div style={this.getOuterMenuStyle()}>
         <div style={this.getInnerMenuStyle()}>
           <div style={this.getMenuItemListStyle()}>
-            <nav>
-              {this.createMenuItems()}
-            </nav>
+            <nav>{this.createMenuItems()}</nav>
           </div>
         </div>
       </div>
@@ -116,19 +114,13 @@ class Menu extends React.Component {
     ].map((v, i) => {
       if (v == this.props.currentContent) {
         return (
-          <div
-            key={i}
-            className={menuItem.activeMenuItem}
-            onClick={evt => this.handleMenuItemClick(evt, v)}>
+          <div key={i} className={menuItem.activeMenuItem} onClick={evt => this.handleMenuItemClick(evt, v)}>
             <p>{v}</p>
           </div>
         );
       } else {
         return (
-          <div
-            key={i}
-            className={menuItem.inactiveMenuItem}
-            onClick={evt => this.handleMenuItemClick(evt, v)}>
+          <div key={i} className={menuItem.inactiveMenuItem} onClick={evt => this.handleMenuItemClick(evt, v)}>
             <p>{v}</p>
           </div>
         );
@@ -137,13 +129,7 @@ class Menu extends React.Component {
   }
 
   createFilter() {
-    return (
-      <div
-        style={this.getFilterStyle()}
-        onClick={this.props.onFilterClick}
-      >
-      </div>
-    );
+    return <div style={this.getFilterStyle()} onClick={this.props.onFilterClick} />;
   }
 
   render() {
@@ -167,7 +153,7 @@ Menu.propTypes = {
   onMenuIconClick: PropTypes.func.isRequired,
   onMenuItemClick: PropTypes.func.isRequired,
   onFilterClick: PropTypes.func.isRequired
-}
+};
 
 const mapStateToProps = state => {
   return {
@@ -181,7 +167,7 @@ const mapDispatchToProps = dispatch => {
     onMenuIconClick: () => {
       dispatch(toggleMenu());
     },
-    onMenuItemClick: (selectedContent) => {
+    onMenuItemClick: selectedContent => {
       dispatch(currentContent(selectedContent));
       dispatch(toggleMenu());
     },
@@ -191,9 +177,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const MenuContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Menu);
+const MenuContainer = connect(mapStateToProps, mapDispatchToProps)(Menu);
 
 export default MenuContainer;

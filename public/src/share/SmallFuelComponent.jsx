@@ -13,10 +13,10 @@ export default class SmallFuelComponent extends React.Component {
     const props = this.props;
     const telemetryData = props.telemetryData;
     if (!isJson(telemetryData)) {
-      return <div></div>;
+      return <div />;
     }
 
-    const carState = telemetryData.carState; 
+    const carState = telemetryData.carState;
 
     return (
       <div className={style.fuelBox}>
@@ -35,4 +35,3 @@ export default class SmallFuelComponent extends React.Component {
 SmallFuelComponent.propTypes = {
   telemetryData: PropTypes.object.isRequired
 };
-

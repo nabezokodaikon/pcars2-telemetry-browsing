@@ -17,14 +17,14 @@
   height: 2rem;
   cursor: pointer;
   background: #80adfd;
-  transition: all .4s ease;
+  transition: all 0.4s ease;
 }
 
-.slideCheckBox > input[type=checkbox]:checked + label {
+.slideCheckBox > input[type='checkbox']:checked + label {
   left: 4.4rem;
 }
 
-.slideCheckBox > input[type=checkbox] {
+.slideCheckBox > input[type='checkbox'] {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;

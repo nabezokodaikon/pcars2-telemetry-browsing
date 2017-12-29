@@ -2,89 +2,69 @@ import { isJson, existsKey } from "./jsUtil.js";
 import * as telemetryConst from "./telemetryConst.js";
 
 export function isCarPhysics(json) {
-  return isJson(json)
-    && existsKey(json, "base")
-    && json.base.packetType == telemetryConst.CAR_PHYSICS;
+  return isJson(json) && existsKey(json, "base") && json.base.packetType == telemetryConst.CAR_PHYSICS;
 }
 
 export function isRaceDefinition(json) {
-  return isJson(json)
-    && existsKey(json, "base")
-    && json.base.packetType == telemetryConst.RACE_DEFINITION;
+  return isJson(json) && existsKey(json, "base") && json.base.packetType == telemetryConst.RACE_DEFINITION;
 }
 
 export function isParticipants(json) {
-  return isJson(json)
-    && existsKey(json, "base")
-    && json.base.packetType == telemetryConst.PARTICIPANTS;
+  return isJson(json) && existsKey(json, "base") && json.base.packetType == telemetryConst.PARTICIPANTS;
 }
 
 export function isTimings(json) {
-  return isJson(json)
-    && existsKey(json, "base")
-    && json.base.packetType == telemetryConst.TIMINGS;
+  return isJson(json) && existsKey(json, "base") && json.base.packetType == telemetryConst.TIMINGS;
 }
 
 export function isGameState(json) {
-  return isJson(json)
-    && existsKey(json, "base")
-    && json.base.packetType == telemetryConst.GAME_STATE;
+  return isJson(json) && existsKey(json, "base") && json.base.packetType == telemetryConst.GAME_STATE;
 }
 
 export function isWeatherState(json) {
-  return isJson(json)
-    && existsKey(json, "base")
-    && json.base.packetType == telemetryConst.WEATHER_STATE;
+  return isJson(json) && existsKey(json, "base") && json.base.packetType == telemetryConst.WEATHER_STATE;
 }
 
 export function isVehicleNames(json) {
-  return isJson(json)
-    && existsKey(json, "base")
-    && json.base.packetType == telemetryConst.VEHICLE_NAMES;
+  return isJson(json) && existsKey(json, "base") && json.base.packetType == telemetryConst.VEHICLE_NAMES;
 }
 
 export function isTimeStats(json) {
-  return isJson(json)
-    && existsKey(json, "base")
-    && json.base.packetType == telemetryConst.TIME_STATS;
+  return isJson(json) && existsKey(json, "base") && json.base.packetType == telemetryConst.TIME_STATS;
 }
 
 export function isParticipantVehicleNamesData(json) {
-  return isJson(json)
-    && existsKey(json, "base")
-    && json.base.packetType == telemetryConst.PARTICIPANT_VEHICLE_NAMES
-    && json.base.dataSize == telemetryConst.PARTICIPANT_VEHICLE_NAMES_DATA 
+  return (
+    isJson(json) &&
+    existsKey(json, "base") &&
+    json.base.packetType == telemetryConst.PARTICIPANT_VEHICLE_NAMES &&
+    json.base.dataSize == telemetryConst.PARTICIPANT_VEHICLE_NAMES_DATA
+  );
 }
 
 export function isVehicleClassNamesData(json) {
-  return isJson(json)
-    && existsKey(json, "base")
-    && json.base.packetType == telemetryConst.PARTICIPANT_VEHICLE_NAMES
-    && json.base.dataSize == telemetryConst.VEHICLE_CLASS_NAMES_DATA 
+  return (
+    isJson(json) &&
+    existsKey(json, "base") &&
+    json.base.packetType == telemetryConst.PARTICIPANT_VEHICLE_NAMES &&
+    json.base.dataSize == telemetryConst.VEHICLE_CLASS_NAMES_DATA
+  );
 }
 
 export function isLapTimeDetails(json) {
-  return isJson(json)
-    && existsKey(json, "base")
-    && json.base.packetType == telemetryConst.LAP_TIME_DETAILS;
+  return isJson(json) && existsKey(json, "base") && json.base.packetType == telemetryConst.LAP_TIME_DETAILS;
 }
 
 export function isAggregateTime(json) {
-  return isJson(json)
-    && existsKey(json, "base")
-    && json.base.packetType == telemetryConst.AGGREGATE_TIME;
+  return isJson(json) && existsKey(json, "base") && json.base.packetType == telemetryConst.AGGREGATE_TIME;
 }
 
 export function isFuelData(json) {
-  return isJson(json)
-    && existsKey(json, "base")
-    && json.base.packetType == telemetryConst.FUEL_DATA;
+  return isJson(json) && existsKey(json, "base") && json.base.packetType == telemetryConst.FUEL_DATA;
 }
 
 export function isTelemetrySummary(json) {
-  return isJson(json)
-    && existsKey(json, "base")
-    && json.base.packetType == telemetryConst.TELEMETRY_SUMMARY;
+  return isJson(json) && existsKey(json, "base") && json.base.packetType == telemetryConst.TELEMETRY_SUMMARY;
 }
 
 export function kmhToMIH(kmh) {
@@ -100,21 +80,21 @@ export function barToPSI(bar) {
 }
 
 export function getTempUnit(isCelsius) {
-  return (isCelsius ? "°C" : "ºF");
+  return isCelsius ? "°C" : "ºF";
 }
 
 export function getSpeedUnit(isMeter) {
-  return (isMeter ? "KM/H" : "MI/H");
+  return isMeter ? "KM/H" : "MI/H";
 }
 
 export function getAirPressureUnit(isBar) {
-  return (isBar ? "bar" : "psi");
+  return isBar ? "bar" : "psi";
 }
 
 export function getSpeed(speed, isMeter) {
-  return (isMeter ? Math.floor(speed) : kmhToMIH(speed))
+  return isMeter ? Math.floor(speed) : kmhToMIH(speed);
 }
 
 export function getTemp(temp, isCelsius) {
-  return (isCelsius ? Math.floor(temp) : celsiusToFahrenheit(temp))
+  return isCelsius ? Math.floor(temp) : celsiusToFahrenheit(temp);
 }

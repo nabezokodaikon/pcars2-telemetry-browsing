@@ -1,10 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { isJson } from "./jsUtil.js";
-import {
-  getSpeed,
-  getSpeedUnit
-} from "./telemetryUtil.js";
+import { getSpeed, getSpeedUnit } from "./telemetryUtil.js";
 import SmallGearComponent from "./SmallGearComponent.jsx";
 import style from "./smallContent.css";
 
@@ -17,12 +14,12 @@ export default class SmallSpeedComponent extends React.Component {
     const props = this.props;
     const telemetryData = props.telemetryData;
     if (!isJson(telemetryData)) {
-      return <div></div>;
+      return <div />;
     }
 
-    const carState = telemetryData.carState; 
+    const carState = telemetryData.carState;
     const isMeter = props.isMeter;
-    const speed = getSpeed(carState.speed, isMeter);      
+    const speed = getSpeed(carState.speed, isMeter);
     const unit = getSpeedUnit(isMeter);
 
     return (

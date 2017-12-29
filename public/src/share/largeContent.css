@@ -10,12 +10,12 @@
  * share
  ********************************/
 .header > span {
-  color: #C1D9F0;
+  color: #c1d9f0;
   font-family: 'Oswald', sans-serif;
 }
 
 .value > span {
-  color: #FFFFFF;
+  color: #ffffff;
   font-family: 'Inconsolata', monospace;
 }
 
