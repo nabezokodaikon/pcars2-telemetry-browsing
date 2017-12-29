@@ -62,6 +62,7 @@ object UdpStreamerPacketHandlerType {
   val AGGREGATE_TIME: Byte = 65
   val FUEL_DATA: Byte = 66
   val TELEMETRY_SUMMARY: Byte = 67
+  val REAL_TIME_GAP: Byte = 68
 }
 
 object PacketSize {
@@ -675,7 +676,7 @@ case class VehicleClassNamesData(
 }
 
 /*
- * Time Data
+ * Lap time data
  */
 case class LapTime(
     lap: String,
@@ -697,6 +698,14 @@ case class LapTimeDetails(
 ) extends UdpData {
   def toJsonString(): String = this.toJson.toString
 }
+
+/*
+ * Real time gap
+ */
+case class RealTimeGap(
+    gapTime: String,
+    isMinus: Boolean
+)
 
 /*
  * Aggregate time
