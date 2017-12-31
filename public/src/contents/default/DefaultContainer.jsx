@@ -60,7 +60,8 @@ class DefaultContent extends React.Component {
     const telemetryData = props.telemetryData;
     const timingsData = props.timingsData;
     const raceData = props.raceData;
-    if (!isJson(telemetryData) || !isJson(timingsData) || !isJson(raceData)) {
+    const realTimeGap = props.realTimeGap;
+    if (!isJson(telemetryData) || !isJson(timingsData) || !isJson(raceData) || !isJson(realTimeGap)) {
       return <div></div>;
     }
 
@@ -68,6 +69,22 @@ class DefaultContent extends React.Component {
     const lapCount = (raceData.isTimedSessions)
       ? participant.currentLap
       : participant.currentLap + "/" + raceData.lapsInEvent;
+
+    const gapTime = realTimeGap.gapTime;
+
+    const getGapStyle = time => {
+      const prefix = time.charAt(0);
+      const length = time.length;
+      if (length == 10) {
+        if (prefix == "+") {
+          return [style.currentLapGap, style.plusDelta].join(" ");
+        } else {
+          return [style.currentLapGap, style.minusDelta].join(" ");
+        }
+      } else {
+        return [style.currentLapGap, style.evenDelta].join(" ");
+      }
+    };
 
     return (
       <div className={[style.current, style.border].join(" ")}>
@@ -77,8 +94,13 @@ class DefaultContent extends React.Component {
         <div className={[style.currentLapCount, style.lap].join(" ")}>
           <span>{lapCount}</span>
         </div>
-        <div className={[style.currentLapTime, style.time].join(" ")}>
-          <span>{participant.currentTime}</span>
+        <div className={style.currentLapTimeBox}>
+          <div className={getGapStyle(gapTime)}>
+            <span>{gapTime}</span>
+          </div>
+          <div className={[style.currentLapTime, style.time].join(" ")}>
+            <span>{participant.currentTime}</span>
+          </div>
         </div>
       </div>
     );
@@ -207,6 +229,7 @@ DefaultContent.propTypes = {
   timingsData: PropTypes.object.isRequired,
   raceData: PropTypes.object.isRequired,
   lapTimeDetails: PropTypes.object.isRequired,
+  realTimeGap: PropTypes.object.isRequired,
   fuelData: PropTypes.object.isRequired,
   onContentClick: PropTypes.func.isRequired
 };
@@ -219,6 +242,7 @@ const mapStateToProps = state => {
     timingsData: data.timingsData,
     raceData: data.raceData,
     lapTimeDetails: data.lapTimeDetails,
+    realTimeGap: data.realTimeGap,
     fuelData: data.fuelData
   };
 };
