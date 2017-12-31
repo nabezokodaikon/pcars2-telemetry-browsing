@@ -2,25 +2,19 @@ import React from "react";
 import { render } from "react-dom";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
-import thunkMiddleware from 'redux-thunk'
-import appReducer from "./appReducer.js"
-import {
-  connectWebSocket,
-  requestAllOptions,
-  requestConnectionInfo,
-  currentContent
-} from "./appActionCreators.js"
+import thunkMiddleware from "redux-thunk";
+import appReducer from "./appReducer.js";
+import { connectWebSocket, requestAllOptions, requestConnectionInfo, currentContent } from "./appActionCreators.js";
 import DevelopMenuContainer from "./menu/DevelopMenuContainer.jsx";
 import DevelopContentsContainer from "./develop/DevelopContentsContainer.jsx";
 import * as contentNames from "./share/contentNames.js";
 
 const composeEnhancers =
-  typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({}) : compose;
+  typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
+    : compose;
 
-const enhancer = composeEnhancers(
-  applyMiddleware(thunkMiddleware)
-);
+const enhancer = composeEnhancers(applyMiddleware(thunkMiddleware));
 
 const store = createStore(appReducer, enhancer);
 
@@ -40,7 +34,7 @@ render(
   <Provider store={store}>
     <div>
       <DevelopMenuContainer />
-      <DevelopContentsContainer /> 
+      <DevelopContentsContainer />
     </div>
   </Provider>,
   document.getElementById("root")

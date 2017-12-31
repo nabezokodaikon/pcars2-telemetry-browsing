@@ -4,19 +4,19 @@ import * as contentNames from "./share/contentNames";
 
 function currentContent(state = contentNames.DEFAULT, action) {
   switch (action.type) {
-      case actionTypes.SELECTED_CONTENT:
-        return action.selectedContent;
-      default:
-        return state;
+    case actionTypes.SELECTED_CONTENT:
+      return action.selectedContent;
+    default:
+      return state;
   }
 }
 
 function isMenuVisible(state = false, action) {
   switch (action.type) {
-      case actionTypes.TOGGLE_MENU:
-        return !state;
-      default:
-        return state;
+    case actionTypes.TOGGLE_MENU:
+      return !state;
+    default:
+      return state;
   }
 }
 
@@ -49,7 +49,7 @@ const initialConnectionInfo = {
   ipAddress: "127.0.0.1",
   port: 9000,
   isGot: false
-}
+};
 
 function connectionInfo(state = initialConnectionInfo, action) {
   switch (action.type) {
@@ -62,7 +62,7 @@ function connectionInfo(state = initialConnectionInfo, action) {
     default:
       return state;
   }
-} 
+}
 
 function isWebSocketOpened(state = false, action) {
   switch (action.type) {

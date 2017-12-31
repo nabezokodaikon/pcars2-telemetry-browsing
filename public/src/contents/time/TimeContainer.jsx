@@ -20,13 +20,13 @@ const emptyRecord = {
   sector3: emptyTime,
   lapTime: emptyTime,
   delta: emptyTime
-}
+};
 
 const indexArray = [...Array(60).keys()];
 
 class TimeContent extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   getCurrentRecord() {
@@ -66,7 +66,7 @@ class TimeContent extends React.Component {
             sector3: emptyTime,
             lapTime: participant.currentTime,
             delta: emptyTime
-          }
+          };
         case 2:
           return {
             lap: participant.currentLap,
@@ -75,7 +75,7 @@ class TimeContent extends React.Component {
             sector3: emptyTime,
             lapTime: participant.currentTime,
             delta: emptyTime
-          }
+          };
         case 3:
           return {
             lap: participant.currentLap,
@@ -84,7 +84,7 @@ class TimeContent extends React.Component {
             sector3: participant.currentSectorTime,
             lapTime: participant.currentTime,
             delta: emptyTime
-          }
+          };
         default:
           return {
             lap: participant.currentLap,
@@ -93,13 +93,13 @@ class TimeContent extends React.Component {
             sector3: emptyTime,
             lapTime: participant.currentTime,
             delta: emptyTime
-          }
+          };
       }
     };
 
     const lapTimeDetails = this.props.lapTimeDetails;
     if (isJson(lapTimeDetails)) {
-      const current = lapTimeDetails.current; 
+      const current = lapTimeDetails.current;
       if (isJson(current)) {
         switch (participant.sector) {
           case 1:
@@ -110,7 +110,7 @@ class TimeContent extends React.Component {
               sector3: emptyTime,
               lapTime: participant.currentTime,
               delta: emptyTime
-            }
+            };
           case 2:
             return {
               lap: participant.currentLap,
@@ -119,7 +119,7 @@ class TimeContent extends React.Component {
               sector3: emptyTime,
               lapTime: participant.currentTime,
               delta: emptyTime
-            }
+            };
           case 3:
             return {
               lap: participant.currentLap,
@@ -128,7 +128,7 @@ class TimeContent extends React.Component {
               sector3: participant.currentSectorTime,
               lapTime: participant.currentTime,
               delta: emptyTime
-            }
+            };
           default:
             return {
               lap: participant.currentLap,
@@ -137,7 +137,7 @@ class TimeContent extends React.Component {
               sector3: emptyTime,
               lapTime: participant.currentTime,
               delta: emptyTime
-            }
+            };
         }
       } else {
         return getCurrentWidthoutLapTime();
@@ -170,7 +170,7 @@ class TimeContent extends React.Component {
   createTimeLogTable() {
     const lapTimeDetails = this.props.lapTimeDetails;
     if (!isJson(lapTimeDetails)) {
-      return <div className={style.timeLogTable}></div>;
+      return <div className={style.timeLogTable} />;
     }
 
     const getRecord = record => {
@@ -185,9 +185,9 @@ class TimeContent extends React.Component {
     const darkRecord = style.darkRecord;
     const history = lapTimeDetails.history;
     const length = history.length;
-    
+
     const records = indexArray.map(index => {
-      const className = (index % 2 == 0)? darkRecord: brightRecord; 
+      const className = index % 2 == 0 ? darkRecord : brightRecord;
       if (index < length) {
         return <RecordComponent key={index} className={className} name={""} record={history[length - (1 + index)]} />;
       } else {
@@ -195,11 +195,7 @@ class TimeContent extends React.Component {
       }
     });
 
-    return (
-      <div className={style.timeLogTable}>
-        {records}
-      </div>
-    );
+    return <div className={style.timeLogTable}>{records}</div>;
   }
 
   render() {
@@ -210,7 +206,11 @@ class TimeContent extends React.Component {
       <div className={shareStyle.contents}>
         <div className={shareStyle.topContents}>
           <HeaderComponent />
-          <RecordComponent className={[style.current, style.darkRecord].join(" ")} name={"CURRENT"} record={this.getCurrentRecord()} />
+          <RecordComponent
+            className={[style.current, style.darkRecord].join(" ")}
+            name={"CURRENT"}
+            record={this.getCurrentRecord()}
+          />
           {this.createTimeLogTable()}
           {this.createFastest()}
           {this.createAverage()}
@@ -245,14 +245,11 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onContentClick: () => {
-      dispatch(currentContent(contentNames.DEFAULT))
+      dispatch(currentContent(contentNames.DEFAULT));
     }
   };
 };
 
-const TimeContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TimeContent);
+const TimeContainer = connect(mapStateToProps, mapDispatchToProps)(TimeContent);
 
 export default TimeContainer;

@@ -6,7 +6,7 @@ import emptyStyle from "../../share/empty.css";
 
 class TyreContent extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   render() {
@@ -18,16 +18,12 @@ class TyreContent extends React.Component {
   }
 }
 
-TyreContent.propTypes = {
-};
+TyreContent.propTypes = {};
 
 const mapStateToProps = state => {
-  return {
-  };
+  return {};
 };
 
-const TyreContainer = connect(
-  mapStateToProps
-)(TyreContent);
+const TyreContainer = connect(mapStateToProps)(TyreContent);
 
 export default TyreContainer;

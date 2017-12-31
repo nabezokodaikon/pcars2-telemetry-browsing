@@ -32,7 +32,7 @@ class CreditsContent extends React.Component {
       height: "6rem",
       textAlign: "left",
       marginBottom: "2rem"
-    }
+    };
   }
 
   createCredits() {

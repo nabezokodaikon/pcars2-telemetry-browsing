@@ -28,10 +28,12 @@ export default class ButtonWithDescription extends React.Component {
           <input
             type="checkbox"
             className={style.input}
-            ref={input => { this.input = input; }}
+            ref={input => {
+              this.input = input;
+            }}
             onClick={this.handleClick}
           />
-        <span className={[style.span, this.props.color].join(" ")} />
+          <span className={[style.span, this.props.color].join(" ")} />
         </label>
         <span className={style.description}>{this.props.description}</span>
       </div>

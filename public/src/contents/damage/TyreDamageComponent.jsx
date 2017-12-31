@@ -44,4 +44,4 @@ TyreDamageComponent.propTypes = {
   header: PropTypes.string.isRequired,
   brake: PropTypes.string.isRequired,
   suspension: PropTypes.string.isRequired
-}
+};

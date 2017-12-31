@@ -29,7 +29,7 @@ function fetchPostByJson(json, url) {
 
 function fetchGet(url) {
   return fetch(url, {
-    method: "GET",
+    method: "GET"
   });
 }
 
@@ -37,98 +37,98 @@ export function receivedCarPhysics(receivedCarPhysics) {
   return {
     type: actionTypes.RECEIVED_CAR_PHYSICS,
     receivedCarPhysics
-  }
+  };
 }
 
 export function receivedRaceDefinition(receivedRaceDefinition) {
   return {
     type: actionTypes.RECEIVED_RACE_DEFINITION,
     receivedRaceDefinition
-  }
+  };
 }
 
 export function receivedParticipants(receivedParticipants) {
   return {
     type: actionTypes.RECEIVED_PARTICIPANTS,
     receivedParticipants
-  }
+  };
 }
 
 export function receivedTimings(receivedTimings) {
   return {
     type: actionTypes.RECEIVED_TIMINGS,
     receivedTimings
-  }
+  };
 }
 
 export function receivedGameState(receivedGameState) {
   return {
     type: actionTypes.RECEIVED_GAME_STATE,
     receivedGameState
-  }
+  };
 }
 
 export function receivedWeatherState(receivedWeatherState) {
   return {
     type: actionTypes.RECEIVED_WEATHER_STATE,
     receivedWeatherState
-  }
+  };
 }
 
 export function receivedVehicleNames(receivedVehicleNames) {
   return {
     type: actionTypes.RECEIVED_VEHICLE_NAMES,
     receivedVehicleNames
-  }
+  };
 }
 
 export function receivedTimeStats(receivedTimeStats) {
   return {
     type: actionTypes.RECEIVED_TIME_STATS,
     receivedTimeStats
-  }
+  };
 }
 
 export function receivedParticipantVehicleNamesData(receivedParticipantVehicleNamesData) {
   return {
     type: actionTypes.RECEIVED_PARTICIPANT_VEHICLE_NAMES_DATA,
     receivedParticipantVehicleNamesData
-  }
+  };
 }
 
 export function receivedVehicleClassNamesData(receivedVehicleClassNamesData) {
   return {
     type: actionTypes.RECEIVED_VEHICLE_CLASS_NAMES_DATA,
     receivedVehicleClassNamesData
-  }
+  };
 }
 
 export function receivedLapTimeDetails(receivedLapTimeDetails) {
   return {
     type: actionTypes.RECEIVED_LAP_TIME_DETAILS,
     receivedLapTimeDetails
-  }
+  };
 }
 
 export function receivedAggregateTime(receivedAggregateTime) {
   return {
     type: actionTypes.RECEIVED_AGGREGATE_TIME,
     receivedAggregateTime
-  }
+  };
 }
 
 export function receivedFuelData(receivedFuelData) {
   return {
     type: actionTypes.RECEIVED_FUEL_DATA,
     receivedFuelData
-  }
+  };
 }
 
 export function receivedTelemetrySummary(receivedTelemetrySummary) {
   return {
     type: actionTypes.RECEIVED_TELEMETRY_SUMMARY,
     receivedTelemetrySummary
-  }
+  };
 }
 
 export function receivedRealTimeGap(receivedRealTimeGap) {
@@ -189,7 +189,7 @@ export function requestButtonBoxCharChage(index, char) {
       .catch(error => {
         console.log(error.message);
       });
-  }
+  };
 }
 
 function changedButtonBoxDescription(index, description) {
@@ -212,7 +212,7 @@ export function requestButtonBoxDescriptionChage(index, description) {
       .catch(error => {
         console.log(error.message);
       });
-  }
+  };
 }
 
 export function chageButtonBoxDescription(index, description) {
@@ -220,7 +220,7 @@ export function chageButtonBoxDescription(index, description) {
     type: actionTypes.CHANGE_BUTTON_BOX_DESCRIPTION,
     index,
     description
-  }
+  };
 }
 
 function gotAllOptions(options) {
@@ -289,7 +289,7 @@ export function requestTempUnitChange(isCelsius) {
       .catch(error => {
         console.log(error.message);
       });
-  }
+  };
 }
 
 function changedDistanceUnit(isMeter) {
@@ -311,7 +311,7 @@ export function requestDistanceUnitChange(isMeter) {
       .catch(error => {
         console.log(error.message);
       });
-  }
+  };
 }
 
 function changedAirPressureUnit(isBar) {
@@ -333,14 +333,14 @@ export function requestAirPressureUnitChange(isBar) {
       .catch(error => {
         console.log(error.message);
       });
-  }
+  };
 }
 
 function openWebSocket(isWebSocketOpened) {
   return {
     type: actionTypes.OPEN_WEBSOCKET,
     isWebSocketOpened
-  }
+  };
 }
 
 async function beginConnectWebSocket(connectionInfo) {
@@ -361,43 +361,83 @@ export function connectWebSocket(connectionInfo) {
         ws.onclose = e => {
           // See http://tools.ietf.org/html/rfc6455#section-7.4.1
           if (event.code == 1000) {
-            console.log("WebSocket was closed. Status code: " + e.code + ": A normal closure, meaning that the purpose for which the connection was established has been fulfilled.");
-          }
-          else if(event.code == 1001) {
-            console.log("WebSocket was closed. Status code: " + e.code + ": An endpoint is 'going away', such as a server going down or a browser having navigated away from a page.");
-          }
-          else if(event.code == 1002) {
-            console.log("WebSocket was closed. Status code: " + e.code + ": An endpoint is terminating the connection due to a protocol error.");
-          }
-          else if(event.code == 1003) {
-            console.log("WebSocket was closed. Status code: " + e.code + ": An endpoint is terminating the connection because it has received a type of data it cannot accept (e.g., an endpoint that understands only text data MAY send this if it receives a binary message).");
-          }
-          else if(event.code == 1004) {
-            console.log("WebSocket was closed. Status code: " + e.code + ": Reserved. The specific meaning might be defined in the future.");
-          }
-          else if(event.code == 1005) {
-            console.log("WebSocket was closed. Status code: " + e.code + ": A reserved value and MUST NOT be set as a status code in a Close control frame by an endpoint.  It is designated for use in applications expecting a status code to indicate that no status code was actually present.");
-          }
-          else if(event.code == 1006) {
-            console.log("WebSocket was closed. Status code: " + e.code + ": A reserved value and MUST NOT be set as a status code in a Close control frame by an endpoint.  It is designated for use in applications expecting a status code to indicate that the connection was closed abnormally, e.g., without sending or receiving a Close control frame.");
-          }
-          else if(event.code == 1007) {
-            console.log("WebSocket was closed. Status code: " + e.code + ": An endpoint is terminating the connection because it has received data within a message that was not consistent with the type of the message (e.g., non-UTF-8 [RFC3629] data within a text message).");
-          }
-          else if(event.code == 1008) {
-            console.log("WebSocket was closed. Status code: " + e.code + ": An endpoint is terminating the connection because it has received a message that violates its policy.  This is a generic status code that can be returned when there is no other more suitable status code (e.g., 1003 or 1009) or if there is a need to hide specific details about the policy.");
-          }
-          else if(event.code == 1009) {
-            console.log("WebSocket was closed. Status code: " + e.code + ": An endpoint is terminating the connection because it has received a message that is too big for it to process.");
-          }
-          else if(event.code == 1010) {
-            console.log("WebSocket was closed. Status code: " + e.code + ": An endpoint (client) is terminating the connection because it has expected the server to negotiate one or more extension, but the server didn't return them in the response message of the WebSocket handshake.  The list of extensions that are needed SHOULD appear in the /reason/ part of the Close frame. Note that this status code is not used by the server, because it can fail the WebSocket handshake instead.");
-          }
-          else if(event.code == 1011) {
-            console.log("WebSocket was closed. Status code: " + e.code + ": A server is terminating the connection because it encountered an unexpected condition that prevented it from fulfilling the request.");
-          }
-          else if(event.code == 1015) {
-            console.log("WebSocket was closed. Status code: " + e.code + ": A reserved value and MUST NOT be set as a status code in a Close control frame by an endpoint.  It is designated for use in applications expecting a status code to indicate that the connection was closed due to a failure to perform a TLS handshake (e.g., the server certificate can't be verified).");
+            console.log(
+              "WebSocket was closed. Status code: " +
+                e.code +
+                ": A normal closure, meaning that the purpose for which the connection was established has been fulfilled."
+            );
+          } else if (event.code == 1001) {
+            console.log(
+              "WebSocket was closed. Status code: " +
+                e.code +
+                ": An endpoint is 'going away', such as a server going down or a browser having navigated away from a page."
+            );
+          } else if (event.code == 1002) {
+            console.log(
+              "WebSocket was closed. Status code: " +
+                e.code +
+                ": An endpoint is terminating the connection due to a protocol error."
+            );
+          } else if (event.code == 1003) {
+            console.log(
+              "WebSocket was closed. Status code: " +
+                e.code +
+                ": An endpoint is terminating the connection because it has received a type of data it cannot accept (e.g., an endpoint that understands only text data MAY send this if it receives a binary message)."
+            );
+          } else if (event.code == 1004) {
+            console.log(
+              "WebSocket was closed. Status code: " +
+                e.code +
+                ": Reserved. The specific meaning might be defined in the future."
+            );
+          } else if (event.code == 1005) {
+            console.log(
+              "WebSocket was closed. Status code: " +
+                e.code +
+                ": A reserved value and MUST NOT be set as a status code in a Close control frame by an endpoint.  It is designated for use in applications expecting a status code to indicate that no status code was actually present."
+            );
+          } else if (event.code == 1006) {
+            console.log(
+              "WebSocket was closed. Status code: " +
+                e.code +
+                ": A reserved value and MUST NOT be set as a status code in a Close control frame by an endpoint.  It is designated for use in applications expecting a status code to indicate that the connection was closed abnormally, e.g., without sending or receiving a Close control frame."
+            );
+          } else if (event.code == 1007) {
+            console.log(
+              "WebSocket was closed. Status code: " +
+                e.code +
+                ": An endpoint is terminating the connection because it has received data within a message that was not consistent with the type of the message (e.g., non-UTF-8 [RFC3629] data within a text message)."
+            );
+          } else if (event.code == 1008) {
+            console.log(
+              "WebSocket was closed. Status code: " +
+                e.code +
+                ": An endpoint is terminating the connection because it has received a message that violates its policy.  This is a generic status code that can be returned when there is no other more suitable status code (e.g., 1003 or 1009) or if there is a need to hide specific details about the policy."
+            );
+          } else if (event.code == 1009) {
+            console.log(
+              "WebSocket was closed. Status code: " +
+                e.code +
+                ": An endpoint is terminating the connection because it has received a message that is too big for it to process."
+            );
+          } else if (event.code == 1010) {
+            console.log(
+              "WebSocket was closed. Status code: " +
+                e.code +
+                ": An endpoint (client) is terminating the connection because it has expected the server to negotiate one or more extension, but the server didn't return them in the response message of the WebSocket handshake.  The list of extensions that are needed SHOULD appear in the /reason/ part of the Close frame. Note that this status code is not used by the server, because it can fail the WebSocket handshake instead."
+            );
+          } else if (event.code == 1011) {
+            console.log(
+              "WebSocket was closed. Status code: " +
+                e.code +
+                ": A server is terminating the connection because it encountered an unexpected condition that prevented it from fulfilling the request."
+            );
+          } else if (event.code == 1015) {
+            console.log(
+              "WebSocket was closed. Status code: " +
+                e.code +
+                ": A reserved value and MUST NOT be set as a status code in a Close control frame by an endpoint.  It is designated for use in applications expecting a status code to indicate that the connection was closed due to a failure to perform a TLS handshake (e.g., the server certificate can't be verified)."
+            );
           } else {
             console.log("WebSocket was closed. Received unknown status code: " + e.code);
           }
@@ -408,11 +448,11 @@ export function connectWebSocket(connectionInfo) {
         ws.onerror = e => {
           console.log("WebSocket was error occurred.");
           dispatch(openWebSocket(false));
-        }
+        };
 
         ws.onmessage = e => {
           try {
-            const json = JSON.parse(e.data)
+            const json = JSON.parse(e.data);
             if (isCarPhysics(json)) {
               dispatch(receivedCarPhysics(json));
             } else if (isRaceDefinition(json)) {
@@ -438,11 +478,11 @@ export function connectWebSocket(connectionInfo) {
             } else if (isAggregateTime(json)) {
               dispatch(receivedAggregateTime(json));
             } else if (isFuelData(json)) {
-              dispatch(receivedFuelData(json))
+              dispatch(receivedFuelData(json));
             } else if (isTelemetrySummary(json)) {
-              dispatch(receivedTelemetrySummary(json))
+              dispatch(receivedTelemetrySummary(json));
             } else if (isRealTimeGap(json)) {
-              dispatch(receivedRealTimeGap(json))
+              dispatch(receivedRealTimeGap(json));
             } else {
               console.log("WebSocket received unknown packet type data.");
             }
@@ -458,6 +498,6 @@ export function connectWebSocket(connectionInfo) {
       .catch(error => {
         console.log(error.message);
         dispatch(openWebSocket(false));
-      })
-  }
-} 
+      });
+  };
+}

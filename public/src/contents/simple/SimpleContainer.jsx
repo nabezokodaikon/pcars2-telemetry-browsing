@@ -13,7 +13,7 @@ import fuelIcon from "../../image/fuel.png";
 
 class SimpleContent extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   createData() {
@@ -21,20 +21,17 @@ class SimpleContent extends React.Component {
     const timingsData = this.props.timingsData;
     const raceData = this.props.raceData;
     if (!isJson(telemetryData) || !isJson(timingsData) || !isJson(raceData)) {
-      return <div></div>;
+      return <div />;
     }
 
-    const carState = telemetryData.carState; 
+    const carState = telemetryData.carState;
     const participant = timingsData.formatParticipants[telemetryData.participantInfo.viewedParticipantIndex];
 
     const eventTimeRemaining = timingsData.eventTimeRemaining;
-    const isTimedSessions = (eventTimeRemaining !== "--:--:--.---"); 
-    const lapsInEvent = (raceData.lapsInEvent > 0)
-      ? participant.currentLap + "/" + raceData.lapsInEvent
-      : participant.currentLap; 
-    const sessionText = (isTimedSessions)
-      ? eventTimeRemaining
-      : lapsInEvent
+    const isTimedSessions = eventTimeRemaining !== "--:--:--.---";
+    const lapsInEvent =
+      raceData.lapsInEvent > 0 ? participant.currentLap + "/" + raceData.lapsInEvent : participant.currentLap;
+    const sessionText = isTimedSessions ? eventTimeRemaining : lapsInEvent;
 
     return (
       <div className={simpleStyle.table}>
@@ -46,7 +43,9 @@ class SimpleContent extends React.Component {
           </div>
           <div className={simpleStyle.valueCell}>
             <div>
-              <span>{participant.racePosition}/{timingsData.numParticipants}</span>
+              <span>
+                {participant.racePosition}/{timingsData.numParticipants}
+              </span>
             </div>
           </div>
         </div>
@@ -115,7 +114,7 @@ SimpleContent.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const data = state.currentUdpData
+  const data = state.currentUdpData;
   return {
     isMeter: state.options.isMeter,
     telemetryData: data.telemetryData,
@@ -127,14 +126,11 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onContentsClick: () => {
-      dispatch(currentContent(contentNames.MOTEC))
+      dispatch(currentContent(contentNames.MOTEC));
     }
   };
 };
 
-const SimpleContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SimpleContent);
+const SimpleContainer = connect(mapStateToProps, mapDispatchToProps)(SimpleContent);
 
 export default SimpleContainer;

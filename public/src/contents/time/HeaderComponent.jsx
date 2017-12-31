@@ -10,7 +10,7 @@ export default class HeaderComponent extends React.Component {
     return (
       <div className={style.header}>
         <div className={style.titleHeader}>
-          <span></span>
+          <span />
         </div>
         <div className={style.lapHeader}>
           <span>LAP</span>

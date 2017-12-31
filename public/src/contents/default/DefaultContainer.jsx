@@ -18,7 +18,7 @@ class DefaultContent extends React.Component {
   createSession() {
     const timingsData = this.props.timingsData;
     if (!isJson(timingsData)) {
-      return <div></div>;
+      return <div />;
     }
 
     return (
@@ -38,7 +38,7 @@ class DefaultContent extends React.Component {
     const telemetryData = props.telemetryData;
     const timingsData = props.timingsData;
     if (!isJson(telemetryData) || !isJson(timingsData)) {
-      return <div></div>;
+      return <div />;
     }
 
     const participant = timingsData.formatParticipants[telemetryData.participantInfo.viewedParticipantIndex];
@@ -49,7 +49,9 @@ class DefaultContent extends React.Component {
           <span>POSITION</span>
         </div>
         <div className={[style.positionValue, shareStyle.value].join(" ")}>
-          <span>{participant.racePosition}/{timingsData.numParticipants}</span>
+          <span>
+            {participant.racePosition}/{timingsData.numParticipants}
+          </span>
         </div>
       </div>
     );
@@ -62,11 +64,11 @@ class DefaultContent extends React.Component {
     const raceData = props.raceData;
     const realTimeGap = props.realTimeGap;
     if (!isJson(telemetryData) || !isJson(timingsData) || !isJson(raceData) || !isJson(realTimeGap)) {
-      return <div></div>;
+      return <div />;
     }
 
     const participant = timingsData.formatParticipants[telemetryData.participantInfo.viewedParticipantIndex];
-    const lapCount = (raceData.isTimedSessions)
+    const lapCount = raceData.isTimedSessions
       ? participant.currentLap
       : participant.currentLap + "/" + raceData.lapsInEvent;
 
@@ -110,9 +112,7 @@ class DefaultContent extends React.Component {
     const props = this.props;
     const lapTimeDetails = props.lapTimeDetails;
     if (!isJson(lapTimeDetails)) {
-      return (
-        <div></div>
-      );
+      return <div />;
     }
 
     const getRecord = record => {
@@ -147,7 +147,7 @@ class DefaultContent extends React.Component {
     const props = this.props;
     const lapTimeDetails = props.lapTimeDetails;
     if (!isJson(lapTimeDetails)) {
-      return <div></div>;
+      return <div />;
     }
 
     const fastest = lapTimeDetails.fastest;
@@ -174,7 +174,7 @@ class DefaultContent extends React.Component {
     const props = this.props;
     const lapTimeDetails = props.lapTimeDetails;
     if (!isJson(lapTimeDetails)) {
-      return <div></div>;
+      return <div />;
     }
 
     const average = lapTimeDetails.average;
@@ -235,7 +235,7 @@ DefaultContent.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const data = state.currentUdpData
+  const data = state.currentUdpData;
   return {
     isMeter: state.options.isMeter,
     telemetryData: data.telemetryData,
@@ -250,14 +250,11 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onContentClick: () => {
-      dispatch(currentContent(contentNames.ENGINE))
+      dispatch(currentContent(contentNames.ENGINE));
     }
   };
 };
 
-const DefaultContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DefaultContent);
+const DefaultContainer = connect(mapStateToProps, mapDispatchToProps)(DefaultContent);
 
 export default DefaultContainer;

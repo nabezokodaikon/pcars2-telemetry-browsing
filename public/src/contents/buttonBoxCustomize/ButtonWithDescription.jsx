@@ -28,8 +28,13 @@ export default class ButtonWithDescription extends React.Component {
     return (
       <div className={style.buttonWithDescription}>
         <CharDropDown char={this.props.char} onChange={this.handleDropDownChange} />
-        <input type="text" maxLength="12" className={style.description}
-          ref={input => { this.input = input; }}
+        <input
+          type="text"
+          maxLength="12"
+          className={style.description}
+          ref={input => {
+            this.input = input;
+          }}
           onChange={this.handleInputChange}
           onBlur={this.handleInputBlur}
           value={this.props.description}

@@ -14,13 +14,13 @@ import engineIcon from "../../image/engine.png";
 
 class MotecContent extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   createData() {
     const props = this.props;
     const telemetryData = props.telemetryData;
-    const carState = telemetryData.carState; 
+    const carState = telemetryData.carState;
     const tyre3 = telemetryData.tyre3;
     const fuelData = props.fuelData;
     const isCelsius = props.isCelsius;
@@ -64,7 +64,8 @@ class MotecContent extends React.Component {
               </div>
             </div>
           </div>
-        </div> {/* record */}
+        </div>{" "}
+        {/* record */}
         <div className={motecStyle.record}>
           <div className={motecStyle.iconCell}>
             <div>
@@ -81,7 +82,8 @@ class MotecContent extends React.Component {
               <span>{carState.waterPressureKpa}kPa</span>
             </div>
           </div>
-        </div> {/* record */}
+        </div>{" "}
+        {/* record */}
         <div className={motecStyle.record}>
           <div className={motecStyle.iconCell}>
             <div>
@@ -98,7 +100,8 @@ class MotecContent extends React.Component {
               <span>{carState.oilPressureKPa}kPa</span>
             </div>
           </div>
-        </div> {/* record */}
+        </div>{" "}
+        {/* record */}
         <div className={motecStyle.record}>
           <div className={motecStyle.iconCell}>
             <div>
@@ -115,7 +118,8 @@ class MotecContent extends React.Component {
               <span>{tyre3.engineTorque}NM</span>
             </div>
           </div>
-        </div> {/* record */}
+        </div>{" "}
+        {/* record */}
       </div> // table
     );
   }
@@ -123,9 +127,7 @@ class MotecContent extends React.Component {
   render() {
     const props = this.props;
     if (!isJson(props.telemetryData) || !isJson(props.fuelData)) {
-      return (
-        <div></div>
-      );
+      return <div />;
     }
 
     return (
@@ -145,7 +147,7 @@ MotecContent.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const data = state.currentUdpData
+  const data = state.currentUdpData;
   return {
     isCelsius: state.options.isCelsius,
     isMeter: state.options.isMeter,
@@ -157,14 +159,11 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onContentsClick: () => {
-      dispatch(currentContent(contentNames.TIME))
+      dispatch(currentContent(contentNames.TIME));
     }
   };
 };
 
-const MotecContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MotecContent);
+const MotecContainer = connect(mapStateToProps, mapDispatchToProps)(MotecContent);
 
 export default MotecContainer;

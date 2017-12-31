@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  barToPSI,
-  celsiusToFahrenheit,
-  getAirPressureUnit,
-  getTempUnit
-} from "../../share/telemetryUtil.js";
+import { barToPSI, celsiusToFahrenheit, getAirPressureUnit, getTempUnit } from "../../share/telemetryUtil.js";
 import discBrakeIcon from "../../image/disc-brake.png";
 
 const WHITE = "#FEFEFE";
@@ -14,14 +9,13 @@ const GRAY = "#79838D";
 const GREEN = "#93C543";
 const BLUE = "#B0C1D1";
 
-function createTyreComponent(
-  x, y, width, height, srcTyreWear, tyreTempCelsius, airPressureBar, isCelsius, isBar) {
-  const tyreTemp = (isCelsius ?
-    tyreTempCelsius + getTempUnit(isCelsius) :
-    celsiusToFahrenheit(tyreTempCelsius) + getTempUnit(isCelsius));
-  const airPressure = (isBar ?
-    airPressureBar + getAirPressureUnit(isBar) :
-    barToPSI(airPressure) + getAirPressureUnit(isBar));
+function createTyreComponent(x, y, width, height, srcTyreWear, tyreTempCelsius, airPressureBar, isCelsius, isBar) {
+  const tyreTemp = isCelsius
+    ? tyreTempCelsius + getTempUnit(isCelsius)
+    : celsiusToFahrenheit(tyreTempCelsius) + getTempUnit(isCelsius);
+  const airPressure = isBar
+    ? airPressureBar + getAirPressureUnit(isBar)
+    : barToPSI(airPressure) + getAirPressureUnit(isBar);
   const tyreWear = Math.min(srcTyreWear * 100, 40);
 
   const tyreWidth = width * 0.5;
@@ -43,27 +37,13 @@ function createTyreComponent(
   const tyreTempX = x;
   const tyreTempY = y;
 
-  const airPressureX = x; 
+  const airPressureX = x;
   const airPressureY = height - valueHeight;
 
-  const tyre =
+  const tyre = (
     <g>
-      <rect
-        x={tyreX}
-        y={tyreY}
-        width={tyreWidth}
-        height={tyreHeight}
-        rx={tyreRadius}
-        ry={tyreRadius}
-        fill={GREEN}
-      />
-      <rect
-        x={tyreX}
-        y={tyreY}
-        width={tyreWidth}
-        height={tyreWearHeight}
-        fill={BLACK}
-      />
+      <rect x={tyreX} y={tyreY} width={tyreWidth} height={tyreHeight} rx={tyreRadius} ry={tyreRadius} fill={GREEN} />
+      <rect x={tyreX} y={tyreY} width={tyreWidth} height={tyreWearHeight} fill={BLACK} />
       <rect
         x={tyreX}
         y={tyreY}
@@ -75,34 +55,13 @@ function createTyreComponent(
         strokeWidth={1}
         fill="none"
       />
-      <line
-        x1={tyreLineLeft}
-        y1={tyreY}
-        x2={tyreLineLeft}
-        y2={tyreLineY2}
-        stroke={GRAY}
-      />
-      <line
-        x1={tyreLineCneter}
-        y1={tyreY}
-        x2={tyreLineCneter}
-        y2={tyreLineY2}
-        stroke={GRAY}
-      />
-      <line
-        x1={tyreLineRight}
-        y1={tyreY}
-        x2={tyreLineRight}
-        y2={tyreLineY2}
-        stroke={GRAY}
-      />
-    </g>;
-
-  return (
-    <g>
-      {tyre}
+      <line x1={tyreLineLeft} y1={tyreY} x2={tyreLineLeft} y2={tyreLineY2} stroke={GRAY} />
+      <line x1={tyreLineCneter} y1={tyreY} x2={tyreLineCneter} y2={tyreLineY2} stroke={GRAY} />
+      <line x1={tyreLineRight} y1={tyreY} x2={tyreLineRight} y2={tyreLineY2} stroke={GRAY} />
     </g>
   );
+
+  return <g>{tyre}</g>;
 }
 
 /*
@@ -119,12 +78,17 @@ export function createLeftTyreComponent(param) {
   const width = param.width;
   const height = param.height;
 
-  const tyre = createTyreComponent(0, 0, width / 2, height,
-    param.tyreWear, param.tyreTemp, param.airPressure, param.isCelsius, param.isBar)
-
-  return (
-    <g>
-      {tyre}
-    </g>
+  const tyre = createTyreComponent(
+    0,
+    0,
+    width / 2,
+    height,
+    param.tyreWear,
+    param.tyreTemp,
+    param.airPressure,
+    param.isCelsius,
+    param.isBar
   );
+
+  return <g>{tyre}</g>;
 }

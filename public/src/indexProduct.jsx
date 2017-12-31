@@ -2,14 +2,14 @@ import React from "react";
 import { render } from "react-dom";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
-import thunkMiddleware from 'redux-thunk'
-import appReducer from "./appReducer.js"
+import thunkMiddleware from "redux-thunk";
+import appReducer from "./appReducer.js";
 import {
   connectWebSocket,
   requestAllOptions,
   requestAllButtonBoxMappings,
   requestConnectionInfo
-} from "./appActionCreators.js"
+} from "./appActionCreators.js";
 import MenuContainer from "./menu/MenuContainer.jsx";
 import ContentsContainer from "./contents/ContentsContainer.jsx";
 

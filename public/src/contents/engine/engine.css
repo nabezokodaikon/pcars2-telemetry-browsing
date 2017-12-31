@@ -3,7 +3,7 @@
  */
 .icon {
   width: 4rem;
-  background-color: #BFD2E3;
+  background-color: #bfd2e3;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -51,7 +51,7 @@
 }
 
 .engine > .valueRecords > .valueRecord > .value > span {
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 1.5rem;
   font-family: 'Inconsolata', monospace;
 }
@@ -65,7 +65,7 @@
 }
 
 .engine > .valueRecords > .valueRecord > .unit > span {
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 1.5rem;
   font-family: 'Inconsolata', monospace;
 }
@@ -92,7 +92,7 @@
 
 .header > div:not(:first-child) {
   width: 7.5rem;
-  background-color: #BFD2E3;
+  background-color: #bfd2e3;
   border-right: solid;
   border-right-width: 0.1rem;
   border-right-color: #777777;
@@ -162,7 +162,7 @@
 .oil > .valueRecords > .valueRecord > div > .value > span,
 .water > .valueRecords > .valueRecord > div > .value > span,
 .fuel > .valueRecords > .valueRecord > div > .value > span {
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 1.5rem;
   font-family: 'Inconsolata', monospace;
 }
@@ -184,7 +184,7 @@
 .oil > .valueRecords > .valueRecord > div > .unit > span,
 .water > .valueRecords > .valueRecord > div > .unit > span,
 .fuel > .valueRecords > .valueRecord > div > .unit > span {
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 1.5rem;
   font-family: 'Inconsolata', monospace;
 }

@@ -50,7 +50,7 @@
 
 .iconCell,
 .iconCell > div {
-  background-color: #C1D9F0;
+  background-color: #c1d9f0;
 }
 
 .iconCell > div {
@@ -68,11 +68,11 @@
 .valueCell,
 .valueCell > div,
 .fuelDetailsTable {
-  background-color: #53524F;
+  background-color: #53524f;
 }
 
 .valueCell > div > span {
-  color: #E3E4E5;
+  color: #e3e4e5;
   font-family: 'Inconsolata', monospace;
   text-align: right;
 }
@@ -159,7 +159,7 @@
 
 .fuelDetailsHeaderCell {
   margin-left: -4.5rem;
-  background-color: #C1D9F0;
+  background-color: #c1d9f0;
 }
 
 .fuelDetailsHeaderCell,

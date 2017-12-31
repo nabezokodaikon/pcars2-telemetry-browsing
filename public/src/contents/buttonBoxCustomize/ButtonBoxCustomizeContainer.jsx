@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { 
+import {
   currentContent,
   requestAllButtonBoxMappings,
   requestButtonBoxCharChage,
@@ -10,8 +10,8 @@ import {
 } from "../../appActionCreators.js";
 import * as contentNames from "../../share/contentNames.js";
 import style from "./buttonBoxCustomize.css";
-import Button from "./Button.jsx"
-import ButtonWithDescription from "./ButtonWithDescription.jsx"
+import Button from "./Button.jsx";
+import ButtonWithDescription from "./ButtonWithDescription.jsx";
 
 class ButtonBoxCustomizeContent extends React.Component {
   constructor(props) {
@@ -30,14 +30,12 @@ class ButtonBoxCustomizeContent extends React.Component {
     const props = this.props;
     const mappings = props.mappings;
     if (mappings.length < 1) {
-      return <div></div>;
+      return <div />;
     }
 
     return (
       <div className={style.topContents}>
-
         <div className={style.leftButtons}>
-
           <div className={style.leftTopButtons}>
             <div>
               <div className={style.crossButtons}>
@@ -59,100 +57,146 @@ class ButtonBoxCustomizeContent extends React.Component {
               <span>EXIT</span>
             </div>
           </div>
-
-        </div> 
+        </div>
 
         <div className={style.rightButtons}>
           <div className={style.rightColumn}>
-            <ButtonWithDescription index={5} char={mappings[5].char} description={mappings[5].description}
+            <ButtonWithDescription
+              index={5}
+              char={mappings[5].char}
+              description={mappings[5].description}
               onCharChanged={this.props.onCharChanged}
               onDescriptionChanged={this.props.onDescriptionChanged}
               onDescriptionChange={this.props.onDescriptionChange}
             />
-            <ButtonWithDescription index={6} char={mappings[6].char} description={mappings[6].description}
+            <ButtonWithDescription
+              index={6}
+              char={mappings[6].char}
+              description={mappings[6].description}
               onCharChanged={this.props.onCharChanged}
               onDescriptionChanged={this.props.onDescriptionChanged}
               onDescriptionChange={this.props.onDescriptionChange}
             />
-            <ButtonWithDescription index={7} char={mappings[7].char} description={mappings[7].description}
+            <ButtonWithDescription
+              index={7}
+              char={mappings[7].char}
+              description={mappings[7].description}
               onCharChanged={this.props.onCharChanged}
               onDescriptionChanged={this.props.onDescriptionChanged}
               onDescriptionChange={this.props.onDescriptionChange}
             />
-            <ButtonWithDescription index={8} char={mappings[8].char} description={mappings[8].description}
-              onCharChanged={this.props.onCharChanged}
-              onDescriptionChanged={this.props.onDescriptionChanged}
-              onDescriptionChange={this.props.onDescriptionChange}
-            />
-          </div>
-          <div className={style.rightColumn}>
-            <ButtonWithDescription index={9} char={mappings[9].char} description={mappings[9].description}
-              onCharChanged={this.props.onCharChanged}
-              onDescriptionChanged={this.props.onDescriptionChanged}
-              onDescriptionChange={this.props.onDescriptionChange}
-            />
-            <ButtonWithDescription index={10} char={mappings[10].char} description={mappings[10].description}
-              onCharChanged={this.props.onCharChanged}
-              onDescriptionChanged={this.props.onDescriptionChanged}
-              onDescriptionChange={this.props.onDescriptionChange}
-            />
-            <ButtonWithDescription index={11} char={mappings[11].char} description={mappings[11].description}
-              onCharChanged={this.props.onCharChanged}
-              onDescriptionChanged={this.props.onDescriptionChanged}
-              onDescriptionChange={this.props.onDescriptionChange}
-            />
-            <ButtonWithDescription index={12} char={mappings[12].char} description={mappings[12].description}
+            <ButtonWithDescription
+              index={8}
+              char={mappings[8].char}
+              description={mappings[8].description}
               onCharChanged={this.props.onCharChanged}
               onDescriptionChanged={this.props.onDescriptionChanged}
               onDescriptionChange={this.props.onDescriptionChange}
             />
           </div>
           <div className={style.rightColumn}>
-            <ButtonWithDescription index={13} char={mappings[13].char} description={mappings[13].description}
+            <ButtonWithDescription
+              index={9}
+              char={mappings[9].char}
+              description={mappings[9].description}
               onCharChanged={this.props.onCharChanged}
               onDescriptionChanged={this.props.onDescriptionChanged}
               onDescriptionChange={this.props.onDescriptionChange}
             />
-            <ButtonWithDescription index={14} char={mappings[14].char} description={mappings[14].description}
+            <ButtonWithDescription
+              index={10}
+              char={mappings[10].char}
+              description={mappings[10].description}
               onCharChanged={this.props.onCharChanged}
               onDescriptionChanged={this.props.onDescriptionChanged}
               onDescriptionChange={this.props.onDescriptionChange}
             />
-            <ButtonWithDescription index={15} char={mappings[15].char} description={mappings[15].description}
+            <ButtonWithDescription
+              index={11}
+              char={mappings[11].char}
+              description={mappings[11].description}
               onCharChanged={this.props.onCharChanged}
               onDescriptionChanged={this.props.onDescriptionChanged}
               onDescriptionChange={this.props.onDescriptionChange}
             />
-            <ButtonWithDescription index={16} char={mappings[16].char} description={mappings[16].description}
+            <ButtonWithDescription
+              index={12}
+              char={mappings[12].char}
+              description={mappings[12].description}
               onCharChanged={this.props.onCharChanged}
               onDescriptionChanged={this.props.onDescriptionChanged}
               onDescriptionChange={this.props.onDescriptionChange}
             />
           </div>
           <div className={style.rightColumn}>
-            <ButtonWithDescription index={17} char={mappings[17].char} description={mappings[17].description}
+            <ButtonWithDescription
+              index={13}
+              char={mappings[13].char}
+              description={mappings[13].description}
               onCharChanged={this.props.onCharChanged}
               onDescriptionChanged={this.props.onDescriptionChanged}
               onDescriptionChange={this.props.onDescriptionChange}
             />
-            <ButtonWithDescription index={18} char={mappings[18].char} description={mappings[18].description}
+            <ButtonWithDescription
+              index={14}
+              char={mappings[14].char}
+              description={mappings[14].description}
               onCharChanged={this.props.onCharChanged}
               onDescriptionChanged={this.props.onDescriptionChanged}
               onDescriptionChange={this.props.onDescriptionChange}
             />
-            <ButtonWithDescription index={19} char={mappings[19].char} description={mappings[19].description}
+            <ButtonWithDescription
+              index={15}
+              char={mappings[15].char}
+              description={mappings[15].description}
               onCharChanged={this.props.onCharChanged}
               onDescriptionChanged={this.props.onDescriptionChanged}
               onDescriptionChange={this.props.onDescriptionChange}
             />
-            <ButtonWithDescription index={20} char={mappings[20].char} description={mappings[20].description}
+            <ButtonWithDescription
+              index={16}
+              char={mappings[16].char}
+              description={mappings[16].description}
+              onCharChanged={this.props.onCharChanged}
+              onDescriptionChanged={this.props.onDescriptionChanged}
+              onDescriptionChange={this.props.onDescriptionChange}
+            />
+          </div>
+          <div className={style.rightColumn}>
+            <ButtonWithDescription
+              index={17}
+              char={mappings[17].char}
+              description={mappings[17].description}
+              onCharChanged={this.props.onCharChanged}
+              onDescriptionChanged={this.props.onDescriptionChanged}
+              onDescriptionChange={this.props.onDescriptionChange}
+            />
+            <ButtonWithDescription
+              index={18}
+              char={mappings[18].char}
+              description={mappings[18].description}
+              onCharChanged={this.props.onCharChanged}
+              onDescriptionChanged={this.props.onDescriptionChanged}
+              onDescriptionChange={this.props.onDescriptionChange}
+            />
+            <ButtonWithDescription
+              index={19}
+              char={mappings[19].char}
+              description={mappings[19].description}
+              onCharChanged={this.props.onCharChanged}
+              onDescriptionChanged={this.props.onDescriptionChanged}
+              onDescriptionChange={this.props.onDescriptionChange}
+            />
+            <ButtonWithDescription
+              index={20}
+              char={mappings[20].char}
+              description={mappings[20].description}
               onCharChanged={this.props.onCharChanged}
               onDescriptionChanged={this.props.onDescriptionChanged}
               onDescriptionChange={this.props.onDescriptionChange}
             />
           </div>
         </div>
-
       </div>
     );
   }
@@ -196,9 +240,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const ButtonBoxCustomizeContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ButtonBoxCustomizeContent);
+const ButtonBoxCustomizeContainer = connect(mapStateToProps, mapDispatchToProps)(ButtonBoxCustomizeContent);
 
 export default ButtonBoxCustomizeContainer;

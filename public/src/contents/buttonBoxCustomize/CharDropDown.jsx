@@ -15,12 +15,15 @@ export default class CharDropDown extends React.Component {
 
   render() {
     return (
-      <select className={style.button}
-        ref={select => { this.select = select; }}
-        onChange={this.handleChange} 
+      <select
+        className={style.button}
+        ref={select => {
+          this.select = select;
+        }}
+        onChange={this.handleChange}
         defaultValue={this.props.char}
       >
-        <option value=""></option>
+        <option value="" />
         <option value="0">0</option>
         <option value="1">1</option>
         <option value="2">2</option>

@@ -4,12 +4,7 @@ import { connect } from "react-redux";
 import { currentContent } from "../../appActionCreators.js";
 import * as contentNames from "../../share/contentNames.js";
 import { isJson } from "../../share/jsUtil.js";
-import {
-  TYRE_FRONT_LEFT,
-  TYRE_FRONT_RIGHT,
-  TYRE_REAR_LEFT,
-  TYRE_REAR_RIGHT
-} from "../../share/telemetryConst.js";
+import { TYRE_FRONT_LEFT, TYRE_FRONT_RIGHT, TYRE_REAR_LEFT, TYRE_REAR_RIGHT } from "../../share/telemetryConst.js";
 import LargeGearComponent from "../../share/LargeGearComponent.jsx";
 import LargeFuelComponent from "../../share/LargeFuelComponent.jsx";
 import shareStyle from "../../share/largeContent.css";
@@ -26,7 +21,7 @@ class DamageContent extends React.Component {
     const props = this.props;
     const telemetryData = props.telemetryData;
     if (!isJson(telemetryData)) {
-      return <div></div>;
+      return <div />;
     }
 
     const carDamage = telemetryData.carDamage;
@@ -42,16 +37,8 @@ class DamageContent extends React.Component {
           </div>
           <div className={shareStyle.rightContents}>
             <div className={style.carDamage}>
-              <SingleDamageComponent
-                className={style.engineDamage}
-                header="ENGINE"
-                value={carDamage.engineDamage}
-              />
-              <SingleDamageComponent
-                className={style.aeroDamage}
-                header="AERO"
-                value={carDamage.aeroDamage}
-              />
+              <SingleDamageComponent className={style.engineDamage} header="ENGINE" value={carDamage.engineDamage} />
+              <SingleDamageComponent className={style.aeroDamage} header="AERO" value={carDamage.aeroDamage} />
             </div>
             <div className={style.tyreDamage}>
               <div className={style.frontTyre}>
@@ -101,7 +88,7 @@ DamageContent.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const data = state.currentUdpData
+  const data = state.currentUdpData;
   return {
     isMeter: state.options.isMeter,
     telemetryData: data.telemetryData,
@@ -112,14 +99,11 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onContentClick: () => {
-      dispatch(currentContent(contentNames.TIME))
+      dispatch(currentContent(contentNames.TIME));
     }
   };
 };
 
-const DamageContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DamageContent);
+const DamageContainer = connect(mapStateToProps, mapDispatchToProps)(DamageContent);
 
 export default DamageContainer;

@@ -6,7 +6,7 @@ import emptyStyle from "../../share/empty.css";
 
 class RankContent extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   render() {
@@ -18,16 +18,12 @@ class RankContent extends React.Component {
   }
 }
 
-RankContent.propTypes = {
-};
+RankContent.propTypes = {};
 
 const mapStateToProps = state => {
-  return {
-  };
+  return {};
 };
 
-const RankContainer = connect(
-  mapStateToProps
-)(RankContent);
+const RankContainer = connect(mapStateToProps)(RankContent);
 
 export default RankContainer;

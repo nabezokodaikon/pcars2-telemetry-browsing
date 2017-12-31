@@ -2,7 +2,7 @@
  * Share
  */
 .header {
-  background-color: #C1D9F0;
+  background-color: #c1d9f0;
   display: flex;
   justify-content: center;
 }
@@ -20,7 +20,7 @@
 }
 
 .value > span {
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 2rem;
   font-family: 'Inconsolata', monospace;
 }

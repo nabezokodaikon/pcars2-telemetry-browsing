@@ -2,12 +2,12 @@
  * share
  */
 .lap > span {
-  color: #FFFFFF;
+  color: #ffffff;
   font-family: 'Inconsolata', monospace;
 }
 
 .time > span {
-  color: #FFFFFF;
+  color: #ffffff;
   font-family: 'Inconsolata', monospace;
 }
 
@@ -52,7 +52,7 @@
   align-items: center;
 }
 
-.position> div > span {
+.position > div > span {
   font-size: 2.5rem;
 }
 
@@ -117,7 +117,7 @@
 }
 
 .currentLapTime > span {
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 2.5rem;
   font-family: 'Inconsolata', monospace;
 }
@@ -126,11 +126,11 @@
 }
 
 .plusGap {
-  background-color: #C14544;
+  background-color: #c14544;
 }
 
 .minusGap {
-  background-color: #90C143;
+  background-color: #90c143;
 }
 
 /*
@@ -185,17 +185,17 @@
 
 .evenDelta > span {
   font-family: 'Inconsolata', monospace;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .plusDelta > span {
   font-family: 'Inconsolata', monospace;
-  color: #C14544;
+  color: #c14544;
 }
 
 .minusDelta > span {
   font-family: 'Inconsolata', monospace;
-  color: #90C143;
+  color: #90c143;
 }
 
 /*

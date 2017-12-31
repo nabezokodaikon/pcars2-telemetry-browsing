@@ -10,7 +10,7 @@
   align-items: center;
 }
 
-.labelRight{
+.labelRight {
   display: flex;
   flex-direction: column;
 }
@@ -31,7 +31,7 @@
 
 .span:before {
   position: absolute;
-  content: "";
+  content: '';
   top: 0;
   left: 0;
   width: 4rem;
@@ -84,7 +84,7 @@
   }
   100% {
     transform: scale(8, 8);
-    opacity: 0.0;
+    opacity: 0;
   }
 }
 
@@ -106,5 +106,5 @@
   font-size: 1.5rem;
   font-family: 'Roboto Condensed', sans-serif;
   text-align: center;
-  color: #FFFFFF;
+  color: #ffffff;
 }

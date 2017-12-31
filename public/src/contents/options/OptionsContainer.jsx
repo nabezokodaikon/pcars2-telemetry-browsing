@@ -15,7 +15,7 @@ class OptionsContent extends React.Component {
     this.handleTempUnitCheckBoxChanged = this.handleTempUnitCheckBoxChanged.bind(this);
     this.handleDistanceUnitCheckBoxChanged = this.handleDistanceUnitCheckBoxChanged.bind(this);
     this.handleAirPressureUnitCheckBoxChanged = this.handleAirPressureUnitCheckBoxChanged.bind(this);
-    
+
     this.props.onRequestAllOptions();
   }
 
@@ -54,7 +54,7 @@ class OptionsContent extends React.Component {
       display: "block",
       width: "6rem",
       textAlign: "center"
-    }
+    };
   }
 
   createTempChangeContent() {
@@ -68,7 +68,7 @@ class OptionsContent extends React.Component {
             checked={this.props.isCelsius}
             onChange={this.handleTempUnitCheckBoxChanged}
           />
-          <label htmlFor="tempCheckBox"></label>
+          <label htmlFor="tempCheckBox" />
         </div>
         <span style={this.getSpanStyle()}>Celsius</span>
       </div>
@@ -86,7 +86,7 @@ class OptionsContent extends React.Component {
             checked={this.props.isMeter}
             onChange={this.handleDistanceUnitCheckBoxChanged}
           />
-          <label htmlFor="distanceCheckBox"></label>
+          <label htmlFor="distanceCheckBox" />
         </div>
         <span style={this.getSpanStyle()}>Meter</span>
       </div>
@@ -104,7 +104,7 @@ class OptionsContent extends React.Component {
             checked={this.props.isBar}
             onChange={this.handleAirPressureUnitCheckBoxChanged}
           />
-          <label htmlFor="airPressureCheckBox"></label>
+          <label htmlFor="airPressureCheckBox" />
         </div>
         <span style={this.getSpanStyle()}>bar</span>
       </div>
@@ -132,7 +132,7 @@ OptionsContent.propTypes = {
   onTempUnitChange: PropTypes.func.isRequired,
   onDistanceUnitChange: PropTypes.func.isRequired,
   onAirPressureUnitChange: PropTypes.func.isRequired
-}
+};
 
 const mapStateToProps = state => {
   const options = state.options;
@@ -160,9 +160,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const OptionsContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(OptionsContent);
+const OptionsContainer = connect(mapStateToProps, mapDispatchToProps)(OptionsContent);
 
 export default OptionsContainer;

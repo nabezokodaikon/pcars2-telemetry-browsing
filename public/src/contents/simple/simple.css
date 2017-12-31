@@ -47,7 +47,7 @@
 }
 
 .iconCell {
-  background-color: #C1D9F0;
+  background-color: #c1d9f0;
 }
 
 .iconCell > div {
@@ -55,7 +55,7 @@
   height: 6rem;
   margin-left: -1rem;
   margin-right: 1rem;
-  background-color: #C1D9F0;
+  background-color: #c1d9f0;
 }
 
 .iconCell > div > img {
@@ -65,14 +65,14 @@
 }
 
 .valueCell {
-  background-color: #53524F;
+  background-color: #53524f;
   width: 22.5rem;
 }
 
 .valueCell > div {
   width: 100%;
   height: 6rem;
-  background-color: #53524F;
+  background-color: #53524f;
   margin-left: 1rem;
   margin-right: -1rem;
   text-align: right;
@@ -80,14 +80,14 @@
 
 .valueCell > div > span {
   width: 100%;
-  color: #E3E4E5;
+  color: #e3e4e5;
   font-family: 'Inconsolata', monospace;
   font-size: 3rem;
   margin-right: 1rem;
 }
 
 .currentLap {
-  background-color: #53524F;
+  background-color: #53524f;
   margin-right: 0.2rem;
 }
 
@@ -98,20 +98,20 @@
 
 .currentLap > div > span {
   width: 100%;
-  color: #E3E4E5;
+  color: #e3e4e5;
   font-family: 'Inconsolata', monospace;
   font-size: 3rem;
   margin-right: 1rem;
 }
 
 .currentTime {
-  background-color: #53524F;
+  background-color: #53524f;
 }
 
 .currentTime > div {
   width: 15.3rem;
   height: 6rem;
-  background-color: #53524F;
+  background-color: #53524f;
   margin-left: 1rem;
   margin-right: -1rem;
   text-align: right;
@@ -119,7 +119,7 @@
 
 .currentTime > div > span {
   width: 100%;
-  color: #E3E4E5;
+  color: #e3e4e5;
   font-family: 'Inconsolata', monospace;
   font-size: 3rem;
   margin-right: 1rem;

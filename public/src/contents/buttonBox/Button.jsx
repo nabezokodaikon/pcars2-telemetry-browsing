@@ -27,7 +27,9 @@ export default class Button extends React.Component {
         <input
           type="checkbox"
           className={style.input}
-          ref={input => { this.input = input; }}
+          ref={input => {
+            this.input = input;
+          }}
           onClick={this.handleClick}
         />
         <span className={[style.span, this.props.color].join(" ")} />

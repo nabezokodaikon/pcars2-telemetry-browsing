@@ -50,11 +50,11 @@
 .timeHeader,
 .deltaHeader,
 .titleCell {
-  background-color: #C1D9F0;
+  background-color: #c1d9f0;
 }
 
 .lapCell {
-  background-color: #30CDFF;
+  background-color: #30cdff;
 }
 
 .darkRecord > .timeCell,
@@ -83,8 +83,7 @@
 .lapHeader > span,
 .timeHeader > span,
 .deltaHeader > span,
-.titleCell > span
-{
+.titleCell > span {
   font-family: 'Oswald', sans-serif;
 }
 
@@ -99,20 +98,20 @@
 .header > div > span,
 .titleCell > span,
 .lapCell > span {
-  color: #063B4B;
+  color: #063b4b;
 }
 
 .timeCell > span,
 .evenDeltaCell > span {
-  color: #E3E4E5;
+  color: #e3e4e5;
 }
 
 .plusDeltaCell > span {
-  color: #C14544;
+  color: #c14544;
 }
 
 .minusDeltaCell > span {
-  color: #90C143;
+  color: #90c143;
 }
 
 .titleHeader,
@@ -168,7 +167,6 @@
 .timeCell > span,
 .evenDeltaCell > span,
 .plusDeltaCell > span,
-.minusDeltaCell > span
-{
+.minusDeltaCell > span {
   margin-right: 0.5rem;
 }

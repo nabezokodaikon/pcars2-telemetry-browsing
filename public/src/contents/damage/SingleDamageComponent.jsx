@@ -28,4 +28,4 @@ SingleDamageComponent.propTypes = {
   className: PropTypes.string.isRequired,
   header: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired
-}
+};

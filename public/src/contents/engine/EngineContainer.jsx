@@ -19,13 +19,11 @@ const Engine = props => {
 
   return (
     <div className={style.engine}>
-
       <div className={style.icon}>
         <img src={engineIcon} />
       </div>
 
       <div className={style.valueRecords}>
-
         <div className={style.valueRecord}>
           <div className={style.value}>
             <span>{tyre3.enginePower}</span>
@@ -52,18 +50,15 @@ const Engine = props => {
             <span>rad/s</span>
           </div>
         </div>
-
       </div>
-
     </div>
   );
-}
+};
 
 const ValueTableHeader = props => {
   return (
     <div className={style.header}>
-      <div>
-      </div>
+      <div />
       <div>
         <span>CURRENT</span>
       </div>
@@ -75,7 +70,7 @@ const ValueTableHeader = props => {
       </div>
     </div>
   );
-}
+};
 
 const Oil = props => {
   const carState = props.carState;
@@ -84,13 +79,11 @@ const Oil = props => {
 
   return (
     <div className={style.oil}>
-
       <div className={style.icon}>
         <img src={oilIcon} />
       </div>
 
       <div className={style.valueRecords}>
-
         <div className={style.valueRecord}>
           <div>
             <div className={style.value}>
@@ -144,12 +137,10 @@ const Oil = props => {
             </div>
           </div>
         </div>
-
       </div>
-
     </div>
   );
-}
+};
 
 const Water = props => {
   const carState = props.carState;
@@ -158,13 +149,11 @@ const Water = props => {
 
   return (
     <div className={style.water}>
-
       <div className={style.icon}>
         <img src={waterIcon} />
       </div>
 
       <div className={style.valueRecords}>
-
         <div className={style.valueRecord}>
           <div>
             <div className={style.value}>
@@ -218,12 +207,10 @@ const Water = props => {
             </div>
           </div>
         </div>
-
       </div>
-
     </div>
   );
-}
+};
 
 const Fuel = props => {
   const carState = props.carState;
@@ -231,13 +218,11 @@ const Fuel = props => {
 
   return (
     <div className={style.fuel}>
-
       <div className={style.icon}>
         <img src={fuelIcon} />
       </div>
 
       <div className={style.valueRecords}>
-
         <div className={style.valueRecord}>
           <div>
             <div className={style.value}>
@@ -264,12 +249,10 @@ const Fuel = props => {
             </div>
           </div>
         </div>
-
       </div>
-
     </div>
   );
-}
+};
 
 class EngineContent extends React.Component {
   constructor(props) {
@@ -281,7 +264,7 @@ class EngineContent extends React.Component {
     const telemetryData = props.telemetryData;
     const telemetrySummary = props.telemetrySummary;
     if (!isJson(telemetryData) || !isJson(telemetrySummary)) {
-      return <div></div>;
+      return <div />;
     }
 
     const tyre3 = telemetryData.tyre3;
@@ -322,7 +305,7 @@ EngineContent.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const data = state.currentUdpData
+  const data = state.currentUdpData;
   return {
     isMeter: state.options.isMeter,
     isCelsius: state.options.isCelsius,
@@ -335,14 +318,11 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onContentClick: () => {
-      dispatch(currentContent(contentNames.DAMAGE))
+      dispatch(currentContent(contentNames.DAMAGE));
     }
   };
 };
 
-const EngineContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(EngineContent);
+const EngineContainer = connect(mapStateToProps, mapDispatchToProps)(EngineContent);
 
 export default EngineContainer;
