@@ -11,21 +11,6 @@
   font-family: 'Inconsolata', monospace;
 }
 
-.evenDelta > span {
-  font-family: 'Inconsolata', monospace;
-  color: #FFFFFF;
-}
-
-.plusDelta > span {
-  font-family: 'Inconsolata', monospace;
-  color: #C14544;
-}
-
-.minusDelta > span {
-  font-family: 'Inconsolata', monospace;
-  color: #90C143;
-}
-
 .border {
   border-bottom-width: 0.1rem;
   border-bottom-style: solid;
@@ -89,7 +74,7 @@
   font-size: 2.5rem;
 }
 
-.currentLap {
+.currentLapHeader {
   width: 10rem;
   margin-left: 0.5rem;
   display: flex;
@@ -111,23 +96,41 @@
 }
 
 .currentLapGap {
+  width: 100%;
   margin-bottom: 0.25rem;
   display: flex;
+  justify-content: center;
   align-items: center;
 }
 
 .currentLapGap > span {
+  color: #1b1d1e;
   font-size: 1.5rem;
+  font-family: 'Inconsolata', monospace;
 }
 
 .currentLapTime {
-  margin-right: 1rem;
+  width: 100%;
   display: flex;
+  justify-content: center;
   align-items: center;
 }
 
 .currentLapTime > span {
+  color: #FFFFFF;
   font-size: 2.5rem;
+  font-family: 'Inconsolata', monospace;
+}
+
+.evenGap {
+}
+
+.plusGap {
+  background-color: #C14544;
+}
+
+.minusGap {
+  background-color: #90C143;
 }
 
 /*
@@ -178,6 +181,21 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+}
+
+.evenDelta > span {
+  font-family: 'Inconsolata', monospace;
+  color: #FFFFFF;
+}
+
+.plusDelta > span {
+  font-family: 'Inconsolata', monospace;
+  color: #C14544;
+}
+
+.minusDelta > span {
+  font-family: 'Inconsolata', monospace;
+  color: #90C143;
 }
 
 /*

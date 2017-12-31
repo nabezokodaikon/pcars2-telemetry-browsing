@@ -77,18 +77,18 @@ class DefaultContent extends React.Component {
       const length = time.length;
       if (length == 10) {
         if (prefix == "+") {
-          return [style.currentLapGap, style.plusDelta].join(" ");
+          return [style.currentLapGap, style.plusGap].join(" ");
         } else {
-          return [style.currentLapGap, style.minusDelta].join(" ");
+          return [style.currentLapGap, style.minusGap].join(" ");
         }
       } else {
-        return [style.currentLapGap, style.evenDelta].join(" ");
+        return [style.currentLapGap, style.evenGap].join(" ");
       }
     };
 
     return (
       <div className={[style.current, style.border].join(" ")}>
-        <div className={[style.currentLap, shareStyle.header].join(" ")}>
+        <div className={[style.currentLapHeader, shareStyle.header].join(" ")}>
           <span>CURRENT</span>
         </div>
         <div className={[style.currentLapCount, style.lap].join(" ")}>
