@@ -1,20 +1,19 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
 @import url('https://fonts.googleapis.com/css?family=Oswald');
-@import url('https://fonts.googleapis.com/css?family=Inconsolata');
+@import url('https://fonts.googleapis.com/css?family=Inconsolata:400,700');
 
 * {
   margin: 0;
   padding: 0;
   border-width: 0;
   color: #565656;
-  font-size: 100%;
+  font-size: 1rem;
+  font-family: 'Oswald', sans-serif;
+  cursor: pointer;
 }
 
 *:focus {
   outline: none;
-}
-
-* {
-  cursor: "pointer"
 }
 
 html,
@@ -23,25 +22,25 @@ body {
   height: 100vh;
 }
 
-
 .contents {
   position: fixed;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
+  background-color: #1b1d1e;
 }
 
-/*
+/********************************
  * share
- */
+ ********************************/
 .header > span {
-  color: #C1D9F0;
+  color: #c1d9f0;
   font-family: 'Oswald', sans-serif;
 }
 
 .value > span {
-  color: #FFFFFF;
+  color: #ffffff;
   font-family: 'Inconsolata', monospace;
 }
 
@@ -51,7 +50,6 @@ body {
 .topContents {
   width: 100%;
   height: 100%;
-
   display: flex;
 }
 
@@ -61,14 +59,10 @@ body {
 .leftContents {
   width: 100%;
   height: 100%;
-  background-color: #000000;
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
-}
-
-.gear {
-  width: 100%;
-  height: 100%;
+  align-items: center;
 }
 
 /********************************
@@ -77,11 +71,11 @@ body {
 .rightContents {
   width: 100%;
   height: 100%;
-  background-color: #000000;
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
 }
+
 
 /*
  * share
@@ -112,9 +106,9 @@ body {
 }
 
 .border {
-  border-top-width: 0.2rem;
-  border-top-style: solid;
-  border-top-color: #777777;
+  border-bottom-width: 0.1rem;
+  border-bottom-style: solid;
+  border-bottom-color: #777777;
 }
 
 /*
@@ -126,7 +120,6 @@ body {
 }
 
 .session > div {
-  height: 3rem;
   display: flex;
   align-items: center;
 }
@@ -136,12 +129,8 @@ body {
 }
 
 .sessionHeader {
-  width: 9rem;
+  width: 10rem;
   margin-left: 0.5rem;
-}
-
-.sessionValue {
-  justify-content: flex-start;
 }
 
 /*
@@ -153,7 +142,6 @@ body {
 }
 
 .position > div {
-  height: 3rem;
   display: flex;
   align-items: center;
 }
@@ -163,12 +151,11 @@ body {
 }
 
 .positionHeader {
-  width: 9rem;
+  width: 10rem;
   margin-left: 0.5rem;
   display: flex;
   align-items: center;
 }
-
 
 /*
  * current
@@ -178,7 +165,6 @@ body {
 }
 
 .current > div {
-  height: 3rem;
 }
 
 .current > div > span {
@@ -186,7 +172,7 @@ body {
 }
 
 .currentLap {
-  width: 9rem;
+  width: 10rem;
   margin-left: 0.5rem;
   display: flex;
   align-items: center;
@@ -195,7 +181,6 @@ body {
 .currentLapCount {
   margin-right: 1rem;
   display: flex;
-  justify-content: flex-end;
   align-items: center;
 }
 
@@ -209,44 +194,42 @@ body {
  * timeLogs
  */
 .timeLogs {
-  border-top-width: 0.1rem;
-  border-top-style: solid;
-  border-top-color: #777777;
   display: flex;
   flex-direction: column;
 }
 
 .timeLogs > div {
-  border-top-width: 0.1rem;
-  border-top-style: solid;
-  border-top-color: #777777;
-  height: 2.5rem;
   display: flex;
 }
 
+.timeLogs > div:not(:last-child) {
+  border-bottom-width: 0.05rem;
+  border-bottom-style: solid;
+  border-bottom-color: #777777;
+}
+
 .timeLogs > div > div > span {
-  font-size: 1.75rem;
+  font-size: 2rem;
 }
 
 .timeLogLap {
-  width: 1.25rem;
   margin-left: 0.5rem;
-  margin-right: 0.5rem;
+  margin-right: 1rem;
   display: flex;
   align-items: center;
 }
 
 .timeLogLapCount {
-  width: 3.5rem;
+  width: 3rem;
+  margin-right: 1rem;
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
 
 .timeLogTime {
-  width: 9rem;
+  margin-right: 1rem;
   display: flex;
-  justify-content: flex-end;
   align-items: center;
 }
 
@@ -266,38 +249,36 @@ body {
 }
 
 .otherTime > div {
-  height: 2.5rem;
   display: flex;
   align-items: center;
 }
 
 .otherTime > div > span {
-  font-size: 1.75rem;
+  font-size: 2.25rem;
 }
 
 .otherTimeHeader {
-  width: 6rem;
+  width: 8rem;
   margin-left: 0.5rem;
+  align-items: center;
 }
 
 .otherTimeLap {
-  width: 1.25rem;
-  margin-right: 0.5rem;
+  margin-right: 1rem;
   display: flex;
   align-items: center;
 }
 
 .otherTimeLapCount {
-  width: 3.5rem;
+  width: 4rem;
+  margin-right: 1rem;
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
 
 .otherTimeTime {
-  width: 9rem;
   display: flex;
-  justify-content: flex-end;
   align-items: center;
 }
 
@@ -306,66 +287,6 @@ body {
  ********************************/
 .bottomContents {
   width: 100%;
-  height: 6rem;
+  height: 12rem;
   display: flex;
-}
-
-/*
- * fuel
- */
-.fuel {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  background-color: #000000;
-}
-
-.fuel > img {
-  width: 4rem;
-  height: 4rem;
-  margin-left: 0.5rem;
-}
-
-.fuelValue {
-  width: 10.5rem;
-  margin-left: 0.25rem;
-  text-align: right;
-}
-
-.fuelValue > span {
-  font-size: 3rem;
-}
-
-.fuelDetails {
-  margin-left: 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
-
-.fuelDetails > div {
-  display: flex;
-  align-items: center;
-}
-
-.fuelDetailsHeader {
-  width: 6rem;
-  font-size: 1.75rem;
-}
-
-.fuelDetailsValue {
-  width: 6rem;
-  margin-left: 0.25rem;
-  text-align: right;
-  font-size: 1.75rem;
-}
-
-/*
- * tyre
- */
-.tyre {
-  width: 100%;
-  height: 100%;
-  background-color: #222222;
 }
