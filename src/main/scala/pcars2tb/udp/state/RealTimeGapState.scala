@@ -3,6 +3,7 @@ package pcars2tb.udp.state
 import com.typesafe.scalalogging.LazyLogging
 import pcars2tb.util.BigDecimalSupport._
 import pcars2tb.udp.listener.{
+  RaceStateDefine,
   UdpStreamerPacketHandlerType,
   PacketBase,
   GameStateDefineValue,
@@ -161,8 +162,25 @@ final case class RealTimeGapState(
 
   private def mergeTimingsData(timingsData: TimingsData) = {
     val participantInfo = timingsData.participants(viewedParticipantIndex)
-    participantInfo.currentLap match {
+    if (participantInfo.raceState != RaceStateDefine.RACESTATE_RACING) this
+    else participantInfo.currentLap match {
       case lap if (lap < 1) => this
+      case lap if (lap == 1) =>
+        RealTimeGapState(
+          isMenu = isMenu,
+          isPlaying = isPlaying,
+          isRestart = isRestart,
+          viewedParticipantIndex = viewedParticipantIndex,
+          currentLap = participantInfo.currentLap,
+          currentList = currentList :+ TimeAndDistance(
+            time = participantInfo.currentTime,
+            distance = participantInfo.currentLapDistance
+          ),
+          lastList = lastList,
+          fastestTime = fastestTime,
+          fastestList = fastestList,
+          fastestRemainingList = fastestList
+        )
       case lap if (lap == currentLap) =>
         RealTimeGapState(
           isMenu = isMenu,
@@ -177,7 +195,7 @@ final case class RealTimeGapState(
           lastList = lastList,
           fastestTime = fastestTime,
           fastestList = fastestList,
-          fastestRemainingList = fastestRemainingList.dropWhile(a => a.distance <= participantInfo.currentLapDistance)
+          fastestRemainingList = fastestRemainingList.dropWhile(_.distance < participantInfo.currentLapDistance)
         )
       case _ =>
         RealTimeGapState(
