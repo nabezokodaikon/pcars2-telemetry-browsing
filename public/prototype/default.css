@@ -164,9 +164,6 @@ body {
   display: flex;
 }
 
-.current > div {
-}
-
 .current > div > span {
   font-size: 2.5rem;
 }
@@ -184,10 +181,31 @@ body {
   align-items: center;
 }
 
+.currentLapTimeBox {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.currentLapGap {
+  display: flex;
+  align-items: center;
+}
+
+.currentLapGap > span {
+  font-size: 1.5rem;
+}
+
 .currentLapTime {
   margin-right: 1rem;
   display: flex;
   align-items: center;
+}
+
+.currentLapTime > span {
+  font-size: 2.5rem;
 }
 
 /*
