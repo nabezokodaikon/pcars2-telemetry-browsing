@@ -6,7 +6,7 @@
   "scripts": {
     "build": "./node_modules/.bin/webpack --config webpack.debug.config.babel.js",
     "product": "./node_modules/.bin/webpack --config webpack.product.config.babel.js",
-    "prettier": "./node_modules/.bin/prettier --config ./.prettierrc --write public/src/**/*.js && ./node_modules/.bin/prettier --config ./.prettierrc --write public/src/**/*.jsx && ./node_modules/.bin/prettier --config ./.prettierrc --write public/src/**/*.css && git add public/src/"
+    "prettier": "./node_modules/.bin/prettier --config ./.prettierrc --write \"public/src/**/*.js\"; ./node_modules/.bin/prettier --config ./.prettierrc --write \"public/src/**/*.jsx\"; ./node_modules/.bin/prettier --config ./.prettierrc --write \"public/src/**/*.css\""
   },
   "repository": {
     "type": "git",
