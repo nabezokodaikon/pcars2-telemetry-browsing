@@ -27,7 +27,7 @@ final object RealTimeGapState {
     categoryPacketNumber = 0,
     partialPacketIndex = 0,
     partialPacketNumber = 0,
-    packetType = UdpStreamerPacketHandlerType.LAP_TIME_DETAILS,
+    packetType = UdpStreamerPacketHandlerType.REAL_TIME_GAP,
     packetVersion = 0,
     dataTimestamp = System.currentTimeMillis,
     dataSize = 0
@@ -101,17 +101,14 @@ final case class RealTimeGapState(
     (currentList.lastOption, fastestRemainingList.headOption) match {
       case (Some(current), Some(fastest)) =>
         val gapTime = current.time - fastest.time
-        val isMinus = (gapTime < 0)
         RealTimeGap(
           base = base,
-          gapTime = gapTime.toMinuteFormatFromSecondsWithSigned,
-          isMinus = isMinus
+          gapTime = gapTime.toMinuteFormatFromSecondsWithSigned
         )
       case _ =>
         RealTimeGap(
           base = base,
-          gapTime = "--:--.---",
-          isMinus = true
+          gapTime = "--:--.---"
         )
     }
 
@@ -164,47 +161,63 @@ final case class RealTimeGapState(
 
   private def mergeTimingsData(timingsData: TimingsData) = {
     val participantInfo = timingsData.participants(viewedParticipantIndex)
-    if (currentLap == participantInfo.currentLap) {
-      RealTimeGapState(
-        isMenu = isMenu,
-        isPlaying = isPlaying,
-        isRestart = isRestart,
-        viewedParticipantIndex = viewedParticipantIndex,
-        currentLap = currentLap,
-        currentList = currentList :+ TimeAndDistance(
-          time = participantInfo.currentTime,
-          distance = participantInfo.currentLapDistance
-        ),
-        lastList = lastList,
-        fastestTime = fastestTime,
-        fastestList = fastestList,
-        fastestRemainingList = fastestRemainingList.dropWhile(a => a.distance <= participantInfo.currentLapDistance)
-      )
-    } else {
-      RealTimeGapState(
-        isMenu = isMenu,
-        isPlaying = isPlaying,
-        isRestart = isRestart,
-        viewedParticipantIndex = viewedParticipantIndex,
-        currentLap = participantInfo.currentLap,
-        currentList = emptyTimeAndDistanceList :+ TimeAndDistance(
-          time = participantInfo.currentTime,
-          distance = participantInfo.currentLapDistance
-        ),
-        lastList = Some(currentList),
-        fastestTime = fastestTime,
-        fastestList = fastestList,
-        fastestRemainingList = fastestList
-      )
+    participantInfo.currentLap match {
+      case lap if (lap < 1) => this
+      case lap if (lap == currentLap) =>
+        RealTimeGapState(
+          isMenu = isMenu,
+          isPlaying = isPlaying,
+          isRestart = isRestart,
+          viewedParticipantIndex = viewedParticipantIndex,
+          currentLap = currentLap,
+          currentList = currentList :+ TimeAndDistance(
+            time = participantInfo.currentTime,
+            distance = participantInfo.currentLapDistance
+          ),
+          lastList = lastList,
+          fastestTime = fastestTime,
+          fastestList = fastestList,
+          fastestRemainingList = fastestRemainingList.dropWhile(a => a.distance <= participantInfo.currentLapDistance)
+        )
+      case _ =>
+        RealTimeGapState(
+          isMenu = isMenu,
+          isPlaying = isPlaying,
+          isRestart = isRestart,
+          viewedParticipantIndex = viewedParticipantIndex,
+          currentLap = participantInfo.currentLap,
+          currentList = emptyTimeAndDistanceList :+ TimeAndDistance(
+            time = participantInfo.currentTime,
+            distance = participantInfo.currentLapDistance
+          ),
+          lastList = Some(currentList),
+          fastestTime = fastestTime,
+          fastestList = fastestList,
+          fastestRemainingList = fastestList
+        )
     }
   }
 
   private def mergeTimeStatsData(timeStatsData: TimeStatsData) = {
-    lastList match {
+    val stat = timeStatsData.stats.participants(viewedParticipantIndex)
+    if (stat.lastLapTime < 0f) this
+    else lastList match {
       case Some(last) =>
-        val stat = timeStatsData.stats.participants(viewedParticipantIndex)
         fastestTime match {
-          case Some(fastest) if (stat.lastLapTime >= fastest) =>
+          case Some(fastest) if (fastest > stat.lastLapTime) =>
+            RealTimeGapState(
+              isMenu = isMenu,
+              isPlaying = isPlaying,
+              isRestart = isRestart,
+              viewedParticipantIndex = viewedParticipantIndex,
+              currentLap = currentLap,
+              currentList = currentList,
+              lastList = None,
+              fastestTime = Some(stat.lastLapTime),
+              fastestList = last,
+              fastestRemainingList = last
+            )
+          case Some(_) =>
             RealTimeGapState(
               isMenu = isMenu,
               isPlaying = isPlaying,

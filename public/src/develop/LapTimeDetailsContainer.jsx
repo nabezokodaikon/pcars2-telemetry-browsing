@@ -96,6 +96,13 @@ class LapTimeDetails extends React.Component {
           {createRecord(this.props.lapTimeDetails.fastest, "fastest lap")}
           {createRecord(this.props.lapTimeDetails.average, "average")}
           {history()}
+          <tr>
+            <td>RealTimeGap</td>
+          </tr>
+          <tr>
+            <td>gapTime</td>
+            <td>{this.props.realTimeGap.gapTime}</td>
+          </tr>
         </tbody>
       </table>
     );
@@ -104,6 +111,7 @@ class LapTimeDetails extends React.Component {
   render() {
     if (
       !isJson(this.props.lapTimeDetails) ||
+      !isJson(this.props.realTimeGap) ||
       /* || !isJson(this.props.aggregateTime) */
       !isJson(this.props.fuelData)
     ) {
@@ -116,6 +124,7 @@ class LapTimeDetails extends React.Component {
 
 LapTimeDetails.propTypes = {
   lapTimeDetails: PropTypes.object.isRequired,
+  realTimeGap: PropTypes.object.isRequired,
   aggregateTime: PropTypes.object.isRequired,
   fuelData: PropTypes.object.isRequired
 };
@@ -123,6 +132,7 @@ LapTimeDetails.propTypes = {
 const mapStateToProps = state => {
   return {
     lapTimeDetails: state.currentUdpData.lapTimeDetails,
+    realTimeGap: state.currentUdpData.realTimeGap,
     aggregateTime: state.currentUdpData.aggregateTime,
     fuelData: state.currentUdpData.fuelData
   };

@@ -36,7 +36,7 @@ object UdpDataJsonProtocol extends DefaultJsonProtocol {
 
   implicit val lapTimeFormat = jsonFormat6(LapTime)
   implicit val lapTimeDetailsFormat = jsonFormat7(LapTimeDetails)
-  implicit val realTimeGapFormat = jsonFormat3(RealTimeGap)
+  implicit val realTimeGapFormat = jsonFormat2(RealTimeGap)
   implicit val aggregateTimeFormat = jsonFormat3(AggregateTime)
   implicit val fuelDataFormat = jsonFormat3(FuelData)
   implicit val engineSummaryFormat = jsonFormat10(EngineSummary)
@@ -705,8 +705,7 @@ case class LapTimeDetails(
  */
 case class RealTimeGap(
     base: PacketBase,
-    gapTime: String,
-    isMinus: Boolean
+    gapTime: String
 ) extends UdpData {
   def toJsonString(): String = this.toJson.toString
 }

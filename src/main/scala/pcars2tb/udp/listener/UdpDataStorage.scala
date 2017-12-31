@@ -9,6 +9,7 @@ final case class Storage(
     participantVehicleNamesData: Option[(ParticipantVehicleNamesData, String)],
     vehicleClassNamesData: Option[(VehicleClassNamesData, String)],
     lapTimeDetails: Option[(LapTimeDetails, String)],
+    realTimeGap: Option[(RealTimeGap, String)],
     aggregateTime: Option[(AggregateTime, String)],
     fuelData: Option[(FuelData, String)],
     telemetrySummary: Option[(TelemetrySummary, String)]
@@ -32,6 +33,7 @@ final class UdpDataStorage()
     participantVehicleNamesData = None,
     vehicleClassNamesData = None,
     lapTimeDetails = None,
+    realTimeGap = None,
     aggregateTime = None,
     fuelData = None,
     telemetrySummary = None
@@ -46,6 +48,7 @@ final class UdpDataStorage()
           participantVehicleNamesData = storage.participantVehicleNamesData,
           vehicleClassNamesData = storage.vehicleClassNamesData,
           lapTimeDetails = storage.lapTimeDetails,
+          realTimeGap = storage.realTimeGap,
           aggregateTime = storage.aggregateTime,
           fuelData = storage.fuelData,
           telemetrySummary = storage.telemetrySummary
@@ -57,6 +60,7 @@ final class UdpDataStorage()
           participantVehicleNamesData = storage.participantVehicleNamesData,
           vehicleClassNamesData = storage.vehicleClassNamesData,
           lapTimeDetails = storage.lapTimeDetails,
+          realTimeGap = storage.realTimeGap,
           aggregateTime = storage.aggregateTime,
           fuelData = storage.fuelData,
           telemetrySummary = storage.telemetrySummary
@@ -68,6 +72,7 @@ final class UdpDataStorage()
           participantVehicleNamesData = Some((udpData, json)),
           vehicleClassNamesData = storage.vehicleClassNamesData,
           lapTimeDetails = storage.lapTimeDetails,
+          realTimeGap = storage.realTimeGap,
           aggregateTime = storage.aggregateTime,
           fuelData = storage.fuelData,
           telemetrySummary = storage.telemetrySummary
@@ -79,6 +84,7 @@ final class UdpDataStorage()
           participantVehicleNamesData = storage.participantVehicleNamesData,
           vehicleClassNamesData = Some((udpData, json)),
           lapTimeDetails = storage.lapTimeDetails,
+          realTimeGap = storage.realTimeGap,
           aggregateTime = storage.aggregateTime,
           fuelData = storage.fuelData,
           telemetrySummary = storage.telemetrySummary
@@ -90,6 +96,19 @@ final class UdpDataStorage()
           participantVehicleNamesData = storage.participantVehicleNamesData,
           vehicleClassNamesData = storage.vehicleClassNamesData,
           lapTimeDetails = Some((udpData, json)),
+          realTimeGap = storage.realTimeGap,
+          aggregateTime = storage.aggregateTime,
+          fuelData = storage.fuelData,
+          telemetrySummary = storage.telemetrySummary
+        )))
+      case udpData: RealTimeGap =>
+        context.become(processing(Storage(
+          raceData = storage.raceData,
+          participantsData = storage.participantsData,
+          participantVehicleNamesData = storage.participantVehicleNamesData,
+          vehicleClassNamesData = storage.vehicleClassNamesData,
+          lapTimeDetails = storage.lapTimeDetails,
+          realTimeGap = Some((udpData, json)),
           aggregateTime = storage.aggregateTime,
           fuelData = storage.fuelData,
           telemetrySummary = storage.telemetrySummary
@@ -101,6 +120,7 @@ final class UdpDataStorage()
           participantVehicleNamesData = storage.participantVehicleNamesData,
           vehicleClassNamesData = storage.vehicleClassNamesData,
           lapTimeDetails = storage.lapTimeDetails,
+          realTimeGap = storage.realTimeGap,
           aggregateTime = Some((udpData, json)),
           fuelData = storage.fuelData,
           telemetrySummary = storage.telemetrySummary
@@ -112,6 +132,7 @@ final class UdpDataStorage()
           participantVehicleNamesData = storage.participantVehicleNamesData,
           vehicleClassNamesData = storage.vehicleClassNamesData,
           lapTimeDetails = storage.lapTimeDetails,
+          realTimeGap = storage.realTimeGap,
           aggregateTime = storage.aggregateTime,
           fuelData = Some((udpData, json)),
           telemetrySummary = storage.telemetrySummary
@@ -123,6 +144,7 @@ final class UdpDataStorage()
           participantVehicleNamesData = storage.participantVehicleNamesData,
           vehicleClassNamesData = storage.vehicleClassNamesData,
           lapTimeDetails = storage.lapTimeDetails,
+          realTimeGap = storage.realTimeGap,
           aggregateTime = storage.aggregateTime,
           fuelData = storage.fuelData,
           telemetrySummary = Some((udpData, json))
@@ -139,6 +161,8 @@ final class UdpDataStorage()
       for ((_, json) <- storage.vehicleClassNamesData) client ! json
       Thread.sleep(10)
       for ((_, json) <- storage.lapTimeDetails) client ! json
+      Thread.sleep(10)
+      for ((_, json) <- storage.realTimeGap) client ! json
       Thread.sleep(10)
       for ((_, json) <- storage.aggregateTime) client ! json
       Thread.sleep(10)

@@ -12,7 +12,8 @@ import {
   isLapTimeDetails,
   isAggregateTime,
   isFuelData,
-  isTelemetrySummary
+  isTelemetrySummary,
+  isRealTimeGap
 } from "./share/telemetryUtil.js";
 import * as actionTypes from "./appActionTypes.js";
 
@@ -128,6 +129,13 @@ export function receivedTelemetrySummary(receivedTelemetrySummary) {
     type: actionTypes.RECEIVED_TELEMETRY_SUMMARY,
     receivedTelemetrySummary
   }
+}
+
+export function receivedRealTimeGap(receivedRealTimeGap) {
+  return {
+    type: actionTypes.RECEIVED_REAL_TIME_GAP,
+    receivedRealTimeGap
+  };
 }
 
 export function currentContent(selectedContent) {
@@ -433,6 +441,8 @@ export function connectWebSocket(connectionInfo) {
               dispatch(receivedFuelData(json))
             } else if (isTelemetrySummary(json)) {
               dispatch(receivedTelemetrySummary(json))
+            } else if (isRealTimeGap(json)) {
+              dispatch(receivedRealTimeGap(json))
             } else {
               console.log("WebSocket received unknown packet type data.");
             }

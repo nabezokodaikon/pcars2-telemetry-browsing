@@ -6,6 +6,7 @@ import pcars2tb.udp.state.{
   FuelDataState,
   TimeAggregateState,
   LapTimeDetailsState,
+  RealTimeGapState,
   TelemetrySummaryState
 }
 
@@ -13,6 +14,7 @@ final case class FactoryState(
     fuelData: FuelDataState,
     timeAggreate: TimeAggregateState,
     lapTimeDetails: LapTimeDetailsState,
+    realTimeGap: RealTimeGapState,
     telemetrySummary: TelemetrySummaryState
 )
 
@@ -32,6 +34,7 @@ final class UdpDataConverter(clientManager: ActorRef) extends Actor with LazyLog
         fuelData = FuelDataState.createInitialState(udpData),
         timeAggreate = TimeAggregateState.createInitialState(udpData),
         lapTimeDetails = LapTimeDetailsState.createInitialState(udpData),
+        realTimeGap = RealTimeGapState.createInitialState(udpData),
         telemetrySummary = TelemetrySummaryState.createInitialState(udpData)
       )))
   }
@@ -47,6 +50,9 @@ final class UdpDataConverter(clientManager: ActorRef) extends Actor with LazyLog
       val (lapTimeDetails, udpLapTimeDetails) = state.lapTimeDetails.createNextState(udpData)
       for (d <- udpLapTimeDetails) clientManager ! d
 
+      val (realTimeGap, udpRealTimeGap) = state.realTimeGap.createNextState(udpData)
+      for (d <- udpRealTimeGap) clientManager ! d
+
       val (telemetrySummary, udpTelemetrySummary) = state.telemetrySummary.createNextState(udpData)
       for (d <- udpTelemetrySummary) clientManager ! d
 
@@ -54,6 +60,7 @@ final class UdpDataConverter(clientManager: ActorRef) extends Actor with LazyLog
         fuelData = fuelData,
         timeAggreate = timeAggreate,
         lapTimeDetails = lapTimeDetails,
+        realTimeGap = realTimeGap,
         telemetrySummary = telemetrySummary
       )
       context.become(processing(nextState))
