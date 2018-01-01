@@ -1,4 +1,8 @@
 # Change log
+## v0.7
+* Add display the difference with the best lap in real time.
+
+
 ## v0.6
 * Add Button Box content.(PC only)
 * Fixed MapDB access error.
