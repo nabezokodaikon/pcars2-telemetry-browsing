@@ -138,7 +138,6 @@ class DefaultContent extends React.Component {
         <TimeLogRecordComponent record={getRecord(history[historyLength - 1])} />
         <TimeLogRecordComponent record={getRecord(history[historyLength - 2])} />
         <TimeLogRecordComponent record={getRecord(history[historyLength - 3])} />
-        <TimeLogRecordComponent record={getRecord(history[historyLength - 4])} />
       </div>
     );
   }
