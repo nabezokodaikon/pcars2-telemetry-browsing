@@ -4,6 +4,7 @@ import com.typesafe.scalalogging.LazyLogging
 import pcars2tb.util.BigDecimalSupport._
 import pcars2tb.udp.listener.{
   RaceStateDefine,
+  PitModeDefine,
   UdpStreamerPacketHandlerType,
   PacketBase,
   GameStateDefineValue,
@@ -43,6 +44,7 @@ final object RealTimeGapState {
         || gameStateData.gameState == GameStateDefineValue.GAME_INGAME_INMENU_TIME_TICKING),
       isRestart = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_RESTARTING),
       viewedParticipantIndex = 0,
+      trackLength = 0f,
       currentLap = 0,
       currentList = emptyTimeAndDistanceList,
       lastList = None,
@@ -57,6 +59,7 @@ final case class RealTimeGapState(
     isPlaying: Boolean,
     isRestart: Boolean,
     viewedParticipantIndex: Byte,
+    trackLength: Float,
     currentLap: Short,
     currentList: List[TimeAndDistance],
     lastList: Option[List[TimeAndDistance]],
@@ -70,35 +73,29 @@ final case class RealTimeGapState(
     udpData match {
       case udpData: GameStateData =>
         val nextState = resetGameStateData(udpData)
-        (nextState, None)
-      case udpData: RaceData if (isMenu) =>
-        val nextState = resetState()
-        (nextState, None)
+        (nextState, Some(nextState.toUdpData()))
+      case udpData: RaceData =>
+        val nextState = mergeRaceData(udpData)
+        (nextState, Some(nextState.toUdpData()))
       case udpData: TelemetryData if (isPlaying) =>
         val nextState = mergeTelemetryData(udpData)
-        (nextState, None)
-      case udpData: TimingsData if (isMenu) =>
-        val nextState = resetState()
-        (nextState, None)
-      case udpData: TimingsData if (isRestart) =>
-        val nextState = resetState()
         (nextState, None)
       case udpData: TimingsData if (isPlaying) =>
         val nextState = mergeTimingsData(udpData)
         (nextState, Some(nextState.toUdpData()))
-      case udpData: TimeStatsData if (isMenu) =>
+      case udpData: TimingsData =>
         val nextState = resetState()
-        (nextState, None)
-      case udpData: TimeStatsData if (isRestart) =>
-        val nextState = resetState()
-        (nextState, None)
+        (nextState, Some(nextState.toUdpData()))
       case udpData: TimeStatsData if (isPlaying) =>
         val nextState = mergeTimeStatsData(udpData)
+        (nextState, None)
+      case udpData: TimeStatsData =>
+        val nextState = resetState()
         (nextState, None)
       case _ => (this, None)
     }
 
-  def toUdpData(): RealTimeGap =
+  def toUdpData(): RealTimeGap = {
     (currentList.lastOption, fastestRemainingList.headOption) match {
       case (Some(current), Some(fastest)) =>
         val gapTime = current.time - fastest.time
@@ -112,6 +109,7 @@ final case class RealTimeGapState(
           gapTime = "--:--.---"
         )
     }
+  }
 
   private def resetGameStateData(gameStateData: GameStateData) =
     RealTimeGapState(
@@ -120,6 +118,7 @@ final case class RealTimeGapState(
         || gameStateData.gameState == GameStateDefineValue.GAME_INGAME_INMENU_TIME_TICKING),
       isRestart = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_RESTARTING),
       viewedParticipantIndex = viewedParticipantIndex,
+      trackLength = trackLength,
       currentLap = currentLap,
       currentList = currentList,
       lastList = lastList,
@@ -134,12 +133,28 @@ final case class RealTimeGapState(
       isPlaying = isPlaying,
       isRestart = isRestart,
       viewedParticipantIndex = 0,
+      trackLength = trackLength,
       currentLap = 0,
       currentList = emptyTimeAndDistanceList,
       lastList = None,
       fastestTime = None,
       fastestList = emptyTimeAndDistanceList,
       fastestRemainingList = emptyTimeAndDistanceList
+    )
+
+  private def mergeRaceData(raceData: RaceData) =
+    RealTimeGapState(
+      isMenu = isMenu,
+      isPlaying = isPlaying,
+      isRestart = isRestart,
+      viewedParticipantIndex = viewedParticipantIndex,
+      trackLength = raceData.trackLength,
+      currentLap = currentLap,
+      currentList = currentList,
+      lastList = lastList,
+      fastestTime = fastestTime,
+      fastestList = fastestList,
+      fastestRemainingList = fastestRemainingList
     )
 
   private def mergeTelemetryData(telemetryData: TelemetryData) =
@@ -150,6 +165,7 @@ final case class RealTimeGapState(
           isPlaying = isPlaying,
           isRestart = isRestart,
           viewedParticipantIndex = index,
+          trackLength = trackLength,
           currentLap = 0,
           currentList = emptyTimeAndDistanceList,
           lastList = None,
@@ -162,58 +178,93 @@ final case class RealTimeGapState(
 
   private def mergeTimingsData(timingsData: TimingsData) = {
     val participantInfo = timingsData.participants(viewedParticipantIndex)
-    if (participantInfo.raceState != RaceStateDefine.RACESTATE_RACING) this
-    else participantInfo.currentLap match {
-      case lap if (lap < 1) => this
-      case lap if (lap == 1) =>
-        RealTimeGapState(
-          isMenu = isMenu,
-          isPlaying = isPlaying,
-          isRestart = isRestart,
-          viewedParticipantIndex = viewedParticipantIndex,
-          currentLap = participantInfo.currentLap,
-          currentList = currentList :+ TimeAndDistance(
-            time = participantInfo.currentTime,
-            distance = participantInfo.currentLapDistance
-          ),
-          lastList = lastList,
-          fastestTime = fastestTime,
-          fastestList = fastestList,
-          fastestRemainingList = fastestList
-        )
-      case lap if (lap == currentLap) =>
-        RealTimeGapState(
-          isMenu = isMenu,
-          isPlaying = isPlaying,
-          isRestart = isRestart,
-          viewedParticipantIndex = viewedParticipantIndex,
-          currentLap = currentLap,
-          currentList = currentList :+ TimeAndDistance(
-            time = participantInfo.currentTime,
-            distance = participantInfo.currentLapDistance
-          ),
-          lastList = lastList,
-          fastestTime = fastestTime,
-          fastestList = fastestList,
-          fastestRemainingList = fastestRemainingList.dropWhile(_.distance < participantInfo.currentLapDistance)
-        )
-      case _ =>
-        RealTimeGapState(
-          isMenu = isMenu,
-          isPlaying = isPlaying,
-          isRestart = isRestart,
-          viewedParticipantIndex = viewedParticipantIndex,
-          currentLap = participantInfo.currentLap,
-          currentList = emptyTimeAndDistanceList :+ TimeAndDistance(
-            time = participantInfo.currentTime,
-            distance = participantInfo.currentLapDistance
-          ),
-          lastList = Some(currentList),
-          fastestTime = fastestTime,
-          fastestList = fastestList,
-          fastestRemainingList = fastestList
-        )
-    }
+    if (participantInfo.raceState != RaceStateDefine.RACESTATE_RACING)
+      RealTimeGapState(
+        isMenu = isMenu,
+        isPlaying = isPlaying,
+        isRestart = isRestart,
+        viewedParticipantIndex = viewedParticipantIndex,
+        trackLength = trackLength,
+        currentLap = participantInfo.currentLap,
+        currentList = emptyTimeAndDistanceList,
+        lastList = None,
+        fastestTime = None,
+        fastestList = emptyTimeAndDistanceList,
+        fastestRemainingList = emptyTimeAndDistanceList
+      )
+    else if (participantInfo.currentTime > 0f
+      && (participantInfo.pitMode == PitModeDefine.PIT_MODE_NONE
+        || participantInfo.pitMode == PitModeDefine.PIT_MODE_DRIVING_INTO_PITS
+        || participantInfo.pitMode == PitModeDefine.PIT_MODE_IN_PIT
+        || participantInfo.pitMode == PitModeDefine.PIT_MODE_DRIVING_OUT_OF_PITS))
+      participantInfo.currentLap match {
+        case lap if (lap < 1) => this
+        case lap if (lap == 1) =>
+          RealTimeGapState(
+            isMenu = isMenu,
+            isPlaying = isPlaying,
+            isRestart = isRestart,
+            viewedParticipantIndex = viewedParticipantIndex,
+            trackLength = trackLength,
+            currentLap = participantInfo.currentLap,
+            currentList = currentList :+ TimeAndDistance(
+              time = participantInfo.currentTime,
+              distance = participantInfo.currentLapDistance
+            ),
+            lastList = lastList,
+            fastestTime = fastestTime,
+            fastestList = fastestList,
+            fastestRemainingList = fastestList
+          )
+        case lap if (lap == currentLap) =>
+          if (participantInfo.currentLapDistance > trackLength) this
+          else RealTimeGapState(
+            isMenu = isMenu,
+            isPlaying = isPlaying,
+            isRestart = isRestart,
+            viewedParticipantIndex = viewedParticipantIndex,
+            trackLength = trackLength,
+            currentLap = currentLap,
+            currentList = currentList :+ TimeAndDistance(
+              time = participantInfo.currentTime,
+              distance = participantInfo.currentLapDistance
+            ),
+            lastList = lastList,
+            fastestTime = fastestTime,
+            fastestList = fastestList,
+            fastestRemainingList = fastestRemainingList.dropWhile(_.distance < participantInfo.currentLapDistance)
+          )
+        case _ =>
+          RealTimeGapState(
+            isMenu = isMenu,
+            isPlaying = isPlaying,
+            isRestart = isRestart,
+            viewedParticipantIndex = viewedParticipantIndex,
+            trackLength = trackLength,
+            currentLap = participantInfo.currentLap,
+            currentList = List(TimeAndDistance(
+              time = participantInfo.currentTime,
+              distance = participantInfo.currentLapDistance
+            )),
+            lastList = Some(currentList),
+            fastestTime = fastestTime,
+            fastestList = fastestList,
+            fastestRemainingList = fastestList
+          )
+      }
+    else RealTimeGapState(
+      isMenu = isMenu,
+      isPlaying = isPlaying,
+      isRestart = isRestart,
+      viewedParticipantIndex = viewedParticipantIndex,
+      trackLength = trackLength,
+      currentLap = participantInfo.currentLap,
+      currentList = emptyTimeAndDistanceList,
+      lastList = None,
+      fastestTime = fastestTime,
+      fastestList = fastestList,
+      fastestRemainingList = fastestList
+    )
   }
 
   private def mergeTimeStatsData(timeStatsData: TimeStatsData) = {
@@ -228,6 +279,7 @@ final case class RealTimeGapState(
               isPlaying = isPlaying,
               isRestart = isRestart,
               viewedParticipantIndex = viewedParticipantIndex,
+              trackLength = trackLength,
               currentLap = currentLap,
               currentList = currentList,
               lastList = None,
@@ -241,6 +293,7 @@ final case class RealTimeGapState(
               isPlaying = isPlaying,
               isRestart = isRestart,
               viewedParticipantIndex = viewedParticipantIndex,
+              trackLength = trackLength,
               currentLap = currentLap,
               currentList = currentList,
               lastList = None,
@@ -254,6 +307,7 @@ final case class RealTimeGapState(
               isPlaying = isPlaying,
               isRestart = isRestart,
               viewedParticipantIndex = viewedParticipantIndex,
+              trackLength = trackLength,
               currentLap = currentLap,
               currentList = currentList,
               lastList = None,
