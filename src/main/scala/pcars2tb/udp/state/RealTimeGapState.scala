@@ -43,6 +43,7 @@ final object RealTimeGapState {
       isPlaying = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_PLAYING
         || gameStateData.gameState == GameStateDefineValue.GAME_INGAME_INMENU_TIME_TICKING),
       isRestart = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_RESTARTING),
+      sessionState = gameStateData.sessionState.value,
       viewedParticipantIndex = 0,
       trackLength = 0f,
       currentLap = 0,
@@ -58,6 +59,7 @@ final case class RealTimeGapState(
     isMenu: Boolean,
     isPlaying: Boolean,
     isRestart: Boolean,
+    sessionState: Byte,
     viewedParticipantIndex: Byte,
     trackLength: Float,
     currentLap: Short,
@@ -112,26 +114,45 @@ final case class RealTimeGapState(
   }
 
   private def resetGameStateData(gameStateData: GameStateData) =
-    RealTimeGapState(
-      isMenu = (gameStateData.gameState == GameStateDefineValue.GAME_FRONT_END),
-      isPlaying = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_PLAYING
-        || gameStateData.gameState == GameStateDefineValue.GAME_INGAME_INMENU_TIME_TICKING),
-      isRestart = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_RESTARTING),
-      viewedParticipantIndex = viewedParticipantIndex,
-      trackLength = trackLength,
-      currentLap = currentLap,
-      currentList = currentList,
-      lastList = lastList,
-      fastestTime = fastestTime,
-      fastestList = fastestList,
-      fastestRemainingList = fastestRemainingList
-    )
+    if (sessionState == gameStateData.sessionState.value)
+      RealTimeGapState(
+        isMenu = (gameStateData.gameState == GameStateDefineValue.GAME_FRONT_END),
+        isPlaying = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_PLAYING
+          || gameStateData.gameState == GameStateDefineValue.GAME_INGAME_INMENU_TIME_TICKING),
+        isRestart = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_RESTARTING),
+        sessionState = gameStateData.sessionState.value,
+        viewedParticipantIndex = viewedParticipantIndex,
+        trackLength = trackLength,
+        currentLap = currentLap,
+        currentList = currentList,
+        lastList = lastList,
+        fastestTime = fastestTime,
+        fastestList = fastestList,
+        fastestRemainingList = fastestRemainingList
+      )
+    else
+      RealTimeGapState(
+        isMenu = (gameStateData.gameState == GameStateDefineValue.GAME_FRONT_END),
+        isPlaying = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_PLAYING
+          || gameStateData.gameState == GameStateDefineValue.GAME_INGAME_INMENU_TIME_TICKING),
+        isRestart = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_RESTARTING),
+        sessionState = gameStateData.sessionState.value,
+        viewedParticipantIndex = 0,
+        trackLength = trackLength,
+        currentLap = 0,
+        currentList = emptyTimeAndDistanceList,
+        lastList = None,
+        fastestTime = None,
+        fastestList = emptyTimeAndDistanceList,
+        fastestRemainingList = emptyTimeAndDistanceList
+      )
 
   private def resetState() =
     RealTimeGapState(
       isMenu = isMenu,
       isPlaying = isPlaying,
       isRestart = isRestart,
+      sessionState = sessionState,
       viewedParticipantIndex = 0,
       trackLength = trackLength,
       currentLap = 0,
@@ -147,6 +168,7 @@ final case class RealTimeGapState(
       isMenu = isMenu,
       isPlaying = isPlaying,
       isRestart = isRestart,
+      sessionState = sessionState,
       viewedParticipantIndex = viewedParticipantIndex,
       trackLength = raceData.trackLength,
       currentLap = currentLap,
@@ -164,6 +186,7 @@ final case class RealTimeGapState(
           isMenu = isMenu,
           isPlaying = isPlaying,
           isRestart = isRestart,
+          sessionState = sessionState,
           viewedParticipantIndex = index,
           trackLength = trackLength,
           currentLap = 0,
@@ -183,6 +206,7 @@ final case class RealTimeGapState(
         isMenu = isMenu,
         isPlaying = isPlaying,
         isRestart = isRestart,
+        sessionState = sessionState,
         viewedParticipantIndex = viewedParticipantIndex,
         trackLength = trackLength,
         currentLap = participantInfo.currentLap,
@@ -204,6 +228,7 @@ final case class RealTimeGapState(
             isMenu = isMenu,
             isPlaying = isPlaying,
             isRestart = isRestart,
+            sessionState = sessionState,
             viewedParticipantIndex = viewedParticipantIndex,
             trackLength = trackLength,
             currentLap = participantInfo.currentLap,
@@ -222,6 +247,7 @@ final case class RealTimeGapState(
             isMenu = isMenu,
             isPlaying = isPlaying,
             isRestart = isRestart,
+            sessionState = sessionState,
             viewedParticipantIndex = viewedParticipantIndex,
             trackLength = trackLength,
             currentLap = currentLap,
@@ -239,6 +265,7 @@ final case class RealTimeGapState(
             isMenu = isMenu,
             isPlaying = isPlaying,
             isRestart = isRestart,
+            sessionState = sessionState,
             viewedParticipantIndex = viewedParticipantIndex,
             trackLength = trackLength,
             currentLap = participantInfo.currentLap,
@@ -256,6 +283,7 @@ final case class RealTimeGapState(
       isMenu = isMenu,
       isPlaying = isPlaying,
       isRestart = isRestart,
+      sessionState = sessionState,
       viewedParticipantIndex = viewedParticipantIndex,
       trackLength = trackLength,
       currentLap = participantInfo.currentLap,
@@ -278,6 +306,7 @@ final case class RealTimeGapState(
               isMenu = isMenu,
               isPlaying = isPlaying,
               isRestart = isRestart,
+              sessionState = sessionState,
               viewedParticipantIndex = viewedParticipantIndex,
               trackLength = trackLength,
               currentLap = currentLap,
@@ -292,6 +321,7 @@ final case class RealTimeGapState(
               isMenu = isMenu,
               isPlaying = isPlaying,
               isRestart = isRestart,
+              sessionState = sessionState,
               viewedParticipantIndex = viewedParticipantIndex,
               trackLength = trackLength,
               currentLap = currentLap,
@@ -306,6 +336,7 @@ final case class RealTimeGapState(
               isMenu = isMenu,
               isPlaying = isPlaying,
               isRestart = isRestart,
+              sessionState = sessionState,
               viewedParticipantIndex = viewedParticipantIndex,
               trackLength = trackLength,
               currentLap = currentLap,
