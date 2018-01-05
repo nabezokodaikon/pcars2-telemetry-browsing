@@ -186,13 +186,13 @@ final case class LapTimeDetailsState(
   }
 
   def resetStateByGameStateData(gameStateData: GameStateData): LapTimeDetailsState =
-    if (sessionState == gameStateData.sessionState.value)
+    if (this.sessionState == gameStateData.sessionState.value)
       LapTimeDetailsState(
         isMenu = (gameStateData.gameState == GameStateDefineValue.GAME_FRONT_END),
         isPlaying = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_PLAYING
           || gameStateData.gameState == GameStateDefineValue.GAME_INGAME_INMENU_TIME_TICKING),
         isRestart = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_RESTARTING),
-        sessionState = this.sessionState,
+        sessionState = gameStateData.sessionState.value,
         isTimedSessions = this.isTimedSessions,
         lapsInEvent = this.lapsInEvent,
         viewedParticipantIndex = this.viewedParticipantIndex,
@@ -203,9 +203,10 @@ final case class LapTimeDetailsState(
       )
     else
       LapTimeDetailsState(
-        isMenu = this.isMenu,
-        isPlaying = this.isPlaying,
-        isRestart = this.isRestart,
+        isMenu = (gameStateData.gameState == GameStateDefineValue.GAME_FRONT_END),
+        isPlaying = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_PLAYING
+          || gameStateData.gameState == GameStateDefineValue.GAME_INGAME_INMENU_TIME_TICKING),
+        isRestart = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_RESTARTING),
         sessionState = gameStateData.sessionState.value,
         isTimedSessions = false,
         lapsInEvent = 0,
