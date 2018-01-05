@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
+@import url('https://fonts.googleapis.com/css?family=Oswald');
+@import url('https://fonts.googleapis.com/css?family=Inconsolata:400,700');
+
+* {
+  margin: 0;
+  padding: 0;
+  border-width: 0;
+  color: #565656;
+  font-size: 1rem;
+  font-family: 'Oswald', sans-serif;
+  cursor: pointer;
+}
+
+*:focus {
+  outline: none;
+}
+
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+}
+
+.contents {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #1b1d1e;
+}
+
+/********************************
+ * share
+ ********************************/
+.header > span {
+  color: #c1d9f0;
+  font-family: 'Oswald', sans-serif;
+}
+
+.value > span {
+  color: #ffffff;
+  font-family: 'Inconsolata', monospace;
+}
+
+/********************************
+ * topContents
+ ********************************/
+.topContents {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+/********************************
+ * leftContents
+ ********************************/
+.leftContents {
+  width: 100%;
+  height: 100%;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/********************************
+ * rightContents
+ ********************************/
+.rightContents {
+  width: 100%;
+  height: 100%;
+  margin-top: 1rem;
+  background-color: #333333;
+  display: flex;
+  flex-direction: column;
+}
+
+.icon {
+  /* width: 8rem; */
+  /* height: 8rem; */
+  object-fit: contain;
+  background: rgba(128, 128, 128, 1);
+}
+
+/********************************
+ * bottomContents
+ ********************************/
+.bottomContents {
+  width: 100%;
+  height: 12rem;
+  display: flex;
+}
+
+.carDamage {
+  height: 100%;
+}
+
+.suspensionDamage {
+  height: 100%;
+}
+
+.brakeDamage {
+  height: 100%;
+}
+
+.text {
+  font-size: 1rem;
+  font-family: 'Inconsolata', monospace;
+}
