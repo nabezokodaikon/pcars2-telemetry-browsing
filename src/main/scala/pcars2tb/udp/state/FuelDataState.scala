@@ -33,6 +33,7 @@ final object FuelDataState {
       isMenu = (gameStateData.gameState == GameStateDefineValue.GAME_FRONT_END),
       isPlaying = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_PLAYING),
       isRestart = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_RESTARTING),
+      sessionState = gameStateData.sessionState.value,
       viewedParticipantIndex = 0,
       fuelCapacity = 0,
       prevInitialFuelLevel = 0f,
@@ -51,6 +52,7 @@ final case class FuelDataState(
     isMenu: Boolean,
     isPlaying: Boolean,
     isRestart: Boolean,
+    sessionState: Byte,
     viewedParticipantIndex: Byte,
     fuelCapacity: Short,
     prevInitialFuelLevel: Float,
@@ -69,7 +71,7 @@ final case class FuelDataState(
     udpData match {
       case udpData: GameStateData =>
         val nextState = resetGameStateData(udpData)
-        (nextState, None)
+        (nextState, Some(toUdpData()))
       case udpData: RaceData if (isMenu) =>
         val nextState = resetState()
         (nextState, Some(toUdpData()))
@@ -110,29 +112,51 @@ final case class FuelDataState(
   }
 
   def resetGameStateData(gameStateData: GameStateData): FuelDataState =
-    FuelDataState(
-      isMenu = (gameStateData.gameState == GameStateDefineValue.GAME_FRONT_END),
-      isPlaying = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_PLAYING
-        || gameStateData.gameState == GameStateDefineValue.GAME_INGAME_INMENU_TIME_TICKING),
-      isRestart = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_RESTARTING),
-      viewedParticipantIndex = this.viewedParticipantIndex,
-      fuelCapacity = this.fuelCapacity,
-      prevInitialFuelLevel = this.prevInitialFuelLevel,
-      initialFuelLevel = this.initialFuelLevel,
-      currentFuelLevel = this.currentFuelLevel,
-      currentLap = this.currentLap,
-      currentSector = this.currentSector,
-      lastLap = this.lastLap,
-      consumptionUntilPitIn = this.consumptionUntilPitIn,
-      history = this.history,
-      totalHistory = this.totalHistory
-    )
+    if (this.sessionState == gameStateData.sessionState.value)
+      FuelDataState(
+        isMenu = (gameStateData.gameState == GameStateDefineValue.GAME_FRONT_END),
+        isPlaying = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_PLAYING
+          || gameStateData.gameState == GameStateDefineValue.GAME_INGAME_INMENU_TIME_TICKING),
+        isRestart = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_RESTARTING),
+        sessionState = gameStateData.sessionState.value,
+        viewedParticipantIndex = this.viewedParticipantIndex,
+        fuelCapacity = this.fuelCapacity,
+        prevInitialFuelLevel = this.prevInitialFuelLevel,
+        initialFuelLevel = this.initialFuelLevel,
+        currentFuelLevel = this.currentFuelLevel,
+        currentLap = this.currentLap,
+        currentSector = this.currentSector,
+        lastLap = this.lastLap,
+        consumptionUntilPitIn = this.consumptionUntilPitIn,
+        history = this.history,
+        totalHistory = this.totalHistory
+      )
+    else
+      FuelDataState(
+        isMenu = (gameStateData.gameState == GameStateDefineValue.GAME_FRONT_END),
+        isPlaying = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_PLAYING
+          || gameStateData.gameState == GameStateDefineValue.GAME_INGAME_INMENU_TIME_TICKING),
+        isRestart = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_RESTARTING),
+        sessionState = gameStateData.sessionState.value,
+        viewedParticipantIndex = this.viewedParticipantIndex,
+        fuelCapacity = 0,
+        prevInitialFuelLevel = 0f,
+        initialFuelLevel = 0f,
+        currentFuelLevel = 0f,
+        currentLap = 0,
+        currentSector = 0,
+        lastLap = 0,
+        consumptionUntilPitIn = None,
+        history = List[FuelConsumption](),
+        totalHistory = List[List[FuelConsumption]]()
+      )
 
   def resetState(): FuelDataState =
     FuelDataState(
       isMenu = this.isMenu,
       isPlaying = this.isPlaying,
       isRestart = this.isRestart,
+      sessionState = this.sessionState,
       viewedParticipantIndex = this.viewedParticipantIndex,
       fuelCapacity = 0,
       prevInitialFuelLevel = 0f,
@@ -155,6 +179,7 @@ final case class FuelDataState(
               isMenu = this.isMenu,
               isPlaying = this.isPlaying,
               isRestart = this.isRestart,
+              sessionState = this.sessionState,
               viewedParticipantIndex = this.viewedParticipantIndex,
               fuelCapacity = telemetryData.carState.fuelCapacity,
               prevInitialFuelLevel = telemetryData.carState.fuelLevel,
@@ -174,6 +199,7 @@ final case class FuelDataState(
               isMenu = this.isMenu,
               isPlaying = this.isPlaying,
               isRestart = this.isRestart,
+              sessionState = this.sessionState,
               viewedParticipantIndex = this.viewedParticipantIndex,
               fuelCapacity = this.fuelCapacity,
               prevInitialFuelLevel = this.initialFuelLevel,
@@ -191,6 +217,7 @@ final case class FuelDataState(
               isMenu = this.isMenu,
               isPlaying = this.isPlaying,
               isRestart = this.isRestart,
+              sessionState = this.sessionState,
               viewedParticipantIndex = this.viewedParticipantIndex,
               fuelCapacity = this.fuelCapacity,
               prevInitialFuelLevel = this.prevInitialFuelLevel,
@@ -209,6 +236,7 @@ final case class FuelDataState(
           isMenu = this.isMenu,
           isPlaying = this.isPlaying,
           isRestart = this.isRestart,
+          sessionState = this.sessionState,
           viewedParticipantIndex = telemetryData.participantInfo.viewedParticipantIndex,
           fuelCapacity = 0,
           prevInitialFuelLevel = 0f,
@@ -235,6 +263,7 @@ final case class FuelDataState(
           isMenu = this.isMenu,
           isPlaying = this.isPlaying,
           isRestart = this.isRestart,
+          sessionState = this.sessionState,
           viewedParticipantIndex = this.viewedParticipantIndex,
           fuelCapacity = this.fuelCapacity,
           prevInitialFuelLevel = this.prevInitialFuelLevel,
@@ -256,6 +285,7 @@ final case class FuelDataState(
           isMenu = this.isMenu,
           isPlaying = this.isPlaying,
           isRestart = this.isRestart,
+          sessionState = this.sessionState,
           viewedParticipantIndex = this.viewedParticipantIndex,
           fuelCapacity = this.fuelCapacity,
           prevInitialFuelLevel = this.prevInitialFuelLevel,
@@ -276,6 +306,7 @@ final case class FuelDataState(
               isMenu = this.isMenu,
               isPlaying = this.isPlaying,
               isRestart = this.isRestart,
+              sessionState = this.sessionState,
               viewedParticipantIndex = this.viewedParticipantIndex,
               fuelCapacity = this.fuelCapacity,
               prevInitialFuelLevel = this.prevInitialFuelLevel,
@@ -293,6 +324,7 @@ final case class FuelDataState(
               isMenu = this.isMenu,
               isPlaying = this.isPlaying,
               isRestart = this.isRestart,
+              sessionState = this.sessionState,
               viewedParticipantIndex = this.viewedParticipantIndex,
               fuelCapacity = this.fuelCapacity,
               prevInitialFuelLevel = this.prevInitialFuelLevel,
@@ -315,6 +347,7 @@ final case class FuelDataState(
           isMenu = this.isMenu,
           isPlaying = this.isPlaying,
           isRestart = this.isRestart,
+          sessionState = this.sessionState,
           viewedParticipantIndex = this.viewedParticipantIndex,
           fuelCapacity = this.fuelCapacity,
           prevInitialFuelLevel = this.prevInitialFuelLevel,
