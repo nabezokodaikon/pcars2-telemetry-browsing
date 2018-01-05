@@ -44,6 +44,7 @@ final object LapTimeDetailsState {
       isMenu = (gameStateData.gameState == GameStateDefineValue.GAME_FRONT_END),
       isPlaying = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_PLAYING),
       isRestart = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_RESTARTING),
+      sessionState = gameStateData.sessionState.value,
       isTimedSessions = false,
       lapsInEvent = 0,
       viewedParticipantIndex = 0,
@@ -58,6 +59,7 @@ final case class LapTimeDetailsState(
     isMenu: Boolean,
     isPlaying: Boolean,
     isRestart: Boolean,
+    sessionState: Byte,
     isTimedSessions: Boolean,
     lapsInEvent: Int,
     viewedParticipantIndex: Byte,
@@ -72,7 +74,7 @@ final case class LapTimeDetailsState(
     udpData match {
       case udpData: GameStateData =>
         val nextState = resetStateByGameStateData(udpData)
-        (nextState, None)
+        (nextState, Some(toUdpData()))
       case udpData: RaceData if (isMenu) =>
         val nextState = resetStateByRaceData(udpData)
         (nextState, Some(nextState.toUdpData()))
@@ -184,25 +186,42 @@ final case class LapTimeDetailsState(
   }
 
   def resetStateByGameStateData(gameStateData: GameStateData): LapTimeDetailsState =
-    LapTimeDetailsState(
-      isMenu = (gameStateData.gameState == GameStateDefineValue.GAME_FRONT_END),
-      isPlaying = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_PLAYING
-        || gameStateData.gameState == GameStateDefineValue.GAME_INGAME_INMENU_TIME_TICKING),
-      isRestart = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_RESTARTING),
-      isTimedSessions = this.isTimedSessions,
-      lapsInEvent = this.lapsInEvent,
-      viewedParticipantIndex = this.viewedParticipantIndex,
-      currentView = this.currentView,
-      currentData = this.currentData,
-      currentLapData = this.currentLapData,
-      lapDataList = this.lapDataList
-    )
+    if (sessionState == gameStateData.sessionState.value)
+      LapTimeDetailsState(
+        isMenu = (gameStateData.gameState == GameStateDefineValue.GAME_FRONT_END),
+        isPlaying = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_PLAYING
+          || gameStateData.gameState == GameStateDefineValue.GAME_INGAME_INMENU_TIME_TICKING),
+        isRestart = (gameStateData.gameState == GameStateDefineValue.GAME_INGAME_RESTARTING),
+        sessionState = this.sessionState,
+        isTimedSessions = this.isTimedSessions,
+        lapsInEvent = this.lapsInEvent,
+        viewedParticipantIndex = this.viewedParticipantIndex,
+        currentView = this.currentView,
+        currentData = this.currentData,
+        currentLapData = this.currentLapData,
+        lapDataList = this.lapDataList
+      )
+    else
+      LapTimeDetailsState(
+        isMenu = this.isMenu,
+        isPlaying = this.isPlaying,
+        isRestart = this.isRestart,
+        sessionState = gameStateData.sessionState.value,
+        isTimedSessions = false,
+        lapsInEvent = 0,
+        viewedParticipantIndex = 0,
+        currentView = None,
+        currentData = None,
+        currentLapData = None,
+        lapDataList = List[LapData]()
+      )
 
   def resetStateByRaceData(raceData: RaceData): LapTimeDetailsState =
     LapTimeDetailsState(
       isMenu = this.isMenu,
       isPlaying = this.isPlaying,
       isRestart = this.isRestart,
+      sessionState = this.sessionState,
       isTimedSessions = raceData.isTimedSessions,
       lapsInEvent = raceData.lapsInEvent,
       viewedParticipantIndex = this.viewedParticipantIndex,
@@ -217,6 +236,7 @@ final case class LapTimeDetailsState(
       isMenu = this.isMenu,
       isPlaying = this.isPlaying,
       isRestart = this.isRestart,
+      sessionState = this.sessionState,
       isTimedSessions = this.isTimedSessions,
       lapsInEvent = this.lapsInEvent,
       viewedParticipantIndex = viewedParticipantIndex,
@@ -231,6 +251,7 @@ final case class LapTimeDetailsState(
       isMenu = this.isMenu,
       isPlaying = this.isPlaying,
       isRestart = this.isRestart,
+      sessionState = this.sessionState,
       isTimedSessions = this.isTimedSessions,
       lapsInEvent = this.lapsInEvent,
       viewedParticipantIndex = this.viewedParticipantIndex,
@@ -392,6 +413,7 @@ final case class LapTimeDetailsState(
       isMenu = this.isMenu,
       isPlaying = this.isPlaying,
       isRestart = this.isRestart,
+      sessionState = this.sessionState,
       isTimedSessions = this.isTimedSessions,
       lapsInEvent = this.lapsInEvent,
       viewedParticipantIndex = this.viewedParticipantIndex,
@@ -407,6 +429,7 @@ final case class LapTimeDetailsState(
       isMenu = this.isMenu,
       isPlaying = this.isPlaying,
       isRestart = this.isRestart,
+      sessionState = this.sessionState,
       isTimedSessions = this.isTimedSessions,
       lapsInEvent = this.lapsInEvent,
       viewedParticipantIndex = this.viewedParticipantIndex,
@@ -424,6 +447,7 @@ final case class LapTimeDetailsState(
           isMenu = this.isMenu,
           isPlaying = this.isPlaying,
           isRestart = this.isRestart,
+          sessionState = this.sessionState,
           isTimedSessions = this.isTimedSessions,
           lapsInEvent = this.lapsInEvent,
           viewedParticipantIndex = this.viewedParticipantIndex,
@@ -438,6 +462,7 @@ final case class LapTimeDetailsState(
           isMenu = this.isMenu,
           isPlaying = this.isPlaying,
           isRestart = this.isRestart,
+          sessionState = this.sessionState,
           isTimedSessions = this.isTimedSessions,
           lapsInEvent = this.lapsInEvent,
           viewedParticipantIndex = this.viewedParticipantIndex,
@@ -452,6 +477,7 @@ final case class LapTimeDetailsState(
           isMenu = this.isMenu,
           isPlaying = this.isPlaying,
           isRestart = this.isRestart,
+          sessionState = this.sessionState,
           isTimedSessions = this.isTimedSessions,
           lapsInEvent = this.lapsInEvent,
           viewedParticipantIndex = this.viewedParticipantIndex,
