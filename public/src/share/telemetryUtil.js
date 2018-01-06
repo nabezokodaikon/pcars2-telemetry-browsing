@@ -104,8 +104,8 @@ export function getTemp(temp, isCelsius) {
 }
 
 const safetyColor = "#899ba9";
-const warningColor = "#ff8000";
-const dangerColor = "#ff0000";
+const warningColor = "#a56754";
+const dangerColor = "#c54343";
 
 export function getDamageColor(damage) {
   const value = parseInt(damage);
