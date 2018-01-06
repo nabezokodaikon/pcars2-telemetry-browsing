@@ -21,7 +21,9 @@ export default class LargeFuel extends React.Component {
 
     return (
       <div className={style.fuel}>
-        <img src={fuelIcon} />
+        <div className={style.fuelIcon}>
+          <img src={fuelIcon} />
+        </div>
         <div className={[style.fuelValue, style.value].join(" ")}>
           <span>{carState.fuelRemaining}L</span>
         </div>

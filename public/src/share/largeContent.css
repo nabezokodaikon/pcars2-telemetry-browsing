@@ -64,7 +64,7 @@
   height: 12rem;
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
 }
 
 /*
@@ -72,20 +72,31 @@
  */
 .fuel {
   height: 100%;
+  margin-left: 1rem;
   display: flex;
+  align-items: flex-end;
+}
+
+.fuelIcon {
+  width: 4rem;
+  height: 6rem;
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
-.fuel > img {
+.fuelIcon > img {
   width: 4rem;
   height: 4rem;
-  margin-left: 0.5rem;
 }
 
 .fuelValue {
   width: 9rem;
+  height: 6rem;
   margin-left: 0.25rem;
-  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .fuelValue > span {
@@ -93,19 +104,23 @@
 }
 
 .fuelDetails {
+  height: 6rem;
   margin-left: 1rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
 }
 
 .fuelDetails > div {
+  height: 2rem;
   display: flex;
   align-items: center;
 }
 
 .fuelDetailsHeader {
   width: 6rem;
+  display: flex;
+  align-items: center;
 }
 
 .fuelDetailsHeader > span {
@@ -115,7 +130,9 @@
 .fuelDetailsValue {
   width: 6rem;
   margin-left: 0.2rem;
-  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .fuelDetailsValue > span {
@@ -129,5 +146,5 @@
   height: 100%;
   margin-right: 1rem;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
 }
