@@ -103,7 +103,6 @@ class Menu extends React.Component {
       contentNames.DEFAULT,
       contentNames.ENGINE,
       contentNames.TYRE,
-      contentNames.DAMAGE,
       contentNames.TIME,
       contentNames.RANK,
       contentNames.BUTTON_BOX,

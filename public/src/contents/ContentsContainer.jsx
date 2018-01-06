@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import * as contentNames from "../share/contentNames.js";
 import DefaultContainer from "../contents/default/DefaultContainer.jsx";
 import EngineContainer from "../contents/engine/EngineContainer.jsx";
-import DamageContainer from "../contents/damage/DamageContainer.jsx";
 import TyreContainer from "../contents/tyre/TyreContainer.jsx";
 import TimeContainer from "../contents/time/TimeContainer.jsx";
 import RankContainer from "../contents/rank/RankContainer.jsx";
@@ -39,8 +38,6 @@ class Contents extends React.Component {
         return <EngineContainer />;
       case contentNames.TYRE:
         return <TyreContainer />;
-      case contentNames.DAMAGE:
-        return <DamageContainer />;
       case contentNames.TIME:
         return <TimeContainer />;
       case contentNames.RANK:

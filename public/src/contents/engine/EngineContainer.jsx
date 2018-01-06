@@ -329,7 +329,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onContentClick: () => {
-      dispatch(currentContent(contentNames.DAMAGE));
+      dispatch(currentContent(contentNames.TIME));
     }
   };
 };
