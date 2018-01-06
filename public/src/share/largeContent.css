@@ -63,13 +63,13 @@
   width: 100%;
   height: 12rem;
   display: flex;
+  align-items: flex-end;
 }
 
 /*
  * fuel
  */
 .fuel {
-  width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
@@ -124,7 +124,7 @@
 /*
  * tyre
  */
-.tyre {
-  width: 100%;
-  height: 100%;
-}
+/* .tyre { */
+  /* width: 100%; */
+  /* height: 100%; */
+/* } */

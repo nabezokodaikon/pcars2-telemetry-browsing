@@ -6,6 +6,7 @@ import * as contentNames from "../../share/contentNames.js";
 import { isJson } from "../../share/jsUtil.js";
 import LargeGearComponent from "../../share/LargeGearComponent.jsx";
 import LargeFuelComponent from "../../share/LargeFuelComponent.jsx";
+import CarDamage from "../../share/CarDamage.jsx";
 import shareStyle from "../../share/largeContent.css";
 import style from "./default.css";
 import TimeLogRecordComponent from "./TimeLogRecordComponent.jsx";
@@ -198,12 +199,18 @@ class DefaultContent extends React.Component {
 
   render() {
     const props = this.props;
+    const telemetryData = props.telemetryData;
+    if (!isJson(telemetryData)) {
+      return <div />;
+    }
+
+    const carDamage = telemetryData.carDamage;
 
     return (
       <div className={shareStyle.contents} onClick={props.onContentClick}>
         <div className={shareStyle.topContents}>
           <div className={shareStyle.leftContents}>
-            <LargeGearComponent isMeter={props.isMeter} telemetryData={props.telemetryData} />
+            <LargeGearComponent isMeter={props.isMeter} telemetryData={telemetryData} />
           </div>
           <div className={shareStyle.rightContents}>
             {this.createSession()}
@@ -215,7 +222,8 @@ class DefaultContent extends React.Component {
           </div>
         </div>
         <div className={shareStyle.bottomContents}>
-          <LargeFuelComponent telemetryData={props.telemetryData} fuelData={props.fuelData} />
+          <LargeFuelComponent telemetryData={telemetryData} fuelData={props.fuelData} />
+          <CarDamage aeroDamage={carDamage.aeroDamage} engineDamage={carDamage.engineDamage} />
         </div>
       </div>
     );

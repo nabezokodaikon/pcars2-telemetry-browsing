@@ -102,3 +102,18 @@ export function getSpeed(speed, isMeter) {
 export function getTemp(temp, isCelsius) {
   return isCelsius ? Math.floor(temp) : celsiusToFahrenheit(temp);
 }
+
+const safetyColor = "#899ba9";
+const warningColor = "#ff8000";
+const dangerColor = "#ff0000";
+
+export function getDamageColor(damage) {
+  const value = parseInt(damage)
+  if (value >= 20) {
+    return dangerColor;
+  } else if (value >= 10) {
+    return warningColor;
+  } else {
+    return safetyColor;
+  }
+}
