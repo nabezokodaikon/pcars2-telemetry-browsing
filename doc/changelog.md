@@ -1,7 +1,10 @@
 # Change log
+## v0.8
+* DAMAGE content move bottom on display.
+
+
 ## v0.7
 * Add display the difference with the best lap in real time.
-* DAMAGE content move bottom on display.
 
 
 ## v0.6

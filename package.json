@@ -1,6 +1,6 @@
 {
   "name": "pcars2-udp-app",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Telemetry display for Project Cars 2",
   "main": "contents/index.js",
   "scripts": {
@@ -26,7 +26,7 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "clean-webpack-plugin": "^0.1.17",
-    "css-loader": "^0.28.7",
+    "css-loader": "^0.28.8",
     "file-loader": "^1.1.6",
     "prettier": "^1.9.2",
     "style-loader": "^0.19.1",
