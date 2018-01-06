@@ -4,7 +4,7 @@ import { isJson } from "./jsUtil.js";
 import style from "./smallContent.css";
 import fuelIcon from "../image/fuel-blue.png";
 
-export default class SmallFuelComponent extends React.Component {
+export default class SmallFuel extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -32,6 +32,6 @@ export default class SmallFuelComponent extends React.Component {
   }
 }
 
-SmallFuelComponent.propTypes = {
+SmallFuel.propTypes = {
   telemetryData: PropTypes.object.isRequired
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { isJson } from "./jsUtil.js";
-import { createFanShape, createFanStroke, createFanText } from "./svgComponents.jsx";
+import { createFanShape, createFanStroke, createFanText } from "./svgDrawings.jsx";
 import { getSpeed, getSpeedUnit, kmhToMIH } from "./telemetryUtil.js";
 import style from "./largeContent.css";
 
@@ -13,7 +13,7 @@ const GREEN = "#93C543";
 const BLUE = "#B0C1D1";
 const YELLOW = "#C5C543";
 
-export default class LargeGearComponent extends React.Component {
+export default class LargeGear extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -293,7 +293,7 @@ export default class LargeGearComponent extends React.Component {
   }
 }
 
-LargeGearComponent.propTypes = {
+LargeGear.propTypes = {
   isMeter: PropTypes.bool.isRequired,
   telemetryData: PropTypes.object.isRequired
 };

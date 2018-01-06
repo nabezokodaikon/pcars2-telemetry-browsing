@@ -5,8 +5,8 @@ import { currentContent } from "../../appActionCreators.js";
 import * as contentNames from "../../share/contentNames.js";
 import { isJson } from "../../share/jsUtil.js";
 import { getTempUnit, getTemp } from "../../share/telemetryUtil.js";
-import LargeGearComponent from "../../share/LargeGearComponent.jsx";
-import LargeFuelComponent from "../../share/LargeFuelComponent.jsx";
+import LargeGear from "../../share/LargeGear.jsx";
+import LargeFuel from "../../share/LargeFuel.jsx";
 import Damage from "../../share/Damage.jsx";
 import shareStyle from "../../share/largeContent.css";
 import engineIcon from "../../image/engine.png";
@@ -280,7 +280,7 @@ class EngineContent extends React.Component {
       <div className={shareStyle.contents} onClick={props.onContentClick}>
         <div className={shareStyle.topContents}>
           <div className={shareStyle.leftContents}>
-            <LargeGearComponent isMeter={props.isMeter} telemetryData={props.telemetryData} />
+            <LargeGear isMeter={props.isMeter} telemetryData={props.telemetryData} />
           </div>
           <div className={shareStyle.rightContents}>
             <Engine tyre3={tyre3} />
@@ -293,7 +293,7 @@ class EngineContent extends React.Component {
           </div>
         </div>
         <div className={shareStyle.bottomContents}>
-          <LargeFuelComponent telemetryData={props.telemetryData} fuelData={props.fuelData} />
+          <LargeFuel telemetryData={props.telemetryData} fuelData={props.fuelData} />
           <Damage
             aeroDamage={carDamage.aeroDamage}
             engineDamage={carDamage.engineDamage}

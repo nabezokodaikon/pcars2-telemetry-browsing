@@ -2,10 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { isJson } from "./jsUtil.js";
 import { getSpeed, getSpeedUnit } from "./telemetryUtil.js";
-import SmallGearComponent from "./SmallGearComponent.jsx";
+import SmallGear from "./SmallGear.jsx";
 import style from "./smallContent.css";
 
-export default class SmallSpeedComponent extends React.Component {
+export default class SmallSpeed extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -24,7 +24,7 @@ export default class SmallSpeedComponent extends React.Component {
 
     return (
       <div className={style.speedBox}>
-        <SmallGearComponent telemetryData={telemetryData} />
+        <SmallGear telemetryData={telemetryData} />
         <div className={style.speedValue}>
           <span>{speed}</span>
         </div>
@@ -36,7 +36,7 @@ export default class SmallSpeedComponent extends React.Component {
   }
 }
 
-SmallSpeedComponent.propTypes = {
+SmallSpeed.propTypes = {
   isMeter: PropTypes.bool.isRequired,
   telemetryData: PropTypes.object.isRequired
 };

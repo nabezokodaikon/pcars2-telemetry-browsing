@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { isJson } from "./jsUtil.js";
-import { createFanShape, createFanStroke } from "./svgComponents.jsx";
+import { createFanShape, createFanStroke } from "./svgDrawings.jsx";
 import style from "./smallContent.css";
 
 const WHITE = "#FFFFFF";
@@ -9,7 +9,7 @@ const GRAY = "#AAAAAA";
 const BLACK = "#1B1B1B";
 const RED = "#C54343";
 
-export default class SmallGearComponent extends React.Component {
+export default class SmallGear extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -82,6 +82,6 @@ export default class SmallGearComponent extends React.Component {
   }
 }
 
-SmallGearComponent.propTypes = {
+SmallGear.propTypes = {
   telemetryData: PropTypes.object.isRequired
 };
