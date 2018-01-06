@@ -9,7 +9,7 @@ import LargeFuelComponent from "../../share/LargeFuelComponent.jsx";
 import Damage from "../../share/Damage.jsx";
 import shareStyle from "../../share/largeContent.css";
 import style from "./default.css";
-import TimeLogRecordComponent from "./TimeLogRecordComponent.jsx";
+import TimeLogRecord from "./TimeLogRecord.jsx";
 
 class DefaultContent extends React.Component {
   constructor(props) {
@@ -136,9 +136,9 @@ class DefaultContent extends React.Component {
 
     return (
       <div className={[style.timeLogs, style.border].join(" ")}>
-        <TimeLogRecordComponent record={getRecord(history[historyLength - 1])} />
-        <TimeLogRecordComponent record={getRecord(history[historyLength - 2])} />
-        <TimeLogRecordComponent record={getRecord(history[historyLength - 3])} />
+        <TimeLogRecord record={getRecord(history[historyLength - 1])} />
+        <TimeLogRecord record={getRecord(history[historyLength - 2])} />
+        <TimeLogRecord record={getRecord(history[historyLength - 3])} />
       </div>
     );
   }

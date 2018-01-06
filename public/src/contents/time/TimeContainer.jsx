@@ -6,8 +6,8 @@ import * as contentNames from "../../share/contentNames.js";
 import { isArray, isJson } from "../../share/jsUtil.js";
 import SmallSpeedComponent from "../../share/SmallSpeedComponent.jsx";
 import SmallFuelComponent from "../../share/SmallFuelComponent.jsx";
-import HeaderComponent from "./HeaderComponent.jsx";
-import RecordComponent from "./RecordComponent.jsx";
+import Header from "./Header.jsx";
+import Record from "./Record.jsx";
 import shareStyle from "../../share/smallContent.css";
 import style from "./time.css";
 
@@ -151,9 +151,9 @@ class TimeContent extends React.Component {
     const lapTimeDetails = this.props.lapTimeDetails;
     const className = [style.fastest, style.darkRecord].join(" ");
     if (isJson(lapTimeDetails)) {
-      return <RecordComponent className={className} name={"FASTEST"} record={lapTimeDetails.fastest} />;
+      return <Record className={className} name={"FASTEST"} record={lapTimeDetails.fastest} />;
     } else {
-      return <RecordComponent className={className} name={"FASTEST"} record={emptyRecord} />;
+      return <Record className={className} name={"FASTEST"} record={emptyRecord} />;
     }
   }
 
@@ -161,9 +161,9 @@ class TimeContent extends React.Component {
     const lapTimeDetails = this.props.lapTimeDetails;
     const className = [style.average, style.brightRecord].join(" ");
     if (isJson(lapTimeDetails)) {
-      return <RecordComponent className={className} name={"AVERAGE"} record={lapTimeDetails.average} />;
+      return <Record className={className} name={"AVERAGE"} record={lapTimeDetails.average} />;
     } else {
-      return <RecordComponent className={className} name={"AVERAGE"} record={emptyRecord} />;
+      return <Record className={className} name={"AVERAGE"} record={emptyRecord} />;
     }
   }
 
@@ -189,9 +189,9 @@ class TimeContent extends React.Component {
     const records = indexArray.map(index => {
       const className = index % 2 == 0 ? darkRecord : brightRecord;
       if (index < length) {
-        return <RecordComponent key={index} className={className} name={""} record={history[length - (1 + index)]} />;
+        return <Record key={index} className={className} name={""} record={history[length - (1 + index)]} />;
       } else {
-        return <RecordComponent key={index} className={className} name={""} record={emptyRecord} />;
+        return <Record key={index} className={className} name={""} record={emptyRecord} />;
       }
     });
 
@@ -205,8 +205,8 @@ class TimeContent extends React.Component {
     return (
       <div className={shareStyle.contents}>
         <div className={shareStyle.topContents}>
-          <HeaderComponent />
-          <RecordComponent
+          <Header />
+          <Record
             className={[style.current, style.darkRecord].join(" ")}
             name={"CURRENT"}
             record={this.getCurrentRecord()}

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import style from "./time.css";
 
-export default class RecordComponent extends React.Component {
+export default class Record extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -54,7 +54,7 @@ export default class RecordComponent extends React.Component {
   }
 }
 
-RecordComponent.propTypes = {
+Record.propTypes = {
   name: PropTypes.string.isRequired,
   record: PropTypes.object.isRequired,
   className: PropTypes.string.isRequired

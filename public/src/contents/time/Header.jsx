@@ -1,7 +1,7 @@
 import React from "react";
 import style from "./time.css";
 
-export default class HeaderComponent extends React.Component {
+export default class Header extends React.Component {
   constructor(props) {
     super(props);
   }

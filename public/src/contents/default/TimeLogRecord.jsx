@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import style from "./default.css";
 
-export default class TimeLogRecordComponent extends React.Component {
+export default class TimeLogRecord extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -45,6 +45,6 @@ export default class TimeLogRecordComponent extends React.Component {
   }
 }
 
-TimeLogRecordComponent.propTypes = {
+TimeLogRecord.propTypes = {
   record: PropTypes.object.isRequired
 };
