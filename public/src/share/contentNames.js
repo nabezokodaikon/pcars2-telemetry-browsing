@@ -8,9 +8,6 @@ export const BUTTON_BOX = "BUTTON BOX";
 export const BUTTON_BOX_CUSTOMIZE = "BUTTON BOX CUSTOMIZE";
 export const OPTIONS = "OPTIONS";
 export const CREDITS = "CREDITS";
-// TODO: Plan to delete.
-export const SIMPLE = "SIMPLE";
-export const MOTEC = "MOTEC";
 
 // Debug contents.(PCars2)
 export const PIC_UP = "PIC_UP";

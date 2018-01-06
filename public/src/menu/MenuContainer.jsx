@@ -106,8 +106,6 @@ class Menu extends React.Component {
       contentNames.TIME,
       contentNames.RANK,
       contentNames.BUTTON_BOX,
-      // contentNames.SIMPLE, // TODO: Plan to delete.
-      // contentNames.MOTEC, // TODO: Plan to delete.
       contentNames.OPTIONS,
       contentNames.CREDITS
     ].map((v, i) => {

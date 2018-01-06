@@ -11,9 +11,6 @@ import ButtonBoxContainer from "../contents/buttonBox/ButtonBoxContainer.jsx";
 import ButtonBoxCustomizeContainer from "../contents/buttonBoxCustomize/ButtonBoxCustomizeContainer.jsx";
 import OptionsContainer from "../contents/options/OptionsContainer.jsx";
 import CreditsContent from "../contents/credits/CreditsContent.jsx";
-// TODO: Plan to delete.
-import SimpleContainer from "../contents/simple/SimpleContainer.jsx";
-import MotecContainer from "../contents/motec/MotecContainer.jsx";
 
 class Contents extends React.Component {
   constructor(props) {
@@ -50,10 +47,6 @@ class Contents extends React.Component {
         return <OptionsContainer />;
       case contentNames.CREDITS:
         return <CreditsContent />;
-      case contentNames.SIMPLE: // TODO: Plan to delete.
-        return <SimpleContainer />;
-      case contentNames.MOTEC: // TODO: Plan to delete.
-        return <MotecContainer />;
       default:
         return <div />;
     }
