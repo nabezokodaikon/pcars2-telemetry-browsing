@@ -29,7 +29,7 @@ export default class SmallGear extends React.Component {
     const cx = 50;
     const cy = 50;
     const radius = 40;
-    const fontSize = 50;
+    const fontSize = 60;
     const width = radius * 0.2;
 
     const startDegree = 30;
@@ -60,7 +60,7 @@ export default class SmallGear extends React.Component {
         x={cx}
         y={cy + fontSize * 0.1}
         fill={gearColor}
-        style={{ fontSize: fontSize, fontFamily: "'Inconsolata', monospace" }}
+        style={{ fontSize: fontSize, fontWeight: "bold", fontFamily: "'Inconsolata', monospace" }}
         textAnchor="middle"
         dominantBaseline="middle"
       >
