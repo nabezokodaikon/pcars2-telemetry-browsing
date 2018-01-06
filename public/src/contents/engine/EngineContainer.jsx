@@ -7,6 +7,7 @@ import { isJson } from "../../share/jsUtil.js";
 import { getTempUnit, getTemp } from "../../share/telemetryUtil.js";
 import LargeGearComponent from "../../share/LargeGearComponent.jsx";
 import LargeFuelComponent from "../../share/LargeFuelComponent.jsx";
+import Damage from "../../share/Damage.jsx";
 import shareStyle from "../../share/largeContent.css";
 import engineIcon from "../../image/engine.png";
 import oilIcon from "../../image/oil.png";
@@ -267,8 +268,12 @@ class EngineContent extends React.Component {
       return <div />;
     }
 
-    const tyre3 = telemetryData.tyre3;
     const carState = telemetryData.carState;
+    const carDamage = telemetryData.carDamage;
+    const tyre1 = telemetryData.tyre1;
+    const brakeDamage = tyre1.brakeDamage;
+    const suspensionDamage = tyre1.suspensionDamage;
+    const tyre3 = telemetryData.tyre3;
     const engine = telemetrySummary.engine;
 
     return (
@@ -289,6 +294,12 @@ class EngineContent extends React.Component {
         </div>
         <div className={shareStyle.bottomContents}>
           <LargeFuelComponent telemetryData={props.telemetryData} fuelData={props.fuelData} />
+          <Damage
+            aeroDamage={carDamage.aeroDamage}
+            engineDamage={carDamage.engineDamage}
+            brakeDamage={brakeDamage}
+            suspensionDamage={suspensionDamage}
+          />
         </div>
       </div>
     );
