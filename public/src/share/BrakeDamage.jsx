@@ -15,14 +15,14 @@ export default class BrakeDamage extends React.Component {
 
     return (
       <svg style={{ width: "4rem", height: "90%" }} preserveAspectRatio="xMidYMid meet" viewBox="0 0 50 100">
-        <rect x="13.5%" y="0.81rem" width="73%" height="2.28rem" fill={getDamageColor(frontDamage)} />
-        <image x="0" y="0.8rem" width="100%" height="2.3rem" xlinkHref={icon} />
-        <rect x="13.5%" y="3.21rem" width="73%" height="2.28rem" fill={getDamageColor(rearDamage)} />
-        <image x="0" y="3.2rem" width="100%" height="2.3rem" xlinkHref={icon} />
+        <rect x="15.5%" y="15.5%" width="69%" height="34%" fill={getDamageColor(frontDamage)} />
+        <image x="0" y="15%" width="100%" height="35%" xlinkHref={icon} />
+        <rect x="15.5%" y="50.5%" width="69%" height="34%" fill={getDamageColor(rearDamage)} />
+        <image x="0" y="50%" width="100%" height="35%" xlinkHref={icon} />
         <text
           style={{ fontSize: "1rem", fontFamily: "'Inconsolata', monospace" }}
           x="50%"
-          y="0.5rem"
+          y="10%"
           textAnchor="middle"
           dominantBaseline="middle"
           fill="#ffffff"
@@ -32,7 +32,7 @@ export default class BrakeDamage extends React.Component {
         <text
           style={{ fontSize: "1rem", fontFamily: "'Inconsolata', monospace" }}
           x="50%"
-          y="6rem"
+          y="95%"
           textAnchor="middle"
           dominantBaseline="middle"
           fill="#ffffff"
