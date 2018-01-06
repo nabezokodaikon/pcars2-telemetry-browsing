@@ -9,6 +9,7 @@
 
 .activeMenuItem > p {
   font-size: 1.5rem;
+  font-family: 'Oswald', sans-serif;
   text-align: center;
   color: #0f192a;
   transform: skewX(12deg);
@@ -24,6 +25,7 @@
 
 .inactiveMenuItem > p {
   font-size: 1.5rem;
+  font-family: 'Oswald', sans-serif;
   text-align: center;
   transform: skewX(12deg);
 }

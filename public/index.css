@@ -8,13 +8,15 @@
   padding: 0;
   border-width: 0;
   color: #565656;
-  font-size: 1rem;
-  font-family: 'Oswald', sans-serif;
   cursor: pointer;
 }
 
 *:focus {
   outline: none;
+}
+
+html {
+  font-size: 100%;
 }
 
 html,

@@ -21,6 +21,7 @@
  * session
  */
 .session {
+  margin-top: 0.25rem;
   display: flex;
   align-items: center;
 }

@@ -8,6 +8,10 @@
   flex-basis: 0;
 }
 
+.header {
+  margin-top: 0.5rem;
+}
+
 .header,
 .current,
 .fastest,

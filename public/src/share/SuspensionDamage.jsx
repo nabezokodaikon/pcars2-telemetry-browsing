@@ -14,7 +14,7 @@ export default class SuspensionDamage extends React.Component {
     const rearDamage = props.rearDamage;
 
     return (
-      <svg style={{ width: "3rem", height: "75%" }} preserveAspectRatio="xMidYMid meet" viewBox="0 0 50 100">
+      <svg style={{ width: "4rem", height: "90%" }} preserveAspectRatio="xMidYMid meet" viewBox="0 0 50 100">
         <rect x="15%" y="0.81rem" width="70%" height="2.28rem" fill={getDamageColor(frontDamage)} />
         <image x="0" y="0.8rem" width="100%" height="2.3rem" xlinkHref={icon} />
         <rect x="15%" y="3.21rem" width="70%" height="2.28rem" fill={getDamageColor(rearDamage)} />
