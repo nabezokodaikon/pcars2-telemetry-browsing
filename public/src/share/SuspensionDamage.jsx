@@ -1,49 +1,50 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { getDamageColor } from "./telemetryUtil.js";
-import icon from "../image/car.png";
+import icon from "../image/suspension2.png";
 
-export default class CarDamage extends React.Component {
+export default class SuspensionDamage extends React.Component {
   constructor(props) {
     super(props);
   }
 
   render() {
     const props = this.props;
-    const aeroDamage = props.aeroDamage;
-    const engineDamage = props.engineDamage;
+    const frontDamage = props.frontDamage;
+    const rearDamage = props.rearDamage;
 
     return (
       <svg style={{ width: "3rem", height: "75%" }} preserveAspectRatio="xMidYMid meet" viewBox="0 0 50 100">
-        <rect x="5%" y="0.2rem" width="90%" height="1.8rem" fill={getDamageColor(aeroDamage)} />
-        <rect x="5%" y="2rem" width="90%" height="2rem" fill={getDamageColor(engineDamage)} />
-        <image x="0" y="0.2rem" width="100%" height="6rem" xlinkHref={icon} />
+        <rect x="15%" y="0.81rem" width="70%" height="2.28rem" fill={getDamageColor(frontDamage)} />
+        <image x="0" y="0.8rem" width="100%" height="2.3rem" xlinkHref={icon} />
+        <rect x="15%" y="3.21rem" width="70%" height="2.28rem" fill={getDamageColor(rearDamage)} />
+        <image x="0" y="3.2rem" width="100%" height="2.3rem" xlinkHref={icon} />
         <text
           style={{ fontSize: "1rem", fontFamily: "'Inconsolata', monospace" }}
           x="50%"
-          y="1.2rem"
+          y="0.5rem"
           textAnchor="middle"
           dominantBaseline="middle"
           fill="#ffffff"
         >
-          {aeroDamage}%
+          {frontDamage}%
         </text>
         <text
           style={{ fontSize: "1rem", fontFamily: "'Inconsolata', monospace" }}
           x="50%"
-          y="5rem"
+          y="6rem"
           textAnchor="middle"
           dominantBaseline="middle"
           fill="#ffffff"
         >
-          {engineDamage}%
+          {rearDamage}%
         </text>
       </svg>
     );
   }
 }
 
-CarDamage.propTypes = {
-  aeroDamage: PropTypes.string.isRequired,
-  engineDamage: PropTypes.string.isRequired
+SuspensionDamage.propTypes = {
+  frontDamage: PropTypes.string.isRequired,
+  rearDamage: PropTypes.string.isRequired
 };

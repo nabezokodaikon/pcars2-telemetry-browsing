@@ -63,6 +63,7 @@
   width: 100%;
   height: 12rem;
   display: flex;
+  justify-content: space-between;
   align-items: flex-end;
 }
 
@@ -122,9 +123,11 @@
 }
 
 /*
- * tyre
+ * damage
  */
-/* .tyre { */
-  /* width: 100%; */
-  /* height: 100%; */
-/* } */
+.damage {
+  height: 100%;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+}

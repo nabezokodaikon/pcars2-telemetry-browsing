@@ -108,7 +108,7 @@ const warningColor = "#ff8000";
 const dangerColor = "#ff0000";
 
 export function getDamageColor(damage) {
-  const value = parseInt(damage)
+  const value = parseInt(damage);
   if (value >= 20) {
     return dangerColor;
   } else if (value >= 10) {

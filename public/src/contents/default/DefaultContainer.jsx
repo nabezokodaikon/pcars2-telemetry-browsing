@@ -6,7 +6,7 @@ import * as contentNames from "../../share/contentNames.js";
 import { isJson } from "../../share/jsUtil.js";
 import LargeGearComponent from "../../share/LargeGearComponent.jsx";
 import LargeFuelComponent from "../../share/LargeFuelComponent.jsx";
-import CarDamage from "../../share/CarDamage.jsx";
+import Damage from "../../share/Damage.jsx";
 import shareStyle from "../../share/largeContent.css";
 import style from "./default.css";
 import TimeLogRecordComponent from "./TimeLogRecordComponent.jsx";
@@ -205,6 +205,9 @@ class DefaultContent extends React.Component {
     }
 
     const carDamage = telemetryData.carDamage;
+    const tyre1 = telemetryData.tyre1;
+    const brakeDamage = tyre1.brakeDamage;
+    const suspensionDamage = tyre1.suspensionDamage;
 
     return (
       <div className={shareStyle.contents} onClick={props.onContentClick}>
@@ -223,7 +226,12 @@ class DefaultContent extends React.Component {
         </div>
         <div className={shareStyle.bottomContents}>
           <LargeFuelComponent telemetryData={telemetryData} fuelData={props.fuelData} />
-          <CarDamage aeroDamage={carDamage.aeroDamage} engineDamage={carDamage.engineDamage} />
+          <Damage
+            aeroDamage={carDamage.aeroDamage}
+            engineDamage={carDamage.engineDamage}
+            brakeDamage={brakeDamage}
+            suspensionDamage={suspensionDamage}
+          />
         </div>
       </div>
     );
