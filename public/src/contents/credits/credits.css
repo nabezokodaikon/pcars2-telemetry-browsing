@@ -1,0 +1,23 @@
+.root {
+  margin-left: 4rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.root > div {
+  display: flex;
+  align-items: space-around;
+  flex-wrap: wrap;
+}
+
+.root > div > div {
+  margin-top: 0.5rem;
+  margin-right: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.root > div > div > p {
+  color: #e3e4e5;
+  font-family: 'Roboto Condensed', sans-serif;
+}

@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import style from "./default.css";
+import shareStyle from "../../share/largeContent.css";
 
 export default class TimeLogRecord extends React.Component {
   constructor(props) {
@@ -28,7 +29,7 @@ export default class TimeLogRecord extends React.Component {
 
     return (
       <div>
-        <div className={[style.timeLogLap, style.header].join(" ")}>
+        <div className={[style.timeLogLap, style.header, shareStyle.header].join(" ")}>
           <span>LAP</span>
         </div>
         <div className={[style.timeLogLapCount, style.lap].join(" ")}>

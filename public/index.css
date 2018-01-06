@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed');
 @import url('https://fonts.googleapis.com/css?family=Oswald');
 @import url('https://fonts.googleapis.com/css?family=Inconsolata:400,700');
-@import url("headline.css");
 
 * {
   margin: 0;
@@ -30,9 +29,28 @@ h2,
 h3,
 h4,
 h5,
-h6,
-p,
-span
-{
+h6 {
+  display: block;
+  text-align: left;
+  padding: 0.25rem 1rem;
+  border-left: solid 1rem #80adfd;
+  background: linear-gradient(transparent 95%, #80adfd 95%);
+  font-family: 'Oswald', sans-serif;
   color: #e3e4e5;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.75rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+h4 {
+  font-size: 1.25rem;
 }

@@ -1,0 +1,26 @@
+.root {
+  margin-left: 4rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.root > div {
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: space-around;
+  flex-wrap: wrap;
+}
+
+.unitItem {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.unitItem > span {
+  display: block;
+  width: 6rem;
+  text-align: center;
+  color: #e3e4e5;
+  font-family: 'Roboto Condensed', sans-serif;
+}
