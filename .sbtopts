@@ -5,3 +5,4 @@
 -J-XX:MaxMetaspaceSize=512M
 -J-Xms2G
 -J-Xmx2G
+-J--illegal-access=warn
