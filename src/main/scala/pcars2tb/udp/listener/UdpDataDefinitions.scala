@@ -39,7 +39,7 @@ object UdpDataJsonProtocol extends DefaultJsonProtocol {
   implicit val realTimeGapFormat = jsonFormat2(RealTimeGap)
   implicit val aggregateTimeFormat = jsonFormat3(AggregateTime)
   implicit val fuelDataFormat = jsonFormat3(FuelData)
-  implicit val engineSummaryFormat = jsonFormat10(EngineSummary)
+  implicit val engineSummaryFormat = jsonFormat16(EngineSummary)
   implicit val telemetrySummaryFormat = jsonFormat2(TelemetrySummary)
 }
 
@@ -230,9 +230,9 @@ case class Tyre2(
 )
 
 case class Tyre3(
-    engineSpeed: String,
-    engineTorque: String,
-    enginePower: String,
+    engineSpeed: Float,
+    engineTorque: Float,
+    enginePower: Double,
     wings: Array[Short],
     handBrake: Short
 )
@@ -745,7 +745,13 @@ case class EngineSummary(
     minWaterPressureKPa: Int,
     maxWaterPressureKPa: Int,
     minFuelPressureKPa: Int,
-    maxFuelPressureKPa: Int
+    maxFuelPressureKPa: Int,
+    minEngineSpeed: String,
+    maxEngineSpeed: String,
+    maxEngineTorque: String,
+    minEngineTorque: String,
+    minEnginePower: String,
+    maxEnginePower: String
 )
 
 case class TelemetrySummary(

@@ -15,6 +15,7 @@ import pcars2tb.udp.listener.{
   TelemetrySummary
 }
 import pcars2tb.udp.listener.UdpDataReader.toPitMode
+import pcars2tb.util.BigDecimalSupport._
 
 final object TelemetrySummaryState {
 
@@ -39,7 +40,13 @@ final object TelemetrySummaryState {
     minWaterPressure = 0,
     maxWaterPressure = 0,
     minFuelPressure = 0,
-    maxFuelPressure = 0
+    maxFuelPressure = 0,
+    minEngineSpeed = 0,
+    maxEngineSpeed = 0,
+    maxEngineTorque = 0,
+    minEngineTorque = 0,
+    minEnginePower = 0,
+    maxEnginePower = 0
   )
 
   def createInitialState(gameStateData: GameStateData): TelemetrySummaryState =
@@ -62,7 +69,13 @@ final case class EngineSummaryState(
     minWaterPressure: Int,
     maxWaterPressure: Int,
     minFuelPressure: Int,
-    maxFuelPressure: Int
+    maxFuelPressure: Int,
+    minEngineSpeed: Float,
+    maxEngineSpeed: Float,
+    minEngineTorque: Float,
+    maxEngineTorque: Float,
+    minEnginePower: Double,
+    maxEnginePower: Double
 )
 
 final case class TelemetrySummaryState(
@@ -87,7 +100,13 @@ final case class TelemetrySummaryState(
         minWaterPressureKPa = engine.minWaterPressure,
         maxWaterPressureKPa = engine.maxWaterPressure,
         minFuelPressureKPa = engine.minFuelPressure,
-        maxFuelPressureKPa = engine.maxFuelPressure
+        maxFuelPressureKPa = engine.maxFuelPressure,
+        minEngineSpeed = engine.minEngineSpeed.toRound(0),
+        maxEngineSpeed = engine.maxEngineSpeed.toRound(0),
+        minEngineTorque = engine.minEngineTorque.toRound(0),
+        maxEngineTorque = engine.maxEngineTorque.toRound(0),
+        minEnginePower = engine.minEnginePower.toRound(0),
+        maxEnginePower = engine.maxEnginePower.toRound(0)
       )
     )
 
@@ -117,13 +136,20 @@ final case class TelemetrySummaryState(
         minWaterPressure = engine.minWaterPressure,
         maxWaterPressure = engine.maxWaterPressure,
         minFuelPressure = engine.minFuelPressure,
-        maxFuelPressure = engine.maxFuelPressure
+        maxFuelPressure = engine.maxFuelPressure,
+        minEngineSpeed = engine.minEngineSpeed,
+        maxEngineSpeed = engine.maxEngineSpeed,
+        minEngineTorque = engine.minEngineTorque,
+        maxEngineTorque = engine.maxEngineTorque,
+        minEnginePower = engine.minEnginePower,
+        maxEnginePower = engine.maxEnginePower
       )
     )
 
   private def mergeTelemetryData(telemetryData: TelemetryData) = {
     val participantInfo = telemetryData.participantInfo
     val carState = telemetryData.carState
+    val tyre3 = telemetryData.tyre3
     TelemetrySummaryState(
       isMenu = isMenu,
       isPlaying = isPlaying,
@@ -139,7 +165,13 @@ final case class TelemetrySummaryState(
         minWaterPressure = if (engine.minWaterPressure == 0) carState.waterPressureKPa else engine.minWaterPressure min carState.waterPressureKPa,
         maxWaterPressure = engine.maxWaterPressure max carState.waterPressureKPa,
         minFuelPressure = if (engine.minFuelPressure == 0) carState.fuelPressureKPa else engine.minFuelPressure min carState.fuelPressureKPa,
-        maxFuelPressure = engine.maxFuelPressure max carState.fuelPressureKPa
+        maxFuelPressure = engine.maxFuelPressure max carState.fuelPressureKPa,
+        minEngineSpeed = engine.minEngineSpeed min tyre3.engineSpeed,
+        maxEngineSpeed = engine.maxEngineSpeed max tyre3.engineSpeed,
+        minEngineTorque = engine.minEngineTorque min tyre3.engineTorque,
+        maxEngineTorque = engine.maxEngineTorque max tyre3.engineTorque,
+        minEnginePower = engine.minEnginePower min tyre3.enginePower,
+        maxEnginePower = engine.maxEnginePower max tyre3.enginePower
       )
     )
   }

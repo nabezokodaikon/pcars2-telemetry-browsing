@@ -364,13 +364,13 @@ object UdpDataReader extends LazyLogging {
 
     (
       Tyre3(
-        engineSpeed = engineSpeed.toRound(0),
-        engineTorque = engineTorque.toRound(0),
-        enginePower = enginePower.toRound(0),
+        engineSpeed = engineSpeed,
+        engineTorque = engineTorque,
+        enginePower = enginePower,
         wings = wings,
         handBrake = handBrake
       ),
-        nextData
+      nextData
     )
   }
 
