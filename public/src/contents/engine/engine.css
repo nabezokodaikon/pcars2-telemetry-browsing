@@ -105,7 +105,7 @@
 .oil > .valueRecords > .valueRecord > div > .value,
 .water > .valueRecords > .valueRecord > div > .value,
 .fuel > .valueRecords > .valueRecord > div > .value {
-  width: 4rem;
+  width: 4.5rem;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -124,7 +124,7 @@
 .oil > .valueRecords > .valueRecord > div > .unit,
 .water > .valueRecords > .valueRecord > div > .unit,
 .fuel > .valueRecords > .valueRecord > div > .unit {
-  width: 3rem;
+  width: 2.5rem;
   height: 100%;
   margin-left: 0.5rem;
   border-right: solid;
