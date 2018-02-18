@@ -1,19 +1,79 @@
 @import "../index.css";
-@import "../src/share/largeContent.css";
+/* @import "../src/share/largeContent.css"; */
 
 .contents {
   position: fixed;
   width: 100%;
   height: 100%;
   background-color: #1b1d1e;
+  display: flex;
+  flex-direction: column;
 }
+
+/********************************
+ * share
+ ********************************/
+.header > span {
+  color: #c1d9f0;
+  font-family: 'Oswald', sans-serif;
+}
+
+.value > span {
+  color: #ffffff;
+  font-family: 'Inconsolata', monospace;
+}
+
+/********************************
+ * topContents
+ ********************************/
+.topContents {
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+}
+
+/********************************
+ * leftContents
+ ********************************/
+.leftContents {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gear {
+  margin: 0.5rem;
+}
+
+/********************************
+ * rightContents
+ ********************************/
+.rightContents {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+/********************************
+ * bottomContents
+ ********************************/
+.bottomContents {
+  width: 100%;
+  height: 10rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
 
 /*
  * share
  */
 .icon {
   width: 4rem;
-  background-color: #BFD2E3;
+  background-color: #bfd2e3;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,61 +83,6 @@
   margin: 0.5rem;
   width: 3rem;
   height: 3rem;
-}
-
-/*
- * engine
- */
-.engine {
-  display: flex;
-}
-
-.engine > .icon {
-}
-
-.engine > .valueRecords {
-  border-top: solid;
-  border-top-width: 0.1rem;
-  border-top-color: #777777;
-  border-right: solid;
-  border-right-width: 0.1rem;
-  border-right-color: #777777;
-  display: flex;
-  flex-direction: column;
-}
-
-.engine > .valueRecords > .valueRecord {
-  border-bottom: solid;
-  border-bottom-width: 0.1rem;
-  border-bottom-color: #777777;
-  display: flex;
-}
-
-.engine > .valueRecords > .valueRecord > .value {
-  width: 4rem;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.engine > .valueRecords > .valueRecord > .value > span {
-  color: #FFFFFF;
-  font-size: 1.5rem;
-  font-family: 'Inconsolata', monospace;
-}
-
-.engine > .valueRecords > .valueRecord > .unit {
-  width: 4.5rem;
-  margin-left: 0.5rem;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.engine > .valueRecords > .valueRecord > .unit > span {
-  color: #FFFFFF;
-  font-size: 1.5rem;
-  font-family: 'Inconsolata', monospace;
 }
 
 /*
@@ -102,7 +107,7 @@
 
 .header > div:not(:first-child) {
   width: 7.5rem;
-  background-color: #BFD2E3;
+  background-color: #bfd2e3;
   border-right: solid;
   border-right-width: 0.1rem;
   border-right-color: #777777;
@@ -117,18 +122,21 @@
   font-family: 'Oswald', sans-serif;
 }
 
+.engine,
 .oil,
 .water,
 .fuel {
   display: flex;
 }
 
+.engine > .icon,
 .oil > .icon,
 .water > .icon,
 .fuel > .icon {
   margin-top: 0.1rem;
 }
 
+.engine > .valueRecords,
 .oil > .valueRecords,
 .water > .valueRecords,
 .fuel > .valueRecords {
@@ -136,6 +144,7 @@
   flex-direction: column;
 }
 
+.engine > .valueRecords > .valueRecord,
 .oil > .valueRecords > .valueRecord,
 .water > .valueRecords > .valueRecord,
 .fuel > .valueRecords > .valueRecord {
@@ -145,6 +154,7 @@
   display: flex;
 }
 
+.engine > .valueRecords > .valueRecord,
 .oil > .valueRecords > .valueRecord,
 .water > .valueRecords > .valueRecord {
   height: 2rem;
@@ -154,12 +164,14 @@
   height: 4rem;
 }
 
+.engine > .valueRecords > .valueRecord > div,
 .oil > .valueRecords > .valueRecord > div,
 .water > .valueRecords > .valueRecord > div,
 .fuel > .valueRecords > .valueRecord > div {
   display: flex;
 }
 
+.engine > .valueRecords > .valueRecord > div > .value,
 .oil > .valueRecords > .valueRecord > div > .value,
 .water > .valueRecords > .valueRecord > div > .value,
 .fuel > .valueRecords > .valueRecord > div > .value {
@@ -169,14 +181,16 @@
   align-items: center;
 }
 
+.engine > .valueRecords > .valueRecord > div > .value > span,
 .oil > .valueRecords > .valueRecord > div > .value > span,
 .water > .valueRecords > .valueRecord > div > .value > span,
 .fuel > .valueRecords > .valueRecord > div > .value > span {
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 1.5rem;
   font-family: 'Inconsolata', monospace;
 }
 
+.engine > .valueRecords > .valueRecord > div > .unit,
 .oil > .valueRecords > .valueRecord > div > .unit,
 .water > .valueRecords > .valueRecord > div > .unit,
 .fuel > .valueRecords > .valueRecord > div > .unit {
@@ -191,10 +205,11 @@
   align-items: center;
 }
 
+.engine > .valueRecords > .valueRecord > div > .unit > span,
 .oil > .valueRecords > .valueRecord > div > .unit > span,
 .water > .valueRecords > .valueRecord > div > .unit > span,
 .fuel > .valueRecords > .valueRecord > div > .unit > span {
-  color: #FFFFFF;
-  font-size: 1.5rem;
+  color: #ffffff;
+  font-size: 1rem;
   font-family: 'Inconsolata', monospace;
 }
