@@ -37,9 +37,9 @@ const Engine = props => {
   const engine = props.engine;
 
   return (
-    <div className={style.oil}>
+    <div className={style.engine}>
       <div className={style.icon}>
-        <img src={oilIcon} />
+        <img src={engineIcon} />
       </div>
 
       <div className={style.valueRecords}>
