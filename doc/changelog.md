@@ -1,4 +1,8 @@
 # Change log
+## v0.9
+* Add min and max value on engine info.
+
+
 ## v0.8
 * DAMAGE content move bottom on display.
 
