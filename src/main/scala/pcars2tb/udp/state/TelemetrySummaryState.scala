@@ -166,7 +166,7 @@ final case class TelemetrySummaryState(
         maxWaterPressure = engine.maxWaterPressure max carState.waterPressureKPa,
         minFuelPressure = if (engine.minFuelPressure == 0) carState.fuelPressureKPa else engine.minFuelPressure min carState.fuelPressureKPa,
         maxFuelPressure = engine.maxFuelPressure max carState.fuelPressureKPa,
-        minEngineSpeed = engine.minEngineSpeed min tyre3.engineSpeed,
+        minEngineSpeed = if (engine.minEngineSpeed < 1) 0 else engine.minEngineSpeed min tyre3.engineSpeed,
         maxEngineSpeed = engine.maxEngineSpeed max tyre3.engineSpeed,
         minEngineTorque = engine.minEngineTorque min tyre3.engineTorque,
         maxEngineTorque = engine.maxEngineTorque max tyre3.engineTorque,
