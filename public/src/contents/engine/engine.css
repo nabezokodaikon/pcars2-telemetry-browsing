@@ -16,62 +16,6 @@
 }
 
 /*
- * engine
- */
-.engine {
-  margin-top: 1rem;
-  display: flex;
-}
-
-.engine > .icon {
-}
-
-.engine > .valueRecords {
-  border-top: solid;
-  border-top-width: 0.1rem;
-  border-top-color: #777777;
-  border-right: solid;
-  border-right-width: 0.1rem;
-  border-right-color: #777777;
-  display: flex;
-  flex-direction: column;
-}
-
-.engine > .valueRecords > .valueRecord {
-  border-bottom: solid;
-  border-bottom-width: 0.1rem;
-  border-bottom-color: #777777;
-  display: flex;
-}
-
-.engine > .valueRecords > .valueRecord > .value {
-  width: 4rem;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.engine > .valueRecords > .valueRecord > .value > span {
-  color: #ffffff;
-  font-size: 1.5rem;
-  font-family: 'Inconsolata', monospace;
-}
-
-.engine > .valueRecords > .valueRecord > .unit {
-  width: 4.5rem;
-  margin-left: 0.5rem;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.engine > .valueRecords > .valueRecord > .unit > span {
-  color: #ffffff;
-  font-size: 1.5rem;
-  font-family: 'Inconsolata', monospace;
-}
-
-/*
  * valueTable
  */
 .valueTable {
@@ -108,18 +52,21 @@
   font-family: 'Oswald', sans-serif;
 }
 
+.engine,
 .oil,
 .water,
 .fuel {
   display: flex;
 }
 
+.engine > .icon,
 .oil > .icon,
 .water > .icon,
 .fuel > .icon {
   margin-top: 0.1rem;
 }
 
+.engine > .valueRecords,
 .oil > .valueRecords,
 .water > .valueRecords,
 .fuel > .valueRecords {
@@ -127,6 +74,7 @@
   flex-direction: column;
 }
 
+.engine > .valueRecords > .valueRecord,
 .oil > .valueRecords > .valueRecord,
 .water > .valueRecords > .valueRecord,
 .fuel > .valueRecords > .valueRecord {
@@ -136,6 +84,7 @@
   display: flex;
 }
 
+.engine > .valueRecords > .valueRecord,
 .oil > .valueRecords > .valueRecord,
 .water > .valueRecords > .valueRecord {
   height: 2rem;
@@ -145,12 +94,14 @@
   height: 4rem;
 }
 
+.engine > .valueRecords > .valueRecord > div,
 .oil > .valueRecords > .valueRecord > div,
 .water > .valueRecords > .valueRecord > div,
 .fuel > .valueRecords > .valueRecord > div {
   display: flex;
 }
 
+.engine > .valueRecords > .valueRecord > div > .value,
 .oil > .valueRecords > .valueRecord > div > .value,
 .water > .valueRecords > .valueRecord > div > .value,
 .fuel > .valueRecords > .valueRecord > div > .value {
@@ -160,6 +111,7 @@
   align-items: center;
 }
 
+.engine > .valueRecords > .valueRecord > div > .value > span,
 .oil > .valueRecords > .valueRecord > div > .value > span,
 .water > .valueRecords > .valueRecord > div > .value > span,
 .fuel > .valueRecords > .valueRecord > div > .value > span {
@@ -168,6 +120,7 @@
   font-family: 'Inconsolata', monospace;
 }
 
+.engine > .valueRecords > .valueRecord > div > .unit,
 .oil > .valueRecords > .valueRecord > div > .unit,
 .water > .valueRecords > .valueRecord > div > .unit,
 .fuel > .valueRecords > .valueRecord > div > .unit {
@@ -182,6 +135,7 @@
   align-items: center;
 }
 
+.engine > .valueRecords > .valueRecord > div > .unit > span,
 .oil > .valueRecords > .valueRecord > div > .unit > span,
 .water > .valueRecords > .valueRecord > div > .unit > span,
 .fuel > .valueRecords > .valueRecord > div > .unit > span {

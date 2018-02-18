@@ -14,9 +14,10 @@ object UdpDataJsonProtocol extends DefaultJsonProtocol {
   implicit val tyre1Format = jsonFormat22(Tyre1)
   implicit val tyre2Format = jsonFormat2(Tyre2)
   implicit val tyre3Format = jsonFormat5(Tyre3)
+  implicit val formatTyre3Format = jsonFormat3(FormatTyre3)
   implicit val carDamageFormat = jsonFormat2(CarDamage)
   implicit val hwStateFormat = jsonFormat6(HWState)
-  implicit val telemetryDataFormat = jsonFormat10(TelemetryData)
+  implicit val telemetryDataFormat = jsonFormat11(TelemetryData)
   implicit val raceDataFormat = jsonFormat19(RaceData)
   implicit val participantsDataFormat = jsonFormat5(ParticipantsData)
   implicit val participantInfoFormat = jsonFormat17(ParticipantInfo)
@@ -237,6 +238,12 @@ case class Tyre3(
     handBrake: Short
 )
 
+case class FormatTyre3(
+    engineSpeed: String,
+    engineTorque: String,
+    enginePower: String
+)
+
 case class CarDamage(
     aeroDamage: String,
     engineDamage: String
@@ -261,6 +268,7 @@ case class TelemetryData(
     tyre1: Tyre1,
     tyre2: Tyre2,
     tyre3: Tyre3,
+    formatTyre3: FormatTyre3,
     carDamage: CarDamage,
     hwState: HWState
 ) extends UdpData {

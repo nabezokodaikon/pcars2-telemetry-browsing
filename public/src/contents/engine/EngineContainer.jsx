@@ -15,47 +15,6 @@ import waterIcon from "../../image/water.png";
 import fuelIcon from "../../image/fuel.png";
 import style from "./engine.css";
 
-const Engine = props => {
-  const tyre3 = props.tyre3;
-
-  return (
-    <div className={style.engine}>
-      <div className={style.icon}>
-        <img src={engineIcon} />
-      </div>
-
-      <div className={style.valueRecords}>
-        <div className={style.valueRecord}>
-          <div className={style.value}>
-            <span>{tyre3.enginePower}</span>
-          </div>
-          <div className={style.unit}>
-            <span>HP</span>
-          </div>
-        </div>
-
-        <div className={style.valueRecord}>
-          <div className={style.value}>
-            <span>{tyre3.engineTorque}</span>
-          </div>
-          <div className={style.unit}>
-            <span>NM</span>
-          </div>
-        </div>
-
-        <div className={style.valueRecord}>
-          <div className={style.value}>
-            <span>{tyre3.engineSpeed}</span>
-          </div>
-          <div className={style.unit}>
-            <span>rad/s</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 const ValueTableHeader = props => {
   return (
     <div className={style.header}>
@@ -68,6 +27,102 @@ const ValueTableHeader = props => {
       </div>
       <div>
         <span>MAX</span>
+      </div>
+    </div>
+  );
+};
+
+const Engine = props => {
+  const tyre3 = props.tyre3;
+  const engine = props.engine;
+
+  return (
+    <div className={style.oil}>
+      <div className={style.icon}>
+        <img src={oilIcon} />
+      </div>
+
+      <div className={style.valueRecords}>
+        <div className={style.valueRecord}>
+          <div>
+            <div className={style.value}>
+              <span>{tyre3.enginePower}</span>
+            </div>
+            <div className={style.unit}>
+              <span>HP</span>
+            </div>
+          </div>
+          <div>
+            <div className={style.value}>
+              <span>{engine.minEnginePower}</span>
+            </div>
+            <div className={style.unit}>
+              <span>HP</span>
+            </div>
+          </div>
+          <div>
+            <div className={style.value}>
+              <span>{engine.maxEnginePower}</span>
+            </div>
+            <div className={style.unit}>
+              <span>HP</span>
+            </div>
+          </div>
+        </div>
+
+        <div className={style.valueRecord}>
+          <div>
+            <div className={style.value}>
+              <span>{tyre3.engineTorque}</span>
+            </div>
+            <div className={style.unit}>
+              <span>NM</span>
+            </div>
+          </div>
+          <div>
+            <div className={style.value}>
+              <span>{engine.minEngineTorque}</span>
+            </div>
+            <div className={style.unit}>
+              <span>NM</span>
+            </div>
+          </div>
+          <div>
+            <div className={style.value}>
+              <span>{engine.maxEngineTorque}</span>
+            </div>
+            <div className={style.unit}>
+              <span>NM</span>
+            </div>
+          </div>
+        </div>
+
+        <div className={style.valueRecord}>
+          <div>
+            <div className={style.value}>
+              <span>{tyre3.engineSpeed}</span>
+            </div>
+            <div className={style.unit}>
+              <span>rad/s</span>
+            </div>
+          </div>
+          <div>
+            <div className={style.value}>
+              <span>{engine.minEngineSpeed}</span>
+            </div>
+            <div className={style.unit}>
+              <span>rad/s</span>
+            </div>
+          </div>
+          <div>
+            <div className={style.value}>
+              <span>{engine.maxEngineSpeed}</span>
+            </div>
+            <div className={style.unit}>
+              <span>rad/s</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -273,7 +328,7 @@ class EngineContent extends React.Component {
     const tyre1 = telemetryData.tyre1;
     const brakeDamage = tyre1.brakeDamage;
     const suspensionDamage = tyre1.suspensionDamage;
-    const tyre3 = telemetryData.tyre3;
+    const tyre3 = telemetryData.formatTyre3;
     const engine = telemetrySummary.engine;
 
     return (
@@ -283,9 +338,9 @@ class EngineContent extends React.Component {
             <LargeGear isMeter={props.isMeter} telemetryData={props.telemetryData} />
           </div>
           <div className={shareStyle.rightContents}>
-            <Engine tyre3={tyre3} />
             <div className={style.valueTable}>
               <ValueTableHeader />
+              <Engine tyre3={tyre3} engine={engine} />
               <Oil carState={carState} engine={engine} isCelsius={props.isCelsius} />
               <Water carState={carState} engine={engine} isCelsius={props.isCelsius} />
               <Fuel carState={carState} engine={engine} />

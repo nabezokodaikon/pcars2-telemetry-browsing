@@ -354,7 +354,7 @@ object UdpDataReader extends LazyLogging {
     )
   }
 
-  private def readTyre3(data1: List[Byte], rpm: Int): (Tyre3, List[Byte]) = {
+  private def readTyre3(data1: List[Byte], rpm: Int): ((Tyre3, FormatTyre3), List[Byte]) = {
     val (engineSpeed, data2) = readFloat(data1)
     val (engineTorque, data3) = readFloat(data2)
     val (wings, data4) = readUByteArray(data3, 2)
@@ -363,14 +363,21 @@ object UdpDataReader extends LazyLogging {
     val enginePower = engineTorque * Math.PI * 2 * (rpm / 60.0) / 745.69987
 
     (
-      Tyre3(
-        engineSpeed = engineSpeed,
-        engineTorque = engineTorque,
-        enginePower = enginePower,
-        wings = wings,
-        handBrake = handBrake
+      (
+        Tyre3(
+          engineSpeed = engineSpeed,
+          engineTorque = engineTorque,
+          enginePower = enginePower,
+          wings = wings,
+          handBrake = handBrake
+        ),
+        FormatTyre3(
+          engineSpeed = engineSpeed.toRound(0),
+          engineTorque = engineTorque.toRound(0),
+          enginePower = enginePower.toRound(0)
+        )
       ),
-      nextData
+          nextData
     )
   }
 
@@ -416,7 +423,7 @@ object UdpDataReader extends LazyLogging {
     val (velocity, data6) = readVelocity(data5)
     val (tyre1, data7) = readTyre1(data6)
     val (tyre2, data8) = readTyre2(data7)
-    val (tyre3, data9) = readTyre3(data8, carState.rpm)
+    val ((tyre3, formatTyre3), data9) = readTyre3(data8, carState.rpm)
     val (carDamage, data10) = readCarDamage(data9)
     val (hWState, nextData) = readHWState(data10)
 
@@ -429,6 +436,7 @@ object UdpDataReader extends LazyLogging {
       tyre1 = tyre1,
       tyre2 = tyre2,
       tyre3 = tyre3,
+      formatTyre3 = formatTyre3,
       carDamage = carDamage,
       hwState = hWState
     )
