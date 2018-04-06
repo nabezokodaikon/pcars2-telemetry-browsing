@@ -24,21 +24,21 @@ lazy val root = (project.in(file(".")))
     libraryDependencies ++= {
       Seq(
         "ch.qos.logback" % "logback-classic" % "1.2.3",
-        "com.typesafe.scala-logging" %% "scala-logging" % "3.7.2",
+        "com.typesafe.scala-logging" %% "scala-logging" % "3.8.0",
       ) ++
       Seq(
-        "org.scalactic" %% "scalactic" % "3.0.4",
-        "org.scalatest" %% "scalatest" % "3.0.4" % "test",
+        "org.scalactic" %% "scalactic" % "3.0.5",
+        "org.scalatest" %% "scalatest" % "3.0.5" % "test",
         "org.scalacheck" %% "scalacheck" % "1.13.4" % "test",
       ) ++
       Seq(
-        "com.typesafe.akka" %% "akka-actor" % "2.5.8",
-        "com.typesafe.akka" %% "akka-testkit" % "2.5.8" % Test,
-        "com.typesafe.akka" %% "akka-stream" % "2.5.8",
-        "com.typesafe.akka" %% "akka-stream-testkit" % "2.5.8" % Test,
-        "com.typesafe.akka" %% "akka-http" % "10.0.11",
-        "com.typesafe.akka" %% "akka-http-testkit" % "10.0.11" % Test,
-        "com.typesafe.akka" %% "akka-http-spray-json" % "10.0.11"
+        "com.typesafe.akka" %% "akka-actor" % "2.5.11",
+        "com.typesafe.akka" %% "akka-testkit" % "2.5.11" % Test,
+        "com.typesafe.akka" %% "akka-stream" % "2.5.11",
+        "com.typesafe.akka" %% "akka-stream-testkit" % "2.5.11" % Test,
+        "com.typesafe.akka" %% "akka-http" % "10.1.0",
+        "com.typesafe.akka" %% "akka-http-testkit" % "10.1.0" % Test,
+        "com.typesafe.akka" %% "akka-http-spray-json" % "10.1.1"
       ) ++
       Seq(
         "org.mapdb" % "mapdb" % "3.0.5"
