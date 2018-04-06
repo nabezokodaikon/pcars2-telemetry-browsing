@@ -20,23 +20,23 @@
   "homepage": "https://github.com/nabezokodaikon/pcars2-udp-app#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-loader": "^7.1.2",
+    "babel-loader": "^7.1.4",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
-    "clean-webpack-plugin": "^0.1.17",
-    "css-loader": "^0.28.8",
-    "file-loader": "^1.1.6",
-    "prettier": "^1.9.2",
-    "style-loader": "^0.19.1",
-    "webpack": "^3.10.0"
+    "clean-webpack-plugin": "^0.1.19",
+    "css-loader": "^0.28.11",
+    "file-loader": "^1.1.11",
+    "prettier": "^1.11.1",
+    "style-loader": "^0.20.3",
+    "webpack": "^4.5.0"
   },
   "dependencies": {
-    "prop-types": "^15.6.0",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-redux": "^5.0.6",
+    "prop-types": "^15.6.1",
+    "react": "^16.3.1",
+    "react-dom": "^16.3.1",
+    "react-redux": "^5.0.7",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0"
   }
