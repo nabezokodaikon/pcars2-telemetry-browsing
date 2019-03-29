@@ -44,3 +44,7 @@ sample/code/
 
 # publish
 publish/
+
+# ensime
+.ensime
+.ensime_cache/
