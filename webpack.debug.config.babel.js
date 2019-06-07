@@ -3,6 +3,7 @@ import CleanWebpackPlugin from "clean-webpack-plugin";
 import webpack from "webpack";
 
 module.exports = {
+  mode: 'development',
   devtool: 'inline-source-map',
   entry: {
     index: ["babel-polyfill", "whatwg-fetch", "./public/src/indexDebug.jsx"],
@@ -23,10 +24,7 @@ module.exports = {
         test: /\.css$/,
         use: [
           {
-            loader: "style-loader",
-            options: {
-              modules: true
-            }
+            loader: "style-loader"
           },
           { 
             loader: "css-loader",

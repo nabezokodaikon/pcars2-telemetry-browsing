@@ -45,5 +45,16 @@ sample/code/
 # publish
 publish/
 
+<<<<<<< HEAD
 .bloop
 .metals
+=======
+# ensime
+.ensime
+.ensime_cache/
+
+# metals
+.bloop
+.metals
+project/.bloop
+>>>>>>> presentation

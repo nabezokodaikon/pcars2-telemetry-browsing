@@ -98,7 +98,7 @@ class UdpTestDataSender(clientManager: ActorRef) extends Actor with LazyLogging 
   def ready(testDataList: List[TestData], previewTime: Long): Receive = {
     case Received =>
       val interval = System.currentTimeMillis - previewTime
-      if (interval > 100) {
+      if (interval > 20) {
         testDataList match {
           case head :: Nil =>
             for (udpData <- readUdpData(FileUtil.readBinary(head.path))) sendData(udpData)
