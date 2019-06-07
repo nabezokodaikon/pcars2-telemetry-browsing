@@ -44,3 +44,6 @@ sample/code/
 
 # publish
 publish/
+
+.bloop
+.metals
