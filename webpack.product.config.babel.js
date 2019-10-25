@@ -10,6 +10,9 @@ module.exports = {
     filename: "index.bundle.js",
     path: path.resolve(__dirname, "public/dist")
   },
+  optimization: {
+    minimize: true
+  },
   module: {
     rules: [
       {
@@ -21,10 +24,7 @@ module.exports = {
         test: /\.css$/,
         use: [
           {
-            loader: "style-loader",
-            options: {
-              modules: true
-            }
+            loader: "style-loader"
           },
           { 
             loader: "css-loader",
@@ -42,7 +42,6 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(["public/dist"]),
-    new webpack.optimize.UglifyJsPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production')
